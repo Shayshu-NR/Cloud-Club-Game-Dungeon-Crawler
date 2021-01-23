@@ -26,22 +26,30 @@ function preload() {
     this.load.atlas('player',
         '../Assets/Example assets/legend of faune files/spritesheet.png',
         '../Assets/Example assets/legend of faune files/faun_spritesheet.json')
-    cursors = this.input.keyboard.createCursorKeys()
 }
 
 function create() {
+    //~~~~~ Add a tilemap and tile set to the game ~~~~~
     const map = this.make.tilemap({ key: 'example_map' })
-
     const tileset = map.addTilesetImage('dungeon', 'tiles')
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    //~~~~~ From the tilemap create the layer called ground and walls
     map.createLayer('Ground', tileset)
     const walls = map.createLayer('Walls', tileset)
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    //~~~~~ In the walls layer make all the elements where collides was set
+    // be recognizable to phaser ~~~~~
     walls.setCollisionByProperty({ collides: true })
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    //~~~~~ Add the player as a physics object ~~~~~
     this.player = this.physics.add.sprite(128, 128, 'player', 'walk-down-3.png')
     this.player.body.setSize(this.player.width / 2, this.player.height / 2)
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
+    //~~~~~ Add animations ~~~~~
     this.anims.create({
         key: 'idle-down',
         frames: [{ key: 'player', frame: 'walk-down-3.png' }]
@@ -54,29 +62,27 @@ function create() {
         key: 'idle-side',
         frames: [{ key: 'player', frame: 'walk-side-3.png' }]
     })
-
     this.anims.create({
         key: 'walk-down',
         frames: this.anims.generateFrameNames('player', { start: 1, end: 8, prefix: 'walk-down-', suffix: '.png' }, ),
         repeat: -1,
         frameRate: 8
     })
-
     this.anims.create({
         key: 'walk-side',
         frames: this.anims.generateFrameNames('player', { start: 1, end: 8, prefix: 'walk-side-', suffix: '.png' }, ),
         repeat: -1,
         frameRate: 8
     })
-
     this.anims.create({
         key: 'walk-up',
         frames: this.anims.generateFrameNames('player', { start: 1, end: 8, prefix: 'walk-up-', suffix: '.png' }, ),
         repeat: -1,
         frameRate: 8
     })
-
     this.player.anims.play('idle-down')
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~
+
     this.physics.add.collider(this.player, walls)
 
     const debugGraphics = this.add.graphics().setAlpha(0.7)
@@ -87,6 +93,8 @@ function create() {
     })
 
     this.cameras.main.startFollow(this.player, true)
+    cursors = this.input.keyboard.createCursorKeys()
+
 
 
 }
