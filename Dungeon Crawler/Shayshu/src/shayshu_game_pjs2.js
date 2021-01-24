@@ -17,6 +17,7 @@ var cursors
 var player_facing = 3
 var lizard
 var lizard_direction = 1
+var new_nme
 
 
 function preload() {
@@ -35,6 +36,9 @@ function preload() {
     this.load.atlas('lizard',
         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard_spritesheet.png',
         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard.json')
+
+    // this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
+    // this.game.scale.setUserScale(2, 2);
 }
 
 function create() {
@@ -144,7 +148,7 @@ function create() {
 
     lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
     lizard.enableBody = true
-    const new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
+    new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
     new_nme.animations.add(
         'idle',
         Phaser.Animation.generateFrameNames(
@@ -182,6 +186,7 @@ function create() {
 function update() {
     game.physics.arcade.collide(player, walls)
     game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
+    game.physics.arcade.collide(player, lizard, function test(player, lizard) { console.log('player x lizard collision') }, null, this)
 
     var speed = 175
     idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
@@ -220,15 +225,17 @@ function update() {
 function render() {
     game.debug.bodyInfo(player, 32, 32);
     game.debug.body(player);
-    game.debug.body(lizard)
+    game.debug.body(new_nme)
 }
 
 function lizard_turn_around(enemy, walls) {
     current = enemy.body.velocity.x
     if (lizard_direction == 1) {
         enemy.scale.setTo(-1, 1)
+        enemy.body.offset.x = -16
     } else {
         enemy.scale.setTo(1, 1)
+        enemy.body.offset.x = 0
     }
     lizard_direction *= -1
     enemy.body.velocity.x = -current
