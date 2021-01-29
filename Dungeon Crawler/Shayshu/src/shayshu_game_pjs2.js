@@ -225,7 +225,7 @@ function update() {
 function render() {
     game.debug.bodyInfo(player, 32, 32);
     game.debug.body(player);
-    game.debug.body(new_nme)
+    // game.debug.body(new_nme)
 }
 
 function lizard_turn_around(enemy, walls) {
