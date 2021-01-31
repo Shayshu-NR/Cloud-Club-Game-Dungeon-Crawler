@@ -8,17 +8,26 @@ const game = new Phaser.Game(
     }
 )
 
-
+//-------------------- Tile map --------------------
 var map
 var ground
 var walls
+
+//-------------------- Player --------------------
 var player
-var cursors
 var player_facing = 3
+
+//-------------------- Enemies --------------------
 var lizard
 var lizard_direction = 1
+var big_guy
 var new_nme
+
+//-------------------- Utilities --------------------
 var keyReset = false
+var cursors
+
+//-------------------- Weapons --------------------
 var default_sword
 var weapon
 
@@ -40,26 +49,33 @@ function preload() {
         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard_spritesheet.png',
         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard.json')
 
-    // this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-    // this.game.scale.setUserScale(2, 2);
 
     this.load.atlas('sword',
         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png',
         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json')
+
+    this.load.atlas('big_guy',
+        '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/biguy_spritesheet.png',
+        '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/bigguy.json')
+
 }
 
 function create() {
+    //-------------------- Start physics engine --------------------
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
+    //-------------------- Add tile map and tile set --------------------
     map = game.add.tilemap('example_map')
     map.addTilesetImage('dungeon', 'tiles')
 
+    //-------------------- Create layer --------------------
     ground = map.createLayer('Ground')
     walls = map.createLayer('Walls')
-    ground.scale.set(1)
-    walls.scale.set(1)
+
+    //-------------------- Add wall colision --------------------
     map.setCollisionBetween(1, 999, true, 'Walls')
 
+    //-------------------- Add player model --------------------
     player = game.add.sprite(128, 128, 'player', 'walk-down-3.png')
     player.swing = false
     player.health = 3
@@ -153,14 +169,43 @@ function create() {
         true
     )
 
-
-    lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    //-------------------- Add example weapon --------------------
     default_sword = game.add.group()
-
-    lizard.enableBody = true
     default_sword.enableBody = true
 
+    //-------------------- Add example enemies --------------------
+    lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    lizard.enableBody = true
+
     new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
+    big_guy = lizard.create(600, 200, 'big_guy', 'big_demon_idle_anim_f3.png')
+    var big_guy_tween = game.add.tween(big_guy)
+    big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
+
+    big_guy.animations.add(
+        'idle',
+        Phaser.Animation.generateFrameNames(
+            'big_demon_idle_anim_f',
+            0,
+            3,
+            '.png'
+        ),
+        10,
+        true
+    )
+    big_guy.animations.add(
+        'run',
+        Phaser.Animation.generateFrameNames(
+            'big_demon_run_anim_f',
+            0,
+            3,
+            '.png'
+        ),
+        10,
+        true
+    )
+    big_guy.animations.play('run')
+
     new_nme.animations.add(
         'idle',
         Phaser.Animation.generateFrameNames(
@@ -183,6 +228,8 @@ function create() {
         10,
         true
     )
+
+
     new_nme.animations.play('run')
     new_nme.body.velocity.x = 120
     new_nme.body.bounce.set(-1)
@@ -199,7 +246,7 @@ function create() {
 function update() {
     game.physics.arcade.collide(player, walls)
     game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
-    game.physics.arcade.collide(player, lizard, function test(player, lizard) { console.log('player x lizard collision') }, null, this)
+    game.physics.arcade.collide(default_sword, lizard, function test(default_sword, lizard) { console.log('default_sword x lizard collision') }, null, this)
 
     var speed = 175
     idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
@@ -250,21 +297,14 @@ function render() {
     game.debug.bodyInfo(player, 32, 32);
     // game.debug.body(player);
     game.debug.body(new_nme)
-        // if (weapon) {
-        //     game.debug.body(weapon)
-        // }
+    if (weapon) {
+        game.debug.body(weapon)
+    }
 }
 
 // ~~~~~
 function lizard_turn_around(enemy, walls) {
     current = enemy.body.velocity.x
-    if (lizard_direction == 1) {
-        enemy.scale.setTo(-1, 1)
-        enemy.body.offset.x = -16
-    } else {
-        enemy.scale.setTo(1, 1)
-        enemy.body.offset.x = 0
-    }
     lizard_direction *= -1
     enemy.body.velocity.x = -current
 }
