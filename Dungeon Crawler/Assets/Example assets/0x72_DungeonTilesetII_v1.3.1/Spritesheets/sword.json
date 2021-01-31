@@ -1,0 +1,95 @@
+{
+	"frames": {
+		"weapon_regular_sword_down.png": {
+			"frame": {
+				"x": 10,
+				"y": 10,
+				"w": 10,
+				"h": 21
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 10,
+				"h": 21
+			},
+			"sourceSize": {
+				"w": 10,
+				"h": 21
+			}
+		},
+		"weapon_regular_sword_left.png": {
+			"frame": {
+				"x": 10,
+				"y": 51,
+				"w": 21,
+				"h": 10
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 21,
+				"h": 10
+			},
+			"sourceSize": {
+				"w": 21,
+				"h": 10
+			}
+		},
+		"weapon_regular_sword_right.png": {
+			"frame": {
+				"x": 10,
+				"y": 81,
+				"w": 21,
+				"h": 10
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 21,
+				"h": 10
+			},
+			"sourceSize": {
+				"w": 21,
+				"h": 10
+			}
+		},
+		"weapon_regular_sword_up.png": {
+			"frame": {
+				"x": 10,
+				"y": 111,
+				"w": 10,
+				"h": 21
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 10,
+				"h": 21
+			},
+			"sourceSize": {
+				"w": 10,
+				"h": 21
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 41,
+			"h": 142
+		},
+		"scale": "1"
+	}
+}
