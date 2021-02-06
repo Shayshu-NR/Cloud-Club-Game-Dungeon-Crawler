@@ -20,7 +20,7 @@ var lizard_direction = 1
 var new_nme
 var currentLevel = 0
 var xpPoints = 0
-var maxXpPoints 
+var maxXpPoints
 
 function preload() {
     this.load.image('tiles',
@@ -224,7 +224,9 @@ function update() {
 
     }
     //point checking 
-    if(xpPoints == maxXpPoints)level_up(currentLevel,xpPoints,maxXpPoints)
+    if (xpPoints == maxXpPoints) {
+        level_up(currentLevel, xpPoints, maxXpPoints)
+    }
 }
 
 function render() {
@@ -246,9 +248,9 @@ function lizard_turn_around(enemy, walls) {
     enemy.body.velocity.x = -current
 }
 
-function level_up(currentLevel, xpPoints,maxXpPoints){
+function level_up(currentLevel, xpPoints, maxXpPoints) {
     currentLevel++
     xpPoints = 0;
-    maxXpPoints = 100+50*currentLevel*currentLevel;
-    
+    maxXpPoints = 100 + 50 * currentLevel * currentLevel;
+
 }
