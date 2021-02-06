@@ -80,6 +80,10 @@ function create() {
     player.swing = false
     player.health = 3
 
+    player.test() {
+        console.log("Hello")
+    }
+
     player.animations.add(
         'walk-down',
         Phaser.Animation.generateFrameNames(

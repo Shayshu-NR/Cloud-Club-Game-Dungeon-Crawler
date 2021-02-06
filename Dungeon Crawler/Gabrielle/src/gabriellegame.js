@@ -252,5 +252,4 @@ function level_up(currentLevel, xpPoints, maxXpPoints) {
     currentLevel++
     xpPoints = 0;
     maxXpPoints = 100 + 50 * currentLevel * currentLevel;
-
 }

@@ -21,7 +21,7 @@ player.current_item = { "Sword" }
 
 //~~~~~ Active items ~~~~~
 // Array of Maps with meta data see backpack
-//, max capacity of 4 items
+//, max capacity of 3 items
 // Items availble to be switched to 
 player.active_items = [{ "Sword" }, { "Potion Strenght" }...]
 
@@ -42,7 +42,7 @@ player.backpack = {
 }
 
 //~~~~~ Player skill tree ~~~~~ 
-// ???
+// ??
 player.skill_tree
 
 //~~~~~ Get player current level ~~~~~
@@ -64,3 +64,6 @@ player.putBackpack(item)
 
 //~~~~~ Moves an item from the active bar to the backpack ~~~~~
 player.moveActiveToBackpack(item)
+
+//
+player.moveBackpackToActive()
