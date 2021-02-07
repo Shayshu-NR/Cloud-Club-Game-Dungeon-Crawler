@@ -31,6 +31,9 @@ var cursors
 var default_sword
 var weapon
 
+//-------------------- Treasure --------------------
+var chest
+
 
 function preload() {
     this.load.image('tiles',
@@ -58,6 +61,14 @@ function preload() {
         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/biguy_spritesheet.png',
         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/bigguy.json')
 
+    this.load.atlas('chest',
+        '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest_spritesheet.png',
+        '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest.json')
+
+    this.load.image('heart',
+        '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/ui_heart_full.png'
+    )
+
 }
 
 function create() {
@@ -79,10 +90,6 @@ function create() {
     player = game.add.sprite(128, 128, 'player', 'walk-down-3.png')
     player.swing = false
     player.health = 3
-
-    player.test() {
-        console.log("Hello")
-    }
 
     player.animations.add(
         'walk-down',
@@ -182,6 +189,7 @@ function create() {
     lizard.enableBody = true
 
     new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
+    new_nme.health = 3
     big_guy = lizard.create(600, 200, 'big_guy', 'big_demon_idle_anim_f3.png')
     var big_guy_tween = game.add.tween(big_guy)
     big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
@@ -233,11 +241,11 @@ function create() {
         true
     )
 
-
     new_nme.animations.play('run')
     new_nme.body.velocity.x = 120
     new_nme.body.bounce.set(-1)
 
+    //-------------------- Physics engine and control setting --------------------
     game.physics.arcade.enable(player, Phaser.Physics.ARCADE)
     game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
     game.world.setBounds(0, 0, 16 * 100, 16 * 100)
@@ -245,12 +253,53 @@ function create() {
 
     cursors = game.input.keyboard.createCursorKeys()
     cursors.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
+
+    //-------------------- Adding player weapons and dictionary --------------------
+    player.current_item = {
+        "name": "sword",
+        "group": default_sword,
+        "src": "sword_spritesheet.png",
+        "dmg": 1,
+        "quantity": 1
+    }
+
+    //-------------------- Chest example --------------------
+    chest = game.add.group()
+    chest.enableBody = true
+
+    const new_chest = chest.create(50, 200, 'chest', 'chest_empty_open_anim_f0.png')
+    new_chest.body.immovable = true
+    new_chest.opened = false
+    new_chest.item = {
+        "name": "potion"
+    }
+    new_chest.animations.add(
+        'open',
+        Phaser.Animation.generateFrameNames(
+            'chest_empty_open_anim_f',
+            0,
+            2,
+            '.png'
+        ),
+        10,
+        false
+    )
+
 }
 
 function update() {
     game.physics.arcade.collide(player, walls)
     game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
-    game.physics.arcade.collide(default_sword, lizard, function test(default_sword, lizard) { console.log('default_sword x lizard collision') }, null, this)
+    game.physics.arcade.collide(default_sword, lizard, function test(default_sword, lizard) {
+        if (lizard.health <= 0) {
+            lizard.kill()
+        }
+        lizard.health -= player.current_item["dmg"]
+        console.log(lizard.health)
+
+    }, null, this)
+    game.physics.arcade.collide(player, chest, open_chest, null, this)
+
 
     var speed = 175
     idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
@@ -335,6 +384,7 @@ function swing_default_sword(player) {
     else if (player_facing == 3) {
         weapon = default_sword.create(player.position.x + 11, player.position.y + 24, 'sword', 'weapon_regular_sword_down.png')
     }
+    weapon.body.immovable = true
 
     var event = game.time.events.add(Phaser.Timer.SECOND * 0.2, sheath_sword, this, [weapon])
 }
@@ -342,5 +392,13 @@ function swing_default_sword(player) {
 function sheath_sword(weapon) {
     weapon[0].kill()
     player.swing = false
+}
+
+function open_chest(player, chest) {
+    if (!chest.opened) {
+        chest.opened = true
+        chest.animations.play('open')
+        game.add.image(50, 200 - 15, 'heart')
+    }
 }
 //~~~~~
