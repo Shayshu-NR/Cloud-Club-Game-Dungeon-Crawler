@@ -12,6 +12,6 @@ enemy.drop_item
 
 //~~~~~ Movement characteristics of nme ~~~~~
 // String
-enemy.mouvement
+enemy.movement
 
 //
