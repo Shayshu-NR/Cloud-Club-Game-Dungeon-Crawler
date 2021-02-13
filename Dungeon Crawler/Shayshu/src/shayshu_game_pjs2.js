@@ -63,6 +63,11 @@ maingame.test_env.prototype = {
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/ui_heart_full.png'
         )
 
+        this.load.atlas('water',
+            '../Assets/General assets/Ripleys Aquarium/water_atlas.png',
+            '../Assets/General assets/Ripleys Aquarium/water_atlas.json',
+        )
+
     },
 
     create: function() {
@@ -280,6 +285,21 @@ maingame.test_env.prototype = {
             10,
             false
         )
+
+        //-------------------- Added water example --------------------
+        const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
+        test.animations.add(
+            'wave',
+            Phaser.Animation.generateFrameNames(
+                'water_f',
+                1,
+                6,
+                '.png'
+            ),
+            5,
+            true
+        )
+        test.animations.play('wave')
 
     },
 

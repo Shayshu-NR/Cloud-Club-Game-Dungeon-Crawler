@@ -23,7 +23,7 @@ maingame.skill_tree.prototype = {
     },
 
     create: function() {
-        this.stage.backgroundColor = '#124184';
+
 
         var tree_root = new Phaser.Circle(400, 300, 500);
         var p = new Phaser.Point()
