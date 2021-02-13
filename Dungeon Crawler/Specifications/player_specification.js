@@ -23,7 +23,7 @@ player.current_item = { "Sword" }
 // Array of Maps with meta data see backpack
 //, max capacity of 3 items
 // Items availble to be switched to 
-player.active_items = [{ "Sword" }, { "Potion Strenght" }...]
+player.active_items = [{ "Sword" }, { "Potion Strength" }...]
 
 //~~~~~ Backpack items ~~~~~
 // Dictionary/Map
