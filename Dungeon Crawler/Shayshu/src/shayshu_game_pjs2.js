@@ -90,6 +90,7 @@ function create() {
     player = game.add.sprite(128, 128, 'player', 'walk-down-3.png')
     player.swing = false
     player.health = 3
+    player = init_player(player)
 
     player.animations.add(
         'walk-down',

@@ -84,21 +84,23 @@ function create() {
     player.backpack = {}
     player.active_items = []
     player.current_item = {}
+
     //max 
-    player.putBackpack = function(item, quantity = 1){
+    player.putBackpack = function(item, quantity = 1) {
         index = item["name"];
-        if (index in player.backpack){
+        if (index in player.backpack) {
             player.backpack[index]["quantity"] += quantity;
         } else {
-            if (Object.keys(player.backpack).length >= MAX_BACKPACK_SIZE){
+            if (Object.keys(player.backpack).length >= MAX_BACKPACK_SIZE) {
                 return "fail";
             } else {
-                player.backpack[index] = item; 
-            } 
+                player.backpack[index] = item;
+            }
         }
         return "success";
     }
-    player.moveBackpackToActive = function(){
+
+    player.moveBackpackToActive = function() {
 
     }
 
