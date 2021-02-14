@@ -39,6 +39,7 @@ maingame.gabriellegame.prototype = {
     
         // this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
         // this.game.scale.setUserScale(2, 2);
+        
     },
     
     create: function() {
@@ -181,6 +182,7 @@ maingame.gabriellegame.prototype = {
         game.camera.follow(player)
     
         cursors = game.input.keyboard.createCursorKeys()
+    cursors.map = game.input.keyboard.addKey(Phaser.Keyboard.M)
     
         maxXpPoints = 100
     },
@@ -193,6 +195,11 @@ maingame.gabriellegame.prototype = {
         var speed = 175
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
     
+
+
+        if(cursors.map.isDown){
+            game.state.start("Contents");
+        }
     
         if (cursors.left.isDown) {
             player_facing = 0
@@ -215,7 +222,7 @@ maingame.gabriellegame.prototype = {
             player.body.velocity.y = -speed
             player.animations.play('walk-up', true)
 
-            game.state.start("Contents");
+            //
     
         } else {
             player.animations.play(idle_direction[player_facing])
