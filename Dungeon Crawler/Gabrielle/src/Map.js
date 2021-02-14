@@ -1,20 +1,20 @@
 var cursors
-maingame.BackPack = function(game){
+maingame.Map = function(game){
 
 };
 
-maingame.BackPack.prototype = {
+maingame.Map.prototype = {
         preload: function() {
     
         },
     
         create: function() {
                 cursors = game.input.keyboard.createCursorKeys()
-                cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
+                cursors.map = game.input.keyboard.addKey(Phaser.Keyboard.M)
         },
     
         update: function() {
-                if(cursors.bckpck.isDown){
+                if(cursors.map.isDown){
                         game.state.start("Game");
                     }
 

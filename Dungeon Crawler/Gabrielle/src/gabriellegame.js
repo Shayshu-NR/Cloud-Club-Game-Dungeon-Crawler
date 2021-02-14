@@ -182,7 +182,8 @@ maingame.gabriellegame.prototype = {
         game.camera.follow(player)
     
         cursors = game.input.keyboard.createCursorKeys()
-    cursors.map = game.input.keyboard.addKey(Phaser.Keyboard.M)
+        cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
+        cursors.map = game.input.keyboard.addKey(Phaser.Keyboard.M)
     
         maxXpPoints = 100
     },
@@ -197,8 +198,11 @@ maingame.gabriellegame.prototype = {
     
 
 
+        if(cursors.bckpck.isDown){
+            game.state.start("Backpack");
+        }
         if(cursors.map.isDown){
-            game.state.start("Contents");
+            game.state.start("Map");
         }
     
         if (cursors.left.isDown) {
