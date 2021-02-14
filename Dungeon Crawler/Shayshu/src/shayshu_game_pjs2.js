@@ -68,6 +68,12 @@ maingame.test_env.prototype = {
             '../Assets/General assets/Ripleys Aquarium/water_atlas.json',
         )
 
+        this.load.atlas('eng',
+            '../Assets/General assets/Player/main-character.png',
+            '../Assets/General assets/Player/main-character.json'
+        )
+
+
     },
 
     create: function() {
@@ -89,7 +95,7 @@ maingame.test_env.prototype = {
         player = game.add.sprite(128, 128, 'player', 'walk-down-3.png')
         player.swing = false
         player.health = 3
-        player = init_player(player)
+        player = init_player(game, player)
 
         player.animations.add(
             'walk-down',
@@ -189,10 +195,13 @@ maingame.test_env.prototype = {
         lizard.enableBody = true
 
         new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
-        new_nme.health = 3
+        new_nme.health = 10
+        new_nme.immune = false
         big_guy = lizard.create(600, 200, 'big_guy', 'big_demon_idle_anim_f3.png')
         var big_guy_tween = game.add.tween(big_guy)
         big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
+        big_guy.immune = false
+        big_guy.health = 25
 
         big_guy.animations.add(
             'idle',
@@ -301,6 +310,53 @@ maingame.test_env.prototype = {
         )
         test.animations.play('wave')
 
+        //-------------------- Eng player animation --------------------
+        const eng = game.add.sprite(150, 200, 'eng', 'idle_down.png')
+        eng.animations.add(
+            'walk_down',
+            Phaser.Animation.generateFrameNames(
+                'walk_down_',
+                1,
+                7,
+                '.png'
+            ),
+            10,
+            true
+        )
+        eng.animations.add(
+            'walk_up',
+            Phaser.Animation.generateFrameNames(
+                'walk_up_',
+                1,
+                7,
+                '.png'
+            ),
+            10,
+            true
+        )
+        eng.animations.add(
+            'attack_right',
+            Phaser.Animation.generateFrameNames(
+                'attack_right_',
+                1,
+                '.png'
+            ),
+            8,
+            true
+        )
+        eng.animations.add(
+            'hurt_front',
+            Phaser.Animation.generateFrameNames(
+                'hurt_front_',
+                1,
+                2,
+                '.png'
+            ),
+            2,
+            true
+        )
+        eng.animations.play('walk_up')
+
     },
 
     update: function() {
@@ -310,14 +366,20 @@ maingame.test_env.prototype = {
             if (lizard.health <= 0) {
                 lizard.kill()
             }
-            lizard.health -= player.current_item["dmg"]
-            console.log(lizard.health)
+            if (!lizard.immune) {
+                lizard.health -= player.current_item["dmg"] + player.damage
+                console.log(lizard.health)
+                lizard.immune = true
+                setTimeout(function() {
+                    lizard.immune = false
+                }, player.attack_speed * 2000)
+            }
 
         }, null, this)
         game.physics.arcade.collide(player, chest, open_chest, null, this)
 
 
-        var speed = 175
+        var speed = player.speed
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
 
         if (!player.swing) {
@@ -369,9 +431,9 @@ maingame.test_env.prototype = {
     render: function() {
         game.debug.bodyInfo(player, 32, 32);
         // game.debug.body(player);
-        game.debug.body(new_nme)
-        if (weapon) {
-            game.debug.body(weapon)
-        }
+        // game.debug.body(new_nme)
+        // if (weapon) {
+        //     game.debug.body(weapon)
+        // }
     }
 }

@@ -29,7 +29,7 @@ function swing_default_sword(player) {
     }
     weapon.body.immovable = true
 
-    var event = game.time.events.add(Phaser.Timer.SECOND * 0.2, sheath_sword, this, [weapon])
+    var event = game.time.events.add(Phaser.Timer.SECOND * player.attack_speed, sheath_sword, this, [weapon])
 }
 
 function sheath_sword(weapon) {

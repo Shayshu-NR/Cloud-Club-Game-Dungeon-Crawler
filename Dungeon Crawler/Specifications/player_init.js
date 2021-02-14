@@ -1,4 +1,4 @@
-function init_player(player) {
+function init_player(game, player) {
 
     player.putBackpack = function(item, quantity = 1) {
         index = item["name"];
@@ -19,6 +19,12 @@ function init_player(player) {
     }
 
     player.skills = {}
+
+    player.speed = game.playerSpeed
+
+    player.damage = game.playerDamage
+
+    player.attack_speed = game.playerAttackSpeed
 
     return player
 }
