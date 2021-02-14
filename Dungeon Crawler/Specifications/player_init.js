@@ -18,5 +18,7 @@ function init_player(player) {
 
     }
 
+    player.skills = {}
+
     return player
 }
