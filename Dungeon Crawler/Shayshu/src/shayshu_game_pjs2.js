@@ -195,13 +195,12 @@ maingame.test_env.prototype = {
         lizard.enableBody = true
 
         new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
-        new_nme.health = 10
-        new_nme.immune = false
+        new_nme = enemy_init(new_nme, 10, 100)
+
         big_guy = lizard.create(600, 200, 'big_guy', 'big_demon_idle_anim_f3.png')
         var big_guy_tween = game.add.tween(big_guy)
         big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
-        big_guy.immune = false
-        big_guy.health = 25
+        big_guy = enemy_init(big_guy, 25, 100)
 
         big_guy.animations.add(
             'idle',
@@ -226,7 +225,7 @@ maingame.test_env.prototype = {
             true
         )
         big_guy.animations.play('run')
-
+        
         new_nme.animations.add(
             'idle',
             Phaser.Animation.generateFrameNames(
