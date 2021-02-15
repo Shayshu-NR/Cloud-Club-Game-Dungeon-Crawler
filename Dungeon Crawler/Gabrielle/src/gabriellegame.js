@@ -12,7 +12,9 @@ var lizard_direction = 1
 var new_nme
 var currentLevel = 0
 var xpPoints = 0
-var maxXpPoints
+var maxXpPoints =0
+var xp_bar
+var bar
 
 var maingame = {}
 maingame.gabriellegame = function(game){
@@ -37,8 +39,8 @@ maingame.gabriellegame.prototype = {
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard_spritesheet.png',
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard.json')
     
-        // this.game.scale.scaleMode = Phaser.ScaleManager.USER_SCALE;
-        // this.game.scale.setUserScale(2, 2);
+        this.load.image('xp_bar',
+        '../Gabrielle/src/Bar.png')
         
     },
     
@@ -48,6 +50,8 @@ maingame.gabriellegame.prototype = {
         map = game.add.tilemap('example_map')
         map.addTilesetImage('dungeon', 'tiles')
     
+        
+
         ground = map.createLayer('Ground')
         walls = map.createLayer('Walls')
         ground.scale.set(1)
@@ -146,7 +150,10 @@ maingame.gabriellegame.prototype = {
         )
     
     
-    
+        bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
+        xp_bar = bars.create(0,0,'xp_bar','Bar.png') 
+        xp_bar.scale.set(xpPoints/maxXpPoints)
+
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
         new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
@@ -197,7 +204,8 @@ maingame.gabriellegame.prototype = {
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
     
 
-
+        
+        
         if(cursors.bckpck.isDown){
             game.state.start("Backpack");
         }
@@ -220,6 +228,8 @@ maingame.gabriellegame.prototype = {
             player_facing = 3
             player.body.velocity.y = speed
             player.animations.play('walk-down', true)
+            xpPoints++
+            console.log("points",xpPoints)
     
         } else if (cursors.up.isDown) {
             player_facing = 2
@@ -235,9 +245,13 @@ maingame.gabriellegame.prototype = {
     
         }
         //point checking 
-        if (xpPoints == maxXpPoints) {
+        if (xpPoints >= maxXpPoints) {
             level_up(currentLevel, xpPoints, maxXpPoints)
+            xpPoints = 0
         }
+        
+        xp_bar.scale.set(xpPoints/maxXpPoints)
+        
     },
     
     render: function() {
@@ -291,4 +305,11 @@ function open_chest(player, chest) {
         chest.animations.play('open')
         game.add.image(50, 200 - 15, 'heart')
     }
+}
+
+function level_up(currentLevel, xpPoints, maxXpPoints){
+    currentLevel++;
+    
+    maxXpPoints =100+25*currentLevel*currentLevel;
+    console.log("Level",currentLevel);
 }
