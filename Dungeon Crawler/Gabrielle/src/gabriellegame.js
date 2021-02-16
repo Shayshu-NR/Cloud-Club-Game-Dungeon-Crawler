@@ -307,9 +307,14 @@ function open_chest(player, chest) {
     }
 }
 
-function level_up(currentLevel, xpPoints, maxXpPoints){
-    currentLevel++;
-    
-    maxXpPoints =100+25*currentLevel*currentLevel;
-    console.log("Level",currentLevel);
+function level_up(currentLevel, xpPoints,maxXpPoints){
+    currentLevel++
+    xpPoints = 0;
+    maxXpPoints = 100+50*currentLevel*currentLevel;
+
+    /**
+     * Play and animationg congradulating the player
+     * Gives player some coins/ potions/weapons for getting a higher level
+     * animation to shorten the xp bar
+     */
 }
