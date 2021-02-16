@@ -206,9 +206,10 @@ function create() {
   //-------------------- Add Potion Sprite Testing ----------------------------
 
   potion = game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
-  lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
-  potion.enableBody = TRUE;
+  //potion = game.add.physicsGroup(Phaser.Physics.ARCADE);
+  //potion.enableBody = TRUE;
   //Add collision detection for item pickup?
+  //Adding these physics engine, breaks potion/game?
 
 
   //-------------------- Physics engine and control setting --------------------
