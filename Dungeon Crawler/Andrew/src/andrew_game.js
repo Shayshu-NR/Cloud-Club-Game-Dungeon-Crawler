@@ -211,7 +211,6 @@ function create() {
   //Add collision detection for item pickup?
   //Adding these physics engine, breaks potion/game?
 
-
   //-------------------- Physics engine and control setting --------------------
   game.physics.arcade.enable(player, Phaser.Physics.ARCADE);
   game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE);
@@ -263,6 +262,9 @@ function create() {
 function update() {
   if (cursors.f.isDown) {
     console.log("You Clicked F");
+    //Testing various potion effects with Potion_in_use
+    potion_in_use = "Health_Potion"
+    use_potion(player, potion_in_use);
   }
 
   game.physics.arcade.collide(player, walls);
@@ -403,30 +405,37 @@ function open_chest(player, chest) {
 //~~~~~ Potion effects
 
 function use_potion(player, potion) {
-    if (potion == "Health_Potion")
-    {
-        player.health = player.health +2;
-    }
-    if (potion == "Speed_Potion")
-    player.potion_status == "Speed Potion"
+  if (potion == "Health_Potion") {
+    console.log(player.health)
+    console.log("Health Potion used");
+    player.health = player.health + 2;
+    console.log(player.health)
+  } 
+  
+  if (potion == "Speed_Potion") {
+    player.potion_status == "Speed Potion";
+    console.log("Speed Potion Used");
     game.time.events.add(
-        10000,
-        function (player) {
-          console.log("Getting rid of speed");
-          player.currentState = "default";
-        },
-        this,
-        [player]
-      );
-      if (potion == "Attack_Potion")
-      player.potion_status == "Attack Potion"
-      game.time.events.add(
-          10000,
-          function (player) {
-            console.log("Getting rid of attack");
-            player.currentState = "default";
-          },
-          this,
-          [player]
-        );
+      10000,
+      function (player) {
+        console.log("Getting rid of speed");
+        player.currentState = "default";
+      },
+      this,
+      [player]
+    );
+  }
+  if (potion == "Attack_Potion") {
+    player.potion_status == "Attack Potion";
+    console.log("Attack Potion Used");
+    game.time.events.add(
+      10000,
+      function (player) {
+        console.log("Getting rid of attack");
+        player.currentState = "default";
+      },
+      this,
+      [player]
+    );
+  }
 }
