@@ -221,7 +221,7 @@ function create() {
   cursors = game.input.keyboard.createCursorKeys();
   cursors.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   //Adding function key for items "F"
-  cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F); //Would this work?
+  cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F);
 
   //-------------------- Adding player weapons and dictionary --------------------
   player.current_item = {
@@ -262,7 +262,7 @@ function create() {
 
 function update() {
   if (cursors.f.isDown) {
-    console.log("this is working");
+    console.log("You Clicked F");
   }
 
   game.physics.arcade.collide(player, walls);
@@ -400,16 +400,33 @@ function open_chest(player, chest) {
     game.add.image(50, 200 - 15, "heart");
   }
 }
-//~~~~~
+//~~~~~ Potion effects
 
 function use_potion(player, potion) {
-  // if player.current_item != {Sword}{
-  //     if player.current_item == potion{
-  //         player.potion_status == potion effect
-  //     }
-  // }
-  //Need to replace player potion status with the various different types of potions
-  //How to input keys? Where to write all the different potion statements? Rather than player.potion_status should I rather
-  //Just use various if statements and add the effects? Much like mario game?
-  //Tracker for player HP?
+    if (potion == "Health_Potion")
+    {
+        player.health = player.health +2;
+    }
+    if (potion == "Speed_Potion")
+    player.potion_status == "Speed Potion"
+    game.time.events.add(
+        10000,
+        function (player) {
+          console.log("Getting rid of speed");
+          player.currentState = "default";
+        },
+        this,
+        [player]
+      );
+      if (potion == "Attack_Potion")
+      player.potion_status == "Attack Potion"
+      game.time.events.add(
+          10000,
+          function (player) {
+            console.log("Getting rid of attack");
+            player.currentState = "default";
+          },
+          this,
+          [player]
+        );
 }
