@@ -15,6 +15,8 @@ var xpPoints = 0
 var maxXpPoints =0
 var xp_bar
 var bar
+var lvltxt1
+var lvltxt2
 
 var maingame = {}
 maingame.gabriellegame = function(game){
@@ -40,9 +42,16 @@ maingame.gabriellegame.prototype = {
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard.json')
     
         this.load.image('xp_bar',
-        '../Gabrielle/src/bar-filler.png')
+        '../Gabrielle/src/Assets/bar-filler.png')
+
         this.load.image('bar',
-        '../Gabrielle/src/Bar.png')
+        '../Gabrielle/src/Assets/Bar.png')
+
+        this.load.image('bar2',
+        '../Gabrielle/src/Assests/health_bar.png')
+
+        this.load.image('hlth_bar',
+        '../Gabrielle/src/Assests/health-bar-filler.png')
         
     },
     
@@ -151,11 +160,22 @@ maingame.gabriellegame.prototype = {
             true
         )
     
-    
+        //xp-bar set-up
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
-        var bar_holder = bars.create(339,500,'bar','Bar.png')
-        xp_bar = bars.create(340,501,'xp_bar','bar-filler.png') 
-        xp_bar.scale.set(xpPoints/maxXpPoints,1)
+        var bar_holder = bars.create(59,550,'bar','Bar.png')
+        xp_bar = bars.create(67,552,'xp_bar','bar-filler.png') 
+
+        bar_holder.scale.set(8,2)
+        xp_bar.scale.set(xpPoints/maxXpPoints*8,2)
+
+        lvltxt1 = game.add.text(59, 534,'', { fontSize: '16px', fill: '#FFFFFF' })
+        lvltxt1.text = ''+currentLevel;
+
+        lvltxt2 = game.add.text(690, 534,'', { fontSize: '16px', fill: '#FFFFFF' })
+        lvltxt2.text = ''+(currentLevel+1);
+
+        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
@@ -249,11 +269,16 @@ maingame.gabriellegame.prototype = {
         }
         //point checking 
         if (xpPoints >= maxXpPoints) {
-            level_up(currentLevel, xpPoints, maxXpPoints)
+            //level_up(currentLevel, xpPoints, maxXpPoints)
+            console.log("LEVEL-UP")
+            currentLevel++
             xpPoints = 0
+            maxXpPoints = 100+50*currentLevel*currentLevel;
+            lvltxt1.text = ''+currentLevel;
+            lvltxt2.text = ''+(currentLevel+1);
         }
         
-       xp_bar.scale.set(xpPoints/maxXpPoints,1)
+       xp_bar.scale.set(xpPoints/maxXpPoints*8,2)
         
     },
     
@@ -311,10 +336,12 @@ function open_chest(player, chest) {
 }
 
 function level_up(currentLevel, xpPoints,maxXpPoints){
-    currentLevel++
-    xpPoints = 0;
-    maxXpPoints = 100+50*currentLevel*currentLevel;
-
+            currentLevel++
+            xpPoints = 0
+            maxXpPoints = 100+50*currentLevel*currentLevel;
+            lvltxt1.text = ''+currentLevel;
+            lvltxt2.text = ''+(currentLevel+1);
+            console.log("LEVELUP")
     /**
      * Play and animationg congradulating the player
      * Gives player some coins/ potions/weapons for getting a higher level
