@@ -40,6 +40,8 @@ maingame.gabriellegame.prototype = {
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard.json')
     
         this.load.image('xp_bar',
+        '../Gabrielle/src/bar-filler.png')
+        this.load.image('bar',
         '../Gabrielle/src/Bar.png')
         
     },
@@ -151,8 +153,9 @@ maingame.gabriellegame.prototype = {
     
     
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
-        xp_bar = bars.create(0,0,'xp_bar','Bar.png') 
-        xp_bar.scale.set(xpPoints/maxXpPoints)
+        var bar_holder = bars.create(339,500,'bar','Bar.png')
+        xp_bar = bars.create(340,501,'xp_bar','bar-filler.png') 
+        xp_bar.scale.set(xpPoints/maxXpPoints,1)
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
@@ -250,7 +253,7 @@ maingame.gabriellegame.prototype = {
             xpPoints = 0
         }
         
-        xp_bar.scale.set(xpPoints/maxXpPoints)
+       xp_bar.scale.set(xpPoints/maxXpPoints,1)
         
     },
     
