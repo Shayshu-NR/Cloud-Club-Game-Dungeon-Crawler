@@ -10,13 +10,16 @@ var player_facing = 3
 var lizard
 var lizard_direction = 1
 var new_nme
+//~~~~~~~~~~~~~~~~~~~~~
 var currentLevel = 0
-var xpPoints = 0
 var maxXpPoints =0
 var xp_bar
+var hlth_bar
 var bar
 var lvltxt1
 var lvltxt2
+var health_bars
+//~~~~~~~~~~~~~~~~~~~~~
 
 var maingame = {}
 maingame.gabriellegame = function(game){
@@ -47,11 +50,8 @@ maingame.gabriellegame.prototype = {
         this.load.image('bar',
         '../Gabrielle/src/Assets/Bar.png')
 
-        this.load.image('bar2',
-        '../Gabrielle/src/Assests/health_bar.png')
-
-        this.load.image('hlth_bar',
-        '../Gabrielle/src/Assests/health-bar-filler.png')
+        this.load.image('health_heart',
+        '../Gabrielle/src/Assets/heart.png')
         
     },
     
@@ -159,23 +159,33 @@ maingame.gabriellegame.prototype = {
             8,
             true
         )
-    
+                
         //xp-bar set-up
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
         var bar_holder = bars.create(59,550,'bar','Bar.png')
         xp_bar = bars.create(67,552,'xp_bar','bar-filler.png') 
 
+        player.exp = 0
         bar_holder.scale.set(8,2)
-        xp_bar.scale.set(xpPoints/maxXpPoints*8,2)
+        xp_bar.scale.set(player.exp/maxXpPoints*8,2)
 
         lvltxt1 = game.add.text(59, 534,'', { fontSize: '16px', fill: '#FFFFFF' })
         lvltxt1.text = ''+currentLevel;
 
         lvltxt2 = game.add.text(690, 534,'', { fontSize: '16px', fill: '#FFFFFF' })
         lvltxt2.text = ''+(currentLevel+1);
-
         //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        
+        health_bars = [null,null,null,null,null,null,null,null,null,null,null]
+        for(var i = 0; i < 10; i++){
+            health_bars[i] = bars.create(i*16,1,'health_heart','heart.png')
+            //health_bars[i].scale.set(4,1)
+        }
+        player.health = 10
 
+        //ammunition bar set-up
+        //bar_holder = bars.create(0,18,'bar2','health_bar.png')
+        //    bar_holder.scale.set(4,1)
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
@@ -212,8 +222,9 @@ maingame.gabriellegame.prototype = {
         game.camera.follow(player)
     
         cursors = game.input.keyboard.createCursorKeys()
-        cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
+        cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.I)
         cursors.map = game.input.keyboard.addKey(Phaser.Keyboard.M)
+        cursors.dummy = game.input.keyboard.addKey(Phaser.Keyboard.D)
     
         maxXpPoints = 100
     },
@@ -226,15 +237,21 @@ maingame.gabriellegame.prototype = {
         var speed = 175
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
     
-
         
         
         if(cursors.bckpck.isDown){
             game.state.start("Backpack");
+            console.log("in backpack state")
         }
         if(cursors.map.isDown){
             game.state.start("Map");
+            console.log("In map state")
         }
+        if(cursors. dummy.isDown){
+            player.exp++
+            console.log("points",player.exp)
+        }
+        
     
         if (cursors.left.isDown) {
             player_facing = 0
@@ -251,8 +268,7 @@ maingame.gabriellegame.prototype = {
             player_facing = 3
             player.body.velocity.y = speed
             player.animations.play('walk-down', true)
-            xpPoints++
-            console.log("points",xpPoints)
+            
     
         } else if (cursors.up.isDown) {
             player_facing = 2
@@ -268,17 +284,21 @@ maingame.gabriellegame.prototype = {
     
         }
         //point checking 
-        if (xpPoints >= maxXpPoints) {
-            //level_up(currentLevel, xpPoints, maxXpPoints)
+        if (player.exp >= maxXpPoints) {
+            //levelup(currentLevel, maxXpPoints) not working????
+            
             console.log("LEVEL-UP")
             currentLevel++
-            xpPoints = 0
+            player.exp = 0
             maxXpPoints = 100+50*currentLevel*currentLevel;
             lvltxt1.text = ''+currentLevel;
             lvltxt2.text = ''+(currentLevel+1);
+
+            player.health--
+            health_bars[player.health].kill()
         }
         
-       xp_bar.scale.set(xpPoints/maxXpPoints*8,2)
+       xp_bar.scale.set(player.exp/maxXpPoints*8,2)
         
     },
     
@@ -335,16 +355,20 @@ function open_chest(player, chest) {
     }
 }
 
-function level_up(currentLevel, xpPoints,maxXpPoints){
+function levelup(currentLevel,maxXpPoints){
             currentLevel++
-            xpPoints = 0
+            player.exp = 0
             maxXpPoints = 100+50*currentLevel*currentLevel;
             lvltxt1.text = ''+currentLevel;
             lvltxt2.text = ''+(currentLevel+1);
             console.log("LEVELUP")
+            console.log(player.health)
     /**
      * Play and animationg congradulating the player
      * Gives player some coins/ potions/weapons for getting a higher level
      * animation to shorten the xp bar
      */
 }
+
+
+

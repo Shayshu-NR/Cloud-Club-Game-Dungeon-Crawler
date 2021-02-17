@@ -8,6 +8,9 @@ player.exp = int
 // has
 player.ammo = int
 
+//~~~~~~ Amount of health the player has~~~~~
+player.health = int
+
 //~~~~~ Player potion status ~~~~~
 // String that describes the players
 // current potion effects/status
