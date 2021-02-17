@@ -100,8 +100,16 @@ function create() {
         return "success";
     }
 
-    player.moveBackpackToActive = function() {
-
+    player.moveBackpackToActive = function(item, index) {
+        if (player.active_items.length < MAX_ACTIVE_SIZE){
+            player.active_items.splice(index, 0, item);
+            player.backpack.delete(item);
+        } else {
+            item_moved = player.active_items[index];
+            player.active_items.splice(index, 1, item);
+            player.backpack.delete(item);
+            player.backpack[item_moved["name"]] = item_moved;
+        }
     }
 
     player.animations.add(
