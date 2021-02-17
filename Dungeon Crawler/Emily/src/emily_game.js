@@ -112,6 +112,16 @@ function create() {
         }
     }
 
+    player.moveActiveToBackpack = function(item, index){
+        if (player.backpack.length < MAX_BACKPACK_SIZE){
+            idx = player.active_items.indexOf(item);
+            player.backpack[item["name"]] = item;
+            player.active_items.splice(idx,1);
+        } else {
+            return "fail";
+        }
+    }
+
     player.animations.add(
         'walk-down',
         Phaser.Animation.generateFrameNames(

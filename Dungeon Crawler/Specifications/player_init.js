@@ -25,7 +25,16 @@ function init_player(game, player) {
             player.backpack[item_moved["name"]] = item_moved;
         }
     }
-
+    player.moveActiveToBackpack = function(item, index){
+        if (player.backpack.length < MAX_BACKPACK_SIZE){
+            idx = player.active_items.indexOf(item);
+            player.backpack[item["name"]] = item;
+            player.active_items.splice(idx,1);
+        } else {
+            return "fail";
+        }
+    }
+    
     player.skills = {}
 
     player.speed = game.playerSpeed
