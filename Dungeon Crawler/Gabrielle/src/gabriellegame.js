@@ -12,13 +12,13 @@ var lizard_direction = 1
 var new_nme
 //~~~~~~~~~~~~~~~~~~~~~
 var currentLevel = 0
-var maxXpPoints =0
+var maxXpPoints = 0
 var xp_bar
-var hlth_bar
 var bar
 var lvltxt1
 var lvltxt2
 var health_bars
+var ammo_bar
 //~~~~~~~~~~~~~~~~~~~~~
 
 var maingame = {}
@@ -52,6 +52,13 @@ maingame.gabriellegame.prototype = {
 
         this.load.image('health_heart',
         '../Gabrielle/src/Assets/heart.png')
+
+        this.load.image('ammo_fire',
+        '../Gabrielle/src/Assets/fire.png')
+        
+        this.load.image('bpack',
+        '../Gabrielle/src/Assets/back-pack.png')
+
         
     },
     
@@ -159,10 +166,14 @@ maingame.gabriellegame.prototype = {
             8,
             true
         )
-                
-        //xp-bar set-up
+        
+        var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
-        var bar_holder = bars.create(59,550,'bar','Bar.png')
+
+        var stats = statics.create(5,560,'bpack','back-pack.png')
+        
+
+        var bar_holder = statics.create(59,550,'bar','Bar.png')
         xp_bar = bars.create(67,552,'xp_bar','bar-filler.png') 
 
         player.exp = 0
@@ -174,18 +185,21 @@ maingame.gabriellegame.prototype = {
 
         lvltxt2 = game.add.text(690, 534,'', { fontSize: '16px', fill: '#FFFFFF' })
         lvltxt2.text = ''+(currentLevel+1);
-        //~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        
+
+        //health-bar set-up
         health_bars = [null,null,null,null,null,null,null,null,null,null,null]
         for(var i = 0; i < 10; i++){
             health_bars[i] = bars.create(i*16,1,'health_heart','heart.png')
-            //health_bars[i].scale.set(4,1)
         }
         player.health = 10
 
-        //ammunition bar set-up
-        //bar_holder = bars.create(0,18,'bar2','health_bar.png')
-        //    bar_holder.scale.set(4,1)
+        //ammo set up
+        player.ammo = 10
+        ammo_bars = [null,null,null,null,null,null,null,null,null,null,null]
+        for(var i = 0; i < 10; i++){
+            ammo_bars[i] = bars.create(i*16,20,'ammo_fire','fire.png')
+        }
+
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
@@ -224,15 +238,17 @@ maingame.gabriellegame.prototype = {
         cursors = game.input.keyboard.createCursorKeys()
         cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.I)
         cursors.map = game.input.keyboard.addKey(Phaser.Keyboard.M)
+        //dummy letters
         cursors.dummy = game.input.keyboard.addKey(Phaser.Keyboard.D)
-    
+        cursors.collide = game.input.keyboard.addKey(Phaser.Keyboard.C)
+
         maxXpPoints = 100
     },
     
     update: function() {
         game.physics.arcade.collide(player, walls)
         game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
-        game.physics.arcade.collide(player, lizard, function test(player, lizard) { console.log('player x lizard collision') }, null, this)
+        //game.physics.arcade.collide(player, lizard, kill_player(player,lizard), null, this)
     
         var speed = 175
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
@@ -247,11 +263,13 @@ maingame.gabriellegame.prototype = {
             game.state.start("Map");
             console.log("In map state")
         }
-        if(cursors. dummy.isDown){
-            player.exp++
+        if(cursors.dummy.isDown){
+            add_xp(player,5)
             console.log("points",player.exp)
         }
-        
+        if(cursors.collide.isDown){
+            kill_player(player)
+        }
     
         if (cursors.left.isDown) {
             player_facing = 0
@@ -285,17 +303,7 @@ maingame.gabriellegame.prototype = {
         }
         //point checking 
         if (player.exp >= maxXpPoints) {
-            //levelup(currentLevel, maxXpPoints) not working????
-            
-            console.log("LEVEL-UP")
-            currentLevel++
-            player.exp = 0
-            maxXpPoints = 100+50*currentLevel*currentLevel;
-            lvltxt1.text = ''+currentLevel;
-            lvltxt2.text = ''+(currentLevel+1);
-
-            player.health--
-            health_bars[player.health].kill()
+            level_up(player)
         }
         
        xp_bar.scale.set(player.exp/maxXpPoints*8,2)
@@ -355,20 +363,57 @@ function open_chest(player, chest) {
     }
 }
 
-function levelup(currentLevel,maxXpPoints){
-            currentLevel++
-            player.exp = 0
-            maxXpPoints = 100+50*currentLevel*currentLevel;
-            lvltxt1.text = ''+currentLevel;
-            lvltxt2.text = ''+(currentLevel+1);
-            console.log("LEVELUP")
-            console.log(player.health)
-    /**
-     * Play and animationg congradulating the player
-     * Gives player some coins/ potions/weapons for getting a higher level
-     * animation to shorten the xp bar
-     */
+function level_up(player){
+    currentLevel++
+    player.exp = 0
+    maxXpPoints = 100+50*currentLevel*currentLevel;
+    lvltxt1.text = ''+currentLevel;
+    lvltxt2.text = ''+(currentLevel+1);
+
+
+    if(currentLevel%5==0)
+        add_health(player)
+      
 }
 
+function kill_plyer(player){
+    if(player.health>0)
+    {
+    player.health--
+    //health_bars[player.health]
+    health_bars[player.health].kill()
+    console.log("health down")
+    }
+}
 
+//if different number of health is added simply add parameter and for loop
+function add_health(player){
+    if(player.health<10){
+        health_bars[player.health] = null
+        health_bars[player.health] = bars.create(player.health*16,1,'health_heart','heart.png')
+        player.health++
+    }
+}
 
+//add parameter for how much ammo added
+function add_ammo(player){
+    if(player.ammo<10){
+        ammo_bars[player.ammo] = null
+        ammo_bars[player.ammo] = bars.create(player.ammo*16,1,'ammo_fire','fire.png')
+        player.ammo++
+    }
+}
+
+function ammo_used(player){
+    if(player.ammo>0)
+    {
+    player.ammo--
+    //health_bars[player.health]
+    ammo_bars[player.ammo].kill()
+    console.log("ammo down")
+    }
+}
+
+function add_xp(player,xp_num){
+    player.exp+=xp_num
+}
