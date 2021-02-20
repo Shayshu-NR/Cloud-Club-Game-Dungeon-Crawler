@@ -1,6 +1,6 @@
 function init_player(game, player) {
 
-    player.putBackpack = function(item, quantity = 1) {
+    player.putBackpack = function (item, quantity = 1) {
         index = item["name"];
         if (index in player.backpack) {
             player.backpack[index]["quantity"] += quantity;
@@ -14,8 +14,8 @@ function init_player(game, player) {
         return "success";
     }
 
-    player.moveBackpackToActive = function(item, index) {
-        if (player.active_items.length < MAX_ACTIVE_SIZE){
+    player.moveBackpackToActive = function (item, index) {
+        if (player.active_items.length < MAX_ACTIVE_SIZE) {
             player.active_items.splice(index, 0, item);
             player.backpack.delete(item);
         } else {
@@ -25,19 +25,19 @@ function init_player(game, player) {
             player.backpack[item_moved["name"]] = item_moved;
         }
     }
-    player.moveActiveToBackpack = function(item, index){
-        if (player.backpack.length < MAX_BACKPACK_SIZE){
+    player.moveActiveToBackpack = function (item, index) {
+        if (player.backpack.length < MAX_BACKPACK_SIZE) {
             idx = player.active_items.indexOf(item);
             player.backpack[item["name"]] = item;
-            player.active_items.splice(idx,1);
+            player.active_items.splice(idx, 1);
         } else {
             return "fail";
         }
     }
 
     // Exp(level) = 100(level)^1.5
-    player.getCurrentLevel = function(){
-        player.level = Math.floor(Math.pow((player.exp/100.0), 2.0/3.0)) + 1
+    player.getCurrentLevel = function () {
+        player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
         return player.level
     }
 
@@ -50,10 +50,10 @@ function init_player(game, player) {
     player.attack_speed = game.playerAttackSpeed
 
     player.exp = game.playerExp
-    
+
     player.level = player.getCurrentLevel()
 
     player.used_skill_points = game.playerUsedSkillPoints
-    
+
     return player
 }

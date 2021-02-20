@@ -26,10 +26,10 @@ var weapon
 //-------------------- Treasure --------------------
 var chest
 
-maingame.test_env = function(game) {}
+maingame.test_env = function (game) { }
 
 maingame.test_env.prototype = {
-    preload: function() {
+    preload: function () {
         this.load.image('tiles',
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png')
 
@@ -76,7 +76,7 @@ maingame.test_env.prototype = {
 
     },
 
-    create: function() {
+    create: function () {
         //-------------------- Start physics engine --------------------
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
@@ -225,7 +225,7 @@ maingame.test_env.prototype = {
             true
         )
         big_guy.animations.play('run')
-        
+
         new_nme.animations.add(
             'idle',
             Phaser.Animation.generateFrameNames(
@@ -449,7 +449,8 @@ maingame.test_env.prototype = {
 
     },
 
-    update: function() {
+    update: function () {
+        //-------------------- Collision engine --------------------
         game.physics.arcade.collide(player, walls)
         game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
         game.physics.arcade.collide(default_sword, lizard, function test(default_sword, lizard) {
@@ -462,7 +463,7 @@ maingame.test_env.prototype = {
                 lizard.health -= player.current_item["dmg"] + player.damage
                 console.log(lizard.health)
                 lizard.immune = true
-                setTimeout(function() {
+                setTimeout(function () {
                     lizard.immune = false
                 }, player.attack_speed * 2000)
             }
@@ -470,7 +471,7 @@ maingame.test_env.prototype = {
         }, null, this)
         game.physics.arcade.collide(player, chest, open_chest, null, this)
 
-
+        //-------------------- Movement --------------------
         var speed = player.speed
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
 
@@ -515,12 +516,13 @@ maingame.test_env.prototype = {
             keyReset = false
         }
 
+        //-------------------- Enter skill tree state --------------------
         if (cursors.esc.downDuration(100)) {
             game.state.start("Skill tree")
         }
     },
 
-    render: function() {
+    render: function () {
         game.debug.bodyInfo(player, 32, 32);
         // game.debug.body(player);
         // game.debug.body(new_nme)

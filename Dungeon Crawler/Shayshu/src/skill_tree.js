@@ -18,7 +18,7 @@ skill_modifier = {
             game.playerSpeed += 20
             console.log("Speed up", game.playerSpeed)
         }
-        else{
+        else {
             console.log("Not enough skill points!")
         }
     },
@@ -30,7 +30,7 @@ skill_modifier = {
             game.playerDamage += 1
             console.log("Damage up", game.playerDamage)
         }
-        else{
+        else {
             console.log("Not enough skill points!")
         }
     },
@@ -44,7 +44,7 @@ skill_modifier = {
                 console.log("Attack speed up", game.playerAttackSpeed)
             }
         }
-        else{
+        else {
             console.log("Not enough skill points!")
         }
     }
