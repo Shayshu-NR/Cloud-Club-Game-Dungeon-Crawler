@@ -34,7 +34,13 @@ function init_player(game, player) {
             return "fail";
         }
     }
-    
+
+    // Exp(level) = 100(level)^1.5
+    player.getCurrentLevel = function(){
+        player.level = Math.floor(Math.pow((player.exp/100.0), 2.0/3.0)) + 1
+        return player.level
+    }
+
     player.skills = {}
 
     player.speed = game.playerSpeed
@@ -43,5 +49,9 @@ function init_player(game, player) {
 
     player.attack_speed = game.playerAttackSpeed
 
+    player.exp = game.playerExp
+    
+    player.level = player.getCurrentLevel()
+    
     return player
 }

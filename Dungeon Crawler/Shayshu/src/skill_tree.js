@@ -11,17 +11,17 @@ const dmg = new SkillTree('Damage')
 const atks = new SkillTree('Attack Speed')
 
 skill_modifier = {
-    SpeedUp: function() {
+    SpeedUp: function () {
         game.playerSpeed += 20
         console.log(game.playerSpeed)
     },
 
-    DamageUp: function() {
+    DamageUp: function () {
         game.playerDamage += 1
         console.log(game.playerDamage)
     },
 
-    AttackSpeedUp: function() {
+    AttackSpeedUp: function () {
         if (game.playerAttackSpeed > 0.05) {
             game.playerAttackSpeed -= 0.05
             console.log(game.playerAttackSpeed)
@@ -31,10 +31,10 @@ skill_modifier = {
 
 root.next.push(speed, dmg, atks)
 
-maingame.skill_tree = function(game) {}
+maingame.skill_tree = function (game) { }
 
 maingame.skill_tree.prototype = {
-    preload: function() {
+    preload: function () {
         this.load.image('dmg', '../Assets/General assets/Skill Tree/dmg.png')
         this.load.image('speed', '../Assets/General assets/Skill Tree/speed.png')
         this.load.image('atks', '../Assets/General assets/Skill Tree/atks.png')
@@ -42,7 +42,7 @@ maingame.skill_tree.prototype = {
         this.load.image('background', '../Assets/General assets/Skill Tree/background_2.png')
     },
 
-    create: function() {
+    create: function () {
 
         var tree_root = new Phaser.Circle(400, 300, 500);
         var p = new Phaser.Point()
@@ -54,7 +54,7 @@ maingame.skill_tree.prototype = {
         graphics.lineStyle(1, 0xDC143C, 1);
         graphics.drawCircle(tree_root.x, tree_root.y, tree_root.diameter);
 
-        const center = this.add.button(tree_root.x - 16, tree_root.y, 'root', function() { console.log("Clicked") })
+        const center = this.add.button(tree_root.x - 16, tree_root.y, 'root', function () { console.log("Clicked") })
 
         var skill_img = ['speed', 'atks', 'dmg']
         var skills = ['SpeedUp', 'AttackSpeedUp', 'DamageUp']
@@ -68,7 +68,7 @@ maingame.skill_tree.prototype = {
         }
     },
 
-    update: function() {
+    update: function () {
         if (cursors.esc.downDuration(100)) {
             game.state.start("Main")
         }
