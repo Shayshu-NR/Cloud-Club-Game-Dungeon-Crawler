@@ -52,6 +52,8 @@ function init_player(game, player) {
     player.exp = game.playerExp
     
     player.level = player.getCurrentLevel()
+
+    player.used_skill_points = game.playerUsedSkillPoints
     
     return player
 }

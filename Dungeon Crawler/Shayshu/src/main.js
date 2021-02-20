@@ -4,6 +4,7 @@ game.playerDamage = 1
 game.playerAttackSpeed = 1
 game.playerExp = 0
 game.playerLevel = 1
+game.playerUsedSkillPoints = 0
 
 game.state.add("Main", maingame.test_env)
 game.state.add("Backpack", test_backpack.backpack)

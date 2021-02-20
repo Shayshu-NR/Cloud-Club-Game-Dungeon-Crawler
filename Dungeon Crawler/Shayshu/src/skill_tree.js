@@ -12,19 +12,40 @@ const atks = new SkillTree('Attack Speed')
 
 skill_modifier = {
     SpeedUp: function () {
-        game.playerSpeed += 20
-        console.log(game.playerSpeed)
+        if (player.getCurrentLevel() - player.used_skill_points > 0) {
+            player.used_skill_points += 1
+            game.playerUsedSkillPoints += 1
+            game.playerSpeed += 20
+            console.log("Speed up", game.playerSpeed)
+        }
+        else{
+            console.log("Not enough skill points!")
+        }
     },
 
     DamageUp: function () {
-        game.playerDamage += 1
-        console.log(game.playerDamage)
+        if (player.getCurrentLevel() - player.used_skill_points > 0) {
+            player.used_skill_points += 1
+            game.playerUsedSkillPoints += 1
+            game.playerDamage += 1
+            console.log("Damage up", game.playerDamage)
+        }
+        else{
+            console.log("Not enough skill points!")
+        }
     },
 
     AttackSpeedUp: function () {
-        if (game.playerAttackSpeed > 0.05) {
-            game.playerAttackSpeed -= 0.05
-            console.log(game.playerAttackSpeed)
+        if (player.getCurrentLevel() - player.used_skill_points > 0) {
+            player.used_skill_points += 1
+            if (game.playerAttackSpeed > 0.05) {
+                game.playerUsedSkillPoints += 1
+                game.playerAttackSpeed -= 0.05
+                console.log("Attack speed up", game.playerAttackSpeed)
+            }
+        }
+        else{
+            console.log("Not enough skill points!")
         }
     }
 }
