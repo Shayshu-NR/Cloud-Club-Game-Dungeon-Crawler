@@ -288,7 +288,7 @@ function update() {
   if (player.potion_status == "Speed Potion")
   {
       console.log("Speed effect is active")
-      speed = 1000;
+      speed = 500;
   }
   else{
       speed = 175;
