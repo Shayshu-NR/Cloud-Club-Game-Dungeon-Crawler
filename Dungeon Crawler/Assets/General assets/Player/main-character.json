@@ -840,7 +840,7 @@
 				"h": 32
 			}
 		},
-		"walk_right_1.png": {
+		"walk_left_3.png": {
 			"frame": {
 				"x": 55,
 				"y": 171,
@@ -860,7 +860,7 @@
 				"h": 32
 			}
 		},
-		"walk_right_2.png": {
+		"walk_left_4.png": {
 			"frame": {
 				"x": 82,
 				"y": 171,
@@ -880,7 +880,7 @@
 				"h": 32
 			}
 		},
-		"walk_right_3.png": {
+		"walk_right_1.png": {
 			"frame": {
 				"x": 109,
 				"y": 171,
@@ -900,7 +900,7 @@
 				"h": 32
 			}
 		},
-		"walk_right_4.png": {
+		"walk_right_2.png": {
 			"frame": {
 				"x": 136,
 				"y": 171,
@@ -920,7 +920,7 @@
 				"h": 32
 			}
 		},
-		"walk_up_1.png": {
+		"walk_right_3.png": {
 			"frame": {
 				"x": 163,
 				"y": 171,
@@ -940,7 +940,7 @@
 				"h": 32
 			}
 		},
-		"walk_up_2.png": {
+		"walk_right_4.png": {
 			"frame": {
 				"x": 190,
 				"y": 171,
@@ -960,7 +960,7 @@
 				"h": 32
 			}
 		},
-		"walk_up_3.png": {
+		"walk_up_1.png": {
 			"frame": {
 				"x": 217,
 				"y": 1,
@@ -980,7 +980,7 @@
 				"h": 32
 			}
 		},
-		"walk_up_4.png": {
+		"walk_up_2.png": {
 			"frame": {
 				"x": 217,
 				"y": 35,
@@ -1000,7 +1000,7 @@
 				"h": 32
 			}
 		},
-		"walk_up_5.png": {
+		"walk_up_3.png": {
 			"frame": {
 				"x": 217,
 				"y": 69,
@@ -1020,7 +1020,7 @@
 				"h": 32
 			}
 		},
-		"walk_up_6.png": {
+		"walk_up_4.png": {
 			"frame": {
 				"x": 217,
 				"y": 103,
@@ -1040,10 +1040,50 @@
 				"h": 32
 			}
 		},
-		"walk_up_7.png": {
+		"walk_up_5.png": {
 			"frame": {
 				"x": 217,
 				"y": 137,
+				"w": 25,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 25,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 25,
+				"h": 32
+			}
+		},
+		"walk_up_6.png": {
+			"frame": {
+				"x": 217,
+				"y": 171,
+				"w": 25,
+				"h": 32
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 25,
+				"h": 32
+			},
+			"sourceSize": {
+				"w": 25,
+				"h": 32
+			}
+		},
+		"walk_up_7.png": {
+			"frame": {
+				"x": 1,
+				"y": 205,
 				"w": 25,
 				"h": 32
 			},
@@ -1068,7 +1108,7 @@
 		"format": "RGBA8888",
 		"size": {
 			"w": 243,
-			"h": 204
+			"h": 238
 		},
 		"scale": "1"
 	}

@@ -334,19 +334,76 @@ maingame.test_env.prototype = {
             true
         )
         eng.animations.add(
+            'walk_right',
+            Phaser.Animation.generateFrameNames(
+                'walk_right_',
+                1,
+                4,
+                '.png'
+            ),
+            5,
+            true
+        )
+        eng.animations.add(
+            'walk_left',
+            Phaser.Animation.generateFrameNames(
+                'walk_left_',
+                1,
+                4,
+                '.png',
+            ),
+            5,
+            true
+        )
+        eng.animations.add(
             'attack_right',
             Phaser.Animation.generateFrameNames(
                 'attack_right_',
                 1,
+                4,
                 '.png'
             ),
             8,
             true
         )
         eng.animations.add(
-            'hurt_front',
+            'attack_left',
             Phaser.Animation.generateFrameNames(
-                'hurt_front_',
+                'attack_left_',
+                1,
+                4,
+                '.png'
+            ),
+            8,
+            true
+        )
+        eng.animations.add(
+            'attack_up',
+            Phaser.Animation.generateFrameNames(
+                'attack_up_',
+                1,
+                3,
+                '.png'
+            ),
+            8,
+            true
+        )
+        eng.animations.add(
+            'attack_down',
+            Phaser.Animation.generateFrameNames(
+                'attack_down_',
+                1,
+                4,
+                '.png'
+            ),
+            8,
+            true
+        )
+
+        eng.animations.add(
+            'hurt_up',
+            Phaser.Animation.generateFrameNames(
+                'hurt_up_',
                 1,
                 2,
                 '.png'
@@ -354,7 +411,41 @@ maingame.test_env.prototype = {
             2,
             true
         )
-        eng.animations.play('walk_up')
+        eng.animations.add(
+            'hurt_down',
+            Phaser.Animation.generateFrameNames(
+                'hurt_down_',
+                1,
+                3,
+                '.png'
+            ),
+            2,
+            true
+        )
+        eng.animations.add(
+            'hurt_left',
+            Phaser.Animation.generateFrameNames(
+                'hurt_left_',
+                1,
+                4,
+                '.png'
+            ),
+            2,
+            true
+        )
+        eng.animations.add(
+            'hurt_right',
+            Phaser.Animation.generateFrameNames(
+                'hurt_right_',
+                1,
+                4,
+                '.png'
+            ),
+            2,
+            true
+        )
+
+        eng.animations.play('walk_right')
 
     },
 
