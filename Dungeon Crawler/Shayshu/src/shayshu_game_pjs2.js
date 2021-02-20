@@ -73,6 +73,8 @@ maingame.test_env.prototype = {
             '../Assets/General assets/Player/main-character.json'
         )
 
+        this.load.image('arrow', '../Assets/General assets/arrow_right.png')
+
 
     },
 
@@ -444,8 +446,16 @@ maingame.test_env.prototype = {
             2,
             true
         )
-
         eng.animations.play('walk_right')
+    
+        //-------------------- Weapon example --------------------
+        weapon = game.add.weapon(30, 'arrow')
+        weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
+        weapon.bulletSpeed = 400
+        weapon.fireRate = 1000
+        weapon.trackSprite(player, 0, 0, true)
+        cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
+
 
     },
 
@@ -514,6 +524,10 @@ maingame.test_env.prototype = {
         }
         if (!cursors.space.isDown) {
             keyReset = false
+        }
+
+        if(cursors.z.isDown){
+            weapon.fire()
         }
 
         //-------------------- Enter skill tree state --------------------
