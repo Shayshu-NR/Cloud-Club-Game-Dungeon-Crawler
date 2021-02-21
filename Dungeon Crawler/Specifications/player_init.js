@@ -14,6 +14,23 @@ function init_player(game, player) {
         return "success";
     }
 
+    //~~~~~ Switch the players current active item ~~~~~
+    // [Equiped] [Active1, Active2, Active3 ...]
+    // Call method!
+    // [Active1] [Active2, ... Equiped]
+    // Moves player.current_item to end of player.active_items
+    // and moves player.active_items[0] to player.current_item
+    player.switchActiveItem = function (){
+        item = player.active_items[0];
+        item2 = Object.keys(player.current_item)
+
+        player.current_item[item["name"]] = item;
+        player.active_items.splice(0,1);
+        player.active_items.push(item2[0])
+
+        player.current_item.delete(item2[0])
+    }
+
     player.moveBackpackToActive = function (item, index) {
         if (player.active_items.length < MAX_ACTIVE_SIZE) {
             player.active_items.splice(index, 0, item);
