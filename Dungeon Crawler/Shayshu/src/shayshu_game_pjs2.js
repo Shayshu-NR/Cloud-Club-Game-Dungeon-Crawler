@@ -340,10 +340,10 @@ maingame.test_env.prototype = {
             Phaser.Animation.generateFrameNames(
                 'walk_right_',
                 1,
-                4,
+                8,
                 '.png'
             ),
-            5,
+            10,
             true
         )
         eng.animations.add(
@@ -351,10 +351,10 @@ maingame.test_env.prototype = {
             Phaser.Animation.generateFrameNames(
                 'walk_left_',
                 1,
-                4,
+                8,
                 '.png',
             ),
-            5,
+            10,
             true
         )
         eng.animations.add(
