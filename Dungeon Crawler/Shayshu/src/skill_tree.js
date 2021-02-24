@@ -60,7 +60,7 @@ maingame.skill_tree.prototype = {
         this.load.image('speed', '../Assets/General assets/Skill Tree/speed.png')
         this.load.image('atks', '../Assets/General assets/Skill Tree/atks.png')
         this.load.image('root', '../Assets/General assets/Skill Tree/root.png')
-        this.load.image('background', '../Assets/General assets/Skill Tree/background_2.png')
+        this.load.image('background', '../Assets/General assets/Skill Tree/background.png')
     },
 
     create: function () {

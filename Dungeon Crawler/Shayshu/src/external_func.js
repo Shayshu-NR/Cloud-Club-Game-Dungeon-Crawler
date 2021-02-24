@@ -44,4 +44,48 @@ function open_chest(player, chest) {
         game.add.image(50, 200 - 15, 'heart')
     }
 }
+
+function lizard_dmg(default_sword, lizard) {
+    if (lizard.health <= 0) {
+        lizard.kill()
+        player.exp += lizard.exp
+        game.playerExp = player.exp
+    }
+    if (!lizard.immune) {
+        var damage = player.current_item["dmg"] + player.damage + player.crit_damage()
+        show_dmg(damage, lizard)
+
+        lizard.health -= damage 
+        console.log(lizard.health)
+        lizard.immune = true
+        setTimeout(function () {
+            lizard.immune = false
+        }, player.attack_speed * 2000)
+    }
+}
+
+function show_dmg(damage, enemy) {
+    var x_pos = enemy.position.x + (enemy.width / 2.0)
+    var y_pos = enemy.position.y - (enemy.height/ 2) - 2
+    var style = {
+        font : 'bold 20pt Dungeon Crawler', 
+        fill : 'red'
+    }
+
+    var text = game.add.text(x_pos, y_pos, String(damage), style)
+
+    game.time.events.add(
+        250,
+        function (arr) {
+          console.log("Getting rid of dmg text");
+          arr[0].kill()
+        },
+        this, 
+        [text]
+      );
+}
+
+function probability(n) {
+    return !!n && Math.random() <= n;
+};
 //~~~~~

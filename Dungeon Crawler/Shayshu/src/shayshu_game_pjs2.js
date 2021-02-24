@@ -195,6 +195,7 @@ maingame.test_env.prototype = {
         //-------------------- Add example enemies --------------------
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
+        game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
 
         new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
         new_nme = enemy_init(new_nme, 10, 500)
@@ -256,8 +257,6 @@ maingame.test_env.prototype = {
         new_nme.body.bounce.set(-1)
 
         //-------------------- Physics engine and control setting --------------------
-        game.physics.arcade.enable(player, Phaser.Physics.ARCADE)
-        game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
         game.world.setBounds(0, 0, 16 * 100, 16 * 100)
         game.camera.follow(player)
 
@@ -446,7 +445,7 @@ maingame.test_env.prototype = {
             2,
             true
         )
-        eng.animations.play('walk_right')
+        eng.animations.play('hurt_down')
 
         //-------------------- Weapon example --------------------
         weapon = game.add.weapon(30, 'arrow')
@@ -463,23 +462,9 @@ maingame.test_env.prototype = {
         //-------------------- Collision engine --------------------
         game.physics.arcade.collide(player, walls)
         game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
-        game.physics.arcade.collide(default_sword, lizard, function test(default_sword, lizard) {
-            if (lizard.health <= 0) {
-                lizard.kill()
-                player.exp += lizard.exp
-                game.playerExp = player.exp
-            }
-            if (!lizard.immune) {
-                lizard.health -= player.current_item["dmg"] + player.damage
-                console.log(lizard.health)
-                lizard.immune = true
-                setTimeout(function () {
-                    lizard.immune = false
-                }, player.attack_speed * 2000)
-            }
-
-        }, null, this)
+        game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this)
         game.physics.arcade.collide(player, chest, open_chest, null, this)
+        game.physics.arcade.collide(player, lizard, function player_dmg(player, lizard){ console.log("Hit")} , null, this)
 
         //-------------------- Movement --------------------
         var speed = player.speed
