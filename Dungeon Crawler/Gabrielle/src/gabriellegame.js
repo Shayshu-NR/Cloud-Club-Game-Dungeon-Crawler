@@ -11,7 +11,7 @@ var lizard
 var lizard_direction = 1
 var new_nme
 //~~~~~~~~~~~~~~~~~~~~~
-var currentLevel = 0
+var lastLevelPoints = 0
 var maxXpPoints = 0
 var xp_bar
 var bar
@@ -53,6 +53,8 @@ maingame.gabriellegame.prototype = {
         this.load.image('health_heart',
         '../Gabrielle/src/Assets/heart.png')
 
+        this.load.image('health_heart2',
+        '../Gabrielle/src/Assets/heart2.png')
         this.load.image('ammo_fire',
         '../Gabrielle/src/Assets/fire.png')
         
@@ -177,19 +179,26 @@ maingame.gabriellegame.prototype = {
         xp_bar = bars.create(67,552,'xp_bar','bar-filler.png') 
 
         player.exp = 0
+        player.level = 0
+        player.getCurrentLevel = function () {
+            player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
+            return player.level
+        }
         bar_holder.scale.set(8,2)
         xp_bar.scale.set(player.exp/maxXpPoints*8,2)
 
         lvltxt1 = game.add.text(59, 534,'', { fontSize: '16px', fill: '#FFFFFF' })
-        lvltxt1.text = ''+currentLevel;
+        lvltxt1.text = ''+player.level;
 
         lvltxt2 = game.add.text(690, 534,'', { fontSize: '16px', fill: '#FFFFFF' })
-        lvltxt2.text = ''+(currentLevel+1);
+        lvltxt2.text = ''+(player.level+1);
 
         //health-bar set-up
         health_bars = [null,null,null,null,null,null,null,null,null,null,null]
         for(var i = 0; i < 10; i++){
             health_bars[i] = bars.create(i*16,1,'health_heart','heart.png')
+            //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
+            
         }
         player.health = 10
 
@@ -248,7 +257,7 @@ maingame.gabriellegame.prototype = {
     update: function() {
         game.physics.arcade.collide(player, walls)
         game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
-        //game.physics.arcade.collide(player, lizard, kill_player(player,lizard), null, this)
+        //game.physics.arcade.overlap(player, lizard, kill_player(player), null, this)
     
         var speed = 175
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
@@ -264,8 +273,8 @@ maingame.gabriellegame.prototype = {
             console.log("In map state")
         }
         if(cursors.dummy.isDown){
-            add_xp(player,5)
-            console.log("points",player.exp)
+            add_xp(player,1)
+            //console.log("points",player.exp)
         }
         if(cursors.collide.isDown){
             kill_player(player)
@@ -302,12 +311,14 @@ maingame.gabriellegame.prototype = {
     
         }
         //point checking 
-        if (player.exp >= maxXpPoints) {
+        if ((player.exp-lastLevelPoints) >= maxXpPoints) {
             level_up(player)
+            add_health(player)
         }
         
-       xp_bar.scale.set(player.exp/maxXpPoints*8,2)
-        
+       xp_bar.scale.set((player.exp-lastLevelPoints)/(maxXpPoints)*8,2) //horizontant scale by 8 and vertical by 2
+        //console.log(player.exp,' ', lastLevelPoints)
+        //console.log(' ',maxXpPoints)
     },
     
     render: function() {
@@ -364,30 +375,29 @@ function open_chest(player, chest) {
 }
 
 function level_up(player){
-    currentLevel++
-    player.exp = 0
-    maxXpPoints = 100+50*currentLevel*currentLevel;
-    lvltxt1.text = ''+currentLevel;
-    lvltxt2.text = ''+(currentLevel+1);
+    
+    player.getCurrentLevel()
+    
+    console.log('Reached level', player.level)
+    lastLevelPoints = player.exp
+    maxXpPoints = 100*(player.level)^1.5 
 
-
-    if(currentLevel%5==0)
-        add_health(player)
-      
+    lvltxt1.text = ''+ player.level;
+    lvltxt2.text = ''+(player.level+1);
 }
 
-function kill_plyer(player){
+function kill_player(player){
     if(player.health>0)
     {
     player.health--
-    //health_bars[player.health]
+    //health_bars[i].animations.play('blink')
     health_bars[player.health].kill()
     console.log("health down")
     }
 }
 
 //if different number of health is added simply add parameter and for loop
-function add_health(player){
+function add_health(player, i){
     if(player.health<10){
         health_bars[player.health] = null
         health_bars[player.health] = bars.create(player.health*16,1,'health_heart','heart.png')
@@ -416,4 +426,5 @@ function ammo_used(player){
 
 function add_xp(player,xp_num){
     player.exp+=xp_num
+    
 }
