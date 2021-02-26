@@ -177,7 +177,8 @@ maingame.gabriellegame.prototype = {
 
         var bar_holder = statics.create(59,550,'bar','Bar.png')
         xp_bar = bars.create(67,552,'xp_bar','bar-filler.png') 
-
+        bar_holder.fixedToCamera = true
+        xp_bar.fixedToCamera = true
         player.exp = 0
         player.level = 1
         player.getCurrentLevel = function () {
@@ -187,16 +188,22 @@ maingame.gabriellegame.prototype = {
         bar_holder.scale.set(8,2)
         xp_bar.scale.set(player.exp/maxXpPoints*8,2)
 
+        
+
         lvltxt1 = game.add.text(59, 534,'', { fontSize: '16px', fill: '#FFFFFF' })
         lvltxt1.text = ''+player.level;
 
         lvltxt2 = game.add.text(690, 534,'', { fontSize: '16px', fill: '#FFFFFF' })
         lvltxt2.text = ''+(player.level+1);
 
+        lvltxt1.fixedToCamera = true
+        lvltxt2.fixedToCamera = true
+
         //health-bar set-up
         health_bars = [null,null,null,null,null,null,null,null,null,null,null]
         for(var i = 0; i < 10; i++){
             health_bars[i] = bars.create(i*16,1,'health_heart','heart.png')
+            health_bars[i].fixedToCamera = true
             //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
             
         }
@@ -207,6 +214,8 @@ maingame.gabriellegame.prototype = {
         ammo_bars = [null,null,null,null,null,null,null,null,null,null,null]
         for(var i = 0; i < 10; i++){
             ammo_bars[i] = bars.create(i*16,20,'ammo_fire','fire.png')
+            ammo_bars[i].fixedToCamera = true
+
         }
 
 
@@ -401,6 +410,8 @@ function add_health(player, i){
     if(player.health<10){
         health_bars[player.health] = null
         health_bars[player.health] = bars.create(player.health*16,1,'health_heart','heart.png')
+        
+        health_bars[player.health].fixedToCamera = true
         player.health++
     }
 }
@@ -410,6 +421,7 @@ function add_ammo(player){
     if(player.ammo<10){
         ammo_bars[player.ammo] = null
         ammo_bars[player.ammo] = bars.create(player.ammo*16,1,'ammo_fire','fire.png')
+        ammo_bars[player.ammo].fixedToCamera = true
         player.ammo++
     }
 }
@@ -426,5 +438,5 @@ function ammo_used(player){
 
 function add_xp(player,xp_num){
     player.exp+=xp_num
-    
+   // console.log(phaser.camera)   
 }
