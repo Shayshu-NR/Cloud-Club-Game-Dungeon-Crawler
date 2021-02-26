@@ -179,7 +179,7 @@ maingame.gabriellegame.prototype = {
         xp_bar = bars.create(67,552,'xp_bar','bar-filler.png') 
 
         player.exp = 0
-        player.level = 0
+        player.level = 1
         player.getCurrentLevel = function () {
             player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
             return player.level
