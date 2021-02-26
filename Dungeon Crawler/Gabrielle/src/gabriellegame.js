@@ -286,7 +286,7 @@ maingame.gabriellegame.prototype = {
             //console.log("points",player.exp)
         }
         if(cursors.collide.isDown){
-            kill_player(player)
+            kill_player(player,1)
         }
     
         if (cursors.left.isDown) {
@@ -322,7 +322,7 @@ maingame.gabriellegame.prototype = {
         //point checking 
         if ((player.exp-lastLevelPoints) >= maxXpPoints) {
             level_up(player)
-            add_health(player)
+            add_health(player,3)
         }
         
        xp_bar.scale.set((player.exp-lastLevelPoints)/(maxXpPoints)*8,2) //horizontant scale by 8 and vertical by 2
@@ -395,38 +395,47 @@ function level_up(player){
     lvltxt2.text = ''+(player.level+1);
 }
 
-function kill_player(player){
-    if(player.health>0)
-    {
+function kill_player(player,amount){
+    for(i=0;i<amount;i++){
+        if(player.health>0)
+        {
     player.health--
     //health_bars[i].animations.play('blink')
     health_bars[player.health].kill()
     console.log("health down")
+        }
+        
     }
 }
 
 //if different number of health is added simply add parameter and for loop
-function add_health(player, i){
-    if(player.health<10){
-        health_bars[player.health] = null
-        health_bars[player.health] = bars.create(player.health*16,1,'health_heart','heart.png')
+function add_health(player, amount){
+    for(i = 0; i< amount;i++){
+        if(player.health<10){
+            health_bars[player.health] = null
+            health_bars[player.health] = bars.create(player.health*16,1,'health_heart','heart.png')
         
-        health_bars[player.health].fixedToCamera = true
-        player.health++
+            health_bars[player.health].fixedToCamera = true
+            player.health++
+        }
+        else
+            break
     }
 }
 
 //add parameter for how much ammo added
-function add_ammo(player){
-    if(player.ammo<10){
-        ammo_bars[player.ammo] = null
-        ammo_bars[player.ammo] = bars.create(player.ammo*16,1,'ammo_fire','fire.png')
-        ammo_bars[player.ammo].fixedToCamera = true
-        player.ammo++
+function add_ammo(player, amount){
+    for(i = 0; i<amount;i++){
+        if(player.ammo<10){
+            ammo_bars[player.ammo] = null
+            ammo_bars[player.ammo] = bars.create(player.ammo*16,1,'ammo_fire','fire.png')
+            ammo_bars[player.ammo].fixedToCamera = true
+            player.ammo++
+        }
     }
 }
 
-function ammo_used(player){
+function ammo_used(player,amount){
     if(player.ammo>0)
     {
     player.ammo--
