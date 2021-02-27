@@ -87,5 +87,17 @@ function show_dmg(damage, enemy) {
 
 function probability(n) {
     return !!n && Math.random() <= n;
-};
+}
+
+function kill_player(player, amount) {
+    for (i = 0; i < amount; i++) {
+        if (player.health > 0) {
+            player.health--
+            //health_bars[i].animations.play('blink')
+            health_bars[player.health].kill()
+            console.log("health down")
+        }
+
+    }
+}
 //~~~~~

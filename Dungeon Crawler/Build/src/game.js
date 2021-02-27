@@ -26,6 +26,19 @@ var weapon
 //-------------------- Treasure --------------------
 var chest
 
+//-------------------- Items -----------------------
+var potion;
+
+//-------------------- HUD -----------------------
+var lastLevelPoints = 0
+var maxXpPoints = 0
+var xp_bar
+var bar
+var lvltxt1
+var lvltxt2
+var health_bars
+var ammo_bar
+
 maingame.test_env = function (game) { }
 
 maingame.test_env.prototype = {
@@ -75,7 +88,27 @@ maingame.test_env.prototype = {
 
         this.load.image('arrow', '../Assets/General assets/arrow_right.png')
 
+        this.load.image(
+            "potion",
+            "../Assets/General assets/lesser_healing_potion.png"
+        )
 
+        this.load.image('xp_bar',
+            '../Gabrielle/src/Assets/bar-filler.png')
+
+        this.load.image('bar',
+            '../Gabrielle/src/Assets/Bar.png')
+
+        this.load.image('health_heart',
+            '../Gabrielle/src/Assets/heart.png')
+
+        this.load.image('health_heart2',
+            '../Gabrielle/src/Assets/heart2.png')
+        this.load.image('ammo_fire',
+            '../Gabrielle/src/Assets/fire.png')
+
+        this.load.image('bpack',
+            '../Gabrielle/src/Assets/back-pack.png')
     },
 
     create: function () {
@@ -447,6 +480,57 @@ maingame.test_env.prototype = {
         )
         eng.animations.play('hurt_down')
 
+        //-------------------- HUD --------------------
+        var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
+        bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
+
+        var stats = statics.create(5, 560, 'bpack', 'back-pack.png')
+
+
+        var bar_holder = statics.create(59, 550, 'bar', 'Bar.png')
+        xp_bar = bars.create(67, 552, 'xp_bar', 'bar-filler.png')
+        bar_holder.fixedToCamera = true
+        xp_bar.fixedToCamera = true
+        player.exp = 0
+        player.level = 1
+        player.getCurrentLevel = function () {
+            player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
+            return player.level
+        }
+        bar_holder.scale.set(8, 2)
+        xp_bar.scale.set(player.exp / maxXpPoints * 8, 2)
+
+
+
+        lvltxt1 = game.add.text(59, 534, '', { fontSize: '16px', fill: '#FFFFFF' })
+        lvltxt1.text = '' + player.level;
+
+        lvltxt2 = game.add.text(690, 534, '', { fontSize: '16px', fill: '#FFFFFF' })
+        lvltxt2.text = '' + (player.level + 1);
+
+        lvltxt1.fixedToCamera = true
+        lvltxt2.fixedToCamera = true
+
+        //health-bar set-up
+        health_bars = [null, null, null, null, null, null, null, null, null, null, null]
+        for (var i = 0; i < 10; i++) {
+            health_bars[i] = bars.create(i * 16, 1, 'health_heart', 'heart.png')
+            health_bars[i].fixedToCamera = true
+            //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
+
+        }
+        player.health = 10
+
+        //ammo set up
+        player.ammo = 10
+        ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
+        for (var i = 0; i < 10; i++) {
+            ammo_bars[i] = bars.create(i * 16, 20, 'ammo_fire', 'fire.png')
+            ammo_bars[i].fixedToCamera = true
+
+        }
+        maxXpPoints = 100
+
         //-------------------- Weapon example --------------------
         weapon = game.add.weapon(30, 'arrow')
         weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
@@ -454,20 +538,37 @@ maingame.test_env.prototype = {
         weapon.fireRate = 1000
         weapon.trackSprite(player, 0, 0, true)
         cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
-
+        cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
+        cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
 
     },
 
     update: function () {
+        //Testing
+        if (cursors.f.isDown) {
+            console.log("You Clicked F");
+            //Testing various potion effects with Potion_in_use
+            potion_in_use = "Speed_Potion"
+            use_potion(player, potion_in_use);
+        }
+
         //-------------------- Collision engine --------------------
         game.physics.arcade.collide(player, walls)
         game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
         game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this)
         game.physics.arcade.collide(player, chest, open_chest, null, this)
-        game.physics.arcade.collide(player, lizard, function player_dmg(player, lizard){ console.log("Hit")} , null, this)
+        game.physics.arcade.collide(player, lizard, function player_dmg(player, lizard) { console.log("Hit") }, null, this)
 
         //-------------------- Movement --------------------
         var speed = player.speed
+
+        if (player.potion_status == "Speed Potion") {
+            speed = 500;
+        }
+        else {
+            speed = 175;
+        }
+
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
 
         if (!player.swing) {
@@ -519,10 +620,23 @@ maingame.test_env.prototype = {
         if (cursors.esc.downDuration(100)) {
             game.state.start("Skill tree")
         }
+
+        if (cursors.bckpck.isDown) {
+            game.state.start("Backpack");
+            console.log("in backpack state")
+        }
+        //-------------------- EXP update and HUD --------------------
+        // Point checking 
+        if ((player.exp - lastLevelPoints) >= maxXpPoints) {
+            level_up(player)
+            add_health(player, 3)
+        }
+
+        xp_bar.scale.set((player.exp - lastLevelPoints) / (maxXpPoints) * 8, 2)
     },
 
     render: function () {
-        game.debug.bodyInfo(player, 32, 32);
+        // game.debug.bodyInfo(player, 32, 32);
         // game.debug.body(player);
         // game.debug.body(new_nme)
         // if (weapon) {
