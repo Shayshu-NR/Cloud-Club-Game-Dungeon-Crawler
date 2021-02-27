@@ -1,0 +1,335 @@
+{
+	"frames": {
+		"health_pot_1.png": {
+			"frame": {
+				"x": 1,
+				"y": 1,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"health_pot_2.png": {
+			"frame": {
+				"x": 19,
+				"y": 1,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"health_pot_3.png": {
+			"frame": {
+				"x": 37,
+				"y": 1,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"health_pot_4.png": {
+			"frame": {
+				"x": 55,
+				"y": 1,
+				"w": 15,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 15,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 15,
+				"h": 16
+			}
+		},
+		"shield_pot_1.png": {
+			"frame": {
+				"x": 1,
+				"y": 19,
+				"w": 16,
+				"h": 15
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 15
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 15
+			}
+		},
+		"shield_pot_2.png": {
+			"frame": {
+				"x": 19,
+				"y": 19,
+				"w": 16,
+				"h": 15
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 15
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 15
+			}
+		},
+		"shield_pot_3.png": {
+			"frame": {
+				"x": 37,
+				"y": 19,
+				"w": 16,
+				"h": 15
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 15
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 15
+			}
+		},
+		"shield_pot_4.png": {
+			"frame": {
+				"x": 55,
+				"y": 19,
+				"w": 15,
+				"h": 15
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 15,
+				"h": 15
+			},
+			"sourceSize": {
+				"w": 15,
+				"h": 15
+			}
+		},
+		"speed_pot_1.png": {
+			"frame": {
+				"x": 1,
+				"y": 36,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"speed_pot_2.png": {
+			"frame": {
+				"x": 19,
+				"y": 36,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"speed_pot_3.png": {
+			"frame": {
+				"x": 37,
+				"y": 36,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"speed_pot_4.png": {
+			"frame": {
+				"x": 55,
+				"y": 36,
+				"w": 15,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 15,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 15,
+				"h": 16
+			}
+		},
+		"strength_pot_1.png": {
+			"frame": {
+				"x": 1,
+				"y": 54,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"strength_pot_2.png": {
+			"frame": {
+				"x": 19,
+				"y": 54,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"strength_pot_3.png": {
+			"frame": {
+				"x": 37,
+				"y": 54,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		"strength_pot_4.png": {
+			"frame": {
+				"x": 55,
+				"y": 54,
+				"w": 15,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 15,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 15,
+				"h": 16
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 71,
+			"h": 71
+		},
+		"scale": "1"
+	}
+}
