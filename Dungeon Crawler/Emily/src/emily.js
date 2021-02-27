@@ -8,40 +8,52 @@ const game = new Phaser.Game(
 )
 
 function preload(){
-    game.load.image('blankSquare', '../Assets/General assets/blankSquare.png')
-    game.load.image('arrow', '../Assets/General assets/arrow_left.png')
-    game.load.image('backpack', '../Assets/General assets/inventory.png')
+    game.load.image('boots', '../Assets/General assets/Skill Tree/speed.png')
+    game.load.image('arrow', '../Assets/General assets/Skill Tree/atks.png')
+    game.load.image('backpack', '../Assets/General assets/backpack.png')
 }
 
 function create(){
-    inventory = [];
-    // this.add.image(50, 50, 'blankSquare');
-	// this.add.image(310, 100, 'blankSquare');
-	// this.add.image(520, 100, 'blankSquare');
-    this.add.image(0,0,'backpack');
-    //game.add.sprite(0, 0, 'blankSquare');
 
-    var group = game.add.group();
+    this.add.image(50,50,'backpack');
 
-    group.inputEnableChildren = true;
+    var item = game.add.group();
 
-    var arrow = group.create(50, 50, 'arrow')
+    item.inputEnableChildren = true;
+
+    var arrow = item.create(70, 70, 'arrow')
+    var shoe = item.create(140, 70, 'boots')
+    shoe.inputEnabled = true;
+    shoe.input.enableDrag();
+    shoe.events.onDragStart.add(onDragStart, this);
+    shoe.events.onDragStop.add(onDragStop, this);
 
     arrow.inputEnabled = true;
     arrow.input.enableDrag();
     arrow.events.onDragStart.add(onDragStart, this);
     arrow.events.onDragStop.add(onDragStop, this);
 
-    function onDragStart(sprite, pointer) {
-
-        result = "Dragging " + sprite.key;
+    //initializing backpack interface with items
+    // bpList = Object.keys(player.backpack)
+    // count = 0;
+    // for  (var i = 1; i <= 4; i++){
+    //     for (var j = 1; j <= 4; j++){
+    //         player.backpack[bpList[count]]["group"] = item.create(i*70,j*70,bpList[count])
+    //         player.backpack[bpList[count]]["group"].inputEnabled = true;
+    //         player.backpack[bpList[count]]["group"].input.enableDrag();
+    //         player.backpack[bpList[count]]["group"].events.onDragStart.add(onDragStart, this);
+    //         player.backpack[bpList[count]]["group"].events.onDragStop.add(onDragStop, this);
+    //         count++;
+    //     }
     
+    function onDragStart(sprite, pointer) {
+        console.log("Dragging " + sprite.key);
+        sprite.input.enableSnap(70, 70, false, true);
+        
     }
     
     function onDragStop(sprite, pointer) {
-    
-        console.log(sprite.key + " dropped at x:" + pointer.x + " y: " + pointer.y)
-    
+        console.log(sprite.x+ ", "+sprite.y);
     }
 }
 function update(){

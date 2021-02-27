@@ -12,7 +12,7 @@ var lizard_direction = 1
 var new_nme
 //~~~~~~~~~~~~~~~~~~~~~
 var lastLevelPoints = 0
-var maxXpPoints = 0
+var maxXpPoints = 100
 var xp_bar
 var bar
 var lvltxt1
@@ -254,13 +254,11 @@ maingame.gabriellegame.prototype = {
         game.camera.follow(player)
 
         cursors = game.input.keyboard.createCursorKeys()
-        cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.I)
+        cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
         cursors.map = game.input.keyboard.addKey(Phaser.Keyboard.M)
-        //dummy letters
         cursors.dummy = game.input.keyboard.addKey(Phaser.Keyboard.D)
         cursors.collide = game.input.keyboard.addKey(Phaser.Keyboard.C)
 
-        maxXpPoints = 100
     },
 
     update: function () {
@@ -328,6 +326,8 @@ maingame.gabriellegame.prototype = {
         xp_bar.scale.set((player.exp - lastLevelPoints) / (maxXpPoints) * 8, 2) //horizontant scale by 8 and vertical by 2
         //console.log(player.exp,' ', lastLevelPoints)
         //console.log(' ',maxXpPoints)
+
+        change_health(player)
     },
 
     render: function () {
@@ -417,10 +417,10 @@ function add_health(player, amount) {
             // health_bars[player.health].fixedToCamera = true
             player.health++
         }
-        else
-            break
     }
 }
+
+
 
 //add parameter for how much ammo added
 function add_ammo(player, amount) {
