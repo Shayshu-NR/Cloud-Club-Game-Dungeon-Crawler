@@ -8,40 +8,40 @@ const game = new Phaser.Game(
 )
 
 function preload(){
-    game.load.image('blankSquare', '../Assets/General assets/blankSquare.png')
-    game.load.image('arrow', '../Assets/General assets/arrow_left.png')
-    game.load.image('backpack', '../Assets/General assets/inventory.png')
+    game.load.image('boots', '../Assets/General assets/Skill Tree/speed.png')
+    game.load.image('arrow', '../Assets/General assets/Skill Tree/atks.png')
+    game.load.image('backpack', '../Assets/General assets/backpack.png')
 }
 
 function create(){
-    inventory = [];
-    // this.add.image(50, 50, 'blankSquare');
-	// this.add.image(310, 100, 'blankSquare');
-	// this.add.image(520, 100, 'blankSquare');
-    this.add.image(0,0,'backpack');
-    //game.add.sprite(0, 0, 'blankSquare');
 
-    var group = game.add.group();
+    this.add.image(50,50,'backpack');
 
-    group.inputEnableChildren = true;
+    var item = game.add.group();
 
-    var arrow = group.create(50, 50, 'arrow')
+    item.inputEnableChildren = true;
+
+    var arrow = item.create(50, 50, 'arrow')
+    var shoe = item.create(100,100, 'boots')
+    shoe.inputEnabled = true;
+    shoe.input.enableDrag();
+    shoe.events.onDragStart.add(onDragStart, this);
+    shoe.events.onDragStop.add(onDragStop, this);
 
     arrow.inputEnabled = true;
     arrow.input.enableDrag();
     arrow.events.onDragStart.add(onDragStart, this);
     arrow.events.onDragStop.add(onDragStop, this);
 
-    function onDragStart(sprite, pointer) {
+    // for  ( i; i < player.backpack; i++){
 
-        result = "Dragging " + sprite.key;
-    
+    // }
+    function onDragStart(sprite, pointer) {
+        console.log("Dragging " + sprite.key);
     }
     
     function onDragStop(sprite, pointer) {
-    
-        console.log(sprite.key + " dropped at x:" + pointer.x + " y: " + pointer.y)
-    
+        console.log(sprite.key + " dropped at x:" + pointer.x + " y: " + pointer.y);
     }
 }
 function update(){
