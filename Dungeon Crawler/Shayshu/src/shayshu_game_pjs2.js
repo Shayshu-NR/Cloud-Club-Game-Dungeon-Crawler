@@ -517,7 +517,7 @@ maingame.test_env.prototype = {
 
         //-------------------- Enter skill tree state --------------------
         if (cursors.esc.downDuration(100)) {
-            game.state.start("Skill tree")
+            game.state.start("Skill tree", false, false)
         }
     },
 

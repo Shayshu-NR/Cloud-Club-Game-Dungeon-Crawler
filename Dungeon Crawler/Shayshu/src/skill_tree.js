@@ -1,15 +1,3 @@
-class SkillTree {
-    constructor(value) {
-        this.skill = value
-        this.next = []
-    }
-}
-
-const root = new SkillTree('Root')
-const speed = new SkillTree('Speed')
-const dmg = new SkillTree('Damage')
-const atks = new SkillTree('Attack Speed')
-
 skill_modifier = {
     SpeedUp: function () {
         if (player.getCurrentLevel() - player.used_skill_points > 0) {
@@ -50,6 +38,20 @@ skill_modifier = {
     }
 }
 
+class SkillTree {
+    constructor(value, modifier) {
+        this.skill = value
+        this.next = []
+        this.modifier = modifier
+    }
+}
+
+const root = new SkillTree('Root', function nothing(){ return null;})
+const speed = new SkillTree('Speed', skill_modifier['SpeedUp'])
+const dmg = new SkillTree('Damage', skill_modifier['DamageUp'])
+const atks = new SkillTree('Attack Speed', skill_modifier['AttackSpeedUp'])
+
+
 root.next.push(speed, dmg, atks)
 
 maingame.skill_tree = function (game) { }
@@ -65,33 +67,38 @@ maingame.skill_tree.prototype = {
 
     create: function () {
 
-        var tree_root = new Phaser.Circle(400, 300, 500);
+        var tree_root = new Phaser.Circle(400, 50, 500);
         var p = new Phaser.Point()
 
         this.add.image(0, 0, 'background')
 
-        //  And display our circle on the top
-        var graphics = game.add.graphics(0, 0);
-        graphics.lineStyle(1, 0xDC143C, 1);
-        graphics.drawCircle(tree_root.x, tree_root.y, tree_root.diameter);
-
         const center = this.add.button(tree_root.x - 16, tree_root.y, 'root', function () { console.log("Clicked") })
 
-        var skill_img = ['speed', 'atks', 'dmg']
+        var skill_img = ['speed','dmg', 'atks']
         var skills = ['SpeedUp', 'AttackSpeedUp', 'DamageUp']
+        var skill_heights = [100, 150, 200, 250]
+        var skill_xpos = [[100, 200, 300]]
 
-        for (var i = 0; i < 3; i++) {
-            const leaf = this.add.button(400 - 16 - 250 * Math.cos((2 * i * Math.PI / 3) + Math.PI / 2),
-                300 - 16 - 250 * Math.sin((2 * i * Math.PI / 3) + Math.PI / 2),
-                skill_img[i],
-                skill_modifier[skills[i]])
+        
+        treeTraversal(root, skill_heights, skill_xpos, skill_img)
 
-        }
     },
 
     update: function () {
         if (cursors.esc.downDuration(100)) {
-            game.state.start("Main")
+            game.state.start("Main", true, false)
         }
     }
+}
+
+function treeTraversal(root, heights, xpos ,icons) {
+    var i = 0
+    while (i != root.next.length) {
+        
+        game.add.button(xpos[0][i], heights[0], icons[i], root.next[i].modifier)
+
+        treeTraversal(root.next[i], heights.slice(1), xpos.slice(1), icons.slice(1))
+        i++
+    }
+    return
 }
