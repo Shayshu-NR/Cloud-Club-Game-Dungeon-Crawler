@@ -260,11 +260,17 @@ function create() {
 }
 
 function update() {
+
+  //Current item is speed potions
+  player.current_item = "Speed_Potion"
   if (cursors.f.isDown) {
     console.log("You Clicked F");
     //Testing various potion effects with Potion_in_use
-    potion_in_use = "Speed_Potion"
-    use_potion(player, potion_in_use);
+    if(player.current_item == "Speed_Potion" ||player.current_item == "Health_Potion"||player.current_item =="Attack_Potion")
+    {
+      use_potion(player, player.current_item);
+    }
+    
   }
 
   game.physics.arcade.collide(player, walls);
@@ -340,7 +346,6 @@ function render() {
     game.debug.body(weapon);
   }
 }
-
 // ~~~~~
 function lizard_turn_around(enemy, walls) {
   current = enemy.body.velocity.x;
