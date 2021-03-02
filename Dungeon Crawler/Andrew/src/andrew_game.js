@@ -260,17 +260,18 @@ function create() {
 }
 
 function update() {
-
   //Current item is speed potions
-  player.current_item = "Speed_Potion"
+  player.current_item = "Speed_Potion";
   if (cursors.f.isDown) {
     console.log("You Clicked F");
     //Testing various potion effects with Potion_in_use
-    if(player.current_item == "Speed_Potion" ||player.current_item == "Health_Potion"||player.current_item =="Attack_Potion")
-    {
+    if (
+      player.current_item == "Speed_Potion" ||
+      player.current_item == "Health_Potion" ||
+      player.current_item == "Attack_Potion"
+    ) {
       use_potion(player, player.current_item);
     }
-    
   }
 
   game.physics.arcade.collide(player, walls);
@@ -291,14 +292,12 @@ function update() {
   game.physics.arcade.collide(player, chest, open_chest, null, this);
 
   var speed;
-  if (player.potion_status == "Speed Potion")
-  {
-      console.log("Speed effect is active")
-      speed = 500;
-  }
-  else{
-      speed = 175;
-      console.log("Speed is inactive")
+  if (player.potion_status == "Speed Potion") {
+    console.log("Speed effect is active");
+    speed = 500;
+  } else {
+    speed = 175;
+    console.log("Speed is inactive");
   }
   idle_direction = ["idle-left", "idle-right", "idle-up", "idle-down"];
 
@@ -420,12 +419,12 @@ function open_chest(player, chest) {
 
 function use_potion(player, potion) {
   if (potion == "Health_Potion") {
-    console.log(player.health)
+    console.log(player.health);
     console.log("Health Potion used");
     player.health = player.health + 2;
-    console.log(player.health)
-  } 
-  
+    console.log(player.health);
+  }
+
   if (potion == "Speed_Potion") {
     player.potion_status = "Speed Potion";
     console.log("Speed Potion Used");
@@ -434,7 +433,7 @@ function use_potion(player, potion) {
       function (player) {
         console.log("Getting rid of speed");
         player[0].potion_status = "default";
-        console.log("No more speed")
+        console.log("No more speed");
       },
       this,
       [player]
