@@ -1,4 +1,12 @@
 { "compressionlevel":-1,
+ "editorsettings":
+    {
+     "export":
+        {
+         "format":"json",
+         "target":"CNTower_Map.json"
+        }
+    },
  "height":100,
  "infinite":false,
  "layers":[
