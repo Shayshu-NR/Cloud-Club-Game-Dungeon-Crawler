@@ -285,13 +285,14 @@ function update() {
   game.physics.arcade.collide(player, chest, open_chest, null, this);
 
   var speed;
-  if (player.potion_status == "Speed Potion") {
-    console.log("Speed effect is active")
-    speed = 500;
+  if (player.potion_status == "Speed Potion")
+  {
+      console.log("Speed effect is active")
+      speed = 500;
   }
-  else {
-    speed = 175;
-    console.log("Speed is inactive")
+  else{
+      speed = 175;
+      console.log("Speed is inactive")
   }
   idle_direction = ["idle-left", "idle-right", "idle-up", "idle-down"];
 
@@ -411,14 +412,15 @@ function open_chest(player, chest) {
   }
 }
 //~~~~~ Potion effects
+
 function use_potion(player, potion) {
   if (potion == "Health_Potion") {
     console.log(player.health)
     console.log("Health Potion used");
     player.health = player.health + 2;
     console.log(player.health)
-  }
-
+  } 
+  
   if (potion == "Speed_Potion") {
     player.potion_status = "Speed Potion";
     console.log("Speed Potion Used");
@@ -426,7 +428,7 @@ function use_potion(player, potion) {
       10000,
       function (player) {
         console.log("Getting rid of speed");
-        player.potion_status = "default";
+        player[0].potion_status = "default";
         console.log("No more speed")
       },
       this,
@@ -440,7 +442,7 @@ function use_potion(player, potion) {
       10000,
       function (player) {
         console.log("Getting rid of attack");
-        player.currentState = "default";
+        player[0].currentState = "default";
       },
       this,
       [player]
