@@ -39,19 +39,22 @@ skill_modifier = {
 }
 
 class SkillTree {
-    constructor(value, modifier) {
+    constructor(value, modifier, img, x, y) {
         this.skill = value
         this.next = []
         this.modifier = modifier
+        this.img = img
+        this.x = x
+        this.y = y
     }
 }
 
-const root = new SkillTree('Root', function nothing(){ return null;})
-const speed = new SkillTree('Speed', skill_modifier['SpeedUp'])
-const dmg = new SkillTree('Damage', skill_modifier['DamageUp'])
-const atks = new SkillTree('Attack Speed', skill_modifier['AttackSpeedUp'])
+const root = new SkillTree('Root', function nothing() { return null; }, 'root', 400 - 16, 150)
+const speed = new SkillTree('Speed', skill_modifier['SpeedUp'], 'speed', 150, 200)
+const dmg = new SkillTree('Damage', skill_modifier['DamageUp'], 'dmg', 384, 200)
+const atks = new SkillTree('Attack Speed', skill_modifier['AttackSpeedUp'], 'atks', 618, 200)
 
-
+var lines = []
 root.next.push(speed, dmg, atks)
 
 maingame.skill_tree = function (game) { }
@@ -62,7 +65,7 @@ maingame.skill_tree.prototype = {
         this.load.image('speed', '../Assets/General assets/Skill Tree/speed.png')
         this.load.image('atks', '../Assets/General assets/Skill Tree/atks.png')
         this.load.image('root', '../Assets/General assets/Skill Tree/root.png')
-        this.load.image('background', '../Assets/General assets/Skill Tree/background.png')
+        this.load.image('background', '../Assets/General assets/Skill Tree/background_2.png')
     },
 
     create: function () {
@@ -71,16 +74,19 @@ maingame.skill_tree.prototype = {
         var p = new Phaser.Point()
 
         this.add.image(0, 0, 'background')
+        var root_center = tree_root.x - 16
 
-        const center = this.add.button(tree_root.x - 16, tree_root.y, 'root', function () { console.log("Clicked") })
+        const center = this.add.button(400 - 16, 150, 'root', function () { console.log("Clicked") })
 
-        var skill_img = ['speed','dmg', 'atks']
+        var skill_img = ['speed', 'dmg', 'atks']
         var skills = ['SpeedUp', 'AttackSpeedUp', 'DamageUp']
-        var skill_heights = [100, 150, 200, 250]
-        var skill_xpos = [[100, 200, 300]]
+        var skill_heights = [150, 250, 350, 450]
+        var skill_xpos = [[root_center - 234, root_center, root_center + 234]]
 
-        
+
+
         treeTraversal(root, skill_heights, skill_xpos, skill_img)
+        line1 = new Phaser.Line(100, 200, 300, 400);
 
     },
 
@@ -88,16 +94,28 @@ maingame.skill_tree.prototype = {
         if (cursors.esc.downDuration(100)) {
             game.state.start("Main", true, false)
         }
+    },
+
+    render: function () {
+
+        for(var i = 0; i < lines.length; i++){
+            game.debug.geom(lines[i]);
+        }
+
+
     }
 }
 
-function treeTraversal(root, heights, xpos ,icons) {
+function treeTraversal(root) {
     var i = 0
     while (i != root.next.length) {
-        
-        game.add.button(xpos[0][i], heights[0], icons[i], root.next[i].modifier)
 
-        treeTraversal(root.next[i], heights.slice(1), xpos.slice(1), icons.slice(1))
+        game.add.button(root.next[i].x, root.next[i].y, root.next[i].img, root.next[i].modifier)
+        const new_line  = new Phaser.Line(root.x, root.y, root.next[i].x, root.next[i].y)
+        lines.push(new_line)
+
+
+        treeTraversal(root.next[i])
         i++
     }
     return
