@@ -77,6 +77,8 @@ function init_player(game, player) {
 
     player.crit_chance = game.playerCritical
 
+    player.health = game.playerHealth
+
     player.crit_damage = function(){
         if (probability(player.crit_chance)){
             return player.damage * player.crit_chance

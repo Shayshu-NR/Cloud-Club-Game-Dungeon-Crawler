@@ -30,6 +30,15 @@ maingame.test_env = function (game) { }
 
 maingame.test_env.prototype = {
     preload: function () {
+        this.load.tilemap('cnTower',
+            '../Assets/General assets/CN Tower/CNTower_Map.json',
+            null,
+            Phaser.Tilemap.TILED_JSON)
+
+        this.load.image('cnTower_tiles', 
+            '../Assets/General assets/CN Tower/CNTower_StructureTileset.png'
+        )
+
         this.load.image('tiles',
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png')
 
@@ -83,20 +92,19 @@ maingame.test_env.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
         //-------------------- Add tile map and tile set --------------------
-        map = game.add.tilemap('example_map')
-        map.addTilesetImage('dungeon', 'tiles')
+        map = game.add.tilemap('cnTower')
+        map.addTilesetImage('CNTower_StructureTileset', 'cnTower_tiles')
 
-        //-------------------- Create layer --------------------
+        // //-------------------- Create layer --------------------
         ground = map.createLayer('Ground')
         walls = map.createLayer('Walls')
 
-        //-------------------- Add wall colision --------------------
+        // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 999, true, 'Walls')
 
         //-------------------- Add player model --------------------
-        player = game.add.sprite(128, 128, 'player', 'walk-down-3.png')
+        player = game.add.sprite(900, 1345, 'player', 'walk-down-3.png')
         player.swing = false
-        player.health = 3
         player = init_player(game, player)
 
         player.animations.add(
@@ -455,7 +463,6 @@ maingame.test_env.prototype = {
         weapon.trackSprite(player, 0, 0, true)
         cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
 
-
     },
 
     update: function () {
@@ -464,7 +471,7 @@ maingame.test_env.prototype = {
         game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
         game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this)
         game.physics.arcade.collide(player, chest, open_chest, null, this)
-        game.physics.arcade.collide(player, lizard, function player_dmg(player, lizard){ console.log("Hit")} , null, this)
+        game.physics.arcade.collide(player, lizard, function player_dmg(player, lizard) { console.log("Hit") }, null, this)
 
         //-------------------- Movement --------------------
         var speed = player.speed
