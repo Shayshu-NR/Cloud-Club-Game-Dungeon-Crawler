@@ -200,19 +200,20 @@ maingame.gabriellegame.prototype = {
         lvltxt2.fixedToCamera = true
 
         //health-bar set-up
+        player.health = 10
         health_bars = [null, null, null, null, null, null, null, null, null, null, null]
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < player.health; i++) {
             health_bars[i] = bars.create(i * 16, 1, 'health_heart', 'heart.png')
             health_bars[i].fixedToCamera = true
             //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
         }
-        player.health = 10
+        
 
         //ammo set up
         player.ammo = 10
         ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < player.ammo; i++) {
             ammo_bars[i] = bars.create(i * 16, 20, 'ammo_fire', 'fire.png')
             ammo_bars[i].fixedToCamera = true
 
@@ -320,7 +321,7 @@ maingame.gabriellegame.prototype = {
         // Point checking 
         if ((player.exp - lastLevelPoints) >= maxXpPoints) {
             level_up(player)
-            add_health(player, 3)
+            player.health++
         }
 
         xp_bar.scale.set((player.exp - lastLevelPoints) / (maxXpPoints) * 8, 2) //horizontant scale by 8 and vertical by 2
@@ -395,39 +396,13 @@ function level_up(player) {
     lvltxt2.text = '' + (player.level + 1);
 }
 
-function kill_player(player, amount) {
-    for (i = 0; i < amount; i++) {
-        if (player.health > 0) {
-            player.health--
-            //health_bars[i].animations.play('blink')
-            health_bars[player.health].kill()
-            console.log("health down")
-        }
-
-    }
-}
-
-// If different number of health is added simply add parameter and for loop
-function add_health(player, amount) {
-    for (i = 0; i < amount; i++) {
-        if (player.health < 10) {
-            health_bars[player.health] = null
-            health_bars[player.health] = bars.create(player.health * 16, 1, 'health_heart', 'heart.png')
-
-            // health_bars[player.health].fixedToCamera = true
-            player.health++
-        }
-    }
-}
-
-
 
 //add parameter for how much ammo added
 function add_ammo(player, amount) {
     for (i = 0; i < amount; i++) {
         if (player.ammo < 10) {
             ammo_bars[player.ammo] = null
-            ammo_bars[player.ammo] = bars.create(player.ammo * 16, 1, 'ammo_fire', 'fire.png')
+            ammo_bars[player.ammo] = bars.create(player.ammo * 16, 20, 'ammo_fire', 'fire.png')
             ammo_bars[player.ammo].fixedToCamera = true
             player.ammo++
         }
@@ -436,14 +411,43 @@ function add_ammo(player, amount) {
 
 function ammo_used(player, amount) {
     if (player.ammo > 0) {
-        player.ammo--
-        //health_bars[player.health]
-        ammo_bars[player.ammo].kill()
-        console.log("ammo down")
+        for (i = 0; i < amount; i++) {
+            player.ammo--
+            ammo_bars[player.ammo].kill()
+            console.log("ammo down")
+        }
     }
 }
 
 function add_xp(player, xp_num) {
     player.exp += xp_num
     // console.log(phaser.camera)   
+}
+
+function change_health(player) {
+    if (player.health < 0 || player.health > 10) { //makes sure the array doesn't go out of bounds
+        console.log("invalid health")
+        player.health = 5
+    }
+
+    else if (health_bars[player.health] != null) { //if there is a
+        for (i = player.health; i < 10; i++) {
+            if (health_bars[i] != null) {
+                health_bars[i].kill()
+                health_bars[i] = null
+            }
+            // else
+            //     break
+        }
+    }
+
+    else {
+        for (i = 0; i < player.health; i++) {
+            if (health_bars[i] == null) {
+                health_bars[i] = bars.create(i * 16, 1, 'health_heart', 'heart.png')
+                health_bars[i].fixedToCamera = true
+            }
+
+        }
+    }
 }
