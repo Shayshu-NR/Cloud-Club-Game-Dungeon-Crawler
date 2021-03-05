@@ -8,6 +8,7 @@ game.playerUsedSkillPoints = 0
 game.playerCritical = 0
 game.playerHealth = 3
 
+
 game.state.add("Main", maingame.test_env)
 game.state.add("Backpack", test_backpack.backpack)
 game.state.add("Skill tree", maingame.skill_tree)

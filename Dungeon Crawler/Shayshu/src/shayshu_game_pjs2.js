@@ -18,6 +18,7 @@ var new_nme
 //-------------------- Utilities --------------------
 var keyReset = false
 var cursors
+var w = 800, h = 600;
 
 //-------------------- Weapons --------------------
 var default_sword
@@ -35,7 +36,7 @@ maingame.test_env.prototype = {
             null,
             Phaser.Tilemap.TILED_JSON)
 
-        this.load.image('cnTower_tiles', 
+        this.load.image('cnTower_tiles',
             '../Assets/General assets/CN Tower/CNTower_StructureTileset.png'
         )
 
@@ -92,8 +93,8 @@ maingame.test_env.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
         //-------------------- Add tile map and tile set --------------------
-        map = game.add.tilemap('cnTower')
-        map.addTilesetImage('CNTower_StructureTileset', 'cnTower_tiles')
+        map = game.add.tilemap('example_map')
+        map.addTilesetImage('dungeon', 'tiles')
 
         // //-------------------- Create layer --------------------
         ground = map.createLayer('Ground')
@@ -103,7 +104,7 @@ maingame.test_env.prototype = {
         map.setCollisionBetween(1, 999, true, 'Walls')
 
         //-------------------- Add player model --------------------
-        player = game.add.sprite(900, 1345, 'player', 'walk-down-3.png')
+        player = game.add.sprite(128, 128, 'player', 'walk-down-3.png')
         player.swing = false
         player = init_player(game, player)
 
