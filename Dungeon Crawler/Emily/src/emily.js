@@ -13,11 +13,13 @@ function preload(){
     game.load.image('boots', '../Assets/General assets/Skill Tree/speed.png')
     game.load.image('arrow', '../Assets/General assets/Skill Tree/atks.png')
     game.load.image('backpack', '../Assets/General assets/backpack.png')
+    game.load.image('actives', '../Assets/General assets/ActiveItems.png')
 }
 
 function create(){
 
     inventory = []
+    actives = Array(3).fill(0);
 
     for(var i = 0; i < 4; i++){
         inventory.push([])
@@ -27,6 +29,7 @@ function create(){
     }
 
     this.add.image(50,50,'backpack');
+    this.add.image(50,400,'actives')
 
     var item = game.add.group();
 
@@ -63,6 +66,7 @@ function create(){
     //         player.backpack[bpList[count]]["group"].events.onDragStop.add(onDragStop, this);
     //         count++;
     //     }
+    // }
     
     function onDragStart(sprite, pointer) {
         console.log("Dragging " + sprite.key);
@@ -74,18 +78,48 @@ function create(){
         var inv_x = (sprite.x / 70) - 1
         var inv_y = (sprite.y / 70) - 1
         console.log(sprite.x+ ", "+sprite.y);
+        console.log(inventory);
+        console.log(actives)
 
-        if(inventory[inv_y][inv_x] === 1){
+        if (inv_y == 5 && inv_x >= 3 || inv_x >= 4 || inv_y >= 4 && (inv_y != 5)|| inv_x < 0 || inv_y < 0){
+            //move it back / fail
             sprite.position.x = (sprite.inv[0] + 1)*70
             sprite.position.y = (sprite.inv[1] + 1)*70
             return
-        }
-        else{
-            inventory[sprite.inv[1]][sprite.inv[0]] = 0
+        } else if (inv_y == 5){
+            act_x = inv_x;
+            if (actives[act_x] == 1){
+                //move it back/fail
+                sprite.position.x = (sprite.inv[0] + 1)*70
+                sprite.position.y = (sprite.inv[1] + 1)*70
+                return
+            } else {
+                if (sprite.inv[1] == 5){
+                    actives[sprite.inv[0]] = 0
+                } else {
+                    inventory[sprite.inv[1]][sprite.inv[0]] = 0
+                }
+                actives[act_x] = 1
+                sprite.inv[0] = inv_x
+                sprite.inv[1] = inv_y
+                return
+            }
+        } else if (inventory[inv_y][inv_x] === 1){
+            //move it back / fail
+            sprite.position.x = (sprite.inv[0] + 1)*70
+            sprite.position.y = (sprite.inv[1] + 1)*70
+            return
+        } else{
+            //can move item with success
+            if (sprite.inv[1] == 5){
+                actives[sprite.inv[0]] = 0
+            } else {
+                inventory[sprite.inv[1]][sprite.inv[0]] = 0
+            }
             inventory[inv_y][inv_x] = 1
-
             sprite.inv[0] = inv_x
             sprite.inv[1] = inv_y
+            return
         }
         
 

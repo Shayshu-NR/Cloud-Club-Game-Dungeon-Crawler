@@ -10,4 +10,5 @@ game.playerCritical = 0
 game.state.add("Main", maingame.test_env)
 game.state.add("Backpack", maingame.BackPack)
 game.state.add("Skill tree", maingame.skill_tree)
+game.state.add("Game", maingame.test_env)
 game.state.start("Main")
