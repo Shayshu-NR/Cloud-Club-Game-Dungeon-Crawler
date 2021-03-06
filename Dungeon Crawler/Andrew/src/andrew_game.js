@@ -87,6 +87,12 @@ function preload() {
     "potion",
     "../Assets/General assets/lesser_healing_potion.png"
   );
+
+  this.load.atlas(
+    "potion_set",
+    "../Assets/General assets/Potions/potions.png",
+    "../Assets/General assets/Potions/potions.json"
+  );
 }
 
 function create() {
@@ -333,7 +339,13 @@ function update() {
   if (cursors.space.downDuration(100) && !keyReset) {
     keyReset = true;
     swing_default_sword(player);
-    potion_sprite.kill()
+    
+    
+    
+
+
+
+
   }
   if (!cursors.space.isDown) {
     keyReset = false;
@@ -421,19 +433,26 @@ function open_chest(player, chest) {
 //~~~~~ Potion effects
 
 function use_potion(player, potion) {
-  potion_sprite = game.add.sprite(player.position.x-8, player.position.y-28 , "potion", "lesser_healing_potion.png");
+  potion_use = false;
 
-  player.body.velocity.x = 0;
-  player.body.velocity.y = 0;
+  function stop_player(){
+    player.body.velocity.x = 0;
+    player.body.velocity.y = 0;
+    potion_use = true;
+  }
 
-  if (potion == "Health_Potion") {
+
+
+  if (potion == "Health_Potion" ) {
     console.log(player.health);
     console.log("Health Potion used");
     player.health = player.health + 2;
     console.log(player.health);
   }
 
-  if (potion == "Speed_Potion") {
+  if (potion == "Speed_Potion" && potion_use == false) {
+    potion_sprite = game.add.sprite(player.position.x-8, player.position.y-28 , "potion", "lesser_healing_potion.png");
+
     player.potion_status = "Speed Potion";
     console.log("Speed Potion Used");
     game.time.events.add(
@@ -459,8 +478,9 @@ function use_potion(player, potion) {
       this,
       [player]
     );
+    game.time.events.add(Phaser.Timer.SECOND * 4, stop_player);
+    potion_sprite.lifespan = 1000;
 
-   
   }
 
  // function drink_potion(){
