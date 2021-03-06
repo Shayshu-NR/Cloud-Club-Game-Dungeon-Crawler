@@ -85,7 +85,11 @@ maingame.test_env.prototype = {
             '../Assets/General assets/Player/main-character.png',
             '../Assets/General assets/Player/main-character.json'
         )
-
+        this.load.atlas(
+            "potion_set",
+            "../Assets/General assets/Potions/potions.png",
+            "../Assets/General assets/Potions/potions.json"
+          );
         this.load.image('arrow', '../Assets/General assets/arrow_right.png')
 
         this.load.image(
@@ -547,9 +551,12 @@ maingame.test_env.prototype = {
         //Testing
         if (cursors.f.isDown) {
             console.log("You Clicked F");
-            //Testing various potion effects with Potion_in_use
-            potion_in_use = "Speed_Potion"
-            use_potion(player, potion_in_use);
+            if (
+                player.current_item == "Speed_Potion" ||
+                player.current_item == "Health_Potion" ||
+                player.current_item == "Attack_Potion"
+              ) {
+                use_potion(player, player.current_item);
         }
 
         //-------------------- Collision engine --------------------

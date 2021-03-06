@@ -209,14 +209,6 @@ function create() {
   new_nme.body.velocity.x = 120;
   new_nme.body.bounce.set(-1);
 
-  //-------------------- Add Potion Sprite Testing ----------------------------
-
-  //potion = game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
-  //potion = game.add.physicsGroup(Phaser.Physics.ARCADE);
-  //potion.enableBody = TRUE;
-  //Add collision detection for item pickup?
-  //Adding these physics engine, breaks potion/game?
-
   //-------------------- Physics engine and control setting --------------------
   game.physics.arcade.enable(player, Phaser.Physics.ARCADE);
   game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE);
@@ -339,13 +331,6 @@ function update() {
   if (cursors.space.downDuration(100) && !keyReset) {
     keyReset = true;
     swing_default_sword(player);
-    
-    
-    
-
-
-
-
   }
   if (!cursors.space.isDown) {
     keyReset = false;
@@ -435,16 +420,19 @@ function open_chest(player, chest) {
 function use_potion(player, potion) {
   potion_use = false;
 
-  function stop_player(){
+  function stop_player() {
     player.body.velocity.x = 0;
     player.body.velocity.y = 0;
     potion_use = true;
   }
 
-
-
-  if (potion == "Health_Potion" ) {
-    potion_sprite = game.add.sprite(player.position.x+8, player.position.y-4, "potion_set", "health_pot_1.png");
+  if (potion == "Health_Potion") {
+    potion_sprite = game.add.sprite(
+      player.position.x + 8,
+      player.position.y - 4,
+      "potion_set",
+      "health_pot_1.png"
+    );
     potion_sprite.lifespan = 1000;
     console.log(player.health);
     console.log("Health Potion used");
@@ -453,7 +441,12 @@ function use_potion(player, potion) {
   }
 
   if (potion == "Speed_Potion") {
-    potion_sprite = game.add.sprite(player.position.x+8, player.position.y-4, "potion_set", "speed_pot_1.png");
+    potion_sprite = game.add.sprite(
+      player.position.x + 8,
+      player.position.y - 4,
+      "potion_set",
+      "speed_pot_1.png"
+    );
     potion_sprite.lifespan = 1000;
     player.potion_status = "Speed Potion";
     console.log("Speed Potion Used");
@@ -469,7 +462,12 @@ function use_potion(player, potion) {
     );
   }
   if (potion == "Attack_Potion") {
-    potion_sprite = game.add.sprite(player.position.x+8, player.position.y-4, "potion_set", "strength_pot_1.png");
+    potion_sprite = game.add.sprite(
+      player.position.x + 8,
+      player.position.y - 4,
+      "potion_set",
+      "strength_pot_1.png"
+    );
     potion_sprite.lifespan = 1000;
     player.potion_status = "Attack Potion";
     console.log("Attack Potion Used");
@@ -482,11 +480,9 @@ function use_potion(player, potion) {
       this,
       [player]
     );
-    
-
   }
 
- // function drink_potion(){
- //   game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
- // }
+  // function drink_potion(){
+  //   game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
+  // }
 }
