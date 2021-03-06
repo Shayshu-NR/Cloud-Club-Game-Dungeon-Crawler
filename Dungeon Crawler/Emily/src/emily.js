@@ -14,9 +14,11 @@ function preload(){
     game.load.image('arrow', '../Assets/General assets/Skill Tree/atks.png')
     game.load.image('backpack', '../Assets/General assets/backpack.png')
     game.load.image('actives', '../Assets/General assets/ActiveItems.png')
+    game.load.image('button', '../Assets/General assets/Grass.png')
 }
 
 function create(){
+    button = game.add.button(500, 70, 'button', actionOnClick, this, 2, 1, 0);
 
     inventory = []
     actives = Array(3).fill(0);
@@ -68,6 +70,18 @@ function create(){
     //     }
     // }
     
+    // for (var i = 1; i <=3; i++){
+    //     player.active_items[i]["group"] = item.create(i*70,j*70,bpList[i-1])
+    //     player.active_items[i]["group"].inputEnabled = true;
+    //     player.active_items[i]["group"].input.enableDrag();
+    //     player.active_items[i]["group"].events.onDragStart.add(onDragStart, this);
+    //     player.active_items[i]["group"].events.onDragStop.add(onDragStop, this);
+    // }
+    
+    function actionOnClick () {
+        console.log("return to game")
+    
+    }
     function onDragStart(sprite, pointer) {
         console.log("Dragging " + sprite.key);
         sprite.input.enableSnap(70, 70, false, true);
