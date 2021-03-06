@@ -205,7 +205,7 @@ function create() {
 
   //-------------------- Add Potion Sprite Testing ----------------------------
 
-  potion = game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
+  //potion = game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
   //potion = game.add.physicsGroup(Phaser.Physics.ARCADE);
   //potion.enableBody = TRUE;
   //Add collision detection for item pickup?
@@ -271,6 +271,8 @@ function update() {
       player.current_item == "Attack_Potion"
     ) {
       use_potion(player, player.current_item);
+      //drink_potion()
+      //game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
     }
   }
 
@@ -331,6 +333,7 @@ function update() {
   if (cursors.space.downDuration(100) && !keyReset) {
     keyReset = true;
     swing_default_sword(player);
+    potion_sprite.kill()
   }
   if (!cursors.space.isDown) {
     keyReset = false;
@@ -418,6 +421,11 @@ function open_chest(player, chest) {
 //~~~~~ Potion effects
 
 function use_potion(player, potion) {
+  potion_sprite = game.add.sprite(player.position.x-8, player.position.y-28 , "potion", "lesser_healing_potion.png");
+
+  player.body.velocity.x = 0;
+  player.body.velocity.y = 0;
+
   if (potion == "Health_Potion") {
     console.log(player.health);
     console.log("Health Potion used");
@@ -451,5 +459,11 @@ function use_potion(player, potion) {
       this,
       [player]
     );
+
+   
   }
+
+ // function drink_potion(){
+ //   game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
+ // }
 }
