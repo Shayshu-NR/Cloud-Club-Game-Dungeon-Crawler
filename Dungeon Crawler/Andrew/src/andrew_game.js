@@ -444,15 +444,17 @@ function use_potion(player, potion) {
 
 
   if (potion == "Health_Potion" ) {
+    potion_sprite = game.add.sprite(player.position.x+8, player.position.y-4, "potion_set", "health_pot_1.png");
+    potion_sprite.lifespan = 1000;
     console.log(player.health);
     console.log("Health Potion used");
     player.health = player.health + 2;
     console.log(player.health);
   }
 
-  if (potion == "Speed_Potion" && potion_use == false) {
-    potion_sprite = game.add.sprite(player.position.x-8, player.position.y-28 , "potion", "lesser_healing_potion.png");
-
+  if (potion == "Speed_Potion") {
+    potion_sprite = game.add.sprite(player.position.x+8, player.position.y-4, "potion_set", "speed_pot_1.png");
+    potion_sprite.lifespan = 1000;
     player.potion_status = "Speed Potion";
     console.log("Speed Potion Used");
     game.time.events.add(
@@ -467,6 +469,8 @@ function use_potion(player, potion) {
     );
   }
   if (potion == "Attack_Potion") {
+    potion_sprite = game.add.sprite(player.position.x+8, player.position.y-4, "potion_set", "strength_pot_1.png");
+    potion_sprite.lifespan = 1000;
     player.potion_status = "Attack Potion";
     console.log("Attack Potion Used");
     game.time.events.add(
@@ -478,8 +482,7 @@ function use_potion(player, potion) {
       this,
       [player]
     );
-    game.time.events.add(Phaser.Timer.SECOND * 4, stop_player);
-    potion_sprite.lifespan = 1000;
+    
 
   }
 
