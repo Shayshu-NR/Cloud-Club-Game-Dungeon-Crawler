@@ -93,18 +93,18 @@ maingame.test_env.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
         //-------------------- Add tile map and tile set --------------------
-        map = game.add.tilemap('example_map')
-        map.addTilesetImage('dungeon', 'tiles')
+        map = game.add.tilemap('cnTower')
+        map.addTilesetImage('CNTower_StructureTileset', 'cnTower_tiles')
 
         // //-------------------- Create layer --------------------
-        ground = map.createLayer('Ground')
+        ground = map.createLayer('Tile Layer 1')
         walls = map.createLayer('Walls')
 
         // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 999, true, 'Walls')
 
         //-------------------- Add player model --------------------
-        player = game.add.sprite(128, 128, 'eng', 'idle_down.png')
+        player = game.add.sprite(750  , 1000, 'eng', 'idle_down.png')
         player.swing = false
         player = init_player(game, player)
 
@@ -463,5 +463,11 @@ maingame.test_env.prototype = {
     },
 
     render: function () {
+        // game.debug.bodyInfo(player, 32, 32);
+        // // game.debug.body(player);
+        // // game.debug.body(new_nme)
+        // // if (weapon) {
+        // //     game.debug.body(weapon)
+        // // }
     }
 }

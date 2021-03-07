@@ -578,11 +578,5 @@ maingame.test_env.prototype = {
     },
 
     render: function () {
-        // game.debug.bodyInfo(player, 32, 32);
-        // game.debug.body(player);
-        // game.debug.body(new_nme)
-        // if (weapon) {
-        //     game.debug.body(weapon)
-        // }
     }
 }
