@@ -79,6 +79,12 @@ function init_player(game, player) {
 
     player.health = game.playerHealth
 
+    player.defense = game.playerDefense
+    
+    player.knockback = false
+
+    player.swing = false
+    
     player.crit_damage = function(){
         if (probability(player.crit_chance)){
             return player.damage * player.crit_chance

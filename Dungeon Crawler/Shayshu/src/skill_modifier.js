@@ -21,6 +21,21 @@ skill_modifier = {
         }
         else {
             console.log("Not enough skill points!")
+            var style = {
+                font: 'bold 15pt Dungeon Crawler',
+                fill: 'red'
+            }
+
+            var text = game.add.text(10, 10, "Not enough skill points!", style)
+
+            game.time.events.add(
+                2000,
+                function (arr) {
+                    game.add.tween(arr[0]).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
+                },
+                this,
+                [text]
+            );
         }
     },
 
@@ -44,6 +59,21 @@ skill_modifier = {
         }
         else {
             console.log("Not enough skill points!")
+            var style = {
+                font: 'bold 15pt Dungeon Crawler',
+                fill: 'red'
+            }
+
+            var text = game.add.text(10, 10, "Not enough skill points!", style)
+
+            game.time.events.add(
+                2000,
+                function (arr) {
+                    game.add.tween(arr[0]).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
+                },
+                this,
+                [text]
+            );
         }
     },
 
@@ -69,6 +99,21 @@ skill_modifier = {
         }
         else {
             console.log("Not enough skill points!")
+            var style = {
+                font: 'bold 15pt Dungeon Crawler',
+                fill: 'red'
+            }
+
+            var text = game.add.text(10, 10, "Not enough skill points!", style)
+
+            game.time.events.add(
+                2000,
+                function (arr) {
+                    game.add.tween(arr[0]).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
+                },
+                this,
+                [text]
+            );
         }
     },
 
@@ -93,6 +138,21 @@ skill_modifier = {
 
         else {
             console.log("Not enough skill points!")
+            var style = {
+                font: 'bold 15pt Dungeon Crawler',
+                fill: 'red'
+            }
+
+            var text = game.add.text(10, 10, "Not enough skill points!", style)
+
+            game.time.events.add(
+                2000,
+                function (arr) {
+                    game.add.tween(arr[0]).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
+                },
+                this,
+                [text]
+            );
         }
 
     },
@@ -117,6 +177,21 @@ skill_modifier = {
         }
         else {
             console.log("Not enough skill points!")
+            var style = {
+                font: 'bold 15pt Dungeon Crawler',
+                fill: 'red'
+            }
+
+            var text = game.add.text(10, 10, "Not enough skill points!", style)
+
+            game.time.events.add(
+                2000,
+                function (arr) {
+                    game.add.tween(arr[0]).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
+                },
+                this,
+                [text]
+            );
         }
     }
 }
