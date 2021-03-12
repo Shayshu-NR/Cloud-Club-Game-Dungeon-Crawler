@@ -92,15 +92,15 @@ maingame.gabriellegame.prototype = {
         map.setCollisionBetween(1, 9999, true, walls)
         map.setCollisionBetween(70, 71, false, ground)
 
-        var tile_ind_count = 0
-        for (var i = 0; i < 10000; i++){
-            if(map.searchTileIndex(i) != null){
-                console.log(map.searchTileIndex(i))
-                tile_ind_count++
-            }
-        }
+        // var tile_ind_count = 0
+        // for (var i = 0; i < 10000; i++){
+        //     if(map.searchTileIndex(i) != null){
+        //         console.log(map.searchTileIndex(i))
+        //         tile_ind_count++
+        //     }
+        // }
 
-        map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('It works!');player.inWater = true}, this, 'Test')
+        map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('In Water');player.inWater = true}, this, 'Test')
 
         console.log(tile_ind_count)
 
