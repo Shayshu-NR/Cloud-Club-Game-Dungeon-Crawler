@@ -55,7 +55,7 @@ function lizard_dmg(default_sword, lizard) {
         var damage = player.current_item["dmg"] + player.damage + player.crit_damage()
         show_dmg(damage, lizard)
 
-        lizard.health -= damage 
+        lizard.health -= damage
         console.log(lizard.health)
         lizard.immune = true
         setTimeout(function () {
@@ -66,10 +66,10 @@ function lizard_dmg(default_sword, lizard) {
 
 function show_dmg(damage, enemy) {
     var x_pos = enemy.position.x + (enemy.width / 2.0)
-    var y_pos = enemy.position.y - (enemy.height/ 2) - 2
+    var y_pos = enemy.position.y - (enemy.height / 2) - 2
     var style = {
-        font : 'bold 20pt Dungeon Crawler', 
-        fill : 'red'
+        font: 'bold 20pt Dungeon Crawler',
+        fill: 'red'
     }
 
     var text = game.add.text(x_pos, y_pos, String(damage), style)
@@ -77,13 +77,52 @@ function show_dmg(damage, enemy) {
     game.time.events.add(
         250,
         function (arr) {
-          console.log("Getting rid of dmg text");
-          arr[0].kill()
+            console.log("Getting rid of dmg text");
+            arr[0].kill()
         },
-        this, 
+        this,
         [text]
-      );
+    );
 }
+
+function damage_player(player, enemy) {
+    // Deal damage to a player and knock them back in 
+    // the opposite direction they're facing
+    if (!player.knockback) {
+        var dmg_dealt = enemy.damage * player.defense
+        player.health -= dmg_dealt
+
+        player.animations.play()
+    }
+
+    if (player.body.touching["left"]) {
+        player.body.velocity.x = 100
+    }
+    if (player.body.touching["right"]) {
+        player.body.velocity.x = -100
+    }
+    if (player.body.touching["down"]) {
+        player.body.velocity.y = -100
+    }
+    if (player.body.touching["up"]) {
+        player.body.velocity.y = 100
+    }
+
+    if (!player.knockback) {
+
+        player.knockback = true
+
+        game.time.events.add(
+            500,
+            function () {
+                console.log("Done with knockback")
+                player.knockback = false
+            },
+            this
+        )
+    }
+}
+
 
 function probability(n) {
     return !!n && Math.random() <= n;

@@ -89,6 +89,45 @@ function probability(n) {
     return !!n && Math.random() <= n;
 }
 
+function damage_player(player, enemy) {
+    // Deal damage to a player and knock them back in 
+    // the opposite direction they're facing
+    if (!player.knockback) {
+        var dmg_dealt = enemy.damage * player.defense
+        player.health -= dmg_dealt
+
+        // player.animations.play()
+    }
+
+    if (player.body.touching["left"]) {
+        player.body.velocity.x = 100
+    }
+    if (player.body.touching["right"]) {
+        player.body.velocity.x = -100
+    }
+    if (player.body.touching["down"]) {
+        player.body.velocity.y = -100
+    }
+    if (player.body.touching["up"]) {
+        player.body.velocity.y = 100
+    }
+
+    if (!player.knockback) {
+
+        player.knockback = true
+
+        game.time.events.add(
+            500,
+            function () {
+                console.log("Done with knockback")
+                player.knockback = false
+            },
+            this
+        )
+    }
+}
+
+
 function kill_player(player, amount) {
     for (i = 0; i < amount; i++) {
         if (player.health > 0) {

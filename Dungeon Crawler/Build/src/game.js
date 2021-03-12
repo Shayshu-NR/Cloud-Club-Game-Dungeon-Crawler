@@ -89,7 +89,7 @@ maingame.test_env.prototype = {
             "potion_set",
             "../Assets/General assets/Potions/potions.png",
             "../Assets/General assets/Potions/potions.json"
-          );
+        );
         this.load.image('arrow', '../Assets/General assets/arrow_right.png')
 
         this.load.image(
@@ -131,71 +131,81 @@ maingame.test_env.prototype = {
         map.setCollisionBetween(1, 999, true, 'Walls')
 
         //-------------------- Add player model --------------------
-        player = game.add.sprite(128, 128, 'player', 'walk-down-3.png')
+        player = game.add.sprite(128, 128, 'eng', 'idle_down.png')
         player.swing = false
-        player.health = 3
         player = init_player(game, player)
 
         player.animations.add(
-            'walk-down',
+            'walk_down',
             Phaser.Animation.generateFrameNames(
-                'walk-down-',
+                'walk_down_',
+                1,
+                7,
+                '.png'
+            ),
+            10,
+            true
+        )
+        player.animations.add(
+            'walk_up',
+            Phaser.Animation.generateFrameNames(
+                'walk_up_',
+                1,
+                7,
+                '.png'
+            ),
+            10,
+            true
+        )
+        player.animations.add(
+            'walk_right',
+            Phaser.Animation.generateFrameNames(
+                'walk_right_',
                 1,
                 8,
                 '.png'
             ),
-            8,
+            10,
             true
         )
         player.animations.add(
-            'walk-up',
+            'walk_left',
             Phaser.Animation.generateFrameNames(
-                'walk-up-',
+                'walk_left_',
                 1,
                 8,
-                '.png'
+                '.png',
             ),
-            8,
+            10,
             true
         )
         player.animations.add(
-            'walk-right',
+            'attack_right',
             Phaser.Animation.generateFrameNames(
-                'walk-side-',
+                'attack_right_',
                 1,
-                8,
+                4,
                 '.png'
             ),
             8,
             true
         )
         player.animations.add(
-            'walk-left',
+            'attack_left',
             Phaser.Animation.generateFrameNames(
-                'walk-left-',
+                'attack_left_',
                 1,
-                8,
+                4,
                 '.png'
             ),
             8,
             true
         )
         player.animations.add(
-            'idle-down',
+            'attack_up',
             Phaser.Animation.generateFrameNames(
-                'walk-down-',
-                3,
-                3,
-                '.png'
-            ),
-            8,
-            true
-        )
-        player.animations.add(
-            'idle-up',
-            Phaser.Animation.generateFrameNames(
-                'walk-up-',
-                3,
+                'attack_up_',
+                1,
                 3,
                 '.png'
             ),
@@ -203,25 +213,82 @@ maingame.test_env.prototype = {
             true
         )
         player.animations.add(
-            'idle-right',
+            'attack_down',
             Phaser.Animation.generateFrameNames(
-                'walk-side-',
-                3,
-                3,
+                'attack_down_',
+                1,
+                4,
                 '.png'
             ),
             8,
+            true
+        )
+        player.animations.add(
+            'hurt_up',
+            Phaser.Animation.generateFrameNames(
+                'hurt_up_',
+                1,
+                2,
+                '.png'
+            ),
+            2,
+            true
+        )
+        player.animations.add(
+            'hurt_down',
+            Phaser.Animation.generateFrameNames(
+                'hurt_down_',
+                1,
+                3,
+                '.png'
+            ),
+            2,
+            true
+        )
+        player.animations.add(
+            'hurt_left',
+            Phaser.Animation.generateFrameNames(
+                'hurt_left_',
+                1,
+                4,
+                '.png'
+            ),
+            2,
+            true
+        )
+        player.animations.add(
+            'hurt_right',
+            Phaser.Animation.generateFrameNames(
+                'hurt_right_',
+                1,
+                4,
+                '.png'
+            ),
+            2,
             true
         )
         player.animations.add(
             'idle-left',
-            Phaser.Animation.generateFrameNames(
-                'walk-left-',
-                3,
-                3,
-                '.png'
-            ),
-            8,
+            ['idle_left.png'],
+            2,
+            true
+        )
+        player.animations.add(
+            'idle-right',
+            ['idle_right.png'],
+            2,
+            true
+        )
+        player.animations.add(
+            'idle-down',
+            ['idle_down.png'],
+            2,
+            true
+        )
+        player.animations.add(
+            'idle-up',
+            ['idle_up.png'],
+            2,
             true
         )
 
@@ -347,143 +414,6 @@ maingame.test_env.prototype = {
         )
         test.animations.play('wave')
 
-        //-------------------- Eng player animation --------------------
-        const eng = game.add.sprite(150, 200, 'eng', 'idle_down.png')
-        eng.animations.add(
-            'walk_down',
-            Phaser.Animation.generateFrameNames(
-                'walk_down_',
-                1,
-                7,
-                '.png'
-            ),
-            10,
-            true
-        )
-        eng.animations.add(
-            'walk_up',
-            Phaser.Animation.generateFrameNames(
-                'walk_up_',
-                1,
-                7,
-                '.png'
-            ),
-            10,
-            true
-        )
-        eng.animations.add(
-            'walk_right',
-            Phaser.Animation.generateFrameNames(
-                'walk_right_',
-                1,
-                8,
-                '.png'
-            ),
-            10,
-            true
-        )
-        eng.animations.add(
-            'walk_left',
-            Phaser.Animation.generateFrameNames(
-                'walk_left_',
-                1,
-                8,
-                '.png',
-            ),
-            10,
-            true
-        )
-        eng.animations.add(
-            'attack_right',
-            Phaser.Animation.generateFrameNames(
-                'attack_right_',
-                1,
-                4,
-                '.png'
-            ),
-            8,
-            true
-        )
-        eng.animations.add(
-            'attack_left',
-            Phaser.Animation.generateFrameNames(
-                'attack_left_',
-                1,
-                4,
-                '.png'
-            ),
-            8,
-            true
-        )
-        eng.animations.add(
-            'attack_up',
-            Phaser.Animation.generateFrameNames(
-                'attack_up_',
-                1,
-                3,
-                '.png'
-            ),
-            8,
-            true
-        )
-        eng.animations.add(
-            'attack_down',
-            Phaser.Animation.generateFrameNames(
-                'attack_down_',
-                1,
-                4,
-                '.png'
-            ),
-            8,
-            true
-        )
-
-        eng.animations.add(
-            'hurt_up',
-            Phaser.Animation.generateFrameNames(
-                'hurt_up_',
-                1,
-                2,
-                '.png'
-            ),
-            2,
-            true
-        )
-        eng.animations.add(
-            'hurt_down',
-            Phaser.Animation.generateFrameNames(
-                'hurt_down_',
-                1,
-                3,
-                '.png'
-            ),
-            2,
-            true
-        )
-        eng.animations.add(
-            'hurt_left',
-            Phaser.Animation.generateFrameNames(
-                'hurt_left_',
-                1,
-                4,
-                '.png'
-            ),
-            2,
-            true
-        )
-        eng.animations.add(
-            'hurt_right',
-            Phaser.Animation.generateFrameNames(
-                'hurt_right_',
-                1,
-                4,
-                '.png'
-            ),
-            2,
-            true
-        )
-        eng.animations.play('hurt_down')
-
         //-------------------- HUD --------------------
         var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -555,16 +485,19 @@ maingame.test_env.prototype = {
                 player.current_item == "Speed_Potion" ||
                 player.current_item == "Health_Potion" ||
                 player.current_item == "Attack_Potion"
-              ) {
+                ) 
+            {
                 use_potion(player, player.current_item);
+            }
         }
 
         //-------------------- Collision engine --------------------
         game.physics.arcade.collide(player, walls)
+        game.physics.arcade.collide(player, walls)
         game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
         game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this)
         game.physics.arcade.collide(player, chest, open_chest, null, this)
-        game.physics.arcade.collide(player, lizard, function player_dmg(player, lizard) { console.log("Hit") }, null, this)
+        game.physics.arcade.collide(player, lizard, damage_player, null, this)
 
         //-------------------- Movement --------------------
         var speed = player.speed
@@ -578,37 +511,39 @@ maingame.test_env.prototype = {
 
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
 
-        if (!player.swing) {
-            if (cursors.left.isDown) {
-                player_facing = 0
-                player.body.velocity.x = -speed
-                player.animations.play('walk-left', true)
-
-
-            } else if (cursors.right.isDown) {
-                player_facing = 1
-                player.body.velocity.x = speed
-                player.animations.play('walk-right', true)
-
-            } else if (cursors.down.isDown) {
-                player_facing = 3
-                player.body.velocity.y = speed
-                player.animations.play('walk-down', true)
-
-            } else if (cursors.up.isDown) {
-                player_facing = 2
-                player.body.velocity.y = -speed
-                player.animations.play('walk-up', true)
-
+        if(!player.knockback){
+            if (!player.swing) {
+                if (cursors.left.isDown) {
+                    player_facing = 0
+                    player.body.velocity.x = -speed
+                    player.animations.play('walk_left', true)
+    
+    
+                } else if (cursors.right.isDown) {
+                    player_facing = 1
+                    player.body.velocity.x = speed
+                    player.animations.play('walk_right', true)
+    
+                } else if (cursors.down.isDown) {
+                    player_facing = 3
+                    player.body.velocity.y = speed
+                    player.animations.play('walk_down', true)
+    
+                } else if (cursors.up.isDown) {
+                    player_facing = 2
+                    player.body.velocity.y = -speed
+                    player.animations.play('walk_up', true)
+    
+                } else {
+                    player.animations.play(idle_direction[player_facing])
+                    player.body.velocity.x = 0
+                    player.body.velocity.y = 0
+    
+                }
             } else {
-                player.animations.play(idle_direction[player_facing])
                 player.body.velocity.x = 0
                 player.body.velocity.y = 0
-
             }
-        } else {
-            player.body.velocity.x = 0
-            player.body.velocity.y = 0
         }
 
         if (cursors.space.downDuration(100) && !keyReset) {
@@ -643,11 +578,5 @@ maingame.test_env.prototype = {
     },
 
     render: function () {
-        // game.debug.bodyInfo(player, 32, 32);
-        // game.debug.body(player);
-        // game.debug.body(new_nme)
-        // if (weapon) {
-        //     game.debug.body(weapon)
-        // }
     }
 }

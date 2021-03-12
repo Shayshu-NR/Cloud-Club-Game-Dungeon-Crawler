@@ -74,4 +74,6 @@ player.moveActiveToBackpack(item)
 //
 player.moveBackpackToActive()
 
+//State of the player (land or water at any one time)
+player.inWater = Boolean
 
