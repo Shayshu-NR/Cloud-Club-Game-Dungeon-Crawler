@@ -259,7 +259,7 @@ function create() {
 
 function update() {
   //Current item is speed potions
-  player.current_item = "Speed_Potion";
+  player.current_item = "Attack_Potion";
   if (cursors.f.isDown) {
     console.log("You Clicked F");
     //Testing various potion effects with Potion_in_use
