@@ -13,6 +13,7 @@ maingame.skill_tree.prototype = {
         this.load.image('crit', '../Assets/General assets/Skill Tree/crit.png')
         this.load.image('heal', '../Assets/General assets/Skill Tree/heal.png')
         this.load.image('root', '../Assets/General assets/Skill Tree/root.png')
+        this.load.image('luck', '../Assets/General assets/Skill Tree/luck.png')
         this.load.image('background', '../Assets/General assets/Skill Tree/background_2.png')
 
     },

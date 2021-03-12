@@ -112,7 +112,7 @@ maingame.test_env.prototype = {
             '../Gabrielle/src/Assets/fire.png')
 
         this.load.image('bpack',
-            '../Gabrielle/src/Assets/back-pack.png')
+            '../Assets/General assets/backpack-icon-cropped.png')
     },
 
     create: function () {
@@ -418,7 +418,7 @@ maingame.test_env.prototype = {
         var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-        var stats = statics.create(5, 560, 'bpack', 'back-pack.png')
+        var stats = statics.create(10, 545, 'bpack', 'back-pack.png')
 
 
         var bar_holder = statics.create(59, 550, 'bar', 'Bar.png')
