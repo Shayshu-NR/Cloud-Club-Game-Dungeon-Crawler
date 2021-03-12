@@ -135,6 +135,10 @@ maingame.test_env.prototype = {
         player.swing = false
         player = init_player(game, player)
 
+        //player.backpack = {potion}
+        player.active_items = []
+        player.current_item = {}
+
         player.animations.add(
             'walk_down',
             Phaser.Animation.generateFrameNames(
@@ -376,6 +380,12 @@ maingame.test_env.prototype = {
             "dmg": 1,
             "quantity": 1
         }
+        player.backpack = {
+            "name": "sword",
+            "group": default_sword,
+            "src": "sword_spritesheet.png",
+            "dmg": 1,
+            "quantity": 1}
 
         //-------------------- Chest example --------------------
         chest = game.add.group()
@@ -564,6 +574,7 @@ maingame.test_env.prototype = {
         }
 
         if (cursors.bckpck.isDown) {
+            game.player_attributes = {"backpack": player.backpack, "actives": player.active_items, "current": player.current_item}
             game.state.start("Backpack");
             console.log("in backpack state")
         }
