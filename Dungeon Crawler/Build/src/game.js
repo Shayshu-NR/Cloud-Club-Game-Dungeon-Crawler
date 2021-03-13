@@ -582,7 +582,6 @@ maingame.test_env.prototype = {
         // Point checking 
         if ((player.exp - lastLevelPoints) >= maxXpPoints) {
             level_up(player)
-            add_health(player, 3)
         }
 
         xp_bar.scale.set((player.exp - lastLevelPoints) / (maxXpPoints) * 8, 2)
@@ -590,4 +589,15 @@ maingame.test_env.prototype = {
 
     render: function () {
     }
+}
+function level_up(player) {
+
+    player.getCurrentLevel()
+
+    console.log('Reached level', player.level)
+    lastLevelPoints = player.exp
+    maxXpPoints = 100 * (player.level) ^ 1.5
+
+    lvltxt1.text = '' + player.level;
+    lvltxt2.text = '' + (player.level + 1);
 }

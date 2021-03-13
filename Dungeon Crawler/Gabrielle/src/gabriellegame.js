@@ -47,6 +47,14 @@ maingame.gabriellegame.prototype = {
             '../Assets/General assets/CN Tower/CNTower_StructureTileset.png'
         )
 
+        this.load.tilemap('rpAquarium',
+            '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map.json',
+            null,
+            Phaser.Tilemap.TILED_JSON)
+        
+        this.load.image('rpAquarium_tiles',
+        '../Assets/General assets/Ripleys Aquarium/tileset.png')
+
         this.load.atlas('player',
             '../Assets/Example assets/legend of faune files/spritesheet.png',
             '../Assets/Example assets/legend of faune files/faun_spritesheet.json')
@@ -74,14 +82,14 @@ maingame.gabriellegame.prototype = {
     },
 
     create: function () {
+
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
+        map = game.add.tilemap('rpAquarium')
+        map.addTilesetImage('rpAquarium_tiles')
 
-        map = game.add.tilemap('cnTower')
-        map.addTilesetImage('CNTower_StructureTileset', 'cnTower_tiles')
-
-        water = map.createLayer('Test')
-        walls = map.createLayer('Walls')
+        water = map.createLayer('water')
+        walls = map.createLayer('wall')
         ground = map.createLayer('Tile Layer 1')
 
         game.physics.arcade.enable(ground)
@@ -245,7 +253,7 @@ maingame.gabriellegame.prototype = {
                 if(!player.inWater)
                     player.inWater = true
              }, 
-        this, 'Test')
+        this, 'water')
         inwatertimer = game.time.events;
         waterTimerLoop = inwatertimer.loop(5000, function intoWater() { player.health-- }, this)
 
