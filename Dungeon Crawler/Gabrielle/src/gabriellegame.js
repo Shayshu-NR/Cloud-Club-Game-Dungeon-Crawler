@@ -1,9 +1,7 @@
-
-
-
 var map
 var ground
 var walls
+var water
 var player
 var cursors
 var player_facing = 3
@@ -19,6 +17,10 @@ var lvltxt1
 var lvltxt2
 var health_bars
 var ammo_bar
+var bckpack
+var inwatertimer
+var waterTimerLoop
+var tile
 //~~~~~~~~~~~~~~~~~~~~~
 
 var maingame = {}
@@ -35,6 +37,23 @@ maingame.gabriellegame.prototype = {
             '../Assets/Example assets/Tiled Map/Example_tile.json',
             null,
             Phaser.Tilemap.TILED_JSON)
+
+        this.load.tilemap('cnTower',
+            '../Assets/General assets/CN Tower/CNTower_Map_col_Ex.json',
+            null,
+            Phaser.Tilemap.TILED_JSON)
+
+        this.load.image('cnTower_tiles',
+            '../Assets/General assets/CN Tower/CNTower_StructureTileset.png'
+        )
+
+        this.load.tilemap('rpAquarium',
+            '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map.json',
+            null,
+            Phaser.Tilemap.TILED_JSON)
+        
+        this.load.image('rpAquarium_tiles',
+        '../Assets/General assets/Ripleys Aquarium/tileset.png')
 
         this.load.atlas('player',
             '../Assets/Example assets/legend of faune files/spritesheet.png',
@@ -53,8 +72,6 @@ maingame.gabriellegame.prototype = {
         this.load.image('health_heart',
             '../Gabrielle/src/Assets/heart.png')
 
-        this.load.image('health_heart2',
-            '../Gabrielle/src/Assets/heart2.png')
         this.load.image('ammo_fire',
             '../Gabrielle/src/Assets/fire.png')
 
@@ -65,20 +82,27 @@ maingame.gabriellegame.prototype = {
     },
 
     create: function () {
+
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
-        map = game.add.tilemap('example_map')
-        map.addTilesetImage('dungeon', 'tiles')
+        map = game.add.tilemap('rpAquarium')
+        map.addTilesetImage('rpAquarium_tiles')
 
+        water = map.createLayer('water')
+        walls = map.createLayer('wall')
+        ground = map.createLayer('Tile Layer 1')
 
+        game.physics.arcade.enable(ground)
+        game.physics.arcade.enable(walls)
+        game.physics.arcade.enable(water)
 
-        ground = map.createLayer('Ground')
-        walls = map.createLayer('Walls')
-        ground.scale.set(1)
-        walls.scale.set(1)
-        map.setCollisionBetween(1, 999, true, 'Walls')
+        // //-------------------- Add wall colision --------------------
+        map.setCollisionBetween(1, 9999, true, walls)
+        map.setCollisionBetween(70, 71, false, ground)
 
-        player = game.add.sprite(128, 128, 'player', 'walk-down-3.png')
+        //console.log(tile_ind_count)
+
+        player = game.add.sprite(750, 1050, 'player', 'walk-down-3.png')
 
         player.animations.add(
             'walk-down',
@@ -172,7 +196,7 @@ maingame.gabriellegame.prototype = {
         var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-        var stats = statics.create(5, 560, 'bpack', 'back-pack.png')
+        bckpack = game.add.button(500, 70, 'button', actionOnClick, this, 2, 1, 0);
 
 
         var bar_holder = statics.create(59, 550, 'bar', 'Bar.png')
@@ -181,12 +205,15 @@ maingame.gabriellegame.prototype = {
         xp_bar.fixedToCamera = true
         player.exp = 0
         player.level = 1
+        player.inWater = false
         player.getCurrentLevel = function () {
             player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
             return player.level
         }
         bar_holder.scale.set(8, 2)
         xp_bar.scale.set(player.exp / maxXpPoints * 8, 2)
+
+
 
 
 
@@ -203,22 +230,32 @@ maingame.gabriellegame.prototype = {
         player.health = 10
         health_bars = [null, null, null, null, null, null, null, null, null, null, null]
         for (var i = 0; i < player.health; i++) {
-            health_bars[i] = bars.create(i * 16, 1, 'health_heart', 'heart.png')
+            health_bars[i] = bars.create(i * 16, 5, 'health_heart', 'heart.png')
             health_bars[i].fixedToCamera = true
             //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
         }
-        
+
 
         //ammo set up
         player.ammo = 10
         ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
         for (var i = 0; i < player.ammo; i++) {
-            ammo_bars[i] = bars.create(i * 16, 20, 'ammo_fire', 'fire.png')
+            ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire', 'fire.png')
             ammo_bars[i].fixedToCamera = true
 
         }
 
+        //Water timer set up for health loss and changing attribute to inWater
+        map.setTileIndexCallback([103, 104, 105, 106, 107, 108], //sets up for when the tile is in contact
+            function wow() {
+                console.log('In Water'); 
+                if(!player.inWater)
+                    player.inWater = true
+             }, 
+        this, 'water')
+        inwatertimer = game.time.events;
+        waterTimerLoop = inwatertimer.loop(5000, function intoWater() { player.health-- }, this)
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
@@ -264,17 +301,31 @@ maingame.gabriellegame.prototype = {
 
     update: function () {
         game.physics.arcade.collide(player, walls)
-        game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
+        //game.physics.arcade.overlap(player, water,inWater(player),null,this)
+        //game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
         //game.physics.arcade.overlap(player, lizard, kill_player(player), null, this)
 
+
+        //Collision for the specific type of tile
+        game.physics.arcade.collide(player, water, function tileMapColExample() {
+            console.log("Example water collision...")
+            return
+        }, null, this)
+
+        //starts timer when the player is in water
+        if (player.inWater) {
+            inwatertimer.resume()
+        }
+
+        
         var speed = 175
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
 
-
-
+        //console.log(inwatertimer)
         if (cursors.bckpck.isDown) {
-            game.state.start("Backpack");
-            console.log("in backpack state")
+            // game.state.start("Backpack");
+            // console.log("in backpack state")
+
         }
         if (cursors.map.isDown) {
             game.state.start("Map");
@@ -402,7 +453,7 @@ function add_ammo(player, amount) {
     for (i = 0; i < amount; i++) {
         if (player.ammo < 10) {
             ammo_bars[player.ammo] = null
-            ammo_bars[player.ammo] = bars.create(player.ammo * 16, 20, 'ammo_fire', 'fire.png')
+            ammo_bars[player.ammo] = bars.create(player.ammo * 16, 25, 'ammo_fire', 'fire.png')
             ammo_bars[player.ammo].fixedToCamera = true
             player.ammo++
         }
@@ -444,10 +495,16 @@ function change_health(player) {
     else {
         for (i = 0; i < player.health; i++) {
             if (health_bars[i] == null) {
-                health_bars[i] = bars.create(i * 16, 1, 'health_heart', 'heart.png')
+                health_bars[i] = bars.create(i * 16, 5, 'health_heart', 'heart.png')
                 health_bars[i].fixedToCamera = true
             }
 
         }
     }
 }
+function actionOnClick() {
+    console.log("return to game")
+
+}
+
+

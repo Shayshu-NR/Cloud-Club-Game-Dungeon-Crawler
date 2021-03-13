@@ -32,7 +32,7 @@ maingame.test_env = function (game) { }
 maingame.test_env.prototype = {
     preload: function () {
         this.load.tilemap('cnTower',
-            '../Assets/General assets/CN Tower/CNTower_Map.json',
+            '../Assets/General assets/CN Tower/CNTower_Map_col_Ex.json',
             null,
             Phaser.Tilemap.TILED_JSON)
 
@@ -97,14 +97,31 @@ maingame.test_env.prototype = {
         map.addTilesetImage('CNTower_StructureTileset', 'cnTower_tiles')
 
         // //-------------------- Create layer --------------------
-        ground = map.createLayer('Tile Layer 1')
+        tile_col_ex = map.createLayer('Test')
         walls = map.createLayer('Walls')
+        ground = map.createLayer('Tile Layer 1')
+
+        game.physics.arcade.enable(ground)
+        game.physics.arcade.enable(walls)
+        game.physics.arcade.enable(tile_col_ex)
 
         // //-------------------- Add wall colision --------------------
-        map.setCollisionBetween(1, 999, true, 'Walls')
+        map.setCollisionBetween(1, 9999, true, walls)
+        map.setCollisionBetween(70, 71, false, ground)
 
+        var tile_ind_count = 0
+        for (var i = 0; i < 10000; i++){
+            if(map.searchTileIndex(i) != null){
+                console.log(map.searchTileIndex(i))
+                tile_ind_count++
+            }
+        }
+
+        map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('It works!')}, this, 'Test')
+
+        console.log(tile_ind_count)
         //-------------------- Add player model --------------------
-        player = game.add.sprite(750  , 1000, 'eng', 'idle_down.png')
+        player = game.add.sprite(750, 1050, 'eng', 'idle_down.png')
         player.swing = false
         player = init_player(game, player)
 
@@ -399,44 +416,51 @@ maingame.test_env.prototype = {
 
     update: function () {
         //-------------------- Collision engine --------------------
-        game.physics.arcade.collide(player, walls)
+        game.physics.arcade.collide(player, walls, function tileMapColExample() {
+            console.log("Example wall collision...")
+        }, null, this)
         game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
         game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this)
         game.physics.arcade.collide(player, chest, open_chest, null, this)
         game.physics.arcade.collide(player, lizard, damage_player, null, this)
 
+        game.physics.arcade.collide(player, tile_col_ex, function tileMapColExample() {
+            console.log("Example water collision...")
+            return
+        }, null, this)
+
         //-------------------- Movement --------------------
         var speed = player.speed
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
 
-        if(!player.knockback){
+        if (!player.knockback) {
             if (!player.swing) {
                 if (cursors.left.isDown) {
                     player_facing = 0
                     player.body.velocity.x = -speed
                     player.animations.play('walk_left', true)
-    
-    
+
+
                 } else if (cursors.right.isDown) {
                     player_facing = 1
                     player.body.velocity.x = speed
                     player.animations.play('walk_right', true)
-    
+
                 } else if (cursors.down.isDown) {
                     player_facing = 3
                     player.body.velocity.y = speed
                     player.animations.play('walk_down', true)
-    
+
                 } else if (cursors.up.isDown) {
                     player_facing = 2
                     player.body.velocity.y = -speed
                     player.animations.play('walk_up', true)
-    
+
                 } else {
                     player.animations.play(idle_direction[player_facing])
                     player.body.velocity.x = 0
                     player.body.velocity.y = 0
-    
+
                 }
             } else {
                 player.body.velocity.x = 0
@@ -463,7 +487,7 @@ maingame.test_env.prototype = {
     },
 
     render: function () {
-        // game.debug.bodyInfo(player, 32, 32);
+        game.debug.bodyInfo(player, 32, 32);
         // // game.debug.body(player);
         // // game.debug.body(new_nme)
         // // if (weapon) {
