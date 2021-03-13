@@ -105,9 +105,7 @@ maingame.test_env.prototype = {
 
         this.load.image('health_heart',
             '../Gabrielle/src/Assets/heart.png')
-
-        this.load.image('health_heart2',
-            '../Gabrielle/src/Assets/heart2.png')
+  
         this.load.image('ammo_fire',
             '../Gabrielle/src/Assets/fire.png')
 
@@ -666,6 +664,8 @@ maingame.test_env.prototype = {
         player.swing = false;
       }
     }
+}
+
 }
 function level_up(player) {
 
