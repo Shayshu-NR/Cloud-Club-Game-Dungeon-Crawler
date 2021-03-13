@@ -665,6 +665,8 @@ maingame.test_env.prototype = {
       }
     }
 }
+
+}
 function level_up(player) {
 
     player.getCurrentLevel()
