@@ -86,7 +86,7 @@ maingame.gabriellegame.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
         map = game.add.tilemap('rpAquarium')
-        map.addTilesetImage('rpAquarium_tiles')
+        map.addTilesetImage('ripleys', 'rpAquarium_tiles')
 
         water = map.createLayer('water')
         walls = map.createLayer('wall')
@@ -102,7 +102,7 @@ maingame.gabriellegame.prototype = {
 
         //console.log(tile_ind_count)
 
-        player = game.add.sprite(750, 1050, 'player', 'walk-down-3.png')
+        player = game.add.sprite(750, 850, 'player', 'walk-down-3.png')
 
         player.animations.add(
             'walk-down',

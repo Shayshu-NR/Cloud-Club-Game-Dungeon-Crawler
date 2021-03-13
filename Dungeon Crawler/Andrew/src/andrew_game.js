@@ -268,19 +268,19 @@ function create() {
 
   potion_set.animations.add(
     "health",
-    Phaser.Animation.generateFrameNames("health_pot_1", 0,3, ".png"),
+    Phaser.Animation.generateFrameNames("health_pot_", 1, 4, ".png"),
     10,
     true
   );
   potion_set.animations.add(
     "speed",
-    Phaser.Animation.generateFrameNames("speed_pot_1", 0, 3, ".png"),
+    Phaser.Animation.generateFrameNames("speed_pot_", 1, 4, ".png"),
     10,
     true
   );
   potion_set.animations.add(
     "attack",
-    Phaser.Animation.generateFrameNames("strength_pot_1", 0, 3, ".png"),
+    Phaser.Animation.generateFrameNames("strength_pot_", 1, 4, ".png"),
     10,
     true
   );
@@ -490,7 +490,7 @@ function use_potion(player, potion) {
     );
 
     potion_sprite.animations.add('health');
-    potion_sprite.play('health', 10  , true);
+    potion_sprite.play('health', 7  , true);
 
 
 
