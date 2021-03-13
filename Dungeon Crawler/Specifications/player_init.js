@@ -84,6 +84,8 @@ function init_player(game, player) {
     player.knockback = false
 
     player.swing = false
+
+    player.luck = game.playerLuck
     
     player.crit_damage = function(){
         if (probability(player.crit_chance)){
