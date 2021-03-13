@@ -34,6 +34,7 @@ var chest;
 
 //-------------------- Items -----------------------
 var potion;
+var potion_set;
 
 function preload() {
   this.load.image(
@@ -260,30 +261,31 @@ function create() {
 
 
 
-  
 
 
 
 
 
-  potion_set.animations.add(
-    "health",
-    Phaser.Animation.generateFrameNames("health_pot_1", 0,3, ".png"),
-    10,
-    true
-  );
-  potion_set.animations.add(
-    "speed",
-    Phaser.Animation.generateFrameNames("speed_pot_1", 0, 3, ".png"),
-    10,
-    true
-  );
-  potion_set.animations.add(
-    "attack",
-    Phaser.Animation.generateFrameNames("strength_pot_1", 0, 3, ".png"),
-    10,
-    true
-  );
+
+  // potion_set.animations.add(
+  //   "health",
+  //   Phaser.Animation.generateFrameNames("health_pot_", 1, 4, ".png"),
+  //   10,
+  //   true
+  // );
+  // potion_set.animations.add(
+  //   "speed",
+  //   Phaser.Animation.generateFrameNames("speed_pot_", 1, 4, ".png"),
+  //   10,
+  //   true
+  // );
+  // potion_set.animations.add(
+  //   "attack",
+  //   Phaser.Animation.generateFrameNames("strength_pot_", 1, 4, ".png"),
+  //   10,
+  //   true
+  // );
+  potion_set = game.add.group()
 
 
 
@@ -302,7 +304,7 @@ function update() {
   //Current item is speed potions
   if (cursors.f.downDuration(1) && !keyReset) {
     keyReset = true;
-    player.current_item = "Speed_Potion"
+    player.current_item = "Health_Potion"
     if (
       player.current_item == "Speed_Potion" ||
       player.current_item == "Health_Potion" ||
@@ -486,13 +488,18 @@ function use_potion(player, potion) {
     potion_sprite = game.add.sprite(
       player.position.x + 8,
       player.position.y - 4,
-      "potion_set"
+      "potion_set",
+      "health_pot_1.png"
     );
 
-    potion_sprite.animations.add('health');
-    potion_sprite.play('health', 10  , true);
+    potion_sprite.animations.add(
+      "health",
+      Phaser.Animation.generateFrameNames("health_pot_", 1, 4, ".png"),
+      10,
+      true
+    );
 
-
+    potion_sprite.play('health', 10, true);
 
     potion_sprite.lifespan = 500;
     console.log(player.health);
@@ -511,7 +518,7 @@ function use_potion(player, potion) {
     );
 
     potion_sprite.animations.add('speed');
-    potion_sprite.play('speed', 10,    true);
+    potion_sprite.play('speed', 10, true);
 
 
     potion_sprite.lifespan = 500;

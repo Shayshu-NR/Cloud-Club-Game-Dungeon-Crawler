@@ -40,6 +40,15 @@ maingame.test_env.prototype = {
             '../Assets/General assets/CN Tower/CNTower_StructureTileset.png'
         )
 
+        this.load.tilemap('ripleys',
+            '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map.json',
+            null,
+            Phaser.Tilemap.TILED_JSON)
+
+        this.load.image('ripleys_tiles',
+            '../Assets/General assets/Ripleys Aquarium/tileset.png'
+        )
+
         this.load.image('tiles',
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png')
 
@@ -108,14 +117,6 @@ maingame.test_env.prototype = {
         // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 9999, true, walls)
         map.setCollisionBetween(70, 71, false, ground)
-
-        var tile_ind_count = 0
-        for (var i = 0; i < 10000; i++){
-            if(map.searchTileIndex(i) != null){
-                console.log(map.searchTileIndex(i))
-                tile_ind_count++
-            }
-        }
 
         map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('It works!')}, this, 'Test')
 
