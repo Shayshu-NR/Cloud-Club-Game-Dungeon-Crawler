@@ -102,7 +102,7 @@ maingame.gabriellegame.prototype = {
 
         map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('In Water');player.inWater = true}, this, 'Test')
 
-        console.log(tile_ind_count)
+        //console.log(tile_ind_count)
 
         player = game.add.sprite(750, 1050, 'player', 'walk-down-3.png')
 
@@ -233,7 +233,7 @@ maingame.gabriellegame.prototype = {
         player.health = 10
         health_bars = [null, null, null, null, null, null, null, null, null, null, null]
         for (var i = 0; i < player.health; i++) {
-            health_bars[i] = bars.create(i * 16, 1, 'health_heart', 'heart.png')
+            health_bars[i] = bars.create(i * 16, 5, 'health_heart', 'heart.png')
             health_bars[i].fixedToCamera = true
             //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
@@ -244,7 +244,7 @@ maingame.gabriellegame.prototype = {
         player.ammo = 10
         ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
         for (var i = 0; i < player.ammo; i++) {
-            ammo_bars[i] = bars.create(i * 16, 20, 'ammo_fire', 'fire.png')
+            ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire', 'fire.png')
             ammo_bars[i].fixedToCamera = true
 
         }
@@ -451,7 +451,7 @@ function add_ammo(player, amount) {
     for (i = 0; i < amount; i++) {
         if (player.ammo < 10) {
             ammo_bars[player.ammo] = null
-            ammo_bars[player.ammo] = bars.create(player.ammo * 16, 20, 'ammo_fire', 'fire.png')
+            ammo_bars[player.ammo] = bars.create(player.ammo * 16, 25, 'ammo_fire', 'fire.png')
             ammo_bars[player.ammo].fixedToCamera = true
             player.ammo++
         }
@@ -493,7 +493,7 @@ function change_health(player) {
     else {
         for (i = 0; i < player.health; i++) {
             if (health_bars[i] == null) {
-                health_bars[i] = bars.create(i * 16, 1, 'health_heart', 'heart.png')
+                health_bars[i] = bars.create(i * 16, 5, 'health_heart', 'heart.png')
                 health_bars[i].fixedToCamera = true
             }
 
