@@ -51,9 +51,9 @@ maingame.gabriellegame.prototype = {
             '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map.json',
             null,
             Phaser.Tilemap.TILED_JSON)
-        
+
         this.load.image('rpAquarium_tiles',
-        '../Assets/General assets/Ripleys Aquarium/tileset.png')
+            '../Assets/General assets/Ripleys Aquarium/tileset.png')
 
         this.load.atlas('player',
             '../Assets/Example assets/legend of faune files/spritesheet.png',
@@ -85,19 +85,19 @@ maingame.gabriellegame.prototype = {
 
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
-         //-------------------- Add tile map and tile set --------------------
-         map = game.add.tilemap('cnTower')
-         map.addTilesetImage('CNTower_StructureTileset', 'cnTower_tiles')
- 
-         // //-------------------- Create layer --------------------
-         water = map.createLayer('Test')
-         walls = map.createLayer('Walls')
-         ground = map.createLayer('Tile Layer 1')
- 
-         game.physics.arcade.enable(ground)
-         game.physics.arcade.enable(walls)
-         game.physics.arcade.enable(water)
- 
+        //-------------------- Add tile map and tile set --------------------
+        map = game.add.tilemap('rpAquarium')
+        map.addTilesetImage('rpAquarium_tiles')
+
+        // //-------------------- Create layer --------------------
+        water = map.createLayer('water')
+        walls = map.createLayer('wall')
+        ground = map.createLayer('Tile Layer 1')
+
+        game.physics.arcade.enable(ground)
+        game.physics.arcade.enable(walls)
+        game.physics.arcade.enable(water)
+
         // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 9999, true, walls)
         map.setCollisionBetween(70, 71, false, ground)
@@ -215,9 +215,15 @@ maingame.gabriellegame.prototype = {
         bar_holder.scale.set(8, 2)
         xp_bar.scale.set(player.exp / maxXpPoints * 8, 2)
 
-        bckpack = statics.create(5,545,'bpack','backpack-icon.png')
-        bckpack.scale.set(0.6,0.6)
+        bckpack = statics.create(5, 545, 'bpack', 'backpack-icon.png')
+        bckpack.scale.set(0.6, 0.6)
         bckpack.fixedToCamera = true
+
+        bckpack.inputEnabled = true
+        bckpack.events.onInputDown.add(
+            function openBackPack() {
+                game.state.start("Backpack")
+            }, this);
 
         lvltxt1 = game.add.text(59, 534, '', { fontSize: '16px', fill: '#FFFFFF' })
         lvltxt1.text = '' + player.level;
@@ -251,11 +257,11 @@ maingame.gabriellegame.prototype = {
         //Water timer set up for health loss and changing attribute to inWater
         map.setTileIndexCallback([103, 104, 105, 106, 107, 108], //sets up for when the tile is in contact
             function wow() {
-                console.log('In Water'); 
-                if(!player.inWater)
+                console.log('In Water');
+                if (!player.inWater)
                     player.inWater = true
-             }, 
-        this, 'Test')
+            },
+            this, 'water')
         inwatertimer = game.time.events;
         waterTimerLoop = inwatertimer.loop(5000, function intoWater() { player.health-- }, this)
 
@@ -320,13 +326,13 @@ maingame.gabriellegame.prototype = {
             inwatertimer.resume()
         }
 
-        
+
         var speed = 175
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
 
         //console.log(inwatertimer)
         if (cursors.bckpck.isDown) {
-            // game.state.start("Backpack");
+            //game.state.start("Backpack");
             // console.log("in backpack state")
 
         }
