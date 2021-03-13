@@ -255,20 +255,34 @@ function create() {
     10,
     false
   );
+
+  /*
+
+  health_potion.animations.add(
+    "health",
+    Phaser.Animation.generateFrameNames("big_demon_idle_anim_f", 0, 3, ".png"),
+    10,
+    true
+  );
+  speed_potion.animations.add(
+    "speed",
+    Phaser.Animation.generateFrameNames("big_demon_idle_anim_f", 0, 3, ".png"),
+    10,
+    true
+  );
+  attack_potion.animations.add(
+    "attack",
+    Phaser.Animation.generateFrameNames("big_demon_idle_anim_f", 0, 3, ".png"),
+    10,
+    true
+  );
+*/
 }
 
-
-
-
-
-
-
-
 function update() {
-
   //Current item is speed potions
-  player.current_item = "Attack_Potion";
-  if (cursors.f.downDuration(1 ) && !keyReset) {
+  player.current_item = "Health_Potion";
+  if (cursors.f.downDuration(1) && !keyReset) {
     keyReset = true;
 
     if (
@@ -282,19 +296,6 @@ function update() {
   if (!cursors.f.isDown) {
     keyReset = false;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   game.physics.arcade.collide(player, walls);
   game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
@@ -374,30 +375,10 @@ function lizard_turn_around(enemy, walls) {
   enemy.body.velocity.x = -current;
 }
 
-
-
-
-
-
-
-
-
-
-
 function swing_default_sword(player) {
   player.body.velocity.x = 0;
   player.body.velocity.y = 0;
   player.swing = true;
-
-
-
-
-
-
-
-
-
-
 
   // Left
   if (player_facing == 0) {
@@ -437,19 +418,11 @@ function swing_default_sword(player) {
   }
   weapon.body.immovable = true;
 
-
-
-
-
-
-
-
   var event = game.time.events.add(
     Phaser.Timer.SECOND * 0.2,
     sheath_sword,
     this,
     [weapon]
-
   );
 }
 
@@ -457,22 +430,6 @@ function sheath_sword(weapon) {
   weapon[0].kill();
   player.swing = false;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 function open_chest(player, chest) {
   if (!chest.opened) {
@@ -484,8 +441,6 @@ function open_chest(player, chest) {
 //~~~~~ Potion effects
 
 function use_potion(player, potion) {
-
-  player.swing = true;
   player.body.velocity.x = 0;
   player.body.velocity.y = 0;
   player_facing = 2;
@@ -498,7 +453,7 @@ function use_potion(player, potion) {
       "potion_set",
       "health_pot_1.png"
     );
-    potion_sprite.lifespan = 1000;
+    potion_sprite.lifespan = 500;
     console.log(player.health);
     console.log("Health Potion used");
     player.health = player.health + 2;
@@ -512,7 +467,7 @@ function use_potion(player, potion) {
       "potion_set",
       "speed_pot_1.png"
     );
-    potion_sprite.lifespan = 1000;
+    potion_sprite.lifespan = 500;
     player.potion_status = "Speed Potion";
     console.log("Speed Potion Used");
     game.time.events.add(
@@ -523,17 +478,18 @@ function use_potion(player, potion) {
         console.log("No more speed");
       },
       this,
-      [player]
+      a[player]
     );
   }
   if (potion == "Attack_Potion") {
-    potion_sprite = game.add.sprite( //.animations.play('animation key')
+    potion_sprite = game.add.sprite(
+      //.animations.play('animation key')
       player.position.x + 8,
       player.position.y - 4,
       "potion_set",
       "strength_pot_1.png"
     );
-    potion_sprite.lifespan = 1000;
+    potion_sprite.lifespan = 500;
     player.potion_status = "Attack Potion";
     console.log("Attack Potion Used");
     game.time.events.add(
@@ -545,21 +501,13 @@ function use_potion(player, potion) {
       this,
       [player]
     );
-
-    var event = game.time.events.add(
-      Phaser.Timer.SECOND * 1,
-      potion_gone,
-      this,
-
-  
-    );
   }
-  
-  function potion_gone()
-  {
+  var event = game.time.events.add(
+    Phaser.Timer.SECOND * 0.5,
+    potion_gone,
+    this
+  );
+  function potion_gone() {
     player.swing = false;
-    
   }
-
-  
 }
