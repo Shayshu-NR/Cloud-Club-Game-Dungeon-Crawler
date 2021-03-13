@@ -257,22 +257,44 @@ function create() {
   );
 }
 
+
+
+
+
+
+
+
 function update() {
+
   //Current item is speed potions
   player.current_item = "Attack_Potion";
-  if (cursors.f.isDown) {
-    console.log("You Clicked F");
-    //Testing various potion effects with Potion_in_use
+  if (cursors.f.downDuration(1 ) && !keyReset) {
+    keyReset = true;
+
     if (
       player.current_item == "Speed_Potion" ||
       player.current_item == "Health_Potion" ||
       player.current_item == "Attack_Potion"
     ) {
       use_potion(player, player.current_item);
-      //drink_potion()
-      //game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
     }
   }
+  if (!cursors.f.isDown) {
+    keyReset = false;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   game.physics.arcade.collide(player, walls);
   game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
@@ -352,10 +374,30 @@ function lizard_turn_around(enemy, walls) {
   enemy.body.velocity.x = -current;
 }
 
+
+
+
+
+
+
+
+
+
+
 function swing_default_sword(player) {
   player.body.velocity.x = 0;
   player.body.velocity.y = 0;
   player.swing = true;
+
+
+
+
+
+
+
+
+
+
 
   // Left
   if (player_facing == 0) {
@@ -395,11 +437,19 @@ function swing_default_sword(player) {
   }
   weapon.body.immovable = true;
 
+
+
+
+
+
+
+
   var event = game.time.events.add(
     Phaser.Timer.SECOND * 0.2,
     sheath_sword,
     this,
     [weapon]
+
   );
 }
 
@@ -407,6 +457,22 @@ function sheath_sword(weapon) {
   weapon[0].kill();
   player.swing = false;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function open_chest(player, chest) {
   if (!chest.opened) {
@@ -418,13 +484,12 @@ function open_chest(player, chest) {
 //~~~~~ Potion effects
 
 function use_potion(player, potion) {
-  potion_use = false;
 
-  function stop_player() {
-    player.body.velocity.x = 0;
-    player.body.velocity.y = 0;
-    potion_use = true;
-  }
+  player.swing = true;
+  player.body.velocity.x = 0;
+  player.body.velocity.y = 0;
+  player_facing = 2;
+  player.swing = true;
 
   if (potion == "Health_Potion") {
     potion_sprite = game.add.sprite(
@@ -462,7 +527,7 @@ function use_potion(player, potion) {
     );
   }
   if (potion == "Attack_Potion") {
-    potion_sprite = game.add.sprite(
+    potion_sprite = game.add.sprite( //.animations.play('animation key')
       player.position.x + 8,
       player.position.y - 4,
       "potion_set",
@@ -480,9 +545,21 @@ function use_potion(player, potion) {
       this,
       [player]
     );
+
+    var event = game.time.events.add(
+      Phaser.Timer.SECOND * 1,
+      potion_gone,
+      this,
+
+  
+    );
+  }
+  
+  function potion_gone()
+  {
+    player.swing = false;
+    
   }
 
-  // function drink_potion(){
-  //   game.add.sprite(128, 128, "potion", "lesser_healing_potion.png");
-  // }
+  
 }
