@@ -1,45 +1,45 @@
-var maingame = {}
+var maingame = {};
 
 //-------------------- Tile map --------------------
-var map
-var ground
-var walls
+var map;
+var ground;
+var walls;
 
 //-------------------- Player --------------------
-var player
-var player_facing = 3
+var player;
+var player_facing = 3;
 
 //-------------------- Enemies --------------------
-var lizard
-var lizard_direction = 1
-var big_guy
-var new_nme
+var lizard;
+var lizard_direction = 1;
+var big_guy;
+var new_nme;
 
 //-------------------- Utilities --------------------
-var keyReset = false
-var cursors
+var keyReset = false;
+var cursors;
 
 //-------------------- Weapons --------------------
-var default_sword
-var weapon
+var default_sword;
+var weapon;
 
 //-------------------- Treasure --------------------
-var chest
+var chest;
 
 //-------------------- Items -----------------------
 var potion;
 
 //-------------------- HUD -----------------------
-var lastLevelPoints = 0
-var maxXpPoints = 0
-var xp_bar
-var bar
-var lvltxt1
-var lvltxt2
-var health_bars
-var ammo_bar
+var lastLevelPoints = 0;
+var maxXpPoints = 0;
+var xp_bar;
+var bar;
+var lvltxt1;
+var lvltxt2;
+var health_bars;
+var ammo_bar;
 
-maingame.test_env = function (game) { }
+maingame.test_env = function (game) {};
 
 maingame.test_env.prototype = {
     preload: function () {
@@ -507,69 +507,81 @@ maingame.test_env.prototype = {
         game.physics.arcade.collide(player, chest, open_chest, null, this)
         game.physics.arcade.collide(player, lizard, damage_player, null, this)
 
-        //-------------------- Movement --------------------
-        var speed = player.speed
+    //-------------------- Collision engine --------------------
+    game.physics.arcade.collide(player, walls);
+    game.physics.arcade.collide(player, walls);
+    game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
+    game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
+    game.physics.arcade.collide(player, chest, open_chest, null, this);
+    game.physics.arcade.collide(player, lizard, damage_player, null, this);
 
-        if (player.potion_status == "Speed Potion") {
-            speed = 500;
-        }
-        else {
-            speed = 175;
-        }
+    //-------------------- Movement --------------------
+    var speed = player.speed;
 
-        idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
+    if (player.potion_status == "Speed Potion") {
+      speed = 350;
+    } else {
+      speed = 175;
+    }
 
-        if(!player.knockback){
-            if (!player.swing) {
-                if (cursors.left.isDown) {
-                    player_facing = 0
-                    player.body.velocity.x = -speed
-                    player.animations.play('walk_left', true)
-    
-    
-                } else if (cursors.right.isDown) {
-                    player_facing = 1
-                    player.body.velocity.x = speed
-                    player.animations.play('walk_right', true)
-    
-                } else if (cursors.down.isDown) {
-                    player_facing = 3
-                    player.body.velocity.y = speed
-                    player.animations.play('walk_down', true)
-    
-                } else if (cursors.up.isDown) {
-                    player_facing = 2
-                    player.body.velocity.y = -speed
-                    player.animations.play('walk_up', true)
-    
-                } else {
-                    player.animations.play(idle_direction[player_facing])
-                    player.body.velocity.x = 0
-                    player.body.velocity.y = 0
-    
-                }
-            } else {
-                player.body.velocity.x = 0
-                player.body.velocity.y = 0
-            }
-        }
+    idle_direction = ["idle-left", "idle-right", "idle-up", "idle-down"];
 
-        if (cursors.space.downDuration(100) && !keyReset) {
-            keyReset = true;
-            swing_default_sword(player)
+    if (!player.knockback) {
+      if (!player.swing) {
+        if (cursors.left.isDown) {
+          player_facing = 0;
+          player.body.velocity.x = -speed;
+          player.animations.play("walk_left", true);
+        } else if (cursors.right.isDown) {
+          player_facing = 1;
+          player.body.velocity.x = speed;
+          player.animations.play("walk_right", true);
+        } else if (cursors.down.isDown) {
+          player_facing = 3;
+          player.body.velocity.y = speed;
+          player.animations.play("walk_down", true);
+        } else if (cursors.up.isDown) {
+          player_facing = 2;
+          player.body.velocity.y = -speed;
+          player.animations.play("walk_up", true);
+        } else {
+          player.animations.play(idle_direction[player_facing]);
+          player.body.velocity.x = 0;
+          player.body.velocity.y = 0;
         }
-        if (!cursors.space.isDown) {
-            keyReset = false
-        }
+      } else {
+        player.body.velocity.x = 0;
+        player.body.velocity.y = 0;
+      }
+    }
 
-        if (cursors.z.isDown) {
-            weapon.fire()
-        }
+    if (cursors.space.downDuration(100) && !keyReset) {
+      keyReset = true;
+      swing_default_sword(player);
+    }
+    if (!cursors.space.isDown) {
+      keyReset = false;
+    }
 
-        //-------------------- Enter skill tree state --------------------
-        if (cursors.esc.downDuration(100)) {
-            game.state.start("Skill tree")
-        }
+    if (cursors.z.isDown) {
+      weapon.fire();
+    }
+
+    //-------------------- Enter skill tree state --------------------
+    if (cursors.esc.downDuration(100)) {
+      game.state.start("Skill tree");
+    }
+
+    if (cursors.bckpck.isDown) {
+      game.state.start("Backpack");
+      console.log("in backpack state");
+    }
+    //-------------------- EXP update and HUD --------------------
+    // Point checking
+    if (player.exp - lastLevelPoints >= maxXpPoints) {
+      level_up(player);
+      add_health(player, 3);
+    }
 
         if (cursors.bckpck.isDown) {
             game.player_attributes = {"backpack": player.backpack, "actives": player.active_items, "current": player.current_item}
@@ -582,10 +594,75 @@ maingame.test_env.prototype = {
             level_up(player)
         }
 
-        xp_bar.scale.set((player.exp - lastLevelPoints) / (maxXpPoints) * 8, 2)
-    },
+    function use_potion(player, potion) {
+      player.body.velocity.x = 0;
+      player.body.velocity.y = 0;
+      player.swing = true;
 
-    render: function () {
+      if (potion == "Health_Potion") {
+        potion_sprite = game.add.sprite(
+          player.position.x + 4,
+          player.position.y - 15,
+          "potion_set",
+          "health_pot_1.png"
+        );
+        potion_sprite.lifespan = 500;
+        console.log(player.health);
+        console.log("Health Potion used");
+        player.health = player.health + 2;
+        console.log(player.health);
+      }
+
+      if (potion == "Speed_Potion") {
+        potion_sprite = game.add.sprite(
+          player.position.x + 8,
+          player.position.y - 4,
+          "potion_set",
+          "speed_pot_1.png"
+        );
+        potion_sprite.lifespan = 500;
+        player.potion_status = "Speed Potion";
+        console.log("Speed Potion Used");
+        game.time.events.add(
+          10000,
+          function (player) {
+            console.log("Getting rid of speed");
+            player[0].potion_status = "default";
+            console.log("No more speed");
+          },
+          this,
+          [player]
+        );
+      }
+      if (potion == "Attack_Potion") {
+        potion_sprite = game.add.sprite(
+          //.animations.play('animation key')
+          player.position.x + 8,
+          player.position.y - 4,
+          "potion_set",
+          "strength_pot_1.png"
+        );
+        potion_sprite.lifespan = 500;
+        player.potion_status = "Attack Potion";
+        console.log("Attack Potion Used");
+        game.time.events.add(
+          10000,
+          function (player) {
+            console.log("Getting rid of attack");
+            player[0].currentState = "default";
+          },
+          this,
+          [player]
+        );
+      }
+      var event = game.time.events.add(
+        Phaser.Timer.SECOND * 0.5,
+        potion_gone,
+        this
+      );
+      function potion_gone() {
+        player.swing = false;
+      }
     }
 }
 function level_up(player) {
