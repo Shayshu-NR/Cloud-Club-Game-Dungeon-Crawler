@@ -76,7 +76,7 @@ maingame.gabriellegame.prototype = {
             '../Gabrielle/src/Assets/fire.png')
 
         this.load.image('bpack',
-            '../Gabrielle/src/Assets/back-pack.png')
+            '../Assets/General assets/backpack-icon.png')
 
 
     },
@@ -85,17 +85,19 @@ maingame.gabriellegame.prototype = {
 
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
-        map = game.add.tilemap('rpAquarium')
-        map.addTilesetImage('rpAquarium_tiles')
-
-        water = map.createLayer('water')
-        walls = map.createLayer('wall')
-        ground = map.createLayer('Tile Layer 1')
-
-        game.physics.arcade.enable(ground)
-        game.physics.arcade.enable(walls)
-        game.physics.arcade.enable(water)
-
+         //-------------------- Add tile map and tile set --------------------
+         map = game.add.tilemap('cnTower')
+         map.addTilesetImage('CNTower_StructureTileset', 'cnTower_tiles')
+ 
+         // //-------------------- Create layer --------------------
+         water = map.createLayer('Test')
+         walls = map.createLayer('Walls')
+         ground = map.createLayer('Tile Layer 1')
+ 
+         game.physics.arcade.enable(ground)
+         game.physics.arcade.enable(walls)
+         game.physics.arcade.enable(water)
+ 
         // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 9999, true, walls)
         map.setCollisionBetween(70, 71, false, ground)
@@ -196,7 +198,7 @@ maingame.gabriellegame.prototype = {
         var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-        bckpack = game.add.button(500, 70, 'button', actionOnClick, this, 2, 1, 0);
+        //bckpack = game.add.button(500, 70, 'button', actionOnClick, this, 2, 1, 0);
 
 
         var bar_holder = statics.create(59, 550, 'bar', 'Bar.png')
@@ -213,9 +215,9 @@ maingame.gabriellegame.prototype = {
         bar_holder.scale.set(8, 2)
         xp_bar.scale.set(player.exp / maxXpPoints * 8, 2)
 
-
-
-
+        bckpack = statics.create(5,545,'bpack','backpack-icon.png')
+        bckpack.scale.set(0.6,0.6)
+        bckpack.fixedToCamera = true
 
         lvltxt1 = game.add.text(59, 534, '', { fontSize: '16px', fill: '#FFFFFF' })
         lvltxt1.text = '' + player.level;
@@ -253,9 +255,10 @@ maingame.gabriellegame.prototype = {
                 if(!player.inWater)
                     player.inWater = true
              }, 
-        this, 'water')
+        this, 'Test')
         inwatertimer = game.time.events;
         waterTimerLoop = inwatertimer.loop(5000, function intoWater() { player.health-- }, this)
+
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
@@ -501,10 +504,6 @@ function change_health(player) {
 
         }
     }
-}
-function actionOnClick() {
-    console.log("return to game")
-
 }
 
 
