@@ -633,7 +633,7 @@ maingame.test_env.prototype = {
             console.log("No more speed");
           },
           this,
-          a[player]
+          [player]
         );
       }
       if (potion == "Attack_Potion") {
