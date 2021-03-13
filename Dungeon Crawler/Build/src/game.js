@@ -380,12 +380,12 @@ maingame.test_env.prototype = {
             "dmg": 1,
             "quantity": 1
         }
+        ption1 = {"name": "potion",
+        "group": potion,
+        "src": "../Assets/General assets/lesser_healing_potion"}
         player.backpack = {
-            "name": "sword",
-            "group": default_sword,
-            "src": "sword_spritesheet.png",
-            "dmg": 1,
-            "quantity": 1}
+            "potion": ption1
+        }
 
         //-------------------- Chest example --------------------
         chest = game.add.group()

@@ -10,6 +10,7 @@ maingame.BackPack.prototype = {
                 game.load.image('backpack', '../Assets/General assets/backpack.png')
                 game.load.image('actives', '../Assets/General assets/ActiveItems.png')
                 game.load.image('button', '../Assets/General assets/Grass.png')
+                game.load.image(game.player_attributes["backpack"]["potion"]["src"])
         },
     
         create: function() {
@@ -68,9 +69,10 @@ maingame.BackPack.prototype = {
                         backpack[bpList[count]]["group"].input.enableDrag();
                         backpack[bpList[count]]["group"].events.onDragStart.add(onDragStart, this);
                         backpack[bpList[count]]["group"].events.onDragStop.add(onDragStop, this);
-                        backpack[bpList[count]]["group"].inv_x = i
-                        backpack[bpList[count]]["group"].inv_y = j
-                        //inventory[][] = 1;
+                        backpack[bpList[count]]["group"].inv_x = i-1
+                        backpack[bpList[count]]["group"].inv_y = j-1
+                        backpack[bpList[count]]["group"].inv = [i-1,j-1]
+                        inventory[i-1][j-1] = 1;
                         count++;
                         console.log(count)
                     }
@@ -83,8 +85,9 @@ maingame.BackPack.prototype = {
                     active_items[i-1]["group"].input.enableDrag();
                     active_items[i-1]["group"].events.onDragStart.add(onDragStart, this);
                     active_items[i-1]["group"].events.onDragStop.add(onDragStop, this);
-                    active_items[i-1]["group"].inv_x = i
+                    active_items[i-1]["group"].inv_x = i-1
                     active_items[i-1]["group"].inv_y = 5
+                    active_items[i-1]["group"].inv = [i-1,j-1]
                     actives[i-1] = 1
                 }
                 
@@ -119,11 +122,13 @@ maingame.BackPack.prototype = {
                                         return
                                 } else {
                                         //success
+                                        
                                         if (sprite.inv[1] == 5){
                                                 actives[sprite.inv[0]] = 0
                                         } else {
                                                 inventory[sprite.inv[1]][sprite.inv[0]] = 0
                                         }
+                                        moveBackpackToActive(backpack, sprite, act_x)
                                         actives[act_x] = 1
                                         sprite.inv[0] = inv_x
                                         sprite.inv[1] = inv_y
@@ -145,6 +150,17 @@ maingame.BackPack.prototype = {
                                 sprite.inv[0] = inv_x
                                 sprite.inv[1] = inv_y
                                 return
+                        }
+                }
+                moveBackpackToActive = function (backpack, item, index) {
+                        if (active_items.length < 3) {
+                            active_items.splice(index, 0, item);
+                            delete backpack["potion"];
+                        } else {
+                            item_moved = player.active_items[index];
+                            active_items.splice(index, 1, item);
+                            backpack.delete(item);
+                            backpack[item_moved["name"]] = item_moved;
                         }
                 }
         },
