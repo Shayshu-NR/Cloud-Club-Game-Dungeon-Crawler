@@ -193,6 +193,44 @@ skill_modifier = {
                 [text]
             );
         }
+    },
+
+    LuckUp: function (node) {
+        if (player.getCurrentLevel() - player.used_skill_points > 0 && node.root.clickable) {
+            player.used_skill_points += 1
+            game.playerUsedSkillPoints += 1
+            game.playerLuck += 0.1
+            // Change tree colors
+            colors[node.root.index] = 'rgb(255, 0, 0)'
+
+            // Make next layer accesible
+            node.root.makeNextLayerClickable()
+
+            // Make this layer not clickable...
+            node.root.clickable = false
+            console.log("Luck up", game.playerLuck)
+        }
+        else if (!node.root.clickable) {
+            console.log("Not acessible yet...")
+        }
+        else {
+            console.log("Not enough skill points!")
+            var style = {
+                font: 'bold 15pt Dungeon Crawler',
+                fill: 'red'
+            }
+
+            var text = game.add.text(10, 10, "Not enough skill points!", style)
+
+            game.time.events.add(
+                2000,
+                function (arr) {
+                    game.add.tween(arr[0]).to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true)
+                },
+                this,
+                [text]
+            );
+        }
     }
 }
 
@@ -223,9 +261,11 @@ const atks = new SkillTree('Attack Speed', skill_modifier['AttackSpeedUp'], 'atk
 const crit = new SkillTree('Crit', skill_modifier['CritUp'], 'crit', 150 - 117, 300)
 const heal = new SkillTree('Heal', skill_modifier['HealUp'], 'heal', 150 + 117, 300)
 const test = new SkillTree('Damage', skill_modifier['DamageUp'], 'dmg', 384, 400)
+const luck = new SkillTree('Luck', skill_modifier['LuckUp'], 'luck', 384*2, 350)
 
 speed.next.push(crit, heal)
 dmg.next.push(test)
 root.next.push(speed, dmg, atks)
+atks.next.push(luck)
 
 var colors = []

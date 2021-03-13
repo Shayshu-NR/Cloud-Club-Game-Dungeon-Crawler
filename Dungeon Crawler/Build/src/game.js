@@ -112,7 +112,7 @@ maingame.test_env.prototype = {
             '../Gabrielle/src/Assets/fire.png')
 
         this.load.image('bpack',
-            '../Gabrielle/src/Assets/back-pack.png')
+            '../Assets/General assets/backpack-icon-cropped.png')
     },
 
     create: function () {
@@ -134,6 +134,10 @@ maingame.test_env.prototype = {
         player = game.add.sprite(128, 128, 'eng', 'idle_down.png')
         player.swing = false
         player = init_player(game, player)
+
+        //player.backpack = {potion}
+        player.active_items = []
+        player.current_item = {}
 
         player.animations.add(
             'walk_down',
@@ -376,6 +380,12 @@ maingame.test_env.prototype = {
             "dmg": 1,
             "quantity": 1
         }
+        ption1 = {"name": "potion",
+        "group": potion,
+        "src": "../Assets/General assets/lesser_healing_potion"}
+        player.backpack = {
+            "potion": ption1
+        }
 
         //-------------------- Chest example --------------------
         chest = game.add.group()
@@ -418,7 +428,7 @@ maingame.test_env.prototype = {
         var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-        var stats = statics.create(5, 560, 'bpack', 'back-pack.png')
+        var stats = statics.create(10, 545, 'bpack', 'back-pack.png')
 
 
         var bar_holder = statics.create(59, 550, 'bar', 'Bar.png')
@@ -564,6 +574,7 @@ maingame.test_env.prototype = {
         }
 
         if (cursors.bckpck.isDown) {
+            game.player_attributes = {"backpack": player.backpack, "actives": player.active_items, "current": player.current_item}
             game.state.start("Backpack");
             console.log("in backpack state")
         }
