@@ -18,8 +18,8 @@ var lvltxt2
 var health_bars
 var ammo_bar
 var bckpack
-var timer
-var loop
+var inwatertimer
+var waterTimerLoop
 var tile
 //~~~~~~~~~~~~~~~~~~~~~
 
@@ -91,16 +91,6 @@ maingame.gabriellegame.prototype = {
         // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 9999, true, walls)
         map.setCollisionBetween(70, 71, false, ground)
-
-        // var tile_ind_count = 0
-        // for (var i = 0; i < 10000; i++){
-        //     if(map.searchTileIndex(i) != null){
-        //         console.log(map.searchTileIndex(i))
-        //         tile_ind_count++
-        //     }
-        // }
-
-        map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('In Water');player.inWater = true}, this, 'Test')
 
         //console.log(tile_ind_count)
 
@@ -215,8 +205,7 @@ maingame.gabriellegame.prototype = {
         bar_holder.scale.set(8, 2)
         xp_bar.scale.set(player.exp / maxXpPoints * 8, 2)
 
-        timer = game.time.events;
-        loop = timer.loop(5000, function hi() { player.health-- }, this)
+
 
 
 
@@ -249,8 +238,16 @@ maingame.gabriellegame.prototype = {
 
         }
 
-        //Timer set up 
-
+        //Water timer set up for health loss and changing attribute to inWater
+        map.setTileIndexCallback([103, 104, 105, 106, 107, 108], //sets up for when the tile is in contact
+            function wow() {
+                console.log('In Water'); 
+                if(!player.inWater)
+                    player.inWater = true
+             }, 
+        this, 'Test')
+        inwatertimer = game.time.events;
+        waterTimerLoop = inwatertimer.loop(5000, function intoWater() { player.health-- }, this)
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
@@ -292,8 +289,6 @@ maingame.gabriellegame.prototype = {
         cursors.dummy = game.input.keyboard.addKey(Phaser.Keyboard.D)
         cursors.collide = game.input.keyboard.addKey(Phaser.Keyboard.C)
 
-
-
     },
 
     update: function () {
@@ -301,25 +296,24 @@ maingame.gabriellegame.prototype = {
         //game.physics.arcade.overlap(player, water,inWater(player),null,this)
         //game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
         //game.physics.arcade.overlap(player, lizard, kill_player(player), null, this)
+
+
+        //Collision for the specific type of tile
         game.physics.arcade.collide(player, water, function tileMapColExample() {
             console.log("Example water collision...")
             return
         }, null, this)
 
-
-        if (!player.inWater) {
-            timer.pause()
-            timer.timeScale = 0
-        }
+        //starts timer when the player is in water
         if (player.inWater) {
-            timer.resume();
+            inwatertimer.resume()
         }
 
-
+        
         var speed = 175
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
 
-        //console.log(timer)
+        //console.log(inwatertimer)
         if (cursors.bckpck.isDown) {
             // game.state.start("Backpack");
             // console.log("in backpack state")
@@ -504,9 +498,5 @@ function actionOnClick() {
     console.log("return to game")
 
 }
-function intoWater(player) {
-    if (!player.inWater) {
-        player.inWater = true
-    }
-}
+
 
