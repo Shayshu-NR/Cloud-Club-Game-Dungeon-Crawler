@@ -107,7 +107,7 @@ maingame.test_env.prototype = {
             '../Gabrielle/src/Assets/heart.png')
   
         this.load.image('ammo_fire',
-            '../Gabrielle/src/Assets/fire.png')
+            '../Assets/General assets/ammo.png')
 
         this.load.image('bpack',
             '../Assets/General assets/backpack-icon-cropped.png')

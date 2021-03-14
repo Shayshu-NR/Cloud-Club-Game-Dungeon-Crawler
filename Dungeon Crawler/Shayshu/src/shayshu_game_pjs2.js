@@ -102,27 +102,25 @@ maingame.test_env.prototype = {
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
         //-------------------- Add tile map and tile set --------------------
-        map = game.add.tilemap('cnTower')
-        map.addTilesetImage('CNTower_StructureTileset', 'cnTower_tiles')
+        map = game.add.tilemap('ripleys')
+        map.addTilesetImage('ripleys', 'ripleys_tiles')
 
         // //-------------------- Create layer --------------------
-        tile_col_ex = map.createLayer('Test')
-        walls = map.createLayer('Walls')
-        ground = map.createLayer('Tile Layer 1')
+        walls = map.createLayer('wall')
+        ground = map.createLayer('ground')
+        water = map.createLayer('water')
 
         game.physics.arcade.enable(ground)
         game.physics.arcade.enable(walls)
-        game.physics.arcade.enable(tile_col_ex)
 
         // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 9999, true, walls)
         map.setCollisionBetween(70, 71, false, ground)
 
-        map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('It works!')}, this, 'Test')
+        // map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('It works!')}, this, 'Test')
 
-        console.log(tile_ind_count)
         //-------------------- Add player model --------------------
-        player = game.add.sprite(750, 1050, 'eng', 'idle_down.png')
+        player = game.add.sprite(750, 850, 'eng', 'idle_down.png')
         player.swing = false
         player = init_player(game, player)
 
@@ -425,10 +423,10 @@ maingame.test_env.prototype = {
         game.physics.arcade.collide(player, chest, open_chest, null, this)
         game.physics.arcade.collide(player, lizard, damage_player, null, this)
 
-        game.physics.arcade.collide(player, tile_col_ex, function tileMapColExample() {
-            console.log("Example water collision...")
-            return
-        }, null, this)
+        // game.physics.arcade.collide(player, tile_col_ex, function tileMapColExample() {
+        //     console.log("Example water collision...")
+        //     return
+        // }, null, this)
 
         //-------------------- Movement --------------------
         var speed = player.speed
@@ -489,7 +487,7 @@ maingame.test_env.prototype = {
 
     render: function () {
         game.debug.bodyInfo(player, 32, 32);
-        // // game.debug.body(player);
+        game.debug.body(player);
         // // game.debug.body(new_nme)
         // // if (weapon) {
         // //     game.debug.body(weapon)
