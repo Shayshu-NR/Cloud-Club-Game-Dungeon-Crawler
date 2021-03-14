@@ -498,14 +498,18 @@ maingame.test_env.prototype = {
                 use_potion(player, player.current_item);
             }
         }
+      }
+      if (!cursors.f.isDown) {
+        keyReset = false;
+      }
 
-        //-------------------- Collision engine --------------------
-        game.physics.arcade.collide(player, walls)
-        game.physics.arcade.collide(player, walls)
-        game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
-        game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this)
-        game.physics.arcade.collide(player, chest, open_chest, null, this)
-        game.physics.arcade.collide(player, lizard, damage_player, null, this)
+    //-------------------- Collision engine --------------------
+    game.physics.arcade.collide(player, walls);
+    game.physics.arcade.collide(player, walls);
+    game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
+    game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
+    game.physics.arcade.collide(player, chest, open_chest, null, this);
+    game.physics.arcade.collide(player, lizard, damage_player, null, this);
 
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
@@ -517,7 +521,7 @@ maingame.test_env.prototype = {
 
     //-------------------- Movement --------------------
     var speed = player.speed;
-
+    potion_set = game.add.group();
     if (player.potion_status == "Speed Potion") {
       speed = 350;
     } else {
@@ -583,16 +587,20 @@ maingame.test_env.prototype = {
       add_health(player, 3);
     }
 
-        if (cursors.bckpck.isDown) {
-            game.player_attributes = {"backpack": player.backpack, "actives": player.active_items, "current": player.current_item}
-            game.state.start("Backpack");
-            console.log("in backpack state")
-        }
-        //-------------------- EXP update and HUD --------------------
-        // Point checking 
-        if ((player.exp - lastLevelPoints) >= maxXpPoints) {
-            level_up(player)
-        }
+    if (cursors.bckpck.isDown) {
+      game.player_attributes = {
+        backpack: player.backpack,
+        actives: player.active_items,
+        current: player.current_item,
+      };
+      game.state.start("Backpack");
+      console.log("in backpack state");
+    }
+    //-------------------- EXP update and HUD --------------------
+    // Point checking
+    if (player.exp - lastLevelPoints >= maxXpPoints) {
+      level_up(player);
+    }
 
     function use_potion(player, potion) {
       player.body.velocity.x = 0;
@@ -601,11 +609,20 @@ maingame.test_env.prototype = {
 
       if (potion == "Health_Potion") {
         potion_sprite = game.add.sprite(
-          player.position.x + 4,
+          player.position.x + 5,
           player.position.y - 15,
           "potion_set",
           "health_pot_1.png"
         );
+
+        potion_sprite.animations.add(
+          "health",
+          Phaser.Animation.generateFrameNames("health_pot_", 1, 4, ".png"),
+          10,
+          true
+        );
+
+        potion_sprite.play("health", 10, true);
         potion_sprite.lifespan = 500;
         console.log(player.health);
         console.log("Health Potion used");
@@ -615,11 +632,20 @@ maingame.test_env.prototype = {
 
       if (potion == "Speed_Potion") {
         potion_sprite = game.add.sprite(
-          player.position.x + 8,
-          player.position.y - 4,
+          player.position.x + 5,
+          player.position.y - 15,
           "potion_set",
           "speed_pot_1.png"
         );
+
+        potion_sprite.animations.add(
+          "speed",
+          Phaser.Animation.generateFrameNames("speed_pot_", 1, 4, ".png"),
+          10,
+          true
+        );
+
+        potion_sprite.play("speed", 10, true);
         potion_sprite.lifespan = 500;
         player.potion_status = "Speed Potion";
         console.log("Speed Potion Used");
@@ -636,12 +662,20 @@ maingame.test_env.prototype = {
       }
       if (potion == "Attack_Potion") {
         potion_sprite = game.add.sprite(
-          //.animations.play('animation key')
-          player.position.x + 8,
-          player.position.y - 4,
+          player.position.x + 5,
+          player.position.y - 15,
           "potion_set",
           "strength_pot_1.png"
         );
+
+        potion_sprite.animations.add(
+          "strength",
+          Phaser.Animation.generateFrameNames("strength_pot_", 1, 4, ".png"),
+          10,
+          true
+        );
+
+        potion_sprite.play("strength", 10, true);
         potion_sprite.lifespan = 500;
         player.potion_status = "Attack Potion";
         console.log("Attack Potion Used");
@@ -664,17 +698,15 @@ maingame.test_env.prototype = {
         player.swing = false;
       }
     }
-}
-
-}
+  },
+};
 function level_up(player) {
+  player.getCurrentLevel();
 
-    player.getCurrentLevel()
+  console.log("Reached level", player.level);
+  lastLevelPoints = player.exp;
+  maxXpPoints = (100 * player.level) ^ 1.5;
 
-    console.log('Reached level', player.level)
-    lastLevelPoints = player.exp
-    maxXpPoints = 100 * (player.level) ^ 1.5
-
-    lvltxt1.text = '' + player.level;
-    lvltxt2.text = '' + (player.level + 1);
+  lvltxt1.text = "" + player.level;
+  lvltxt2.text = "" + (player.level + 1);
 }
