@@ -14,6 +14,7 @@ var lizard;
 var lizard_direction = 1;
 var big_guy;
 var new_nme;
+var shark
 
 //-------------------- Utilities --------------------
 var keyReset = false;
@@ -230,10 +231,10 @@ maingame.test_env.prototype = {
       Phaser.Animation.generateFrameNames(
         'hurt_up_',
         1,
-        2,
+        3,
         '.png'
       ),
-      2,
+      10,
       true
     )
     player.animations.add(
@@ -244,7 +245,7 @@ maingame.test_env.prototype = {
         3,
         '.png'
       ),
-      2,
+      10,
       true
     )
     player.animations.add(
@@ -255,7 +256,7 @@ maingame.test_env.prototype = {
         4,
         '.png'
       ),
-      2,
+      10,
       true
     )
     player.animations.add(
@@ -266,7 +267,7 @@ maingame.test_env.prototype = {
         4,
         '.png'
       ),
-      2,
+      10,
       true
     )
     player.animations.add(
@@ -299,9 +300,14 @@ maingame.test_env.prototype = {
     default_sword.enableBody = true
 
     //-------------------- Add example enemies --------------------
-    lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    lizard = game.add.physicsGroup(Phaser.Physics.ARCADE)
+    shark = game.add.physicsGroup(Phaser.Physics.ARCADE)
+    
     lizard.enableBody = true
+    shark.enableBody = true
+    
     game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
+    game.physics.arcade.enable(shark, Phaser.Physics.ARCADE)
 
     new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
     new_nme = enemy_init(new_nme, 10, 500)

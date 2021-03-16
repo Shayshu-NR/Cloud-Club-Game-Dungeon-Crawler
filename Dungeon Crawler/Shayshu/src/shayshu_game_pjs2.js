@@ -4,6 +4,10 @@ var maingame = {}
 var map
 var ground
 var walls
+var water
+var kelp
+var glass
+var rocks
 
 //-------------------- Player --------------------
 var player
@@ -14,6 +18,7 @@ var lizard
 var lizard_direction = 1
 var big_guy
 var new_nme
+var shark
 
 //-------------------- Utilities --------------------
 var keyReset = false
@@ -39,7 +44,8 @@ maingame.test_env.prototype = {
         this.load.image('cnTower_tiles',
             '../Assets/General assets/CN Tower/CNTower_StructureTileset.png'
         )
-
+        
+        // Ripleys
         this.load.tilemap('ripleys',
             '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map.json',
             null,
@@ -48,6 +54,12 @@ maingame.test_env.prototype = {
         this.load.image('ripleys_tiles',
             '../Assets/General assets/Ripleys Aquarium/tileset.png'
         )
+
+        this.load.atlas('shark',
+            '../Assets/General assets/Ripleys Aquarium/shark-swim/Shark_atlas_sheet.png',
+            '../Assets/General assets/Ripleys Aquarium/shark-swim/Shark_atlas_js.json'
+        )
+        //
 
         this.load.image('tiles',
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png')
@@ -109,13 +121,16 @@ maingame.test_env.prototype = {
         walls = map.createLayer('wall')
         ground = map.createLayer('ground')
         water = map.createLayer('water')
+        kelp = map.createLayer('kelp')
+        glass = map.createLayer('glass')
+        rocks = map.createLayer('rocks')
 
-        game.physics.arcade.enable(ground)
-        game.physics.arcade.enable(walls)
+
+        // game.physics.arcade.enable(ground)
+        // game.physics.arcade.enable(walls)
 
         // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 9999, true, walls)
-        map.setCollisionBetween(70, 71, false, ground)
 
         // map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('It works!')}, this, 'Test')
 
@@ -217,10 +232,10 @@ maingame.test_env.prototype = {
             Phaser.Animation.generateFrameNames(
                 'hurt_up_',
                 1,
-                2,
+                3,
                 '.png'
             ),
-            2,
+            10,
             true
         )
         player.animations.add(
@@ -231,7 +246,7 @@ maingame.test_env.prototype = {
                 3,
                 '.png'
             ),
-            2,
+            10,
             true
         )
         player.animations.add(
@@ -242,7 +257,7 @@ maingame.test_env.prototype = {
                 4,
                 '.png'
             ),
-            2,
+            10,
             true
         )
         player.animations.add(
@@ -253,7 +268,7 @@ maingame.test_env.prototype = {
                 4,
                 '.png'
             ),
-            2,
+            10,
             true
         )
         player.animations.add(
@@ -287,16 +302,72 @@ maingame.test_env.prototype = {
 
         //-------------------- Add example enemies --------------------
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
-        lizard.enableBody = true
-        game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
+        shark = game.add.physicsGroup(Phaser.Physics.ARCADE)
 
-        new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
+        lizard.enableBody = true
+        shark.enableBody = true
+
+        game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
+        game.physics.arcade.enable(shark, Phaser.Physics.ARCADE)
+
+        new_nme = lizard.create(738, 680, 'lizard', 'lizard_m_idle_anim_f0.png')
         new_nme = enemy_init(new_nme, 10, 500)
 
         big_guy = lizard.create(600, 200, 'big_guy', 'big_demon_idle_anim_f3.png')
         var big_guy_tween = game.add.tween(big_guy)
         big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
         big_guy = enemy_init(big_guy, 25, 500)
+        
+        const sharky = shark.create(738, 680, 'shark', 'shark-swim-left-f1.png')
+        sharky.scale.setTo(1.5)
+
+        sharky.animations.add(
+            'swim_right',
+            Phaser.Animation.generateFrameNames(
+                'shark-swim-right-f',
+                1,
+                4,
+                '.png'
+            ),
+            10,
+            true
+        )
+        sharky.animations.add(
+            'swim_left',
+            Phaser.Animation.generateFrameNames(
+                'shark-swim-left-f',
+                1,
+                4,
+                '.png'
+            ),
+            10,
+            true
+        )
+        sharky.animations.add(
+            'swim_up',
+            Phaser.Animation.generateFrameNames(
+                'shark-swim-up-f',
+                1,
+                4,
+                '.png'
+            ),
+            10,
+            true
+        )
+        sharky.animations.add(
+            'swim_down',
+            Phaser.Animation.generateFrameNames(
+                'shark-swim-down-f',
+                1,
+                4,
+                '.png'
+            ),
+            10,
+            true
+        )
+
+        sharky.animations.play('swim_up')
+
 
         big_guy.animations.add(
             'idle',
@@ -321,7 +392,6 @@ maingame.test_env.prototype = {
             true
         )
         big_guy.animations.play('run')
-
         new_nme.animations.add(
             'idle',
             Phaser.Animation.generateFrameNames(
@@ -422,6 +492,7 @@ maingame.test_env.prototype = {
         game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this)
         game.physics.arcade.collide(player, chest, open_chest, null, this)
         game.physics.arcade.collide(player, lizard, damage_player, null, this)
+        game.physics.arcade.collide(shark, walls)
 
         // game.physics.arcade.collide(player, tile_col_ex, function tileMapColExample() {
         //     console.log("Example water collision...")
@@ -479,6 +550,8 @@ maingame.test_env.prototype = {
             weapon.fire()
         }
 
+        shark.forEach(shark_track)
+
         //-------------------- Enter skill tree state --------------------
         if (cursors.esc.downDuration(100)) {
             game.state.start("Skill tree", false, false)
@@ -487,7 +560,7 @@ maingame.test_env.prototype = {
 
     render: function () {
         game.debug.bodyInfo(player, 32, 32);
-        game.debug.body(player);
+        // game.debug.body(player);
         // // game.debug.body(new_nme)
         // // if (weapon) {
         // //     game.debug.body(weapon)

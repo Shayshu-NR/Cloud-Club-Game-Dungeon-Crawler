@@ -55,7 +55,7 @@ function lizard_dmg(default_sword, lizard) {
         var damage = player.current_item["dmg"] + player.damage + player.crit_damage()
         show_dmg(damage, lizard)
 
-        lizard.health -= damage 
+        lizard.health -= damage
         console.log(lizard.health)
         lizard.immune = true
         setTimeout(function () {
@@ -66,10 +66,10 @@ function lizard_dmg(default_sword, lizard) {
 
 function show_dmg(damage, enemy) {
     var x_pos = enemy.position.x + (enemy.width / 2.0)
-    var y_pos = enemy.position.y - (enemy.height/ 2) - 2
+    var y_pos = enemy.position.y - (enemy.height / 2) - 2
     var style = {
-        font : 'bold 20pt Dungeon Crawler', 
-        fill : 'red'
+        font: 'bold 20pt Dungeon Crawler',
+        fill: 'red'
     }
 
     var text = game.add.text(x_pos, y_pos, String(damage), style)
@@ -77,16 +77,41 @@ function show_dmg(damage, enemy) {
     game.time.events.add(
         250,
         function (arr) {
-          console.log("Getting rid of dmg text");
-          arr[0].kill()
+            console.log("Getting rid of dmg text");
+            arr[0].kill()
         },
-        this, 
+        this,
         [text]
-      );
+    );
 }
 
 function probability(n) {
     return !!n && Math.random() <= n;
+}
+
+function shark_track(enemy) {
+
+    if (Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 150) {
+
+        game.physics.arcade.moveToObject(enemy, player, 60, 1000)
+
+        if (enemy.body.velocity.x > enemy.body.velocity.y) {
+            if (enemy.body.velocity.x > 0) {
+                enemy.animations.play('swim_right')
+            }
+            else {
+                enemy.animations.play('swim_left')
+            }
+        }
+        else {
+            if (enemy.body.velocity.y > 0) {
+                enemy.animations.play('swim_down')
+            }
+            else {
+                enemy.animations.play('swim_up')
+            }
+        }
+    }
 }
 
 function damage_player(player, enemy) {

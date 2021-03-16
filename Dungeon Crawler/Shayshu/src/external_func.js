@@ -91,20 +91,22 @@ function damage_player(player, enemy) {
     if (!player.knockback) {
         var dmg_dealt = enemy.damage * player.defense
         player.health -= dmg_dealt
-
-        player.animations.play()
     }
 
     if (player.body.touching["left"]) {
+        player.animations.play('hurt_left')
         player.body.velocity.x = 100
     }
     if (player.body.touching["right"]) {
+        player.animations.play('hurt_right')
         player.body.velocity.x = -100
     }
     if (player.body.touching["down"]) {
+        player.animations.play('hurt_down')
         player.body.velocity.y = -100
     }
     if (player.body.touching["up"]) {
+        player.animations.play('hurt_up')
         player.body.velocity.y = 100
     }
 
@@ -115,7 +117,6 @@ function damage_player(player, enemy) {
         game.time.events.add(
             500,
             function () {
-                console.log("Done with knockback")
                 player.knockback = false
             },
             this
@@ -127,4 +128,29 @@ function damage_player(player, enemy) {
 function probability(n) {
     return !!n && Math.random() <= n;
 };
+
+function shark_track(enemy){
+
+    if(Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 150){
+
+        game.physics.arcade.moveToObject(enemy, player, 60, 1000)
+    
+        if (enemy.body.velocity.x > enemy.body.velocity.y){
+            if(enemy.body.velocity.x > 0){
+                enemy.animations.play('swim_right')
+            }
+            else{
+                enemy.animations.play('swim_left')
+            }
+        }
+        else{
+            if(enemy.body.velocity.y > 0){
+                enemy.animations.play('swim_down')
+            }
+            else{
+                enemy.animations.play('swim_up')
+            }
+        }
+    }
+}
 //~~~~~
