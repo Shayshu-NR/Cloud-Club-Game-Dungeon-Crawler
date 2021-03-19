@@ -119,21 +119,23 @@ function damage_player(player, enemy) {
     // the opposite direction they're facing
     if (!player.knockback) {
         var dmg_dealt = enemy.damage * player.defense
-        player.health -= dmg_dealt
-
-        // player.animations.play()
+        kill_player(player, dmg_dealt)
     }
 
     if (player.body.touching["left"]) {
-        player.body.velocity.x = 100
+        player.animations.play('hurt_left')
+        player.body.velocity.x = 125
     }
     if (player.body.touching["right"]) {
-        player.body.velocity.x = -100
+        player.animations.play('hurt_right')
+        player.body.velocity.x = -125
     }
     if (player.body.touching["down"]) {
+        player.animations.play('hurt_down')
         player.body.velocity.y = -100
     }
     if (player.body.touching["up"]) {
+        player.animations.play('hurt_up')
         player.body.velocity.y = 100
     }
 
@@ -144,7 +146,6 @@ function damage_player(player, enemy) {
         game.time.events.add(
             500,
             function () {
-                console.log("Done with knockback")
                 player.knockback = false
             },
             this
@@ -163,5 +164,16 @@ function kill_player(player, amount) {
         }
 
     }
+}
+
+function level_up(player) {
+    player.getCurrentLevel();
+
+    console.log("Reached level", player.level);
+    lastLevelPoints = player.exp;
+    maxXpPoints = (100 * player.level) ^ 1.5;
+
+    lvltxt1.text = "" + player.level;
+    lvltxt2.text = "" + (player.level + 1);
 }
 //~~~~~

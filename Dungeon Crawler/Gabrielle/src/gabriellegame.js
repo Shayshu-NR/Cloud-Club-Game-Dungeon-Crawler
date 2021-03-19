@@ -92,7 +92,7 @@ maingame.gabriellegame.prototype = {
         // //-------------------- Create layer --------------------
         water = map.createLayer('water')
         walls = map.createLayer('wall')
-        ground = map.createLayer('Tile Layer 1')
+        ground = map.createLayer('ground')
 
         game.physics.arcade.enable(ground)
         game.physics.arcade.enable(walls)
@@ -100,11 +100,22 @@ maingame.gabriellegame.prototype = {
 
         // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 9999, true, walls)
-        map.setCollisionBetween(70, 71, false, ground)
+
+        var waterTileIndexes = []
+        var allWaterTiles = water.getTiles(water.worldPosition.x, water.worldPosition.y, water.layer.width, water.layer.height)
+
+        for (var i = 0; i < allWaterTiles.length; i++){
+            if(!waterTileIndexes.includes(allWaterTiles[i]) && allWaterTiles[i].index != -1){
+                waterTileIndexes.push(allWaterTiles[i].index)
+            }
+        }
+
+        map.setTileIndexCallback(indexes=waterTileIndexes, callback=function () {console.log("?")}, callbackContext=this, layer=water);
 
         //console.log(tile_ind_count)
 
         player = game.add.sprite(750, 850, 'player', 'walk-down-3.png')
+        player.scale.setTo(0.75)
 
         player.animations.add(
             'walk-down',

@@ -6,7 +6,7 @@ game.playerExp = 0
 game.playerLevel = 1
 game.playerUsedSkillPoints = 0
 game.playerCritical = 0
-game.playerHealth = 3
+game.playerHealth = 10
 game.playerDefense = 1
 game.playerLuck = 0
 
