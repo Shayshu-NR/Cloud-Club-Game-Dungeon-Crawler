@@ -19,6 +19,7 @@ var lizard_direction = 1
 var big_guy
 var new_nme
 var shark
+var sharky
 
 //-------------------- Utilities --------------------
 var keyReset = false
@@ -318,7 +319,7 @@ maingame.test_env.prototype = {
         big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
         big_guy = enemy_init(big_guy, 25, 500)
 
-        const sharky = shark.create(738, 680, 'shark', 'shark-swim-left-f1.png')
+        sharky = shark.create(738, 590, 'shark', 'shark-swim-left-f1.png')
         sharky.scale.setTo(1.5)
         sharky.bounds = {
             x1 : 608,
@@ -576,6 +577,7 @@ maingame.test_env.prototype = {
     render: function () {
         game.debug.bodyInfo(player, 32, 32);
         // game.debug.body(player);
+        game.debug.body(sharky)
         // // game.debug.body(new_nme)
         // // if (weapon) {
         // //     game.debug.body(weapon)
