@@ -131,11 +131,11 @@ function probability(n) {
 
 function shark_track(enemy){
 
-    if(Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 150){
+    if(enemy.inBounds() || Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 150){
 
         game.physics.arcade.moveToObject(enemy, player, 60, 1000)
     
-        if (enemy.body.velocity.x > enemy.body.velocity.y){
+        if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)){
             if(enemy.body.velocity.x > 0){
                 enemy.animations.play('swim_right')
             }
@@ -151,6 +151,13 @@ function shark_track(enemy){
                 enemy.animations.play('swim_up')
             }
         }
+    }
+    // Move it to the center of the room
+    else{
+        console.log("Out")
+        x = enemy.bounds.x1 + enemy.bounds.x2 / 2
+        y = enemy.bounds.y1 + enemy.bounds.y2 / 2
+        enemy.body.reset(x, y)
     }
 }
 //~~~~~

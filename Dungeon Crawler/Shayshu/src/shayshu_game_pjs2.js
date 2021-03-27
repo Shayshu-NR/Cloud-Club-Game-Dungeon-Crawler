@@ -44,7 +44,7 @@ maingame.test_env.prototype = {
         this.load.image('cnTower_tiles',
             '../Assets/General assets/CN Tower/CNTower_StructureTileset.png'
         )
-        
+
         // Ripleys
         this.load.tilemap('ripleys',
             '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map.json',
@@ -317,9 +317,24 @@ maingame.test_env.prototype = {
         var big_guy_tween = game.add.tween(big_guy)
         big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
         big_guy = enemy_init(big_guy, 25, 500)
-        
+
         const sharky = shark.create(738, 680, 'shark', 'shark-swim-left-f1.png')
         sharky.scale.setTo(1.5)
+        sharky.bounds = {
+            x1 : 608,
+            x2 : 967,
+            y1 : 432,
+            y2 : 688
+        }
+        sharky.inBounds = function(){
+
+            if(this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2){
+                if(this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2){
+                    return true
+                }
+            }
+            return false
+        }
 
         sharky.animations.add(
             'swim_right',
