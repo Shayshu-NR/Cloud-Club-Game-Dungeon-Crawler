@@ -61,7 +61,7 @@ maingame.test_env.prototype = {
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard.json')
 
 
-    this.load.atlas('sword',
+      this.load.atlas('sword',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json')
 
@@ -133,10 +133,6 @@ maingame.test_env.prototype = {
     player = game.add.sprite(128, 128, 'eng', 'idle_down.png')
     player.swing = false
     player = init_player(game, player)
-
-    //player.backpack = {potion}
-    player.active_items = []
-    player.current_item = {}
 
     player.animations.add(
 
@@ -381,18 +377,31 @@ maingame.test_env.prototype = {
     player.current_item = {
       "name": "sword",
       "group": default_sword,
-      "src": "sword_spritesheet.png",
+      "src": "../Assests/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png",
       "dmg": 1,
       "quantity": 1
     }
-    ption1 = {
-      "name": "potion",
-      "group": potion,
-      "src": "../Assets/General assets/lesser_healing_potion"
-    }
-    player.backpack = {
-      "potion": ption1
-    }
+    
+    // ption1 = {
+    //   "name": "potion",
+    //   "group": potion,
+    //   "atlas" : "potion_set",
+    //   "src": "health_pot_1.png"
+    // }
+
+    // lesser_sword = {
+    //   "name" : "Lesser sword",
+    //   "group" : default_sword,
+    //   "src" : "weapon_regular_sword_up.png",
+    //   "atlas" : "sword",
+    //   "dmg" : 0.6,
+    //   "quantity" : 1
+    // }
+
+    // player.backpack = {
+    //   "potion": ption1,
+    //   "lesser_sword" : lesser_sword
+    // }
 
     //-------------------- Chest example --------------------
     chest = game.add.group()
@@ -595,10 +604,13 @@ maingame.test_env.prototype = {
     }
 
     if (cursors.bckpck.isDown) {
+
+      console.log("BPCK", player.backpack)
+      console.log("AI", player.active_items)
       game.player_attributes = {
-        backpack: player.backpack,
-        actives: player.active_items,
-        current: player.current_item,
+        "backpack": player.backpack,
+        "actives": player.active_items,
+        "current": player.current_item,
       };
       game.state.start("Backpack");
       console.log("in backpack state");

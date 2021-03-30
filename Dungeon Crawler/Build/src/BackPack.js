@@ -1,4 +1,7 @@
 var cursors
+var backpack
+var active_items
+
 maingame.BackPack = function (game) {
 
 };
@@ -10,7 +13,15 @@ maingame.BackPack.prototype = {
                 game.load.image('backpack', '../Assets/General assets/backpack.png')
                 game.load.image('actives', '../Assets/General assets/ActiveItems.png')
                 game.load.image('button', '../Assets/General assets/Grass.png')
-                game.load.image(game.player_attributes["backpack"]["potion"]["src"])
+                game.load.atlas(
+                        "potion_set",
+                        "../Assets/General assets/Potions/potions.png",
+                        "../Assets/General assets/Potions/potions.json"
+                );
+                game.load.atlas('sword',
+                        '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png',
+                        '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json')
+
         },
 
         create: function () {
@@ -22,6 +33,9 @@ maingame.BackPack.prototype = {
                 active_items = game.player_attributes["actives"]
                 inventory = []
                 actives = Array(3).fill(0);
+
+                console.log(backpack)
+                console.log(active_items)
 
                 for (var i = 0; i < 4; i++) {
                         inventory.push([])
@@ -37,24 +51,6 @@ maingame.BackPack.prototype = {
 
                 item.inputEnableChildren = true;
 
-                var arrow = item.create(210, 70, 'arrow')
-                var shoe = item.create(140, 70, 'boots')
-
-                arrow.inv = [2, 0]
-                shoe.inv = [1, 0]
-
-                inventory[0][0] = 1
-                inventory[0][1] = 1
-
-                shoe.inputEnabled = true;
-                shoe.input.enableDrag();
-                shoe.events.onDragStart.add(onDragStart, this);
-                shoe.events.onDragStop.add(onDragStop, this);
-
-                arrow.inputEnabled = true;
-                arrow.input.enableDrag();
-                arrow.events.onDragStart.add(onDragStart, this);
-                arrow.events.onDragStop.add(onDragStop, this);
 
                 //initializing backpack interface with items
                 bpList = Object.keys(backpack)
@@ -64,7 +60,7 @@ maingame.BackPack.prototype = {
                                 if (count == bpList.length) {
                                         break;
                                 }
-                                backpack[bpList[count]]["group"] = item.create(i * 70, j * 70, backpack[bpList[count]]["src"])
+                                backpack[bpList[count]]["group"] = item.create(i * 70, j * 70, backpack[bpList[count]]["atlas"], backpack[bpList[count]]["src"])
                                 backpack[bpList[count]]["group"].inputEnabled = true;
                                 backpack[bpList[count]]["group"].input.enableDrag();
                                 backpack[bpList[count]]["group"].events.onDragStart.add(onDragStart, this);
@@ -72,6 +68,7 @@ maingame.BackPack.prototype = {
                                 backpack[bpList[count]]["group"].inv_x = i - 1
                                 backpack[bpList[count]]["group"].inv_y = j - 1
                                 backpack[bpList[count]]["group"].inv = [i - 1, j - 1]
+                                backpack[bpList[count]]["group"].name = backpack[bpList[count]]["name"]
                                 inventory[i - 1][j - 1] = 1;
                                 count++;
                                 console.log(count)
@@ -80,7 +77,7 @@ maingame.BackPack.prototype = {
 
                 //initializing active items interface 
                 for (var i = 1; i <= active_items.length; i++) {
-                        active_items[i - 1]["group"] = item.create(i * 70, 70 * 5, bpList[i - 1])
+                        active_items[i - 1]["group"] = item.create(i * 70, 70 * 6, active_items[i - 1]["atlas"], active_items[i - 1]["src"] )
                         active_items[i - 1]["group"].inputEnabled = true;
                         active_items[i - 1]["group"].input.enableDrag();
                         active_items[i - 1]["group"].events.onDragStart.add(onDragStart, this);
@@ -153,9 +150,10 @@ maingame.BackPack.prototype = {
                         }
                 }
                 moveBackpackToActive = function (backpack, item, index) {
+                        console.log("MoveBTA", item.name)
                         if (active_items.length < 3) {
-                                active_items.splice(index, 0, item);
-                                delete backpack["potion"];
+                                active_items.splice(index, 1, backpack[item.name]);
+                                delete backpack[item.name];
                         } else {
                                 item_moved = player.active_items[index];
                                 active_items.splice(index, 1, item);
@@ -167,8 +165,11 @@ maingame.BackPack.prototype = {
 
         update: function () {
                 if (cursors.bckpck.isDown) {
-                        game.player_attributes["backpack"] = backpack
-                        game.player_attributes["actives"] = active_items
+                        game.player_attributes = {
+                                backpack: backpack,
+                                actives: active_items,
+                                current: player.current_item,
+                        };
                         game.state.start("Game");
                 }
 

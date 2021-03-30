@@ -94,5 +94,11 @@ function init_player(game, player) {
         return 0
     }
 
+    player.backpack = game.player_attributes["backpack"]
+    player.active_items = game.player_attributes["actives"]
+
+    console.log("BPCK", player.backpack)
+    console.log("AI", player.active_items)
+
     return player
 }

@@ -106,7 +106,7 @@ maingame.test_env.prototype = {
         )
 
         this.load.image('arrow', '../Assets/General assets/arrow_right.png')
-
+        
 
     },
 
@@ -577,7 +577,7 @@ maingame.test_env.prototype = {
     render: function () {
         game.debug.bodyInfo(player, 32, 32);
         // game.debug.body(player);
-        game.debug.body(sharky)
+        // game.debug.body(sharky)
         // // game.debug.body(new_nme)
         // // if (weapon) {
         // //     game.debug.body(weapon)
