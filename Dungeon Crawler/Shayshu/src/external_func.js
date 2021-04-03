@@ -154,7 +154,6 @@ function shark_track(enemy){
     }
     // Move it to the center of the room
     else{
-        console.log("Out")
         x_cal = (enemy.bounds.x1 + enemy.bounds.x2) / 2
         y_cal = (enemy.bounds.y1 + enemy.bounds.y2) / 2
         var center = {

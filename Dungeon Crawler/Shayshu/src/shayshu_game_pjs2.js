@@ -19,6 +19,10 @@ var lizard_direction = 1
 var big_guy
 var new_nme
 var shark
+var pirate
+var tourist
+var cn_tourist
+var black_beard
 var sharky
 
 //-------------------- Utilities --------------------
@@ -60,7 +64,15 @@ maingame.test_env.prototype = {
             '../Assets/General assets/Ripleys Aquarium/shark-swim/Shark_atlas_sheet.png',
             '../Assets/General assets/Ripleys Aquarium/shark-swim/Shark_atlas_js.json'
         )
+
+        // this.load.atlas('pirate',
+        // )
         //
+
+        this.load.atlas('tourist',
+            '../Assets/General assets/CN Tower/Enemy/Tourist_Compact_1.png',
+            '../Assets/General assets/CN Tower/Enemy/Tourist_Compact_json.json'
+        )
 
         this.load.image('tiles',
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png')
@@ -302,14 +314,20 @@ maingame.test_env.prototype = {
         default_sword.enableBody = true
 
         //-------------------- Add example enemies --------------------
-        lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
+        lizard = game.add.physicsGroup(Phaser.Physics.ARCADE)
         shark = game.add.physicsGroup(Phaser.Physics.ARCADE)
+        pirate = game.add.physicsGroup(Phaser.Physics.ARCADE)
+        tourist = game.add.physicsGroup(Phaser.Physics.ARCADE)
 
         lizard.enableBody = true
         shark.enableBody = true
+        pirate.enableBody = true
+        tourist.enableBody = true
 
         game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
         game.physics.arcade.enable(shark, Phaser.Physics.ARCADE)
+        game.physics.arcade.enable(pirate, Phaser.Physics.ARCADE)
+        game.physics.arcade.enable(tourist, Phaser.Physics.ARCADE)
 
         new_nme = lizard.create(738, 680, 'lizard', 'lizard_m_idle_anim_f0.png')
         new_nme = enemy_init(new_nme, 10, 500)
@@ -319,13 +337,13 @@ maingame.test_env.prototype = {
         big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
         big_guy = enemy_init(big_guy, 25, 500)
 
-        sharky = shark.create(738, 590, 'shark', 'shark-swim-left-f1.png')
+        sharky = shark.create(16, 48, 'shark', 'shark-swim-left-f1.png')
         sharky.scale.setTo(1.5)
         sharky.bounds = {
-            x1 : 608,
-            x2 : 967,
-            y1 : 432,
-            y2 : 688
+            x1 : 16,
+            x2 : 60,
+            y1 : 48,
+            y2 : 112
         }
         sharky.inBounds = function(){
 
@@ -336,6 +354,46 @@ maingame.test_env.prototype = {
             }
             return false
         }
+
+        // black_beard = pirate.create(741, 575, '')
+        cn_tourist = tourist.create(741, 575, 'tourist', 'Tourist_Front_Attack.png')
+
+        cn_tourist.animations.add(
+            'walk_down',
+            Phaser.Animation.generateFrameNames(
+                'Tourist_Front_Walk_',
+                1,
+                3,
+                '.png'
+            ),
+            5,
+            true
+        )
+
+        cn_tourist.animations.add(
+            'walk_up',
+            Phaser.Animation.generateFrameNames(
+                'Tourist_Back_Walk_',
+                1,
+                3,
+                '.png'
+            ),
+            5,
+            true
+        )
+
+        cn_tourist.animations.add(
+            'walk_left',
+            Phaser.Animation.generateFrameNames(
+                'Tourist_Left_Walk_',
+                1,
+                2,
+                '.png'
+            ),
+            5,
+            true
+        )
+
 
         sharky.animations.add(
             'swim_right',
@@ -508,6 +566,7 @@ maingame.test_env.prototype = {
         game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this)
         game.physics.arcade.collide(player, chest, open_chest, null, this)
         game.physics.arcade.collide(player, lizard, damage_player, null, this)
+        game.physics.arcade.collide(player, shark, damage_player, null, this)
         game.physics.arcade.collide(shark, walls)
 
         // game.physics.arcade.collide(player, tile_col_ex, function tileMapColExample() {

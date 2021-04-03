@@ -9,6 +9,10 @@ game.playerCritical = 0
 game.playerHealth = 3
 game.playerDefense = 1
 game.playerLuck = 0
+game.player_attributes = {
+    "backpack" : {},
+    "actives" : []
+}
 
 
 game.state.add("Main", maingame.test_env)

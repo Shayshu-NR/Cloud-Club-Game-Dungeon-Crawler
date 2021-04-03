@@ -444,8 +444,16 @@ maingame.test_env.prototype = {
     var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-    var stats = statics.create(10, 545, 'bpack', 'back-pack.png')
-
+    var stats = game.add.button(10, 545, 'bpack', 
+      function(){
+          game.player_attributes = {
+          "backpack": player.backpack,
+          "actives": player.active_items,
+          "current": player.current_item,
+        };
+        game.state.start("Backpack");
+        console.log("in backpack state");
+      })
 
     var bar_holder = statics.create(59, 550, 'bar', 'Bar.png')
     xp_bar = bars.create(67, 552, 'xp_bar', 'bar-filler.png')
@@ -474,7 +482,7 @@ maingame.test_env.prototype = {
     //health-bar set-up
     health_bars = [null, null, null, null, null, null, null, null, null, null, null]
     for (var i = 0; i < 10; i++) {
-      health_bars[i] = bars.create(i * 16, 1, 'health_heart', 'heart.png')
+      health_bars[i] = bars.create(8 +  i * 16, 5, 'health_heart', 'heart.png')
       health_bars[i].fixedToCamera = true
       //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
@@ -484,7 +492,7 @@ maingame.test_env.prototype = {
     player.ammo = 10
     ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
     for (var i = 0; i < 10; i++) {
-      ammo_bars[i] = bars.create(i * 16, 20, 'ammo_fire', 'fire.png')
+      ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire', 'fire.png')
       ammo_bars[i].fixedToCamera = true
 
     }
@@ -604,9 +612,6 @@ maingame.test_env.prototype = {
     }
 
     if (cursors.bckpck.isDown) {
-
-      console.log("BPCK", player.backpack)
-      console.log("AI", player.active_items)
       game.player_attributes = {
         "backpack": player.backpack,
         "actives": player.active_items,
