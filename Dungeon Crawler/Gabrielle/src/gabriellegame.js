@@ -265,14 +265,17 @@ maingame.gabriellegame.prototype = {
 
         }
 
-        //Water timer set up for health loss and changing attribute to inWater
-        map.setTileIndexCallback([103, 104, 105, 106, 107, 108], //sets up for when the tile is in contact
-            function wow() {
-                console.log('In Water');
-                if (!player.inWater)
-                    player.inWater = true
-            },
-            this, 'water')
+        var tile_ind_count = 0
+        for (var i = 0; i < 10000; i++){
+            if(map.searchTileIndex(i) != null){
+                console.log(map.searchTileIndex(i))
+                tile_ind_count++
+            }
+        }
+
+        //map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('It works!')}, this, 'water')
+
+        console.log(tile_ind_count)
         inwatertimer = game.time.events;
         waterTimerLoop = inwatertimer.loop(5000, function intoWater() { player.health-- }, this)
 
