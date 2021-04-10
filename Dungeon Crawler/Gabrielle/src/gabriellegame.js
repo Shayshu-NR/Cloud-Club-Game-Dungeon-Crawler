@@ -23,6 +23,8 @@ var waterTimerLoop
 var tile
 //~~~~~~~~~~~~~~~~~~~~~
 
+var water_counter = 0
+
 var maingame = {}
 maingame.gabriellegame = function (game) {
 
@@ -102,7 +104,10 @@ maingame.gabriellegame.prototype = {
         map.setCollisionBetween(1, 9999, true, walls)
 
         var waterTileIndexes = []
+        var groundTileIndexes = []
         var allWaterTiles = water.getTiles(water.worldPosition.x, water.worldPosition.y, water.layer.width, water.layer.height)
+        var allGroundTiles = ground.getTiles(ground.worldPosition.x, ground.worldPosition.y, ground.layer.width, ground.layer.height)
+
 
         for (var i = 0; i < allWaterTiles.length; i++){
             if(!waterTileIndexes.includes(allWaterTiles[i]) && allWaterTiles[i].index != -1){
@@ -110,7 +115,11 @@ maingame.gabriellegame.prototype = {
             }
         }
 
-        map.setTileIndexCallback(indexes=waterTileIndexes, callback=function () {console.log("?")}, callbackContext=this, layer=water);
+        for (var i = 0; i < allGroundTiles.length; i++){
+            if(!groundTileIndexes.includes(allGroundTiles[i]) && allGroundTiles[i].index != -1){
+                groundTileIndexes.push(allGroundTiles[i].index)
+            }
+        }
 
         //console.log(tile_ind_count)
 
@@ -256,7 +265,6 @@ maingame.gabriellegame.prototype = {
         }
         map.setTileIndexCallback([6], function wow(){console.log('It works!')}, this, 'water')
 
-
         //ammo set up
         player.ammo = 10
         ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
@@ -266,19 +274,26 @@ maingame.gabriellegame.prototype = {
 
         }
 
-        var tile_ind_count = 0
-        for (var i = 0; i < 10000; i++){
-            if(map.searchTileIndex(i) != null){
-                console.log(map.searchTileIndex(i))
-                tile_ind_count++
-            }
-        }
+        inwatertimer = game.time.create(false)
+        waterTimerLoop = inwatertimer.loop(500, function intoWater() { player.health-- }, this)
+        
+        map.setTileIndexCallback(indexes=groundTileIndexes, 
+            callback=function (){
+                console.log("ground")
 
-        map.setTileIndexCallback([4, 23, 27], function wow(){console.log('It works!')}, this, 'ground')
+                if(inwatertimer.running){
+                    console.log("Pausing")
+                    inwatertimer.stop()
+                }
+        }, callbackContext=this, layer=ground)
 
-        console.log(tile_ind_count)
-        inwatertimer = game.time.events;
-        waterTimerLoop = inwatertimer.loop(5000, function intoWater() { player.health-- }, this)
+        map.setTileIndexCallback(indexes=waterTileIndexes, 
+            callback=function () {
+                if(!inwatertimer.running){
+                    console.log("Resuming")
+                    inwatertimer.start()
+                }
+        }, callbackContext=this, layer=water);
 
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -337,9 +352,9 @@ maingame.gabriellegame.prototype = {
         }, null, this)
 
         //starts timer when the player is in water
-        if (player.inWater) {
-            inwatertimer.resume()
-        }
+        // if (player.inWater) {
+        //     inwatertimer.resume()
+        // }
 
 
         var speed = 175
