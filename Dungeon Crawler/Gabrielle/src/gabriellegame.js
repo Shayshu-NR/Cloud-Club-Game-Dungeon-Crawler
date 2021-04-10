@@ -30,7 +30,7 @@ maingame.gabriellegame = function (game) {
 
 maingame.gabriellegame.prototype = {
     preload: function () {
-        this.load.image('tiles',
+        this.load.image('tilescon',
             '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png')
 
         this.load.tilemap('example_map',
@@ -254,6 +254,7 @@ maingame.gabriellegame.prototype = {
             //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
         }
+        map.setTileIndexCallback([6], function wow(){console.log('It works!')}, this, 'water')
 
 
         //ammo set up
@@ -273,7 +274,7 @@ maingame.gabriellegame.prototype = {
             }
         }
 
-        //map.setTileIndexCallback([103, 104, 105, 106, 107, 108], function wow(){console.log('It works!')}, this, 'water')
+        map.setTileIndexCallback([4, 23, 27], function wow(){console.log('It works!')}, this, 'ground')
 
         console.log(tile_ind_count)
         inwatertimer = game.time.events;
