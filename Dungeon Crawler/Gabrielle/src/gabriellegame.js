@@ -110,13 +110,13 @@ maingame.gabriellegame.prototype = {
 
 
         for (var i = 0; i < allWaterTiles.length; i++){
-            if(!waterTileIndexes.includes(allWaterTiles[i]) && allWaterTiles[i].index != -1){
+            if(!waterTileIndexes.includes(allWaterTiles[i].index) && allWaterTiles[i].index != -1){
                 waterTileIndexes.push(allWaterTiles[i].index)
             }
         }
 
         for (var i = 0; i < allGroundTiles.length; i++){
-            if(!groundTileIndexes.includes(allGroundTiles[i]) && allGroundTiles[i].index != -1){
+            if(!groundTileIndexes.includes(allGroundTiles[i].index) && allGroundTiles[i].index != -1){
                 groundTileIndexes.push(allGroundTiles[i].index)
             }
         }
@@ -276,22 +276,22 @@ maingame.gabriellegame.prototype = {
 
         inwatertimer = game.time.create(false)
         waterTimerLoop = inwatertimer.loop(500, function intoWater() { player.health-- }, this)
+        inwatertimer.start()
+        inwatertimer.pause()
         
         map.setTileIndexCallback(indexes=groundTileIndexes, 
             callback=function (){
-                console.log("ground")
-
-                if(inwatertimer.running){
+                if(!inwatertimer.paused){
                     console.log("Pausing")
-                    inwatertimer.stop()
+                    inwatertimer.pause()
                 }
         }, callbackContext=this, layer=ground)
 
         map.setTileIndexCallback(indexes=waterTileIndexes, 
             callback=function () {
-                if(!inwatertimer.running){
+                if(inwatertimer.paused){
                     console.log("Resuming")
-                    inwatertimer.start()
+                    inwatertimer.resume()
                 }
         }, callbackContext=this, layer=water);
 
@@ -346,10 +346,8 @@ maingame.gabriellegame.prototype = {
 
 
         //Collision for the specific type of tile
-        game.physics.arcade.collide(player, water, function tileMapColExample() {
-            console.log("Example water collision...")
-            return
-        }, null, this)
+        game.physics.arcade.collide(player, water)
+        game.physics.arcade.collide(player, ground)
 
         //starts timer when the player is in water
         // if (player.inWater) {
