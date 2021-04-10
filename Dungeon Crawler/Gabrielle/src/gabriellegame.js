@@ -103,25 +103,25 @@ maingame.gabriellegame.prototype = {
         // //-------------------- Add wall colision --------------------
         map.setCollisionBetween(1, 9999, true, walls)
 
-        var waterTileIndexes = []
-        var groundTileIndexes = []
-        var allWaterTiles = water.getTiles(water.worldPosition.x, water.worldPosition.y, water.layer.width, water.layer.height)
-        var allGroundTiles = ground.getTiles(ground.worldPosition.x, ground.worldPosition.y, ground.layer.width, ground.layer.height)
+        var waterTileIndexes = [6]
+        var groundTileIndexes = [4]
+        // var allWaterTiles = water.getTiles(water.worldPosition.x, water.worldPosition.y, water.layer.width, water.layer.height)
+        // var allGroundTiles = ground.getTiles(ground.worldPosition.x, ground.worldPosition.y, ground.layer.width, ground.layer.height)
 
 
-        for (var i = 0; i < allWaterTiles.length; i++){
-            if(!waterTileIndexes.includes(allWaterTiles[i].index) && allWaterTiles[i].index != -1){
-                waterTileIndexes.push(allWaterTiles[i].index)
-            }
-        }
+        // for (var i = 0; i < allWaterTiles.length; i++){
+        //     if(!waterTileIndexes.includes(allWaterTiles[i].index) && allWaterTiles[i].index != -1){
+        //         waterTileIndexes.push(allWaterTiles[i].index)
+        //     }
+        // }
 
-        for (var i = 0; i < allGroundTiles.length; i++){
-            if(!groundTileIndexes.includes(allGroundTiles[i].index) && allGroundTiles[i].index != -1){
-                groundTileIndexes.push(allGroundTiles[i].index)
-            }
-        }
+        // for (var i = 0; i < allGroundTiles.length; i++){
+        //     if(!groundTileIndexes.includes(allGroundTiles[i].index) && allGroundTiles[i].index != -1){
+        //         groundTileIndexes.push(allGroundTiles[i].index)
+        //     }
+        // }
 
-        //console.log(tile_ind_count)
+        // console.log(groundTileIndexes, waterTileIndexes)
 
         player = game.add.sprite(750, 850, 'player', 'walk-down-3.png')
         player.scale.setTo(0.75)
@@ -275,14 +275,13 @@ maingame.gabriellegame.prototype = {
         }
 
         inwatertimer = game.time.create(false)
-        waterTimerLoop = inwatertimer.loop(500, function intoWater() { player.health-- }, this)
+        waterTimerLoop = inwatertimer.loop(5000, function intoWater() { player.health-- }, this)
         inwatertimer.start()
         inwatertimer.pause()
         
         map.setTileIndexCallback(indexes=groundTileIndexes, 
             callback=function (){
                 if(!inwatertimer.paused){
-                    console.log("Pausing")
                     inwatertimer.pause()
                 }
         }, callbackContext=this, layer=ground)
@@ -290,7 +289,6 @@ maingame.gabriellegame.prototype = {
         map.setTileIndexCallback(indexes=waterTileIndexes, 
             callback=function () {
                 if(inwatertimer.paused){
-                    console.log("Resuming")
                     inwatertimer.resume()
                 }
         }, callbackContext=this, layer=water);
