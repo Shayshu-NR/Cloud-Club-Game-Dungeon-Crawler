@@ -126,6 +126,11 @@ maingame.test_env.prototype = {
         //-------------------- Start physics engine --------------------
         game.physics.startSystem(Phaser.Physics.ARCADE)
 
+        // map = game.add.tilemap('cnTower')
+        // map.addTilesetImage('CNTower_StructureTileset', 'cnTower_tiles')
+        // walls = map.createLayer('Walls')
+        // ground = map.createLayer('Tile Layer 1')
+
         //-------------------- Add tile map and tile set --------------------
         map = game.add.tilemap('ripleys')
         map.addTilesetImage('ripleys', 'ripleys_tiles')
