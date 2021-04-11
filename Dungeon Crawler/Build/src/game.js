@@ -538,6 +538,10 @@ maingame.test_env.prototype = {
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
     game.physics.arcade.collide(player, walls);
+    
+    // game.physics.arcade.collide(player, water)
+    // game.physics.arcade.collide(player, ground)
+
     game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
     game.physics.arcade.collide(player, chest, open_chest, null, this);
