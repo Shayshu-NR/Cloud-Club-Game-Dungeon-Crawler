@@ -347,19 +347,12 @@ maingame.gabriellegame.prototype = {
         game.physics.arcade.collide(player, water)
         game.physics.arcade.collide(player, ground)
 
-        //starts timer when the player is in water
-        // if (player.inWater) {
-        //     inwatertimer.resume()
-        // }
-
-
         var speed = 175
         idle_direction = ['idle-left', 'idle-right', 'idle-up', 'idle-down']
 
-        //console.log(inwatertimer)
         if (cursors.bckpck.isDown) {
-            //game.state.start("Backpack");
-            // console.log("in backpack state")
+            game.state.start("Backpack");
+            console.log("in backpack state")
 
         }
         if (cursors.map.isDown) {
