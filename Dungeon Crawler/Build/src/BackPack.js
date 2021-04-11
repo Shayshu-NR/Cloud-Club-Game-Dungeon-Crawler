@@ -54,9 +54,10 @@ maingame.BackPack.prototype = {
 
                 //initializing backpack interface with items
                 bpList = Object.keys(backpack)
+                console.log(bpList)
                 count = 0;
-                for (var i = 1; i <= 4; i++) {
-                        for (var j = 1; j <= 4; j++) {
+                for (var j = 1; j <= 4; j++) {
+                        for (var i = 1; i <= 4; i++) {
                                 if (count == bpList.length) {
                                         break;
                                 }
@@ -107,6 +108,7 @@ maingame.BackPack.prototype = {
 
                         if (inv_y == 5 && inv_x >= 3 || inv_x >= 4 || inv_y >= 4 && (inv_y != 5) || inv_x < 0 || inv_y < 0) {
                                 //move it back / fail
+                                console.log("Out of range")
                                 sprite.position.x = (sprite.inv[0] + 1) * 70
                                 sprite.position.y = (sprite.inv[1] + 1) * 70
                                 return

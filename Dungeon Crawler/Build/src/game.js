@@ -382,7 +382,7 @@ maingame.test_env.prototype = {
       "quantity": 1
     }
     
-    // ption1 = {
+    // player.backpack.potion = {
     //   "name": "potion",
     //   "group": potion,
     //   "atlas" : "potion_set",
