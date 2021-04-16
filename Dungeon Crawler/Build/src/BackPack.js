@@ -1,6 +1,7 @@
 var cursors
 var backpack
 var active_items
+const MAX_BACKPACK_SIZE = 16
 
 maingame.BackPack = function (game) {
 
@@ -85,7 +86,7 @@ maingame.BackPack.prototype = {
                         active_items[i - 1]["group"].events.onDragStop.add(onDragStop, this);
                         active_items[i - 1]["group"].inv_x = i - 1
                         active_items[i - 1]["group"].inv_y = 5
-                        active_items[i - 1]["group"].inv = [i - 1, j - 1]
+                        active_items[i - 1]["group"].inv = [i - 1, 5]
                         actives[i - 1] = 1
                 }
 
@@ -116,12 +117,14 @@ maingame.BackPack.prototype = {
                                 act_x = inv_x;
                                 if (actives[act_x] == 1) {
                                         //move it back/fail
+                                        console.log(1)
                                         sprite.position.x = (sprite.inv[0] + 1) * 70
                                         sprite.position.y = (sprite.inv[1] + 1) * 70
                                         return
                                 } else {
                                         //success
-
+                                        // Move item from backpack to active
+                                        console.log(2)
                                         if (sprite.inv[1] == 5) {
                                                 actives[sprite.inv[0]] = 0
                                         } else {
@@ -134,6 +137,7 @@ maingame.BackPack.prototype = {
                                         return
                                 }
                         } else if (inventory[inv_y][inv_x] === 1) {
+                                console.log("Occupied")
                                 //move it back / fail
                                 sprite.position.x = (sprite.inv[0] + 1) * 70
                                 sprite.position.y = (sprite.inv[1] + 1) * 70
@@ -141,6 +145,8 @@ maingame.BackPack.prototype = {
                         } else {
                                 //can move item with success
                                 if (sprite.inv[1] == 5) {
+                                        // Moving active item to backpack
+                                        moveActiveToBackpack(backpack, active_items, active_items[sprite.inv_x], 0)
                                         actives[sprite.inv[0]] = 0
                                 } else {
                                         inventory[sprite.inv[1]][sprite.inv[0]] = 0
@@ -164,13 +170,15 @@ maingame.BackPack.prototype = {
                         }
                 }
 
-                moveActiveToBackpack = function (item, index) {
-                        if (player.backpack.length < MAX_BACKPACK_SIZE) {
-                            idx = player.active_items.indexOf(item);
-                            player.backpack[item["name"]] = item;
-                            player.active_items.splice(idx, 1);
+                moveActiveToBackpack = function (backpack, active_items, item, index) {
+                        console.log("MoveATB", item)
+                        if (Object.keys(backpack).length < MAX_BACKPACK_SIZE) {
+                            idx = active_items.indexOf(item);
+                            backpack[item["name"]] = item;
+                            active_items.splice(idx, 1);
+                            console.log(backpack, active_items)
                         } else {
-                            return "fail";
+                            console.log("Failed");
                         }
                 }
         },
