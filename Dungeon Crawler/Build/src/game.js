@@ -510,13 +510,14 @@ maingame.test_env.prototype = {
 
     //-------------------- Speed run timer --------------------
     this.timeLimit = game.current_time
-    var minutes = Math.floor(this.timeLimit / 60);
-    var seconds = this.timeLimit - (minutes * 60);
-    var timeString = addZeros(minutes) + ":" + addZeros(seconds);
-    this.timeText = game.add.text(700, 20, timeString)
+    var minutes = Math.floor(this.timeLimit / 6000);
+    var seconds = Math.floor((this.timeLimit - (minutes * 6000)) / 100);
+    var miliseconds = this.timeLimit - (seconds / 100) - (minutes * 6000);
+    var timeString = addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
+    this.timeText = game.add.text(650, 20, timeString)
     this.timeText.fill = "#FFFFFF"
     this.timeText.fixedToCamera = true;
-    this.timer = game.time.events.loop(1000, tick, this)
+    this.timer = game.time.events.loop(10, tick, this)
 
   },
 
@@ -641,6 +642,6 @@ maingame.test_env.prototype = {
       level_up(player);
     }
 
-    this.timeText.x = 700 + this.camera.view.x
+    this.timeText.x = 650 + this.camera.view.x
   }
 };

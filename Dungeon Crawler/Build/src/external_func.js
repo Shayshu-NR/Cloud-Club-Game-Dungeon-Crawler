@@ -231,9 +231,10 @@ function level_up(player) {
 
 var tick = function() {
     this.timeLimit++;
-    var minutes = Math.floor(this.timeLimit / 60);
-    var seconds = this.timeLimit - (minutes * 60);
-    var timeString = addZeros(minutes) + ":" + addZeros(seconds);
+    var minutes = Math.floor(this.timeLimit / 6000);
+    var seconds = Math.floor((this.timeLimit - (minutes * 6000)) / 100);
+    var miliseconds = this.timeLimit - (seconds * 100) - (minutes * 6000)
+    var timeString = addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
     this.timeText.text = timeString;
 };
 

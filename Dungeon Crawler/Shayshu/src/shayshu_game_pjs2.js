@@ -399,7 +399,6 @@ maingame.test_env.prototype = {
             true
         )
 
-
         sharky.animations.add(
             'swim_right',
             Phaser.Animation.generateFrameNames(
