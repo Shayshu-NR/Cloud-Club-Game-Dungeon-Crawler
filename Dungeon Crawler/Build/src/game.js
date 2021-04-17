@@ -61,7 +61,7 @@ maingame.test_env.prototype = {
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard.json')
 
 
-      this.load.atlas('sword',
+    this.load.atlas('sword',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json')
 
@@ -381,7 +381,7 @@ maingame.test_env.prototype = {
       "dmg": 1,
       "quantity": 1
     }
-    
+
     // player.backpack.potion = {
     //   "name": "potion",
     //   "group": potion,
@@ -444,9 +444,9 @@ maingame.test_env.prototype = {
     var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-    var stats = game.add.button(10, 545, 'bpack', 
-      function(){
-          game.player_attributes = {
+    var stats = game.add.button(10, 545, 'bpack',
+      function () {
+        game.player_attributes = {
           "backpack": player.backpack,
           "actives": player.active_items,
           "current": player.current_item,
@@ -482,7 +482,7 @@ maingame.test_env.prototype = {
     //health-bar set-up
     health_bars = [null, null, null, null, null, null, null, null, null, null, null]
     for (var i = 0; i < 10; i++) {
-      health_bars[i] = bars.create(8 +  i * 16, 5, 'health_heart', 'heart.png')
+      health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart', 'heart.png')
       health_bars[i].fixedToCamera = true
       //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
@@ -507,6 +507,16 @@ maingame.test_env.prototype = {
     cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
     cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
     cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
+
+    //-------------------- Speed run timer --------------------
+    this.timeLimit = game.current_time
+    var minutes = Math.floor(this.timeLimit / 60);
+    var seconds = this.timeLimit - (minutes * 60);
+    var timeString = addZeros(minutes) + ":" + addZeros(seconds);
+    this.timeText = game.add.text(700, 20, timeString)
+    this.timeText.fill = "#FFFFFF"
+    this.timeText.fixedToCamera = true;
+    this.timer = game.time.events.loop(1000, tick, this)
 
   },
 
@@ -538,7 +548,7 @@ maingame.test_env.prototype = {
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
     game.physics.arcade.collide(player, walls);
-    
+
     // game.physics.arcade.collide(player, water)
     // game.physics.arcade.collide(player, ground)
 
@@ -621,6 +631,7 @@ maingame.test_env.prototype = {
         "actives": player.active_items,
         "current": player.current_item,
       };
+      game.current_time = this.timeLimit
       game.state.start("Backpack");
       console.log("in backpack state");
     }
@@ -629,5 +640,7 @@ maingame.test_env.prototype = {
     if (player.exp - lastLevelPoints >= maxXpPoints) {
       level_up(player);
     }
+
+    this.timeText.x = 700 + this.camera.view.x
   }
 };

@@ -39,10 +39,8 @@ player.backpack = {
     "GrassBlock": {
         "name": "GrassBlock",
         "group": block,
+        "atlas" : "GrassSet",
         "src": "./Assets/....",
-        "object": GrassBlock,
-        "quantity": 123,
-        ...
     },
     ...
 }

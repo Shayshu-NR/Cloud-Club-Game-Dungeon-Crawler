@@ -180,4 +180,19 @@ function shark_track(enemy){
         }
     }
 }
+
+var tick = function() {
+    this.timeLimit++;
+    var minutes = Math.floor(this.timeLimit / 60);
+    var seconds = this.timeLimit - (minutes * 60);
+    var timeString = addZeros(minutes) + ":" + addZeros(seconds);
+    this.timeText.text = timeString;
+};
+
+var addZeros = function(num) {
+    if (num < 10) {
+        num = "0" + num;
+    }
+    return num;
+};
 //~~~~~

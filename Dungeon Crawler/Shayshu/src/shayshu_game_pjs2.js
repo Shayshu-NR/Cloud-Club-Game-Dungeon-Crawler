@@ -118,7 +118,7 @@ maingame.test_env.prototype = {
         )
 
         this.load.image('arrow', '../Assets/General assets/arrow_right.png')
-        
+
 
     },
 
@@ -345,15 +345,15 @@ maingame.test_env.prototype = {
         sharky = shark.create(16, 48, 'shark', 'shark-swim-left-f1.png')
         sharky.scale.setTo(1.5)
         sharky.bounds = {
-            x1 : 16,
-            x2 : 60,
-            y1 : 48,
-            y2 : 112
+            x1: 16,
+            x2: 60,
+            y1: 48,
+            y2: 112
         }
-        sharky.inBounds = function(){
+        sharky.inBounds = function () {
 
-            if(this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2){
-                if(this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2){
+            if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
+                if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
                     return true
                 }
             }
@@ -560,6 +560,11 @@ maingame.test_env.prototype = {
         weapon.trackSprite(player, 0, 0, true)
         cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
 
+        this.timeLimit = game.current_time
+        this.timeText = game.add.text(700, 20, "00:00")
+        this.timeText.fill = "#FFFFFF"
+        this.timeText.fixedToCamera = true;
+        this.timer = game.time.events.loop(1000, tick, this)
     },
 
     update: function () {
@@ -636,6 +641,8 @@ maingame.test_env.prototype = {
         if (cursors.esc.downDuration(100)) {
             game.state.start("Skill tree", false, false)
         }
+
+        this.timeText.x = 700 + this.camera.view.x
     },
 
     render: function () {

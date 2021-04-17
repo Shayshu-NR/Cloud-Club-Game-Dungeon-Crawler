@@ -13,6 +13,7 @@ game.player_attributes = {
     "backpack" : {},
     "actives" : []
 }
+game.current_time = 0
 
 
 game.state.add("Main", maingame.test_env)

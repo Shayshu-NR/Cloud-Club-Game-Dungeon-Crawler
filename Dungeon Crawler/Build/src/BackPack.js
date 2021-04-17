@@ -26,6 +26,16 @@ maingame.BackPack.prototype = {
         },
 
         create: function () {
+                //-------------------- Speed run timer --------------------
+                this.timeLimit = game.current_time
+                var minutes = Math.floor(this.timeLimit / 60);
+                var seconds = this.timeLimit - (minutes * 60);
+                var timeString = addZeros(minutes) + ":" + addZeros(seconds);
+                this.timeText = game.add.text(700, 20, timeString)
+                this.timeText.fill = "#FFFFFF"
+                this.timeText.fixedToCamera = true;
+                this.timer = game.time.events.loop(1000, tick, this)
+
                 cursors = game.input.keyboard.createCursorKeys()
                 cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
                 button = game.add.button(500, 70, 'button', actionOnClick, this, 2, 1, 0);
@@ -79,7 +89,7 @@ maingame.BackPack.prototype = {
 
                 //initializing active items interface 
                 for (var i = 1; i <= active_items.length; i++) {
-                        active_items[i - 1]["group"] = item.create(i * 70, 70 * 6, active_items[i - 1]["atlas"], active_items[i - 1]["src"] )
+                        active_items[i - 1]["group"] = item.create(i * 70, 70 * 6, active_items[i - 1]["atlas"], active_items[i - 1]["src"])
                         active_items[i - 1]["group"].inputEnabled = true;
                         active_items[i - 1]["group"].input.enableDrag();
                         active_items[i - 1]["group"].events.onDragStart.add(onDragStart, this);
@@ -173,12 +183,12 @@ maingame.BackPack.prototype = {
                 moveActiveToBackpack = function (backpack, active_items, item, index) {
                         console.log("MoveATB", item)
                         if (Object.keys(backpack).length < MAX_BACKPACK_SIZE) {
-                            idx = active_items.indexOf(item);
-                            backpack[item["name"]] = item;
-                            active_items.splice(idx, 1);
-                            console.log(backpack, active_items)
+                                idx = active_items.indexOf(item);
+                                backpack[item["name"]] = item;
+                                active_items.splice(idx, 1);
+                                console.log(backpack, active_items)
                         } else {
-                            console.log("Failed");
+                                console.log("Failed");
                         }
                 }
         },
@@ -190,8 +200,11 @@ maingame.BackPack.prototype = {
                                 actives: active_items,
                                 current: player.current_item,
                         };
+                        game.current_time = this.timeLimit
                         game.state.start("Game");
                 }
+
+
 
         }
 
