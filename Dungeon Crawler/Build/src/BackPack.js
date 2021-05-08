@@ -13,7 +13,8 @@ maingame.BackPack.prototype = {
                 game.load.image('arrow', '../Assets/General assets/Skill Tree/atks.png')
                 game.load.image('backpack', '../Assets/General assets/backpack.png')
                 game.load.image('actives', '../Assets/General assets/ActiveItems.png')
-                game.load.image('button', '../Assets/General assets/Grass.png')
+                game.load.image('button', '../Assets/General assets/Backbtn.png')
+                game.load.image('bpckBackground', '../Assets/General assets/bpckBackground1.png')
                 game.load.atlas(
                         "potion_set",
                         "../Assets/General assets/Potions/potions.png",
@@ -22,14 +23,20 @@ maingame.BackPack.prototype = {
                 game.load.atlas('sword',
                         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png',
                         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json')
+                        
+                game.load.atlas('player',
+                        '../Assets/Example assets/legend of faune files/spritesheet.png',
+                        '../Assets/Example assets/legend of faune files/faun_spritesheet.json')
+
 
         },
 
         create: function () {
 
+                game.add.image(0, 0, 'bpckBackground');
                 cursors = game.input.keyboard.createCursorKeys()
                 cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
-                button = game.add.button(500, 70, 'button', actionOnClick, this, 2, 1, 0);
+                button = game.add.button(725, 70, 'button', actionOnClick, this, 2, 1, 0);
 
                 backpack = game.player_attributes["backpack"]
                 active_items = game.player_attributes["actives"]
