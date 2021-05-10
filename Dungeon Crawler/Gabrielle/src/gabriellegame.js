@@ -21,7 +21,10 @@ var bckpack
 var inwatertimer
 var waterTimerLoop
 var tile
+var chest
 //~~~~~~~~~~~~~~~~~~~~~
+var gameTimer
+var gameTimerLoop
 
 var water_counter = 0
 
@@ -80,7 +83,11 @@ maingame.gabriellegame.prototype = {
         this.load.image('bpack',
             '../Assets/General assets/backpack-icon.png')
 
+        this.load.image('chest_0', 
+        '../Gabrielle/src/Assets/open_chest.png')
 
+        this.load.image('chest_1', 
+        '../Gabrielle/src/Assets/closed_chest.png')
     },
 
     create: function () {
@@ -293,6 +300,14 @@ maingame.gabriellegame.prototype = {
                 }
         }, callbackContext=this, layer=water);
 
+        //~~~~~~~~~~~~~~~~~~~~~~~ chest creation
+        chest = statics.create(741, 800, 'chest_1')
+        chest.scale.set(2,2);
+
+        game.physics.arcade.enable(chest)
+        chest.body.immovable = true
+
+
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
@@ -334,10 +349,24 @@ maingame.gabriellegame.prototype = {
         cursors.dummy = game.input.keyboard.addKey(Phaser.Keyboard.D)
         cursors.collide = game.input.keyboard.addKey(Phaser.Keyboard.C)
 
+
+
+    /*~~~~~~~~ TIMER CREATION ~~~~~~~~*/
+    gamerTimer = game.time.create(false)
+        gameTimerLoop = inwatertimer.loop(1000, function setTime() {
+            print("Time:", gameTimer);
+         }, this)
     },
 
     update: function () {
         game.physics.arcade.collide(player, walls)
+        game.physics.arcade.collide(player, chest, function openchest(player){
+            console.log("touches")
+            chest.loadTexture("chest_0", 0)
+            
+        }, null, this)
+       
+
         //game.physics.arcade.overlap(player, water,inWater(player),null,this)
         //game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
         //game.physics.arcade.overlap(player, lizard, kill_player(player), null, this)
@@ -502,7 +531,6 @@ function add_xp(player, xp_num) {
     player.exp += xp_num
     // console.log(phaser.camera)   
 }
-
 function change_health(player) {
     if (player.health < 0 || player.health > 10) { //makes sure the array doesn't go out of bounds
         console.log("invalid health")
