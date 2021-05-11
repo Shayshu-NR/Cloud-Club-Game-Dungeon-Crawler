@@ -22,6 +22,8 @@ var inwatertimer
 var waterTimerLoop
 var tile
 var chest
+var statics
+var potion
 //~~~~~~~~~~~~~~~~~~~~~
 var gameTimer
 var gameTimerLoop
@@ -83,11 +85,16 @@ maingame.gabriellegame.prototype = {
         this.load.image('bpack',
             '../Assets/General assets/backpack-icon.png')
 
-        this.load.image('chest_0', 
-        '../Gabrielle/src/Assets/open_chest.png')
+        this.load.image('chest_0',
+            '../Gabrielle/src/Assets/open_chest.png')
 
-        this.load.image('chest_1', 
-        '../Gabrielle/src/Assets/closed_chest.png')
+        this.load.image('chest_1',
+            '../Gabrielle/src/Assets/closed_chest.png')
+
+        this.load.spritesheet('chest', '../Gabrielle/src/Assets/chest.png',
+            32, 32);
+
+        this.load.spritesheet('potions', '../Assets/General assets/Potions/potions.png', 16, 16)
     },
 
     create: function () {
@@ -222,7 +229,7 @@ maingame.gabriellegame.prototype = {
             true
         )
 
-        var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
+        statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
         //bckpack = game.add.button(500, 70, 'button', actionOnClick, this, 2, 1, 0);
@@ -270,7 +277,7 @@ maingame.gabriellegame.prototype = {
             //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
         }
-        map.setTileIndexCallback([6], function wow(){console.log('It works!')}, this, 'water')
+        map.setTileIndexCallback([6], function wow() { console.log('It works!') }, this, 'water')
 
         //ammo set up
         player.ammo = 10
@@ -285,28 +292,35 @@ maingame.gabriellegame.prototype = {
         waterTimerLoop = inwatertimer.loop(5000, function intoWater() { player.health-- }, this)
         inwatertimer.start()
         inwatertimer.pause()
-        
-        map.setTileIndexCallback(indexes=groundTileIndexes, 
-            callback=function (){
-                if(!inwatertimer.paused){
+
+        map.setTileIndexCallback(indexes = groundTileIndexes,
+            callback = function () {
+                if (!inwatertimer.paused) {
                     inwatertimer.pause()
                 }
-        }, callbackContext=this, layer=ground)
+            }, callbackContext = this, layer = ground)
 
-        map.setTileIndexCallback(indexes=waterTileIndexes, 
-            callback=function () {
-                if(inwatertimer.paused){
+        map.setTileIndexCallback(indexes = waterTileIndexes,
+            callback = function () {
+                if (inwatertimer.paused) {
                     inwatertimer.resume()
                 }
-        }, callbackContext=this, layer=water);
+            }, callbackContext = this, layer = water);
 
         //~~~~~~~~~~~~~~~~~~~~~~~ chest creation
-        chest = statics.create(741, 800, 'chest_1')
-        chest.scale.set(2,2);
+        chest = statics.create(800, 750, 'chest', 0)
 
         game.physics.arcade.enable(chest)
         chest.body.immovable = true
+        chest.enableBody = true
 
+        chest.open = false
+        chest.touch = 1
+        chest.potion = 0
+        chest.collide = true
+
+        chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+        chest.animations.add('close', [7, 6, 5, 4, 3, 2, 1], 300, false)
 
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -351,21 +365,38 @@ maingame.gabriellegame.prototype = {
 
 
 
-    /*~~~~~~~~ TIMER CREATION ~~~~~~~~*/
-    gamerTimer = game.time.create(false)
+        /*~~~~~~~~ TIMER CREATION ~~~~~~~~*/
+        gamerTimer = game.time.create(false)
         gameTimerLoop = inwatertimer.loop(1000, function setTime() {
             print("Time:", gameTimer);
-         }, this)
+        }, this)
     },
 
     update: function () {
         game.physics.arcade.collide(player, walls)
-        game.physics.arcade.collide(player, chest, function openchest(player){
-            console.log("touches")
-            chest.loadTexture("chest_0", 0)
-            
-        }, null, this)
-       
+        if (chest.collide) {
+            game.physics.arcade.collide(player, chest, function openchest(player) {
+                if (chest.position.x < player.position.x) {
+                    if (!chest.open && chest.touch <= 2) {
+                        chest.open = true
+                        console.log("touches")
+                        chest.animations.play('open')
+                        potion = statics.create(chest.position.x + 8, chest.position.y + 8, 'potions', chest.potion)
+                    }
+                    else if (chest.touch == 3) {
+                        potion.kill()
+
+                    }
+                    else if (chest.open && chest.touch == 4) {
+                        chest.animations.play('close')
+                        chest.open = false
+                        chest.collide = false
+                    }
+                    chest.touch++
+                }
+
+            }, null, this)
+        }
 
         //game.physics.arcade.overlap(player, water,inWater(player),null,this)
         //game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)
