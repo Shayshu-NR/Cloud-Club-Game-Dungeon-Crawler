@@ -14,7 +14,8 @@ maingame.BackPack.prototype = {
                 game.load.image('backpack', '../Assets/General assets/backpack.png')
                 game.load.image('actives', '../Assets/General assets/ActiveItems.png')
                 game.load.image('button', '../Assets/General assets/Backbtn.png')
-                game.load.image('bpckBackground', '../Assets/General assets/bpckBackground1.png')
+                game.load.image('bpckBackground', '../Assets/General assets/bpckBackground2.png')
+                game.load.image('invtBackground', '../Assets/General assets/invtBackround1.png')
                 game.load.atlas(
                         "potion_set",
                         "../Assets/General assets/Potions/potions.png",
@@ -32,8 +33,8 @@ maingame.BackPack.prototype = {
         },
 
         create: function () {
-
-                game.add.image(0, 0, 'bpckBackground');
+                game.add.image(0, 0, 'bpckBackground')
+                game.add.image(25, 25, 'invtBackground')
                 cursors = game.input.keyboard.createCursorKeys()
                 cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
                 button = game.add.button(725, 70, 'button', actionOnClick, this, 2, 1, 0);
