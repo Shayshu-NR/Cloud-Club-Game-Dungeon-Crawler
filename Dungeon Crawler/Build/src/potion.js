@@ -94,3 +94,23 @@ function use_potion(player, potion) {
     player.swing = false;
   }
 }
+
+/*
+
+    var potion = create....
+    potion.item = {
+      "name" : chest.potion.name,
+      
+    }
+    
+    game.time.events.add(
+      10000,
+      function (arr) {
+        player.putBackpack(....)
+        arr[0].kill()
+      },
+      this,
+      [potion]
+    );
+
+*/

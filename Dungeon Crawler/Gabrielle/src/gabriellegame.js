@@ -95,6 +95,12 @@ maingame.gabriellegame.prototype = {
             32, 32);
 
         this.load.spritesheet('potions', '../Assets/General assets/Potions/potions.png', 16, 16)
+
+        this.load.atlas(
+            "potion_set",
+            "../Assets/General assets/Potions/potions.png",
+            "../Assets/General assets/Potions/potions.json"
+        );
     },
 
     create: function () {
@@ -138,6 +144,8 @@ maingame.gabriellegame.prototype = {
         // console.log(groundTileIndexes, waterTileIndexes)
 
         player = game.add.sprite(750, 850, 'player', 'walk-down-3.png')
+        player = init_player(game, player)
+
         player.scale.setTo(0.75)
 
         player.animations.add(
@@ -316,7 +324,7 @@ maingame.gabriellegame.prototype = {
 
         chest.open = false
         chest.touch = 1
-        chest.potion = 0
+        chest.potion = 'health_pot_1.png'
         chest.collide = true
 
         chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
@@ -381,10 +389,18 @@ maingame.gabriellegame.prototype = {
                         chest.open = true
                         console.log("touches")
                         chest.animations.play('open')
-                        potion = statics.create(chest.position.x + 8, chest.position.y + 8, 'potions', chest.potion)
+                        potion = statics.create(chest.position.x + 8, chest.position.y + 8, 'potion_set', chest.potion)
                     }
                     else if (chest.touch == 3) {
                         potion.kill()
+                        var HealthPotion = {
+                            "name": "HealthPotion",
+                            "group": potion,
+                            "atlas": "potion_set",
+                            "src": "health_pot_1.png"
+                        }
+                        
+                        player.putBackpack(HealthPotion)
 
                     }
                     else if (chest.open && chest.touch == 4) {

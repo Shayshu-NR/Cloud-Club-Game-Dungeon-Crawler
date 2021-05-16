@@ -26,6 +26,7 @@ var weapon;
 
 //-------------------- Treasure --------------------
 var chest;
+var statics
 
 //-------------------- Items -----------------------
 var potion;
@@ -69,9 +70,11 @@ maingame.test_env.prototype = {
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/biguy_spritesheet.png',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/bigguy.json')
 
-    this.load.atlas('chest',
-      '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest_spritesheet.png',
-      '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest.json')
+    // this.load.atlas('chest',
+    //   '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest_spritesheet.png',
+    //   '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest.json')
+    this.load.spritesheet('chest', '../Gabrielle/src/Assets/chest.png',
+      32, 32);
 
     this.load.image('heart',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/ui_heart_full.png'
@@ -404,26 +407,49 @@ maingame.test_env.prototype = {
     // }
 
     //-------------------- Chest example --------------------
-    chest = game.add.group()
+    // chest = game.add.group()
+    // chest.enableBody = true
+
+    // const new_chest = chest.create(50, 200, 'chest', 'chest_empty_open_anim_f0.png')
+    // new_chest.body.immovable = true
+    // new_chest.opened = false
+    // new_chest.item = {
+    //   "name": "potion"
+    // }
+    // new_chest.animations.add(
+    //   'open',
+    //   Phaser.Animation.generateFrameNames(
+    //     'chest_empty_open_anim_f',
+    //     0,
+    //     2,
+    //     '.png'
+    //   ),
+    //   10,
+    //   false
+    // )
+
+    statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
+    bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
+
+    chest = statics.create(50, 200, 'chest', 0)
+
+    game.physics.arcade.enable(chest)
+    chest.body.immovable = true
     chest.enableBody = true
 
-    const new_chest = chest.create(50, 200, 'chest', 'chest_empty_open_anim_f0.png')
-    new_chest.body.immovable = true
-    new_chest.opened = false
-    new_chest.item = {
-      "name": "potion"
+    chest.open = false
+    chest.touch = 1
+
+    chest.potion = {
+      "name": "HealthPotion",
+      "group": potion,
+      "atlas": "potion_set",
+      "src": "health_pot_1.png"
     }
-    new_chest.animations.add(
-      'open',
-      Phaser.Animation.generateFrameNames(
-        'chest_empty_open_anim_f',
-        0,
-        2,
-        '.png'
-      ),
-      10,
-      false
-    )
+    chest.collide = true
+
+    chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+    chest.animations.add('close', [7, 6, 5, 4, 3, 2, 1], 300, false)
 
     //-------------------- Added water example --------------------
     const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
@@ -441,9 +467,6 @@ maingame.test_env.prototype = {
     test.animations.play('wave')
 
     //-------------------- HUD --------------------
-    var statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
-    bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
-
     var stats = game.add.button(10, 545, 'bpack',
       function () {
         game.player_attributes = {
@@ -522,6 +545,39 @@ maingame.test_env.prototype = {
   },
 
   update: function () {
+
+
+    game.physics.arcade.collide(player, chest, function openchest(player) {
+      if (chest.position.x < player.position.x) {
+        if (!chest.open && chest.touch <= 2) {
+          chest.open = true
+          console.log("touches")
+          chest.animations.play('open')
+          potion = statics.create(chest.position.x + 8, chest.position.y + 8, chest.potion.atlas, chest.potion.src)
+          
+        }
+        else if (chest.touch == 3) {
+          potion.kill()
+          var HealthPotion = {
+            "name": "HealthPotion",
+            "group": potion,
+            "atlas": "potion_set",
+            "src": "health_pot_1.png"
+          }
+
+          player.putBackpack(HealthPotion)
+
+        }
+        else if (chest.open && chest.touch == 4) {
+          chest.animations.play('close')
+          chest.open = false
+          chest.collide = false
+        }
+        chest.touch++
+      }
+
+    }, null, this)
+
     //Testing
     if (cursors.f.isDown) {
       if (
@@ -543,19 +599,7 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(player, walls);
     game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
-    game.physics.arcade.collide(player, chest, open_chest, null, this);
-    game.physics.arcade.collide(player, lizard, damage_player, null, this);
-
-    //-------------------- Collision engine --------------------
-    game.physics.arcade.collide(player, walls);
-    game.physics.arcade.collide(player, walls);
-
-    // game.physics.arcade.collide(player, water)
-    // game.physics.arcade.collide(player, ground)
-
-    game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
-    game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
-    game.physics.arcade.collide(player, chest, open_chest, null, this);
+    // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
 
     //-------------------- Movement --------------------

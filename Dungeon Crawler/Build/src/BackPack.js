@@ -24,10 +24,9 @@ maingame.BackPack.prototype = {
                 game.load.atlas('sword',
                         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png',
                         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json')
-                        
-                game.load.atlas('player',
-                        '../Assets/Example assets/legend of faune files/spritesheet.png',
-                        '../Assets/Example assets/legend of faune files/faun_spritesheet.json')
+
+                game.load.image('eng', '../Assets/General assets/Player/idile-down-4.png')
+
 
 
         },
@@ -35,9 +34,12 @@ maingame.BackPack.prototype = {
         create: function () {
                 game.add.image(0, 0, 'bpckBackground')
                 game.add.image(25, 25, 'invtBackground')
+                player = game.add.sprite(400, 200, 'eng', 'idle_down.png')
+
                 cursors = game.input.keyboard.createCursorKeys()
                 cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
-                button = game.add.button(725, 70, 'button', actionOnClick, this, 2, 1, 0);
+                button = game.add.button(700, 70, 'button', actionOnClick, this, 2, 1, 0);
+                button.scale.setTo(2, 2)
 
                 backpack = game.player_attributes["backpack"]
                 active_items = game.player_attributes["actives"]
