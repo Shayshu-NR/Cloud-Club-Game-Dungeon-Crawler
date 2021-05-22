@@ -7,7 +7,7 @@ maingame.skill_tree = function (game) { }
 
 maingame.skill_tree.prototype = {
     preload: function () {
-        this.load.image('dmg', '../Assets/General assets/Skill Tree/dmg.png')
+        this.load.image('dmg', '../Assets/General assets/Skill Tree/dmg_dylan.png')
         this.load.image('speed', '../Assets/General assets/Skill Tree/speed.png')
         this.load.image('atks', '../Assets/General assets/Skill Tree/atks.png')
         this.load.image('crit', '../Assets/General assets/Skill Tree/crit.png')
