@@ -440,7 +440,7 @@ maingame.test_env.prototype = {
     chest.open = false
     chest.touch = 1
 
-    chest.potion = {
+    chest.item = {
       "name": "HealthPotion",
       "group": potion,
       "atlas": "potion_set",
@@ -449,7 +449,7 @@ maingame.test_env.prototype = {
     chest.collide = true
 
     chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-    chest.animations.add('close', [7, 6, 5, 4, 3, 2, 1], 300, false)
+    chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
 
     //-------------------- Added water example --------------------
     const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
@@ -542,41 +542,21 @@ maingame.test_env.prototype = {
     this.timeText.fixedToCamera = true;
     this.timer = game.time.events.loop(10, tick, this)
 
+    chest = statics.create(50, 200, 'chest', 0)
   },
 
   update: function () {
 
 
-    game.physics.arcade.collide(player, chest, function openchest(player) {
-      if (chest.position.x < player.position.x) {
-        if (!chest.open && chest.touch <= 2) {
-          chest.open = true
-          console.log("touches")
-          chest.animations.play('open')
-          potion = statics.create(chest.position.x + 8, chest.position.y + 8, chest.potion.atlas, chest.potion.src)
-          
-        }
-        else if (chest.touch == 3) {
-          potion.kill()
-          var HealthPotion = {
-            "name": "HealthPotion",
-            "group": potion,
-            "atlas": "potion_set",
-            "src": "health_pot_1.png"
-          }
+    game.physics.arcade.collide(player, chest, function getItemFromChest(player){
+        chest.animations.play('open')
+        var item = statics.create(chest.position.x+8, chest.position.y+8, chest.potion.name, chest.src)
+        
+        
 
-          player.putBackpack(HealthPotion)
-
+        chest.animations.play('close')
         }
-        else if (chest.open && chest.touch == 4) {
-          chest.animations.play('close')
-          chest.open = false
-          chest.collide = false
-        }
-        chest.touch++
-      }
-
-    }, null, this)
+  , null, this)
 
     //Testing
     if (cursors.f.isDown) {
