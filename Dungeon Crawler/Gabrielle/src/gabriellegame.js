@@ -85,22 +85,23 @@ maingame.gabriellegame.prototype = {
         this.load.image('bpack',
             '../Assets/General assets/backpack-icon.png')
 
-        this.load.image('chest_0',
-            '../Gabrielle/src/Assets/open_chest.png')
-
-        this.load.image('chest_1',
-            '../Gabrielle/src/Assets/closed_chest.png')
+        // this.load.atlas('chest',
+        //     '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest_spritesheet.png',
+        //     '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest.json')
 
         this.load.spritesheet('chest', '../Gabrielle/src/Assets/chest.png',
             32, 32);
-
-        this.load.spritesheet('potions', '../Assets/General assets/Potions/potions.png', 16, 16)
 
         this.load.atlas(
             "potion_set",
             "../Assets/General assets/Potions/potions.png",
             "../Assets/General assets/Potions/potions.json"
         );
+        this.load.atlas('eng',
+            '../Assets/General assets/Player/main-character.png',
+            '../Assets/General assets/Player/main-character.json'
+        )
+
     },
 
     create: function () {
@@ -125,89 +126,82 @@ maingame.gabriellegame.prototype = {
 
         var waterTileIndexes = [6]
         var groundTileIndexes = [4]
-        // var allWaterTiles = water.getTiles(water.worldPosition.x, water.worldPosition.y, water.layer.width, water.layer.height)
-        // var allGroundTiles = ground.getTiles(ground.worldPosition.x, ground.worldPosition.y, ground.layer.width, ground.layer.height)
 
-
-        // for (var i = 0; i < allWaterTiles.length; i++){
-        //     if(!waterTileIndexes.includes(allWaterTiles[i].index) && allWaterTiles[i].index != -1){
-        //         waterTileIndexes.push(allWaterTiles[i].index)
-        //     }
-        // }
-
-        // for (var i = 0; i < allGroundTiles.length; i++){
-        //     if(!groundTileIndexes.includes(allGroundTiles[i].index) && allGroundTiles[i].index != -1){
-        //         groundTileIndexes.push(allGroundTiles[i].index)
-        //     }
-        // }
-
-        // console.log(groundTileIndexes, waterTileIndexes)
-
-        player = game.add.sprite(750, 850, 'player', 'walk-down-3.png')
+        player = game.add.sprite(750, 850, 'eng', 'idle_down.png')
+        player.swing = false
         player = init_player(game, player)
 
-        player.scale.setTo(0.75)
-
         player.animations.add(
-            'walk-down',
+            'walk_down',
             Phaser.Animation.generateFrameNames(
-                'walk-down-',
+                'walk_down_',
+                1,
+                7,
+                '.png'
+            ),
+            10,
+            true
+        )
+        player.animations.add(
+            'walk_up',
+            Phaser.Animation.generateFrameNames(
+                'walk_up_',
+                1,
+                7,
+                '.png'
+            ),
+            10,
+            true
+        )
+        player.animations.add(
+            'walk_right',
+            Phaser.Animation.generateFrameNames(
+                'walk_right_',
                 1,
                 8,
                 '.png'
             ),
-            8,
+            10,
             true
         )
         player.animations.add(
-            'walk-up',
+            'walk_left',
             Phaser.Animation.generateFrameNames(
-                'walk-up-',
+                'walk_left_',
                 1,
                 8,
-                '.png'
+                '.png',
             ),
-            8,
+            10,
             true
         )
         player.animations.add(
-            'walk-right',
+            'attack_right',
             Phaser.Animation.generateFrameNames(
-                'walk-side-',
+                'attack_right_',
                 1,
-                8,
+                4,
                 '.png'
             ),
             8,
             true
         )
         player.animations.add(
-            'walk-left',
+            'attack_left',
             Phaser.Animation.generateFrameNames(
-                'walk-left-',
+                'attack_left_',
                 1,
-                8,
+                4,
                 '.png'
             ),
             8,
             true
         )
         player.animations.add(
-            'idle-down',
+            'attack_up',
             Phaser.Animation.generateFrameNames(
-                'walk-down-',
-                3,
-                3,
-                '.png'
-            ),
-            8,
-            true
-        )
-        player.animations.add(
-            'idle-up',
-            Phaser.Animation.generateFrameNames(
-                'walk-up-',
-                3,
+                'attack_up_',
+                1,
                 3,
                 '.png'
             ),
@@ -215,25 +209,82 @@ maingame.gabriellegame.prototype = {
             true
         )
         player.animations.add(
-            'idle-right',
+            'attack_down',
             Phaser.Animation.generateFrameNames(
-                'walk-side-',
-                3,
-                3,
+                'attack_down_',
+                1,
+                4,
                 '.png'
             ),
             8,
+            true
+        )
+        player.animations.add(
+            'hurt_up',
+            Phaser.Animation.generateFrameNames(
+                'hurt_up_',
+                1,
+                3,
+                '.png'
+            ),
+            10,
+            true
+        )
+        player.animations.add(
+            'hurt_down',
+            Phaser.Animation.generateFrameNames(
+                'hurt_down_',
+                1,
+                3,
+                '.png'
+            ),
+            10,
+            true
+        )
+        player.animations.add(
+            'hurt_left',
+            Phaser.Animation.generateFrameNames(
+                'hurt_left_',
+                1,
+                4,
+                '.png'
+            ),
+            10,
+            true
+        )
+        player.animations.add(
+            'hurt_right',
+            Phaser.Animation.generateFrameNames(
+                'hurt_right_',
+                1,
+                4,
+                '.png'
+            ),
+            10,
             true
         )
         player.animations.add(
             'idle-left',
-            Phaser.Animation.generateFrameNames(
-                'walk-left-',
-                3,
-                3,
-                '.png'
-            ),
-            8,
+            ['idle_left.png'],
+            2,
+            true
+        )
+        player.animations.add(
+            'idle-right',
+            ['idle_right.png'],
+            2,
+            true
+        )
+        player.animations.add(
+            'idle-down',
+            ['idle_down.png'],
+            2,
+            true
+        )
+        player.animations.add(
+            'idle-up',
+            ['idle_up.png'],
+            2,
             true
         )
 
@@ -315,20 +366,25 @@ maingame.gabriellegame.prototype = {
                 }
             }, callbackContext = this, layer = water);
 
-        //~~~~~~~~~~~~~~~~~~~~~~~ chest creation
-        chest = statics.create(800, 750, 'chest', 0)
+        //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
+        chest = statics.create(800, 850, 'chest', 0)
 
         game.physics.arcade.enable(chest)
         chest.body.immovable = true
         chest.enableBody = true
 
-        chest.open = false
-        chest.touch = 1
-        chest.potion = 'health_pot_1.png'
+        chest.item = {
+            "name": "HealthPotion",
+            "group": potion,
+            "atlas": "potion_set",
+            "src": "health_pot_1.png"
+        }
         chest.collide = true
+      
+        // chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+        // chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
 
-        chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-        chest.animations.add('close', [7, 6, 5, 4, 3, 2, 1], 300, false)
+
 
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -382,37 +438,23 @@ maingame.gabriellegame.prototype = {
 
     update: function () {
         game.physics.arcade.collide(player, walls)
-        if (chest.collide) {
-            game.physics.arcade.collide(player, chest, function openchest(player) {
-                if (chest.position.x < player.position.x) {
-                    if (!chest.open && chest.touch <= 2) {
-                        chest.open = true
-                        console.log("touches")
-                        chest.animations.play('open')
-                        potion = statics.create(chest.position.x + 8, chest.position.y + 8, 'potion_set', chest.potion)
-                    }
-                    else if (chest.touch == 3) {
-                        potion.kill()
-                        var HealthPotion = {
-                            "name": "HealthPotion",
-                            "group": potion,
-                            "atlas": "potion_set",
-                            "src": "health_pot_1.png"
-                        }
-                        
-                        player.putBackpack(HealthPotion)
 
-                    }
-                    else if (chest.open && chest.touch == 4) {
-                        chest.animations.play('close')
-                        chest.open = false
-                        chest.collide = false
-                    }
-                    chest.touch++
-                }
+        game.physics.arcade.collide(player, chest, function openChest(player) {
+            if (chest.collide && chest.position.x < player.position.x) {
+                chest.collide = false;
+                chest.animations.play('open')
+                 var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
 
-            }, null, this)
-        }
+                game.time.events.add(Phaser.Timer.SECOND*5,function collectItemFromChest(){
+                    item.kill()
+                    player.putBackpack(chest.item)
+                }, this);
+
+
+            }
+
+        }, null, this)
+
 
         //game.physics.arcade.overlap(player, water,inWater(player),null,this)
         //game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this)

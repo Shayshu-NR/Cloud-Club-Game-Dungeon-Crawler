@@ -431,14 +431,12 @@ maingame.test_env.prototype = {
     statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-    chest = statics.create(50, 200, 'chest', 0)
+    //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
 
+    chest = statics.create(50, 200, 'chest', 0)
     game.physics.arcade.enable(chest)
     chest.body.immovable = true
     chest.enableBody = true
-
-    chest.open = false
-    chest.touch = 1
 
     chest.item = {
       "name": "HealthPotion",
@@ -447,6 +445,7 @@ maingame.test_env.prototype = {
       "src": "health_pot_1.png"
     }
     chest.collide = true
+
 
     chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
     chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
@@ -542,21 +541,25 @@ maingame.test_env.prototype = {
     this.timeText.fixedToCamera = true;
     this.timer = game.time.events.loop(10, tick, this)
 
-    chest = statics.create(50, 200, 'chest', 0)
   },
 
   update: function () {
 
-
-    game.physics.arcade.collide(player, chest, function getItemFromChest(player){
+    game.physics.arcade.collide(player, chest, function openChest(player) {
+      if (chest.collide) {
+        chest.collide = false;
         chest.animations.play('open')
-        var item = statics.create(chest.position.x+8, chest.position.y+8, chest.potion.name, chest.src)
-        
-        
+        var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
 
-        chest.animations.play('close')
-        }
-  , null, this)
+        game.time.events.add(Phaser.Timer.SECOND*5, function collectItemFromChest() {
+          item.kill()
+          player.putBackpack(chest.item)
+        }, this);
+
+
+      }
+
+    }, null, this)
 
     //Testing
     if (cursors.f.isDown) {
