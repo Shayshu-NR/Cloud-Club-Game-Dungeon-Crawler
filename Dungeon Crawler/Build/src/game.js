@@ -431,16 +431,14 @@ maingame.test_env.prototype = {
     statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-    chest = statics.create(50, 200, 'chest', 0)
+    //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
 
+    chest = statics.create(50, 200, 'chest', 0)
     game.physics.arcade.enable(chest)
     chest.body.immovable = true
     chest.enableBody = true
 
-    chest.open = false
-    chest.touch = 1
-
-    chest.potion = {
+    chest.item = {
       "name": "HealthPotion",
       "group": potion,
       "atlas": "potion_set",
@@ -448,8 +446,9 @@ maingame.test_env.prototype = {
     }
     chest.collide = true
 
+
     chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-    chest.animations.add('close', [7, 6, 5, 4, 3, 2, 1], 300, false)
+    chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
 
     //-------------------- Added water example --------------------
     const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
@@ -546,34 +545,18 @@ maingame.test_env.prototype = {
 
   update: function () {
 
+    game.physics.arcade.collide(player, chest, function openChest(player) {
+      if (chest.collide) {
+        chest.collide = false;
+        chest.animations.play('open')
+        var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
 
-    game.physics.arcade.collide(player, chest, function openchest(player) {
-      if (chest.position.x < player.position.x) {
-        if (!chest.open && chest.touch <= 2) {
-          chest.open = true
-          console.log("touches")
-          chest.animations.play('open')
-          potion = statics.create(chest.position.x + 8, chest.position.y + 8, chest.potion.atlas, chest.potion.src)
-          
-        }
-        else if (chest.touch == 3) {
-          potion.kill()
-          var HealthPotion = {
-            "name": "HealthPotion",
-            "group": potion,
-            "atlas": "potion_set",
-            "src": "health_pot_1.png"
-          }
+        game.time.events.add(Phaser.Timer.SECOND*5, function collectItemFromChest() {
+          item.kill()
+          player.putBackpack(chest.item)
+        }, this);
 
-          player.putBackpack(HealthPotion)
 
-        }
-        else if (chest.open && chest.touch == 4) {
-          chest.animations.play('close')
-          chest.open = false
-          chest.collide = false
-        }
-        chest.touch++
       }
 
     }, null, this)
