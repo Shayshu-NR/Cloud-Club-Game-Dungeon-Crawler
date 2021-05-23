@@ -370,17 +370,18 @@ maingame.gabriellegame.prototype = {
             }, callbackContext = this, layer = water);
 
         //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
-        chest = statics.create(800, 850, 'chest', 0)
+        chest = statics.create(700, 850, 'chest', 0)
 
         game.physics.arcade.enable(chest, Phaser.Physics.ARCADE)
         chest.body.immovable = true
         chest.enableBody = true
 
         chest.item = {
-            "name": "HealthPotion",
-            "group": potion,
-            "atlas": "potion_set",
-            "src": "health_pot_1.png"
+            name: "HealthPotion",
+            group: potion,
+            atlas: "potion_set",
+            src: "health_pot_1.png",
+            use: player.health+=3
         }
         chest.collide = true
 
