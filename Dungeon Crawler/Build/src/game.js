@@ -40,6 +40,7 @@ var lvltxt1;
 var lvltxt2;
 var health_bars;
 var ammo_bar;
+var timeLimit = 0;
 
 maingame.test_env = function (game) { };
 
@@ -439,10 +440,15 @@ maingame.test_env.prototype = {
     chest.enableBody = true
 
     chest.item = {
-      "name": "HealthPotion",
-      "group": potion,
-      "atlas": "potion_set",
-      "src": "health_pot_1.png"
+      name: "HealthPotion",
+      group: potion,
+      atlas: "potion_set",
+      src: "health_pot_1.png",
+      use: function () {
+        player.health += 3
+        console.log("Add 3 health")
+        // change_health(3);
+      }
     }
     chest.collide = true
 
@@ -473,6 +479,7 @@ maingame.test_env.prototype = {
           "actives": player.active_items,
           "current": player.current_item,
         };
+        game.current_time = timeLimit
         game.state.start("Backpack");
         console.log("in backpack state");
       })
@@ -529,12 +536,13 @@ maingame.test_env.prototype = {
     cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
     cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
     cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
+    cursors.useAct1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE)
 
     //-------------------- Speed run timer --------------------
-    this.timeLimit = game.current_time
-    var minutes = Math.floor(this.timeLimit / 6000);
-    var seconds = Math.floor((this.timeLimit - (minutes * 6000)) / 100);
-    var miliseconds = this.timeLimit - (seconds / 100) - (minutes * 6000);
+    timeLimit = game.current_time
+    var minutes = Math.floor(timeLimit / 6000);
+    var seconds = Math.floor((timeLimit - (minutes * 6000)) / 100);
+    var miliseconds = timeLimit - (seconds / 100) - (minutes * 6000);
     var timeString = addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
     this.timeText = game.add.text(650, 20, timeString)
     this.timeText.fill = "#FFFFFF"
@@ -551,7 +559,7 @@ maingame.test_env.prototype = {
         chest.animations.play('open')
         var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
 
-        game.time.events.add(Phaser.Timer.SECOND*5, function collectItemFromChest() {
+        game.time.events.add(Phaser.Timer.SECOND * 5, function collectItemFromChest() {
           item.kill()
           player.putBackpack(chest.item)
         }, this);
@@ -632,19 +640,14 @@ maingame.test_env.prototype = {
     if (!cursors.space.isDown) {
       keyReset = false;
     }
-
     if (cursors.z.isDown) {
       weapon.fire();
     }
 
     //-------------------- Enter skill tree state --------------------
     if (cursors.esc.downDuration(100)) {
+      game.current_time = timeLimit
       game.state.start("Skill tree");
-    }
-
-    if (cursors.bckpck.isDown) {
-      game.state.start("Backpack");
-      console.log("in backpack state");
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
@@ -659,7 +662,7 @@ maingame.test_env.prototype = {
         "actives": player.active_items,
         "current": player.current_item,
       };
-      game.current_time = this.timeLimit
+      game.current_time = timeLimit
       game.state.start("Backpack");
       console.log("in backpack state");
     }
@@ -667,6 +670,14 @@ maingame.test_env.prototype = {
     // Point checking
     if (player.exp - lastLevelPoints >= maxXpPoints) {
       level_up(player);
+    }
+
+    if(cursors.useAct1.downDuration(100)){
+      console.log("Use active item 1")
+      if(player.active_items[0] !== null){
+        player.active_items[0].use()
+        player.active_items[0] = null;
+      }
     }
 
     this.timeText.x = 650 + this.camera.view.x

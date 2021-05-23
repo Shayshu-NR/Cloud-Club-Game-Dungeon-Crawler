@@ -9,7 +9,7 @@ maingame.skill_tree.prototype = {
     preload: function () {
         this.load.image('dmg', '../Assets/General assets/Skill Tree/dmg_dylan.png')
         this.load.image('speed', '../Assets/General assets/Skill Tree/speed.png')
-        this.load.image('atks', '../Assets/General assets/Skill Tree/atks.png')
+        this.load.image('atks', '../Assets/General assets/Skill Tree/damage speed.png')
         this.load.image('crit', '../Assets/General assets/Skill Tree/crit.png')
         this.load.image('heal', '../Assets/General assets/Skill Tree/heal.png')
         this.load.image('root', '../Assets/General assets/Skill Tree/root.png')
@@ -43,10 +43,10 @@ maingame.skill_tree.prototype = {
         window.graphics = graphics
 
         //-------------------- Speed run timer --------------------
-        this.timeLimit = game.current_time
-        var minutes = Math.floor(this.timeLimit / 6000);
-        var seconds = Math.floor((this.timeLimit - (minutes * 6000)) / 100);
-        var miliseconds = this.timeLimit - (seconds / 100) - (minutes * 6000);
+        timeLimit = game.current_time
+        var minutes = Math.floor(timeLimit / 6000);
+        var seconds = Math.floor((timeLimit - (minutes * 6000)) / 100);
+        var miliseconds = timeLimit - (seconds / 100) - (minutes * 6000);
         var timeString = addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
         this.timeText = game.add.text(650, 20, timeString)
         this.timeText.fill = "#FFFFFF"
@@ -58,7 +58,7 @@ maingame.skill_tree.prototype = {
     update: function () {
 
         if (cursors.esc.downDuration(100)) {
-            game.current_time = this.timeLimit
+            game.current_time = timeLimit
             game.state.start("Main", true, false)
         }
 

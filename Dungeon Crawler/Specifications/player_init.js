@@ -1,6 +1,6 @@
 function init_player(game, player) {
     game.physics.arcade.enable(player, Phaser.Physics.ARCADE)
-    player.body.immovable = true 
+    // player.body.immovable = true 
     player.enableBody = true
 
     player.putBackpack = function (item, quantity = 1) {

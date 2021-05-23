@@ -131,162 +131,164 @@ maingame.gabriellegame.prototype = {
         player.swing = false
         player = init_player(game, player)
 
-        player.animations.add(
-            'walk_down',
-            Phaser.Animation.generateFrameNames(
-                'walk_down_',
-                1,
-                7,
-                '.png'
-            ),
-            10,
-            true
-        )
-        player.animations.add(
-            'walk_up',
-            Phaser.Animation.generateFrameNames(
-                'walk_up_',
-                1,
-                7,
-                '.png'
-            ),
-            10,
-            true
-        )
-        player.animations.add(
-            'walk_right',
-            Phaser.Animation.generateFrameNames(
-                'walk_right_',
-                1,
+        {
+            player.animations.add(
+                'walk_down',
+                Phaser.Animation.generateFrameNames(
+                    'walk_down_',
+                    1,
+                    7,
+                    '.png'
+                ),
+                10,
+                true
+            )
+            player.animations.add(
+                'walk_up',
+                Phaser.Animation.generateFrameNames(
+                    'walk_up_',
+                    1,
+                    7,
+                    '.png'
+                ),
+                10,
+                true
+            )
+            player.animations.add(
+                'walk_right',
+                Phaser.Animation.generateFrameNames(
+                    'walk_right_',
+                    1,
+                    8,
+                    '.png'
+                ),
+                10,
+                true
+            )
+            player.animations.add(
+                'walk_left',
+                Phaser.Animation.generateFrameNames(
+                    'walk_left_',
+                    1,
+                    8,
+                    '.png',
+                ),
+                10,
+                true
+            )
+            player.animations.add(
+                'attack_right',
+                Phaser.Animation.generateFrameNames(
+                    'attack_right_',
+                    1,
+                    4,
+                    '.png'
+                ),
                 8,
-                '.png'
-            ),
-            10,
-            true
-        )
-        player.animations.add(
-            'walk_left',
-            Phaser.Animation.generateFrameNames(
-                'walk_left_',
-                1,
+                true
+            )
+            player.animations.add(
+                'attack_left',
+                Phaser.Animation.generateFrameNames(
+                    'attack_left_',
+                    1,
+                    4,
+                    '.png'
+                ),
                 8,
-                '.png',
-            ),
-            10,
-            true
-        )
-        player.animations.add(
-            'attack_right',
-            Phaser.Animation.generateFrameNames(
-                'attack_right_',
-                1,
-                4,
-                '.png'
-            ),
-            8,
-            true
-        )
-        player.animations.add(
-            'attack_left',
-            Phaser.Animation.generateFrameNames(
-                'attack_left_',
-                1,
-                4,
-                '.png'
-            ),
-            8,
-            true
-        )
-        player.animations.add(
-            'attack_up',
-            Phaser.Animation.generateFrameNames(
-                'attack_up_',
-                1,
-                3,
-                '.png'
-            ),
-            8,
-            true
-        )
-        player.animations.add(
-            'attack_down',
-            Phaser.Animation.generateFrameNames(
-                'attack_down_',
-                1,
-                4,
-                '.png'
-            ),
-            8,
-            true
-        )
-        player.animations.add(
-            'hurt_up',
-            Phaser.Animation.generateFrameNames(
-                'hurt_up_',
-                1,
-                3,
-                '.png'
-            ),
-            10,
-            true
-        )
-        player.animations.add(
-            'hurt_down',
-            Phaser.Animation.generateFrameNames(
-                'hurt_down_',
-                1,
-                3,
-                '.png'
-            ),
-            10,
-            true
-        )
-        player.animations.add(
-            'hurt_left',
-            Phaser.Animation.generateFrameNames(
-                'hurt_left_',
-                1,
-                4,
-                '.png'
-            ),
-            10,
-            true
-        )
-        player.animations.add(
-            'hurt_right',
-            Phaser.Animation.generateFrameNames(
-                'hurt_right_',
-                1,
-                4,
-                '.png'
-            ),
-            10,
-            true
-        )
-        player.animations.add(
-            'idle-left',
-            ['idle_left.png'],
-            2,
-            true
-        )
-        player.animations.add(
-            'idle-right',
-            ['idle_right.png'],
-            2,
-            true
-        )
-        player.animations.add(
-            'idle-down',
-            ['idle_down.png'],
-            2,
-            true
-        )
-        player.animations.add(
-            'idle-up',
-            ['idle_up.png'],
-            2,
-            true
-        )
+                true
+            )
+            player.animations.add(
+                'attack_up',
+                Phaser.Animation.generateFrameNames(
+                    'attack_up_',
+                    1,
+                    3,
+                    '.png'
+                ),
+                8,
+                true
+            )
+            player.animations.add(
+                'attack_down',
+                Phaser.Animation.generateFrameNames(
+                    'attack_down_',
+                    1,
+                    4,
+                    '.png'
+                ),
+                8,
+                true
+            )
+            player.animations.add(
+                'hurt_up',
+                Phaser.Animation.generateFrameNames(
+                    'hurt_up_',
+                    1,
+                    3,
+                    '.png'
+                ),
+                10,
+                true
+            )
+            player.animations.add(
+                'hurt_down',
+                Phaser.Animation.generateFrameNames(
+                    'hurt_down_',
+                    1,
+                    3,
+                    '.png'
+                ),
+                10,
+                true
+            )
+            player.animations.add(
+                'hurt_left',
+                Phaser.Animation.generateFrameNames(
+                    'hurt_left_',
+                    1,
+                    4,
+                    '.png'
+                ),
+                10,
+                true
+            )
+            player.animations.add(
+                'hurt_right',
+                Phaser.Animation.generateFrameNames(
+                    'hurt_right_',
+                    1,
+                    4,
+                    '.png'
+                ),
+                10,
+                true
+            )
+            player.animations.add(
+                'idle-left',
+                ['idle_left.png'],
+                2,
+                true
+            )
+            player.animations.add(
+                'idle-right',
+                ['idle_right.png'],
+                2,
+                true
+            )
+            player.animations.add(
+                'idle-down',
+                ['idle_down.png'],
+                2,
+                true
+            )
+            player.animations.add(
+                'idle-up',
+                ['idle_up.png'],
+                2,
+                true
+            )
+        }
 
         statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
         bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -301,6 +303,7 @@ maingame.gabriellegame.prototype = {
         player.exp = 0
         player.level = 1
         player.inWater = false
+
         player.getCurrentLevel = function () {
             player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
             return player.level
@@ -369,7 +372,7 @@ maingame.gabriellegame.prototype = {
         //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
         chest = statics.create(800, 850, 'chest', 0)
 
-        game.physics.arcade.enable(chest)
+        game.physics.arcade.enable(chest, Phaser.Physics.ARCADE)
         chest.body.immovable = true
         chest.enableBody = true
 
@@ -380,12 +383,9 @@ maingame.gabriellegame.prototype = {
             "src": "health_pot_1.png"
         }
         chest.collide = true
-      
+
         // chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
         // chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
-
-
-
 
         lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
         lizard.enableBody = true
@@ -438,22 +438,7 @@ maingame.gabriellegame.prototype = {
 
     update: function () {
         game.physics.arcade.collide(player, walls)
-
-        game.physics.arcade.collide(player, chest, function openChest(player) {
-            if (chest.collide && chest.position.x < player.position.x) {
-                chest.collide = false;
-                chest.animations.play('open')
-                 var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
-
-                game.time.events.add(Phaser.Timer.SECOND*5,function collectItemFromChest(){
-                    item.kill()
-                    player.putBackpack(chest.item)
-                }, this);
-
-
-            }
-
-        }, null, this)
+        game.physics.arcade.collide(player, chest, openChest, null, this)
 
 
         //game.physics.arcade.overlap(player, water,inWater(player),null,this)
@@ -578,6 +563,20 @@ function open_chest(player, chest) {
         chest.opened = true
         chest.animations.play('open')
         game.add.image(50, 200 - 15, 'heart')
+    }
+}
+
+function openChest(player, chest) {
+    if (chest.collide && chest.position.x < player.position.x) {
+        chest.collide = false;
+        chest.animations.play('open')
+        var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
+
+        game.time.events.add(Phaser.Timer.SECOND * 5, function collectItemFromChest(arr) {
+            console.log(arr)
+            arr[0].kill()
+            player.putBackpack(chest.item)
+        }, this, [item]);
     }
 }
 

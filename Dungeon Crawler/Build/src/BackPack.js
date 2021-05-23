@@ -194,10 +194,10 @@ maingame.BackPack.prototype = {
                 }
 
                 //-------------------- Speed run timer --------------------
-                this.timeLimit = game.current_time
-                var minutes = Math.floor(this.timeLimit / 6000);
-                var seconds = Math.floor((this.timeLimit - (minutes * 6000)) / 100);
-                var miliseconds = this.timeLimit - (seconds / 100) - (minutes * 6000);
+                timeLimit = game.current_time
+                var minutes = Math.floor(timeLimit / 6000);
+                var seconds = Math.floor((timeLimit - (minutes * 6000)) / 100);
+                var miliseconds = timeLimit - (seconds / 100) - (minutes * 6000);
                 var timeString = addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
                 this.timeText = game.add.text(650, 20, timeString)
                 this.timeText.fill = "#FFFFFF"
@@ -212,7 +212,7 @@ maingame.BackPack.prototype = {
                                 actives: active_items,
                                 current: player.current_item,
                         };
-                        game.current_time = this.timeLimit
+                        game.current_time = timeLimit
                         game.state.start("Game");
                 }
 

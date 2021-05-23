@@ -1,4 +1,5 @@
 var cursors
+const MAX_BACKPACK_SIZE = 16
 maingame.BackPack = function (game) {
 
 };
