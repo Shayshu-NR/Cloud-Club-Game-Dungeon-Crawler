@@ -556,7 +556,6 @@ maingame.test_env.prototype = {
           player.putBackpack(chest.item)
         }, this);
 
-
       }
 
     }, null, this)
