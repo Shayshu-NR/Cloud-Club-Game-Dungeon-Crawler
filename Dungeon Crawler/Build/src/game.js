@@ -41,6 +41,7 @@ var lvltxt2;
 var health_bars;
 var ammo_bar;
 var timeLimit = 0;
+var activeBar = [];
 
 maingame.test_env = function (game) { };
 
@@ -116,6 +117,8 @@ maingame.test_env.prototype = {
 
     this.load.image('bpack',
       '../Assets/General assets/backpack-icon-cropped.png')
+
+    this.load.image('actives', '../Assets/General assets/ActiveItems.png')
   },
 
   create: function () {
@@ -138,163 +141,166 @@ maingame.test_env.prototype = {
     player.swing = false
     player = init_player(game, player)
 
-    player.animations.add(
+    {
 
-      'walk_down',
-      Phaser.Animation.generateFrameNames(
-        'walk_down_',
-        1,
-        7,
-        '.png'
-      ),
-      10,
-      true
-    )
-    player.animations.add(
-      'walk_up',
-      Phaser.Animation.generateFrameNames(
-        'walk_up_',
-        1,
-        7,
-        '.png'
-      ),
-      10,
-      true
-    )
-    player.animations.add(
-      'walk_right',
-      Phaser.Animation.generateFrameNames(
-        'walk_right_',
-        1,
+      player.animations.add(
+
+        'walk_down',
+        Phaser.Animation.generateFrameNames(
+          'walk_down_',
+          1,
+          7,
+          '.png'
+        ),
+        10,
+        true
+      )
+      player.animations.add(
+        'walk_up',
+        Phaser.Animation.generateFrameNames(
+          'walk_up_',
+          1,
+          7,
+          '.png'
+        ),
+        10,
+        true
+      )
+      player.animations.add(
+        'walk_right',
+        Phaser.Animation.generateFrameNames(
+          'walk_right_',
+          1,
+          8,
+          '.png'
+        ),
+        10,
+        true
+      )
+      player.animations.add(
+        'walk_left',
+        Phaser.Animation.generateFrameNames(
+          'walk_left_',
+          1,
+          8,
+          '.png',
+        ),
+        10,
+        true
+      )
+      player.animations.add(
+        'attack_right',
+        Phaser.Animation.generateFrameNames(
+          'attack_right_',
+          1,
+          4,
+          '.png'
+        ),
         8,
-        '.png'
-      ),
-      10,
-      true
-    )
-    player.animations.add(
-      'walk_left',
-      Phaser.Animation.generateFrameNames(
-        'walk_left_',
-        1,
+        true
+      )
+      player.animations.add(
+        'attack_left',
+        Phaser.Animation.generateFrameNames(
+          'attack_left_',
+          1,
+          4,
+          '.png'
+        ),
         8,
-        '.png',
-      ),
-      10,
-      true
-    )
-    player.animations.add(
-      'attack_right',
-      Phaser.Animation.generateFrameNames(
-        'attack_right_',
-        1,
-        4,
-        '.png'
-      ),
-      8,
-      true
-    )
-    player.animations.add(
-      'attack_left',
-      Phaser.Animation.generateFrameNames(
-        'attack_left_',
-        1,
-        4,
-        '.png'
-      ),
-      8,
-      true
-    )
-    player.animations.add(
-      'attack_up',
-      Phaser.Animation.generateFrameNames(
-        'attack_up_',
-        1,
-        3,
-        '.png'
-      ),
-      8,
-      true
-    )
-    player.animations.add(
-      'attack_down',
-      Phaser.Animation.generateFrameNames(
-        'attack_down_',
-        1,
-        4,
-        '.png'
-      ),
-      8,
-      true
-    )
-    player.animations.add(
-      'hurt_up',
-      Phaser.Animation.generateFrameNames(
-        'hurt_up_',
-        1,
-        3,
-        '.png'
-      ),
-      10,
-      true
-    )
-    player.animations.add(
-      'hurt_down',
-      Phaser.Animation.generateFrameNames(
-        'hurt_down_',
-        1,
-        3,
-        '.png'
-      ),
-      10,
-      true
-    )
-    player.animations.add(
-      'hurt_left',
-      Phaser.Animation.generateFrameNames(
-        'hurt_left_',
-        1,
-        4,
-        '.png'
-      ),
-      10,
-      true
-    )
-    player.animations.add(
-      'hurt_right',
-      Phaser.Animation.generateFrameNames(
-        'hurt_right_',
-        1,
-        4,
-        '.png'
-      ),
-      10,
-      true
-    )
-    player.animations.add(
-      'idle-left',
-      ['idle_left.png'],
-      2,
-      true
-    )
-    player.animations.add(
-      'idle-right',
-      ['idle_right.png'],
-      2,
-      true
-    )
-    player.animations.add(
-      'idle-down',
-      ['idle_down.png'],
-      2,
-      true
-    )
-    player.animations.add(
-      'idle-up',
-      ['idle_up.png'],
-      2,
-      true
-    )
+        true
+      )
+      player.animations.add(
+        'attack_up',
+        Phaser.Animation.generateFrameNames(
+          'attack_up_',
+          1,
+          3,
+          '.png'
+        ),
+        8,
+        true
+      )
+      player.animations.add(
+        'attack_down',
+        Phaser.Animation.generateFrameNames(
+          'attack_down_',
+          1,
+          4,
+          '.png'
+        ),
+        8,
+        true
+      )
+      player.animations.add(
+        'hurt_up',
+        Phaser.Animation.generateFrameNames(
+          'hurt_up_',
+          1,
+          3,
+          '.png'
+        ),
+        10,
+        true
+      )
+      player.animations.add(
+        'hurt_down',
+        Phaser.Animation.generateFrameNames(
+          'hurt_down_',
+          1,
+          3,
+          '.png'
+        ),
+        10,
+        true
+      )
+      player.animations.add(
+        'hurt_left',
+        Phaser.Animation.generateFrameNames(
+          'hurt_left_',
+          1,
+          4,
+          '.png'
+        ),
+        10,
+        true
+      )
+      player.animations.add(
+        'hurt_right',
+        Phaser.Animation.generateFrameNames(
+          'hurt_right_',
+          1,
+          4,
+          '.png'
+        ),
+        10,
+        true
+      )
+      player.animations.add(
+        'idle-left',
+        ['idle_left.png'],
+        2,
+        true
+      )
+      player.animations.add(
+        'idle-right',
+        ['idle_right.png'],
+        2,
+        true
+      )
+      player.animations.add(
+        'idle-down',
+        ['idle_down.png'],
+        2,
+        true
+      )
+      player.animations.add(
+        'idle-up',
+        ['idle_up.png'],
+        2,
+        true
+      )
+    }
 
     //-------------------- Add example weapon --------------------
     default_sword = game.add.group()
@@ -390,7 +396,8 @@ maingame.test_env.prototype = {
     //   "name": "potion",
     //   "group": potion,
     //   "atlas" : "potion_set",
-    //   "src": "health_pot_1.png"
+    //   "src": "health_pot_1.png",
+    //   "ai_scale" : (x, y)
     // }
 
     // lesser_sword = {
@@ -447,9 +454,11 @@ maingame.test_env.prototype = {
       use: function () {
         player.health += 3
         console.log("Add 3 health")
-        // change_health(3);
-      }
+        
+      },
+      ai_scale : [1, 1]
     }
+
     chest.collide = true
 
 
@@ -484,8 +493,8 @@ maingame.test_env.prototype = {
         console.log("in backpack state");
       })
 
-    var bar_holder = statics.create(59, 550, 'bar', 'Bar.png')
-    xp_bar = bars.create(67, 552, 'xp_bar', 'bar-filler.png')
+    var bar_holder = statics.create(150, 560, 'bar', 'Bar.png')
+    xp_bar = bars.create(158, 552, 'xp_bar', 'bar-filler.png')
     bar_holder.fixedToCamera = true
     xp_bar.fixedToCamera = true
     player.exp = 0
@@ -497,12 +506,10 @@ maingame.test_env.prototype = {
     bar_holder.scale.set(8, 2)
     xp_bar.scale.set(player.exp / maxXpPoints * 8, 2)
 
-
-
-    lvltxt1 = game.add.text(59, 534, '', { fontSize: '16px', fill: '#FFFFFF' })
+    lvltxt1 = game.add.text(150, 534, '', { fontSize: '16px', fill: '#FFFFFF' })
     lvltxt1.text = '' + player.level;
 
-    lvltxt2 = game.add.text(690, 534, '', { fontSize: '16px', fill: '#FFFFFF' })
+    lvltxt2 = game.add.text(780, 534, '', { fontSize: '16px', fill: '#FFFFFF' })
     lvltxt2.text = '' + (player.level + 1);
 
     lvltxt1.fixedToCamera = true
@@ -516,6 +523,18 @@ maingame.test_env.prototype = {
       //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
     }
+
+    var actives = game.add.image(55, 550, 'actives')
+    actives.scale.set(0.4, 0.4)
+    activeBar = player.active_items;
+    for (var i = 0; i < activeBar.length; i++) {
+      if (activeBar[i] != null) {
+        console.log("active item create")
+        var icon = game.add.image(62 + 28 * i, 557, activeBar[i]["atlas"], activeBar[i]["src"])
+        icon.scale.set(activeBar[i].ai_scale[0], activeBar[i].ai_scale[1])
+      }
+    }
+
 
     //ammo set up
     player.ammo = 10
@@ -537,6 +556,8 @@ maingame.test_env.prototype = {
     cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
     cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
     cursors.useAct1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE)
+    cursors.useAct2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO)
+    cursors.useAct3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE)
 
     //-------------------- Speed run timer --------------------
     timeLimit = game.current_time
@@ -559,7 +580,7 @@ maingame.test_env.prototype = {
         chest.animations.play('open')
         var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
 
-        game.time.events.add(Phaser.Timer.SECOND * 5, function collectItemFromChest() {
+        game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
           item.kill()
           player.putBackpack(chest.item)
         }, this);
@@ -567,22 +588,6 @@ maingame.test_env.prototype = {
       }
 
     }, null, this)
-
-    //Testing
-    if (cursors.f.isDown) {
-      if (
-        player.current_item == "Speed_Potion" ||
-        player.current_item == "Health_Potion" ||
-        player.current_item == "Attack_Potion"
-      ) {
-        use_potion(player, player.current_item);
-      }
-    }
-
-
-    if (!cursors.f.isDown) {
-      keyReset = false;
-    }
 
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
@@ -671,11 +676,22 @@ maingame.test_env.prototype = {
       level_up(player);
     }
 
-    if(cursors.useAct1.downDuration(100)){
-      console.log("Use active item 1")
-      if(player.active_items[0] !== null){
+    if (cursors.useAct1.downDuration(1000)) {
+      if (player.active_items[0] !== null || player.active_items[0] !== 'undefined') {
         player.active_items[0].use()
         player.active_items[0] = null;
+      }
+    }
+    if (cursors.useAct2.downDuration(100)) {
+      if (player.active_items[1] !== null || player.active_items[1] !== 'undefined') {
+        player.active_items[1].use()
+        player.active_items[1] = null;
+      }
+    }
+    if (cursors.useAct3.downDuration(100)) {
+      if (player.active_items[2] !== null || player.active_items[2] !== 'undefined') {
+        player.active_items[2].use()
+        player.active_items[2] = null;
       }
     }
 
