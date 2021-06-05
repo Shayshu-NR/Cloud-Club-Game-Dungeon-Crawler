@@ -454,9 +454,9 @@ maingame.test_env.prototype = {
       use: function () {
         player.health += 3
         console.log("Add 3 health")
-        
+
       },
-      ai_scale : [1, 1]
+      ai_scale: [1, 1]
     }
 
     chest.collide = true
@@ -677,19 +677,19 @@ maingame.test_env.prototype = {
     }
 
     if (cursors.useAct1.downDuration(1000)) {
-      if (player.active_items[0] !== null || player.active_items[0] !== 'undefined') {
+      if (player.active_items[0] !== null && typeof player.active_items[0] == 'object') {
         player.active_items[0].use()
-        player.active_items[0] = null;
+        player.active_items[0] = null
       }
     }
     if (cursors.useAct2.downDuration(100)) {
-      if (player.active_items[1] !== null || player.active_items[1] !== 'undefined') {
+      if (player.active_items[1] !== null && typeof player.active_items[0] == 'object') {
         player.active_items[1].use()
         player.active_items[1] = null;
       }
     }
     if (cursors.useAct3.downDuration(100)) {
-      if (player.active_items[2] !== null || player.active_items[2] !== 'undefined') {
+      if (player.active_items[2] !== null && typeof player.active_items[0] == 'object') {
         player.active_items[2].use()
         player.active_items[2] = null;
       }
