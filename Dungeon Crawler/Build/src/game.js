@@ -27,6 +27,7 @@ var weapon;
 //-------------------- Treasure --------------------
 var chest;
 var statics
+var icon = [];
 
 //-------------------- Items -----------------------
 var potion;
@@ -142,9 +143,7 @@ maingame.test_env.prototype = {
     player = init_player(game, player)
 
     {
-
       player.animations.add(
-
         'walk_down',
         Phaser.Animation.generateFrameNames(
           'walk_down_',
@@ -461,7 +460,7 @@ maingame.test_env.prototype = {
 
     chest.collide = true
 
-
+    
     chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
     chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
 
@@ -516,9 +515,9 @@ maingame.test_env.prototype = {
     lvltxt2.fixedToCamera = true
 
     //health-bar set-up
-    health_bars = [null, null, null, null, null, null, null, null, null, null, null]
+    health_bars = [null, null, null, null, null, null, null, null, null, null,null]
     for (var i = 0; i < 10; i++) {
-      health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart', 'heart.png')
+      health_bars[i] = bars.create(8+ i * 16, 5, 'health_heart', 'heart.png')
       health_bars[i].fixedToCamera = true
       //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
@@ -530,8 +529,9 @@ maingame.test_env.prototype = {
     for (var i = 0; i < activeBar.length; i++) {
       if (activeBar[i] != null) {
         console.log("active item create")
-        var icon = game.add.image(62 + 28 * i, 557, activeBar[i]["atlas"], activeBar[i]["src"])
-        icon.scale.set(activeBar[i].ai_scale[0], activeBar[i].ai_scale[1])
+        icon[i] = game.add.image(62 + 28 * i, 557, activeBar[i]["atlas"], activeBar[i]["src"])
+        icon[i].scale.set(activeBar[i].ai_scale[0], activeBar[i].ai_scale[1])
+
       }
     }
 
@@ -680,21 +680,27 @@ maingame.test_env.prototype = {
       if (player.active_items[0] !== null && typeof player.active_items[0] == 'object') {
         player.active_items[0].use()
         player.active_items[0] = null
+        icon[0].kill()
+
       }
     }
     if (cursors.useAct2.downDuration(100)) {
       if (player.active_items[1] !== null && typeof player.active_items[0] == 'object') {
         player.active_items[1].use()
         player.active_items[1] = null;
+        icon[1].kill()
       }
     }
     if (cursors.useAct3.downDuration(100)) {
       if (player.active_items[2] !== null && typeof player.active_items[0] == 'object') {
         player.active_items[2].use()
         player.active_items[2] = null;
+        icon[2].kill()
       }
     }
 
     this.timeText.x = 650 + this.camera.view.x
+    player.healthchange()
+    game.playerHealth = player.health
   }
 };

@@ -55,6 +55,35 @@ function init_player(game, player) {
         }
     }
 
+    player.healthchange = function(){
+            if ( player.health > 10) { //makes sure the array doesn't go out of bounds
+                console.log("invalid health")
+                player.health = 10
+            }
+            else if(player.health<0){
+                player.health = 1
+            }
+           
+            if (health_bars[player.health] != null) { //if there is a
+                for (i = player.health; i < 10; i++) {
+                    if (health_bars[i] != null) {
+                        health_bars[i].kill()
+                        health_bars[i] = null
+                    }
+                }
+            }
+        
+            else {
+                for (i = 0; i < player.health+1; i++) {
+                    if (health_bars[i] == null) {
+                        health_bars[i] = bars.create(8+ i * 16, 5, 'health_heart', 'heart.png')
+                        health_bars[i].fixedToCamera = true
+                    }
+                }
+            }  
+    }
+
+
     // Exp(level) = 100(level)^1.5
     player.getCurrentLevel = function () {
         player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
@@ -99,6 +128,8 @@ function init_player(game, player) {
 
     console.log("BPCK", player.backpack)
     console.log("AI", player.active_items)
+
+
 
     return player
 }
