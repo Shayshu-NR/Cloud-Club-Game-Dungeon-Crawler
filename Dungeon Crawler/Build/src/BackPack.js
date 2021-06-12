@@ -46,8 +46,8 @@ maingame.BackPack.prototype = {
                 inventory = []
                 actives = Array(3).fill(0);
 
-                console.log(backpack)
-                console.log(active_items)
+                console.log("Backpack: ", backpack)
+                console.log("Active Items", active_items)
 
                 for (var i = 0; i < 4; i++) {
                         inventory.push([])
@@ -89,17 +89,18 @@ maingame.BackPack.prototype = {
                 }
 
                 //initializing active items interface 
-                for (var i = 1; i <= active_items.length; i++) {
+                for (var i = 0; i < active_items.length; i++) {
                         if(active_items[i] != null){
-                                active_items[i - 1]["group"] = item.create(i * 70, 70 * 6, active_items[i - 1]["atlas"], active_items[i - 1]["src"])
-                                active_items[i - 1]["group"].inputEnabled = true;
-                                active_items[i - 1]["group"].input.enableDrag();
-                                active_items[i - 1]["group"].events.onDragStart.add(onDragStart, this);
-                                active_items[i - 1]["group"].events.onDragStop.add(onDragStop, this);
-                                active_items[i - 1]["group"].inv_x = i - 1
-                                active_items[i - 1]["group"].inv_y = 5
-                                active_items[i - 1]["group"].inv = [i - 1, 5]
-                                actives[i - 1] = 1
+                                console.log("Placed active item")
+                                active_items[i]["group"] = item.create((i + 1) * 70, 70 * 6, active_items[i]["atlas"], active_items[i]["src"])
+                                active_items[i]["group"].inputEnabled = true;
+                                active_items[i]["group"].input.enableDrag();
+                                active_items[i]["group"].events.onDragStart.add(onDragStart, this);
+                                active_items[i]["group"].events.onDragStop.add(onDragStop, this);
+                                active_items[i]["group"].inv_x = i
+                                active_items[i]["group"].inv_y = 5
+                                active_items[i]["group"].inv = [i, 5]
+                                actives[i] = 1
                         }
                 }
 
