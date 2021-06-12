@@ -381,7 +381,7 @@ maingame.gabriellegame.prototype = {
             group: potion,
             atlas: "potion_set",
             src: "health_pot_1.png",
-            use: player.health+=3
+            use: player.health += 3
         }
         chest.collide = true
 
@@ -621,19 +621,21 @@ function add_xp(player, xp_num) {
     // console.log(phaser.camera)   
 }
 function change_health(player) {
-    if (player.health < 0 || player.health > 10) { //makes sure the array doesn't go out of bounds
+    if ( player.health > 10) { //makes sure the array doesn't go out of bounds
         console.log("invalid health")
-        player.health = 5
+        player.health = 10
     }
+    else if(player.health<0){
+        player.health = 1
+    }
+   
 
-    else if (health_bars[player.health] != null) { //if there is a
+    if (health_bars[player.health] != null) { //if there is a
         for (i = player.health; i < 10; i++) {
             if (health_bars[i] != null) {
                 health_bars[i].kill()
                 health_bars[i] = null
             }
-            // else
-            //     break
         }
     }
 
@@ -643,7 +645,6 @@ function change_health(player) {
                 health_bars[i] = bars.create(i * 16, 5, 'health_heart', 'heart.png')
                 health_bars[i].fixedToCamera = true
             }
-
         }
     }
 }
