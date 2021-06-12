@@ -527,6 +527,7 @@ maingame.test_env.prototype = {
     var actives = game.add.image(55, 550, 'actives')
     actives.scale.set(0.4, 0.4)
     activeBar = player.active_items;
+
     for (var i = 0; i < activeBar.length; i++) {
       if (activeBar[i] != null) {
         console.log("active item create")
@@ -558,6 +559,7 @@ maingame.test_env.prototype = {
     cursors.useAct1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE)
     cursors.useAct2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO)
     cursors.useAct3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE)
+    cursors.startMenu = game.input.keyboard.addKey(Phaser.Keyboard.P)
 
     //-------------------- Speed run timer --------------------
     timeLimit = game.current_time
@@ -573,6 +575,10 @@ maingame.test_env.prototype = {
   },
 
   update: function () {
+    if (cursors.startMenu.downDuration(100)) {
+      game.state.start("StartMenu")
+    }
+
 
     game.physics.arcade.collide(player, chest, function openChest(player) {
       if (chest.collide) {
@@ -676,7 +682,7 @@ maingame.test_env.prototype = {
       level_up(player);
     }
 
-    if (cursors.useAct1.downDuration(1000)) {
+    if (cursors.useAct1.downDuration(100)) {
       if (player.active_items[0] !== null && typeof player.active_items[0] == 'object') {
         player.active_items[0].use()
         player.active_items[0] = null
