@@ -55,32 +55,32 @@ function init_player(game, player) {
         }
     }
 
-    player.healthchange = function(){
-            if ( player.health > 10) { //makes sure the array doesn't go out of bounds
-                console.log("invalid health")
-                player.health = 10
-            }
-            else if(player.health<0){
-                player.health = 1
-            }
-           
-            if (health_bars[player.health] != null) { //if there is a
-                for (i = player.health; i < 10; i++) {
-                    if (health_bars[i] != null) {
-                        health_bars[i].kill()
-                        health_bars[i] = null
-                    }
+    player.healthchange = function () {
+        if (player.health > 10) { //makes sure the array doesn't go out of bounds
+            console.log("invalid health")
+            player.health = 10
+        }
+        else if (player.health < 0) {
+            player.health = 1
+        }
+
+        if (health_bars[player.health - 1] != null) { //if there is a
+            for (i = player.health; i < 10; i++) {
+                if (health_bars[i] != null) {
+                    health_bars[i].kill()
+                    health_bars[i] = null
                 }
             }
-        
-            else {
-                for (i = 0; i < player.health+1; i++) {
-                    if (health_bars[i] == null) {
-                        health_bars[i] = bars.create(8+ i * 16, 5, 'health_heart', 'heart.png')
-                        health_bars[i].fixedToCamera = true
-                    }
+        }
+
+        else {
+            for (i = 0; i < player.health; i++) {
+                if (health_bars[i] == null) {
+                    health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart', 'heart.png')
+                    health_bars[i].fixedToCamera = true
                 }
-            }  
+            }
+        }
     }
 
 
@@ -109,15 +109,15 @@ function init_player(game, player) {
     player.health = game.playerHealth
 
     player.defense = game.playerDefense
-    
+
     player.knockback = false
 
     player.swing = false
 
     player.luck = game.playerLuck
-    
-    player.crit_damage = function(){
-        if (probability(player.crit_chance)){
+
+    player.crit_damage = function () {
+        if (probability(player.crit_chance)) {
             return player.damage * player.crit_chance
         }
         return 0
