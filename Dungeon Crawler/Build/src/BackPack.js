@@ -90,8 +90,7 @@ maingame.BackPack.prototype = {
 
                 //initializing active items interface 
                 for (var i = 0; i < active_items.length; i++) {
-                        if(active_items[i] != null){
-                                console.log("Placed active item")
+                        if (active_items[i] != null) {
                                 active_items[i]["group"] = item.create((i + 1) * 70, 70 * 6, active_items[i]["atlas"], active_items[i]["src"])
                                 active_items[i]["group"].inputEnabled = true;
                                 active_items[i]["group"].input.enableDrag();

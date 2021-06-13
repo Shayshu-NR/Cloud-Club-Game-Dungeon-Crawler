@@ -446,20 +446,17 @@ maingame.test_env.prototype = {
     chest.enableBody = true
 
     chest.item = {
-      name: "HealthPotion",
+      name: "SpeedPotion",
       group: potion,
       atlas: "potion_set",
-      src: "health_pot_1.png",
+      src: "speed_pot_1.png",
       use: function () {
-        player.health += 3
-        console.log("Add 3 health")
-
+        use_potion(player, "Speed_Potion")
       },
-      ai_scale: [1, 1]
+      ai_scale: [1, 1],
     }
 
     chest.collide = true
-
     
     chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
     chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
@@ -515,9 +512,9 @@ maingame.test_env.prototype = {
     lvltxt2.fixedToCamera = true
 
     //health-bar set-up
-    health_bars = [null, null, null, null, null, null, null, null, null, null,null]
+    health_bars = [null, null, null, null, null, null, null, null, null, null, null]
     for (var i = 0; i < 10; i++) {
-      health_bars[i] = bars.create(8+ i * 16, 5, 'health_heart', 'heart.png')
+      health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart')
       health_bars[i].fixedToCamera = true
       //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
 
@@ -691,14 +688,14 @@ maingame.test_env.prototype = {
       }
     }
     if (cursors.useAct2.downDuration(100)) {
-      if (player.active_items[1] !== null && typeof player.active_items[0] == 'object') {
+      if (player.active_items[1] !== null && typeof player.active_items[1] == 'object') {
         player.active_items[1].use()
         player.active_items[1] = null;
         icon[1].kill()
       }
     }
     if (cursors.useAct3.downDuration(100)) {
-      if (player.active_items[2] !== null && typeof player.active_items[0] == 'object') {
+      if (player.active_items[2] !== null && typeof player.active_items[2] == 'object') {
         player.active_items[2].use()
         player.active_items[2] = null;
         icon[2].kill()
