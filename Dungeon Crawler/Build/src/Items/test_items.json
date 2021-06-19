@@ -1,5 +1,5 @@
-{
-    "ItemName" : {
+ test_items = {
+    "ItemName": {
 
         "x": "x postion of item",
         "y": "y position of item",

@@ -1,7 +1,7 @@
 class Items {
 
     constructor(src_file) {
-        var levelData = JSON.parse("./Items/" + src_file);
+        var levelData = JSON.parse();
         console.log(levelData)
     }
 }
