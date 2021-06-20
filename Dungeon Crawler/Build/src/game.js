@@ -1,5 +1,5 @@
 var maingame = {};
-var classTEst = new Items("test_items.json")
+var BuildItems = new Items("test_items.json")
 
 //-------------------- Tile map --------------------
 var map;

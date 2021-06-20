@@ -1,8 +1,11 @@
 class Items {
-
+    
     constructor(src_file) {
-        var levelData = JSON.parse();
-        console.log(levelData)
+        var jsonData;
+        fetch('./src/Items/' + src_file).then(
+            results => results.json())
+            .then(data => jsonData = data)
+            .then(data => this.itemData = data);
     }
 }
 
