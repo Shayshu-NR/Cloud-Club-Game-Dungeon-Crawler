@@ -1,8 +1,8 @@
 {
     "ItemName" : {
 
-        "x": "x postion of item",
-        "y": "y position of item",
+        "x": "50",
+        "y": "200",
         "src": {
             "atlas": "Path to atlas",
             "tilesheet": "Path to tilesheet"
