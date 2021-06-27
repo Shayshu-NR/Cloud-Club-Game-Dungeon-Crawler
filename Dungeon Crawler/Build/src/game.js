@@ -1,5 +1,5 @@
 var maingame = {};
-var classTEst = new Items("test_items.json")
+var BuildItems = new Items("test_items.json")
 
 //-------------------- Tile map --------------------
 var map;
@@ -56,6 +56,15 @@ maingame.test_env.prototype = {
       '../Assets/Example assets/Tiled Map/Example_tile.json',
       null,
       Phaser.Tilemap.TILED_JSON)
+
+    this.load.tilemap('ripleys',
+      '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map.json',
+      null,
+      Phaser.Tilemap.TILED_JSON)
+
+      this.load.image('ripleys_tiles',
+      '../Assets/General assets/Ripleys Aquarium/tileset.png')
+
 
     this.load.atlas('player',
       '../Assets/Example assets/legend of faune files/spritesheet.png',
@@ -128,15 +137,21 @@ maingame.test_env.prototype = {
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
     //-------------------- Add tile map and tile set --------------------
-    map = game.add.tilemap('example_map')
-    map.addTilesetImage('dungeon', 'tiles')
+    map = game.add.tilemap('ripleys')
+    map.addTilesetImage('ripleys', 'ripleys_tiles')
 
     //-------------------- Create layer --------------------
-    ground = map.createLayer('Ground')
-    walls = map.createLayer('Walls')
+    map.createLayer('ground')
+    map.createLayer('water')
+    map.createLayer('rocks')
+    walls = map.createLayer('wall')
+    map.createLayer('glass')
+    map.createLayer('kelp')
+    map.createLayer('decoration')
+    map.createLayer('decoration-2')
 
     //-------------------- Add wall colision --------------------
-    map.setCollisionBetween(1, 999, true, 'Walls')
+    map.setCollisionBetween(1, 999, true, 'wall')
 
     //-------------------- Add player model --------------------
     player = game.add.sprite(128, 128, 'eng', 'idle_down.png')
@@ -440,6 +455,7 @@ maingame.test_env.prototype = {
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
+    
 
     chest = statics.create(50, 200, 'chest', 0)
     game.physics.arcade.enable(chest)
@@ -458,7 +474,7 @@ maingame.test_env.prototype = {
     }
 
     chest.collide = true
-    
+
     chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
     chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
 
@@ -489,6 +505,7 @@ maingame.test_env.prototype = {
         game.state.start("Backpack");
         console.log("in backpack state");
       })
+    stats.fixedToCamera = true;
 
     var bar_holder = statics.create(150, 560, 'bar', 'Bar.png')
     xp_bar = bars.create(158, 552, 'xp_bar', 'bar-filler.png')
@@ -522,6 +539,7 @@ maingame.test_env.prototype = {
     }
 
     var actives = game.add.image(55, 550, 'actives')
+    actives.fixedToCamera = true
     actives.scale.set(0.4, 0.4)
     activeBar = player.active_items;
 
