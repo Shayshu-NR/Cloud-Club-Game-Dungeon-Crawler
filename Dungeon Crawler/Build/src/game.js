@@ -464,14 +464,16 @@ maingame.test_env.prototype = {
 
     for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
       console.log("Making chest", i)
-      var x = BuildItems.itemData.Items[i].x;
-      var y = BuildItems.itemData.Items[i].y;
+      var x = Number(BuildItems.itemData.Items[i].x);
+      var y = Number(BuildItems.itemData.Items[i].y);
       var src = BuildItems.itemData.Items[i].src;
 
       var newChest = statics.create(x, y, 'chest', 0)
       game.physics.arcade.enable(newChest)
       newChest.body.immovable = true
       newChest.enableBody = true
+      newChest.classPosition = i
+
       itemChests.push(newChest)
     }
 
@@ -608,16 +610,20 @@ maingame.test_env.prototype = {
       game.state.start("StartMenu")
     }
 
-
+    // Add opened and item taken logic
     game.physics.arcade.collide(player, chest, function openChest(player) {
       if (chest.collide) {
         chest.collide = false;
         chest.animations.play('open')
+        // Set chest opened flag
+        //var staticIndex = chest.classPosition
+        //BuildItems.hasf__[staticIndex].openedFlag = true;
         var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
 
         game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
           item.kill()
           player.putBackpack(chest.item)
+          // Set item taken flag
         }, this);
 
       }

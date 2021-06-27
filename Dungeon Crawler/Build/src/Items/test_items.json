@@ -1,7 +1,6 @@
 {
     "Items" : [
         {
-
             "Name": "Chest_1",
             "x": "100",
             "y": "200",
@@ -17,6 +16,7 @@
                 "use": "function () {use_potion(player, \"Speed_Potion\")}",
                 "ai_scale": [1, 1]
             }
+            
         },
         {
             "Name": "Chest_2",
@@ -34,6 +34,7 @@
                 "use": "function () {use_potion(player, \"Speed_Potion\")}",
                 "ai_scale": [1, 1]
             }
+            
         }
     ]
 }
