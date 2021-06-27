@@ -9,6 +9,7 @@ maingame.startmenu.prototype = {
 
     create: function () {
         game.add.image(0, 0, 'StartMenu')
+        //game.add.button(x, y, image, function(){})
     },
 
     update: function () {
@@ -20,9 +21,18 @@ maingame.startmenu.prototype = {
                 }
             }
         }
+
+        if (game.input.mousePointer.x > 400 && game.input.mousePointer.x < 550) {
+            if (game.input.mousePointer.y > 300 && game.input.mousePointer.y < 350) {
+                if(game.input.activePointer.isDown){
+                    window.location.href = 'https://cloudclub.ca/';
+                }
+            }
+        }
     },
 
     render: function () {
-
     }
 }
+
+//https://cloudclub.ca/

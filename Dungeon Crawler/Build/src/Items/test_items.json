@@ -1,19 +1,39 @@
 {
-    "ItemName" : {
+    "Items" : [
+        {
 
-        "x": "50",
-        "y": "200",
-        "src": {
-            "atlas": "Path to atlas",
-            "tilesheet": "Path to tilesheet"
+            "Name": "Chest_1",
+            "x": "100",
+            "y": "200",
+            "src": {
+                "atlas": "Path to atlas",
+                "tilesheet": "Path to tilesheet"
+            },
+            "chest": {
+                "name": "SpeedPotion",
+                "group": "potion",
+                "atlas": "potion_set",
+                "src": "speed_pot_1.png",
+                "use": "function () {use_potion(player, \"Speed_Potion\")}",
+                "ai_scale": [1, 1]
+            }
         },
-        "chest": {
-            "name": "SpeedPotion",
-            "group": "potion",
-            "atlas": "potion_set",
-            "src": "speed_pot_1.png",
-            "use": "function () {use_potion(player, \"Speed_Potion\")}",
-            "ai_scale": [1, 1]
+        {
+            "Name": "Chest_2",
+            "x": "150",
+            "y": "200",
+            "src": {
+                "atlas": "Path to atlas",
+                "tilesheet": "Path to tilesheet"
+            },
+            "chest": {
+                "name": "SpeedPotion",
+                "group": "potion",
+                "atlas": "potion_set",
+                "src": "speed_pot_1.png",
+                "use": "function () {use_potion(player, \"Speed_Potion\")}",
+                "ai_scale": [1, 1]
+            }
         }
-    }
+    ]
 }
