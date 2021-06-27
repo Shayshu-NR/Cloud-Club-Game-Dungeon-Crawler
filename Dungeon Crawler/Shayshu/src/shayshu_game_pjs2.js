@@ -65,9 +65,11 @@ maingame.test_env.prototype = {
             '../Assets/General assets/Ripleys Aquarium/shark-swim/Shark_atlas_js.json'
         )
 
-        // this.load.atlas('pirate',
-        // )
-        //
+        this.load.atlas('pirate',
+            '../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.png',
+            '../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlast-sheet.json',
+        )
+
 
         this.load.atlas('tourist',
             '../Assets/General assets/CN Tower/Enemy/Tourist_Compact_1.png',
@@ -360,7 +362,109 @@ maingame.test_env.prototype = {
             return false
         }
 
-        // black_beard = pirate.create(741, 575, '')
+        black_beard = pirate.create(741, 575, 'pirate', '')
+
+        black_beard.animations.add(
+            'walk-down',
+            Phaser.Animation.generateFrameNames(
+                'walk-down-',
+                1,
+                12,  //number of frames
+                '.png'
+            ),
+            5,
+            true
+        )
+
+        black_beard.animations.add(
+            'walk-left-',
+            Phaser.Animation.generateFrameNames(
+                'walk-left-',
+                1,
+                12,
+                '.png'
+            ),
+            5,
+            true
+        )
+
+        black_beard.animations.add(
+            'walk-right-',
+            Phaser.Animation.generateFrameNames(
+                'walk-right-',
+                1,
+                12,
+                '.png'
+            ),
+            5,
+            true
+        )
+
+        black_beard.animations.add(
+            'walk-up-',
+            Phaser.Animation.generateFrameNames(
+                'walk-up-',
+                1,
+                12,
+                '.png'
+            ),
+            5,
+            true
+        )
+
+        black_beard.animations.add(
+            'attack-up-',
+            Phaser.Animation.generateFrameNames(
+                'attack-up-',
+                1,
+                5,
+                '.png'
+            ),
+            5,
+            true
+        )
+
+        black_beard.animations.add(
+            'attack-right-',
+            Phaser.Animation.generateFrameNames(
+                'attack-right-',
+                1,
+                7,
+                '.png'
+            ),
+            5,
+            true
+        )
+
+        black_beard.animations.add(
+            'attack-left-',
+            Phaser.Animation.generateFrameNames(
+                'attack-left-',
+                1,
+                7,
+                '.png'
+            ),
+            5,
+            true
+        )
+
+        black_beard.animations.add(
+            'attack-down-',
+            Phaser.Animation.generateFrameNames(
+                'attack-down-',
+                1,
+                5,
+                '.png'
+            ),
+            5,
+            true
+        )
+
+
+
+
+
+
         cn_tourist = tourist.create(741, 575, 'tourist', 'Tourist_Front_Attack.png')
 
         cn_tourist.animations.add(
