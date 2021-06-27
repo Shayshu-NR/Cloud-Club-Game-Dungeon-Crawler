@@ -29,6 +29,7 @@ var weapon;
 var chest;
 var statics
 var icon = [];
+var itemChests = [];
 
 //-------------------- Items -----------------------
 var potion;
@@ -62,7 +63,7 @@ maingame.test_env.prototype = {
       null,
       Phaser.Tilemap.TILED_JSON)
 
-      this.load.image('ripleys_tiles',
+    this.load.image('ripleys_tiles',
       '../Assets/General assets/Ripleys Aquarium/tileset.png')
 
 
@@ -455,12 +456,24 @@ maingame.test_env.prototype = {
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
-    
-
     chest = statics.create(50, 200, 'chest', 0)
     game.physics.arcade.enable(chest)
     chest.body.immovable = true
     chest.enableBody = true
+
+
+    for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
+      console.log("Making chest", i)
+      var x = BuildItems.itemData.Items[i].x;
+      var y = BuildItems.itemData.Items[i].y;
+      var src = BuildItems.itemData.Items[i].src;
+
+      var newChest = statics.create(x, y, 'chest', 0)
+      game.physics.arcade.enable(newChest)
+      newChest.body.immovable = true
+      newChest.enableBody = true
+      itemChests.push(newChest)
+    }
 
     chest.item = {
       name: "SpeedPotion",
