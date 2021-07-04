@@ -474,7 +474,12 @@ maingame.test_env.prototype = {
       newChest.enableBody = true
       newChest.classPosition = i
 
+      newChest.item = BuildItems.itemData.Items[i].chest
+      
+      console.log("HI",newChest)
       itemChests.push(newChest)
+
+
     }
 
     chest.item = {
@@ -564,6 +569,29 @@ maingame.test_env.prototype = {
         icon[i] = game.add.image(62 + 28 * i, 557, activeBar[i]["atlas"], activeBar[i]["src"])
         icon[i].scale.set(activeBar[i].ai_scale[0], activeBar[i].ai_scale[1])
 
+        var newChest = statics.create(x, y, 'chest', 0)
+
+        game.physics.arcade.enable(newChest)
+        newChest.body.immovable = true
+        newChest.enableBody = true
+        itemChests.push(newChest)
+
+        itemChests.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+        itemChests.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
+
+        // chest.item = {
+        //   name: "SpeedPotion",
+        //   group: potion,
+        //   atlas: "potion_set",
+        //   src: "speed_pot_1.png",
+        //   use: function () {
+        //     use_potion(player, "Speed_Potion")
+        //   },
+        //   ai_scale: [1, 1],
+        //   itemChests[i].collide = true
+        //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+        //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
+        // }
       }
     }
 
