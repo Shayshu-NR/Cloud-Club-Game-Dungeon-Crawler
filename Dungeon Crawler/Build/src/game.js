@@ -456,10 +456,10 @@ maingame.test_env.prototype = {
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
-    chest = statics.create(50, 200, 'chest', 0)
-    game.physics.arcade.enable(chest)
-    chest.body.immovable = true
-    chest.enableBody = true
+    // chest = statics.create(50, 200, 'chest', 0)
+    // game.physics.arcade.enable(chest)
+    // chest.body.immovable = true
+    // chest.enableBody = true
 
 
     for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
@@ -472,31 +472,42 @@ maingame.test_env.prototype = {
       game.physics.arcade.enable(newChest)
       newChest.body.immovable = true
       newChest.enableBody = true
+      newChest.collide = true
       newChest.classPosition = i
 
       newChest.item = BuildItems.itemData.Items[i].chest
-      
-      console.log("HI",newChest)
+
+      newChest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+      newChest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
+      console.log(newChest.position.x)
       itemChests.push(newChest)
 
+      // var newChest = statics.create(x, y, 'chest', 0)
+
+      // game.physics.arcade.enable(newChest)
+      // newChest.body.immovable = true
+      // newChest.enableBody = true
+
+
+      // itemChests.push(newChest)
+
+
+
+      // chest.item = {
+      //   name: "SpeedPotion",
+      //   group: potion,
+      //   atlas: "potion_set",
+      //   src: "speed_pot_1.png",
+      //   use: function () {
+      //     use_potion(player, "Speed_Potion")
+      //   },
+      //   ai_scale: [1, 1],
+      //   itemChests[i].collide = true
+      //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+      //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
+      // }
 
     }
-
-    chest.item = {
-      name: "SpeedPotion",
-      group: potion,
-      atlas: "potion_set",
-      src: "speed_pot_1.png",
-      use: function () {
-        use_potion(player, "Speed_Potion")
-      },
-      ai_scale: [1, 1],
-    }
-
-    chest.collide = true
-
-    chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-    chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
 
     //-------------------- Added water example --------------------
     const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
@@ -568,30 +579,6 @@ maingame.test_env.prototype = {
         console.log("active item create")
         icon[i] = game.add.image(62 + 28 * i, 557, activeBar[i]["atlas"], activeBar[i]["src"])
         icon[i].scale.set(activeBar[i].ai_scale[0], activeBar[i].ai_scale[1])
-
-        var newChest = statics.create(x, y, 'chest', 0)
-
-        game.physics.arcade.enable(newChest)
-        newChest.body.immovable = true
-        newChest.enableBody = true
-        itemChests.push(newChest)
-
-        itemChests.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-        itemChests.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
-
-        // chest.item = {
-        //   name: "SpeedPotion",
-        //   group: potion,
-        //   atlas: "potion_set",
-        //   src: "speed_pot_1.png",
-        //   use: function () {
-        //     use_potion(player, "Speed_Potion")
-        //   },
-        //   ai_scale: [1, 1],
-        //   itemChests[i].collide = true
-        //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-        //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
-        // }
       }
     }
 
@@ -631,6 +618,7 @@ maingame.test_env.prototype = {
     this.timeText.fixedToCamera = true;
     this.timer = game.time.events.loop(10, tick, this)
 
+    itemChests[0].animations.play('open')
   },
 
   update: function () {
@@ -638,25 +626,48 @@ maingame.test_env.prototype = {
       game.state.start("StartMenu")
     }
 
-    // Add opened and item taken logic
-    game.physics.arcade.collide(player, chest, function openChest(player) {
-      if (chest.collide) {
-        chest.collide = false;
-        chest.animations.play('open')
-        // Set chest opened flag
-        //var staticIndex = chest.classPosition
-        //BuildItems.hasf__[staticIndex].openedFlag = true;
-        var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
+    for (var i = 0; i < 2; i++) {
+      game.physics.arcade.collide(player, itemChests[i], function openChest(player) {
+        console.log("collide")
+        if (itemChests[i].collide) {
+           //so that the chest doesnt open and close
+          itemChests[i].animations.play('open')
 
-        game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
-          item.kill()
-          player.putBackpack(chest.item)
-          // Set item taken flag
-        }, this);
+          var item = statics.create(itemChests[i].position.x + 8, itemChests[i].position.y + 8, itemChests[i].item.atlas, itemChests[i].item.src)
+          item.info = itemChests[i].item //itemChests[i].item doesn't work inside the collectItemFromChest function
+          console.log(itemChests)
+          
+          game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
+            player.putBackpack(item.info)
+            item.kill()
+            // Set item taken flag
+          }, this);
+        }
 
-      }
 
-    }, null, this)
+      })
+    }
+    // // Add opened and item taken logic
+    // game.physics.arcade.collide(player, statics, function openChest(player) {
+    //   // if (chest.collide) {
+    //   //   
+    //   //   chest.animations.play('open')
+    //   //   // Set chest opened flag
+    //   //   var staticIndex = chest.classPosition
+    //   //   // BuildItems.hasf__[staticIndex].openedFlag = true;
+    //   //   console.log("X-position",chest )
+    //   //   var item = statics.create(itemChests[staticIndex].position.x + 8, itemChests[staticIndex].position.y + 8, itemChests[staticIndex].item.atlas, chest.item.src)
+
+    //   //   game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
+    //   //     item.kill()
+    //   //     player.putBackpack(itemChests[staticIndex].item)
+    //   //     // Set item taken flag
+    //   //   }, this);
+
+    //   // }
+    //   console.log(statics.classPosition)
+
+    // }, null, this)
 
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
