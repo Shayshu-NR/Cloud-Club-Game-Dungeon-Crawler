@@ -628,10 +628,11 @@ maingame.test_env.prototype = {
 
     for (var i = 0; i < 2; i++) {
       game.physics.arcade.collide(player, itemChests[i], function openChest(player) {
-        console.log("collide")
+
         if (itemChests[i].collide) {
            //so that the chest doesnt open and close
           itemChests[i].animations.play('open')
+          itemChests[i].collide = false
 
           var item = statics.create(itemChests[i].position.x + 8, itemChests[i].position.y + 8, itemChests[i].item.atlas, itemChests[i].item.src)
           item.info = itemChests[i].item //itemChests[i].item doesn't work inside the collectItemFromChest function
@@ -642,9 +643,8 @@ maingame.test_env.prototype = {
             item.kill()
             // Set item taken flag
           }, this);
+          
         }
-
-
       })
     }
     // // Add opened and item taken logic
@@ -758,7 +758,7 @@ maingame.test_env.prototype = {
 
     if (cursors.useAct1.downDuration(100)) {
       if (player.active_items[0] !== null && typeof player.active_items[0] == 'object') {
-        player.active_items[0].use()
+        eval(itemChests[0].item.use) //changes the string for function into a function
         player.active_items[0] = null
         icon[0].kill()
 
@@ -766,14 +766,14 @@ maingame.test_env.prototype = {
     }
     if (cursors.useAct2.downDuration(100)) {
       if (player.active_items[1] !== null && typeof player.active_items[1] == 'object') {
-        player.active_items[1].use()
+        eval(itemChests[1].item.use) //changes the string for function into a function
         player.active_items[1] = null;
         icon[1].kill()
       }
     }
     if (cursors.useAct3.downDuration(100)) {
       if (player.active_items[2] !== null && typeof player.active_items[2] == 'object') {
-        player.active_items[2].use()
+        eval(itemChests[3].item.use) //changes the string for function into a function
         player.active_items[2] = null;
         icon[2].kill()
       }
