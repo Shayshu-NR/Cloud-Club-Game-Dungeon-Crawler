@@ -1,5 +1,6 @@
+
 class Items {
-    
+
     constructor(src_file) {
         var jsonData;
         fetch('./src/Items/' + src_file)

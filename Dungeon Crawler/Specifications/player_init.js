@@ -129,7 +129,14 @@ function init_player(game, player) {
     console.log("BPCK", player.backpack)
     console.log("AI", player.active_items)
 
+    player.use_potion = [
+        console.log("speed")
+        , 
 
+        function useHealh(){
+            console.log("health")
+        }
+    ]
 
     return player
 }
