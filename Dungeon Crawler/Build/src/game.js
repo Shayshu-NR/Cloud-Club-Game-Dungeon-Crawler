@@ -456,10 +456,10 @@ maingame.test_env.prototype = {
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
-    chest = statics.create(50, 200, 'chest', 0)
-    game.physics.arcade.enable(chest)
-    chest.body.immovable = true
-    chest.enableBody = true
+    // chest = statics.create(50, 200, 'chest', 0)
+    // game.physics.arcade.enable(chest)
+    // chest.body.immovable = true
+    // chest.enableBody = true
 
 
     for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
@@ -467,8 +467,9 @@ maingame.test_env.prototype = {
       var x = Number(BuildItems.itemData.Items[i].x);
       var y = Number(BuildItems.itemData.Items[i].y);
       var src = BuildItems.itemData.Items[i].src;
-
+      
       var newChest = statics.create(x, y, 'chest', 0)
+      newChest.collide = true
       game.physics.arcade.enable(newChest)
       newChest.body.immovable = true
       newChest.enableBody = true
@@ -477,21 +478,21 @@ maingame.test_env.prototype = {
       itemChests.push(newChest)
     }
 
-    chest.item = {
-      name: "SpeedPotion",
-      group: potion,
-      atlas: "potion_set",
-      src: "speed_pot_1.png",
-      use: function () {
-        use_potion(player, "Speed_Potion")
-      },
-      ai_scale: [1, 1],
-    }
+    // chest.item = {
+    //   name: "SpeedPotion",
+    //   group: potion,
+    //   atlas: "potion_set",
+    //   src: "speed_pot_1.png",
+    //   use: function () {
+    //     use_potion(player, "Speed_Potion")
+    //   },
+    //   ai_scale: [1, 1],
+    // }
 
-    chest.collide = true
+    // chest.collide = true
 
-    chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-    chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
+    // chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+    // chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
 
     //-------------------- Added water example --------------------
     const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
@@ -612,20 +613,21 @@ maingame.test_env.prototype = {
 
     // Add opened and item taken logic
     game.physics.arcade.collide(player, chest, function openChest(player) {
-      if (chest.collide) {
+      console.log(chest)
+      if (chest.collide && !BuildItems.itemData.Items[chest.classPosition].chest.Opened) {
         chest.collide = false;
         chest.animations.play('open')
         // Set chest opened flag
-        //var staticIndex = chest.classPosition
-        //BuildItems.hasf__[staticIndex].openedFlag = true;
+        var staticIndex = chest.classPosition
+        BuildItems.itemData.Items[staticIndex].chest.Opened = true;
+
         var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
 
         game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
+          BuildItems.itemData.Items[chest.classPosition].chest.Taken = true;
           item.kill()
           player.putBackpack(chest.item)
-          // Set item taken flag
         }, this);
-
       }
 
     }, null, this)

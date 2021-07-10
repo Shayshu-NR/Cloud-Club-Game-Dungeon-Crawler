@@ -1,7 +1,6 @@
 class Items {
     
     constructor(src_file) {
-        var levelData = JSON.parse(game.cache.getText(".../Items/"));
         var jsonData;
         fetch('./src/Items/' + src_file)
             .then(results => results.json())

@@ -1,5 +1,5 @@
 {
-    "Items" : [
+    "Items": [
         {
             "Name": "Chest_1",
             "x": "100",
@@ -14,9 +14,11 @@
                 "atlas": "potion_set",
                 "src": "speed_pot_1.png",
                 "use": "function () {use_potion(player, \"Speed_Potion\")}",
-                "ai_scale": [1, 1]
+                "ai_scale": [1, 1],
+                "Opened" : false ,
+                "Taken" : false
+                
             }
-            
         },
         {
             "Name": "Chest_2",
@@ -32,9 +34,10 @@
                 "atlas": "potion_set",
                 "src": "speed_pot_1.png",
                 "use": "function () {use_potion(player, \"Speed_Potion\")}",
-                "ai_scale": [1, 1]
+                "ai_scale": [1, 1],
+                "Opened" : false,
+                "Taken" : false
             }
-            
         }
     ]
 }
