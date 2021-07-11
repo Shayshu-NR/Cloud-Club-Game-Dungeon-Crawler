@@ -473,7 +473,6 @@ maingame.test_env.prototype = {
       game.physics.arcade.enable(newChest)
       newChest.body.immovable = true
       newChest.enableBody = true
-      newChest.collide = true
       newChest.classPosition = i
 
       newChest.item = BuildItems.itemData.Items[i].chest
@@ -489,10 +488,7 @@ maingame.test_env.prototype = {
       // newChest.body.immovable = true
       // newChest.enableBody = true
 
-
       // itemChests.push(newChest)
-
-
 
       // chest.item = {
       //   name: "SpeedPotion",
@@ -507,7 +503,6 @@ maingame.test_env.prototype = {
       //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
       //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
       // }
-
     }
 
     //-------------------- Added water example --------------------
@@ -585,13 +580,13 @@ maingame.test_env.prototype = {
 
 
     //ammo set up
-    player.ammo = 10
-    ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
-    for (var i = 0; i < 10; i++) {
-      ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire', 'fire.png')
-      ammo_bars[i].fixedToCamera = true
+    // player.ammo = 10
+    // ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
+    // for (var i = 0; i < 10; i++) {
+    //   ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire', 'fire.png')
+    //   ammo_bars[i].fixedToCamera = true
 
-    }
+    // }
     maxXpPoints = 100
 
     //-------------------- Weapon example --------------------
@@ -725,9 +720,7 @@ maingame.test_env.prototype = {
     if (!cursors.space.isDown) {
       keyReset = false;
     }
-    if (cursors.z.isDown) {
-      weapon.fire();
-    }
+    
 
     //-------------------- Enter skill tree state --------------------
     if (cursors.esc.downDuration(100)) {
