@@ -456,19 +456,18 @@ maingame.test_env.prototype = {
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
-    // chest = statics.create(50, 200, 'chest', 0)
-    // game.physics.arcade.enable(chest)
-    // chest.body.immovable = true
-    // chest.enableBody = true
 
+    itemChests = []
 
     for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
       console.log("Making chest", i)
       var x = Number(BuildItems.itemData.Items[i].x);
       var y = Number(BuildItems.itemData.Items[i].y);
       var src = BuildItems.itemData.Items[i].src;
-      
+
       var newChest = statics.create(x, y, 'chest', 0)
+        
+
       newChest.collide = true
       game.physics.arcade.enable(newChest)
       newChest.body.immovable = true
@@ -479,9 +478,9 @@ maingame.test_env.prototype = {
       newChest.item = BuildItems.itemData.Items[i].chest
 
       newChest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-      newChest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
       console.log(newChest.position.x)
       itemChests.push(newChest)
+
 
       // var newChest = statics.create(x, y, 'chest', 0)
 
@@ -539,8 +538,8 @@ maingame.test_env.prototype = {
       })
     stats.fixedToCamera = true;
 
-    var bar_holder = statics.create(150, 560, 'bar', 'Bar.png')
-    xp_bar = bars.create(158, 552, 'xp_bar', 'bar-filler.png')
+    var bar_holder = statics.create(150, 560, 'bar')
+    xp_bar = bars.create(158, 552, 'xp_bar')
     bar_holder.fixedToCamera = true
     xp_bar.fixedToCamera = true
     player.exp = 0
@@ -588,7 +587,7 @@ maingame.test_env.prototype = {
     player.ammo = 10
     ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
     for (var i = 0; i < 10; i++) {
-      ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire', 'fire.png')
+      ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire')
       ammo_bars[i].fixedToCamera = true
 
     }
@@ -627,49 +626,33 @@ maingame.test_env.prototype = {
       game.state.start("StartMenu")
     }
 
-    for (var i = 0; i < 2; i++) {
+    for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
       game.physics.arcade.collide(player, itemChests[i], function openChest(player) {
 
         if (itemChests[i].collide) {
-           //so that the chest doesnt open and close
+          //so that the chest doesnt open and close
           itemChests[i].animations.play('open')
           itemChests[i].collide = false
 
-          var item = statics.create(itemChests[i].position.x + 8, itemChests[i].position.y + 8, itemChests[i].item.atlas, itemChests[i].item.src)
-          item.info = itemChests[i].item //itemChests[i].item doesn't work inside the collectItemFromChest function
-          console.log(itemChests)
-          
-          game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
-            player.putBackpack(item.info)
-            item.kill()
-            // Set item taken flag
-          }, this);
-          
+          if (!BuildItems.itemData.Items[i].chest.Taken) {
+            BuildItems.itemData.Items[i].chest.Taken = true
+
+            var item = statics.create(itemChests[i].position.x + 8, itemChests[i].position.y + 8, itemChests[i].item.atlas, itemChests[i].item.src)
+            item.info = itemChests[i].item //itemChests[i].item doesn't work inside the collectItemFromChest function
+            console.log(itemChests)
+
+            game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
+              player.putBackpack(item.info)
+              item.kill()
+              // Set item taken flag
+            }, this);
+
+          }
         }
       })
     }
-    // // Add opened and item taken logic
-    // game.physics.arcade.collide(player, statics, function openChest(player) {
-    //   // if (chest.collide) {
-    //   //   
-    //   //   chest.animations.play('open')
-    //   //   // Set chest opened flag
-    //   //   var staticIndex = chest.classPosition
-    //   //   // BuildItems.hasf__[staticIndex].openedFlag = true;
-    //   //   console.log("X-position",chest )
-    //   //   var item = statics.create(itemChests[staticIndex].position.x + 8, itemChests[staticIndex].position.y + 8, itemChests[staticIndex].item.atlas, chest.item.src)
 
-    //   //   game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
-    //   //     item.kill()
-    //   //     player.putBackpack(itemChests[staticIndex].item)
-    //   //     // Set item taken flag
-    //   //   }, this);
-
-    //   // }
-    //   console.log(statics.classPosition)
-
-    // }, null, this)
-
+  
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
     game.physics.arcade.collide(player, walls);
@@ -759,7 +742,7 @@ maingame.test_env.prototype = {
 
     if (cursors.useAct1.downDuration(100)) {
       if (player.active_items[0] !== null && typeof player.active_items[0] == 'object') {
-        eval(itemChests[0].item.use) //changes the string for function into a function
+        eval(player.active_items[0].use) //changes the string for function into a function
         player.active_items[0] = null
         icon[0].kill()
 
@@ -767,14 +750,14 @@ maingame.test_env.prototype = {
     }
     if (cursors.useAct2.downDuration(100)) {
       if (player.active_items[1] !== null && typeof player.active_items[1] == 'object') {
-        eval(itemChests[1].item.use) //changes the string for function into a function
+        eval(player.active_items[1].use) //changes the string for function into a function
         player.active_items[1] = null;
         icon[1].kill()
       }
     }
     if (cursors.useAct3.downDuration(100)) {
       if (player.active_items[2] !== null && typeof player.active_items[2] == 'object') {
-        eval(itemChests[3].item.use) //changes the string for function into a function
+        eval(player.active_items[2].use) //changes the string for function into a function
         player.active_items[2] = null;
         icon[2].kill()
       }

@@ -76,7 +76,7 @@ function init_player(game, player) {
         else {
             for (i = 0; i < player.health; i++) {
                 if (health_bars[i] == null) {
-                    health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart', 'heart.png')
+                    health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart')
                     health_bars[i].fixedToCamera = true
                 }
             }
