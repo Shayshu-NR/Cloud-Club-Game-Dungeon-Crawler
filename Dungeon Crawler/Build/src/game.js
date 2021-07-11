@@ -585,7 +585,7 @@ maingame.test_env.prototype = {
       ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire')
       ammo_bars[i].fixedToCamera = true
 
-    // }
+    }
     maxXpPoints = 100
 
     //-------------------- Weapon example --------------------
