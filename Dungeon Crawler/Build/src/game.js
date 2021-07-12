@@ -465,8 +465,15 @@ maingame.test_env.prototype = {
       var y = Number(BuildItems.itemData.Items[i].y);
       var src = BuildItems.itemData.Items[i].src;
 
-      var newChest = statics.create(x, y, 'chest', 0)
-        
+      var newChest
+      if(BuildItems.itemData.Items[i].chest.Opened){
+       newChest = statics.create(x, y, 'chest', 5)
+      }
+
+      else {
+        newChest = statics.create(x, y, 'chest', 0)
+        newChest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+      }
 
       newChest.collide = true
       game.physics.arcade.enable(newChest)
@@ -477,7 +484,7 @@ maingame.test_env.prototype = {
 
       newChest.item = BuildItems.itemData.Items[i].chest
 
-      newChest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+      
       console.log(newChest.position.x)
       itemChests.push(newChest)
 
@@ -636,6 +643,7 @@ maingame.test_env.prototype = {
 
           if (!BuildItems.itemData.Items[i].chest.Taken) {
             BuildItems.itemData.Items[i].chest.Taken = true
+            BuildItems.itemData.Items[i].chest.Opened = true
 
             var item = statics.create(itemChests[i].position.x + 8, itemChests[i].position.y + 8, itemChests[i].item.atlas, itemChests[i].item.src)
             item.info = itemChests[i].item //itemChests[i].item doesn't work inside the collectItemFromChest function
