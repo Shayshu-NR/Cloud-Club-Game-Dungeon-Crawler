@@ -155,7 +155,7 @@ maingame.test_env.prototype = {
     map.setCollisionBetween(1, 999, true, 'wall')
 
     //-------------------- Add player model --------------------
-    player = game.add.sprite(128, 128, 'eng', 'idle_down.png')
+    player = game.add.sprite(game.player_attributes["x"], game.player_attributes["y"], 'eng', 'idle_down.png')
     player.swing = false
     player = init_player(game, player)
 
@@ -363,7 +363,6 @@ maingame.test_env.prototype = {
       true
     )
     big_guy.animations.play('run')
-
     new_nme.animations.add(
       'idle',
       Phaser.Animation.generateFrameNames(
@@ -533,6 +532,8 @@ maingame.test_env.prototype = {
           "backpack": player.backpack,
           "actives": player.active_items,
           "current": player.current_item,
+          "x" : player.body.position.x,
+          "y" : player.body.position.y
         };
         game.current_time = timeLimit
         game.state.start("Backpack");
@@ -584,7 +585,6 @@ maingame.test_env.prototype = {
       }
     }
 
-
     //ammo set up
     player.ammo = 10
     ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
@@ -625,6 +625,7 @@ maingame.test_env.prototype = {
 
   update: function () {
     if (cursors.startMenu.downDuration(100)) {
+      
       game.state.start("StartMenu")
     }
 
@@ -655,7 +656,6 @@ maingame.test_env.prototype = {
       })
     }
 
-  
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
     game.physics.arcade.collide(player, walls);
@@ -715,6 +715,13 @@ maingame.test_env.prototype = {
 
     //-------------------- Enter skill tree state --------------------
     if (cursors.esc.downDuration(100)) {
+      game.player_attributes = {
+        "backpack": player.backpack,
+        "actives": player.active_items,
+        "current": player.current_item,
+        "x" : player.body.position.x,
+        "y" : player.body.position.y
+      };
       game.current_time = timeLimit
       game.state.start("Skill tree");
     }
@@ -730,6 +737,8 @@ maingame.test_env.prototype = {
         "backpack": player.backpack,
         "actives": player.active_items,
         "current": player.current_item,
+        "x" : player.body.position.x,
+        "y" : player.body.position.y
       };
       game.current_time = timeLimit
       game.state.start("Backpack");
@@ -767,5 +776,9 @@ maingame.test_env.prototype = {
     this.timeText.x = 650 + this.camera.view.x
     player.healthchange()
     game.playerHealth = player.health
+  },
+
+  render: function() { 
+    game.debug.bodyInfo(player, 32, 32);
   }
 };
