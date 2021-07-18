@@ -16,6 +16,8 @@ var lizard_direction = 1;
 var big_guy;
 var new_nme;
 var shark
+var pirate
+var pirates
 
 //-------------------- Utilities --------------------
 var keyReset = false;
@@ -45,6 +47,10 @@ var health_bars;
 var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
+
+//-------------------- HUD -----------------------
+
+
 
 maingame.test_env = function (game) { };
 
@@ -107,7 +113,15 @@ maingame.test_env.prototype = {
       "potion_set",
       "../Assets/General assets/Potions/potions.png",
       "../Assets/General assets/Potions/potions.json"
-    );
+    )
+
+    this.load.atlas(
+      "pirate_walk", 
+      "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.png",
+      "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.json"
+    )
+
+
     this.load.image('arrow', '../Assets/General assets/arrow_right.png')
 
     this.load.image(
@@ -325,12 +339,15 @@ maingame.test_env.prototype = {
     //-------------------- Add example enemies --------------------
     lizard = game.add.physicsGroup(Phaser.Physics.ARCADE)
     shark = game.add.physicsGroup(Phaser.Physics.ARCADE)
-
+    pirate = game.add.physicsGroup(Phaser.Physics.ARCADE)
+    
     lizard.enableBody = true
     shark.enableBody = true
+    pirate.enableBody = true
 
     game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
     game.physics.arcade.enable(shark, Phaser.Physics.ARCADE)
+    game.physics.arcade.enable(pirate, Phaser.Physics.ARCADE)
 
     new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
     new_nme = enemy_init(new_nme, 10, 500)
@@ -621,6 +638,115 @@ maingame.test_env.prototype = {
     this.timer = game.time.events.loop(10, tick, this)
 
     itemChests[0].animations.play('open')
+
+
+    //-------------------- Pirate Creation -----------------------
+    pirates = pirate.create(200, 50, 'pirate_walk', 'walk-down-1.png')
+    pirates.scale.setTo(1.5)
+    /* sharky.bounds = {
+            x1: 16,
+            x2: 60,
+            y1: 48,
+            y2: 112
+        }
+        sharky.inBounds = function () {
+
+            if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
+                if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
+                    return true
+                }
+            }
+            return false
+        }
+     */
+    pirates.animations.add(
+      'walk-down',
+      Phaser.Animation.generateFrameNames(
+          'walk-down-',
+          1,
+          12,  //number of frames
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'walk-left-',
+      Phaser.Animation.generateFrameNames(
+          'walk-left-',
+          1,
+          12,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'walk-right-',
+      Phaser.Animation.generateFrameNames(
+          'walk-right-',
+          1,
+          12,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'walk-up-',
+      Phaser.Animation.generateFrameNames(
+          'walk-up-',
+          1,
+          12,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'attack-up-',
+      Phaser.Animation.generateFrameNames(
+          'attack-up-',
+          1,
+          5,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'attack-right-',
+      Phaser.Animation.generateFrameNames(
+          'attack-right-',
+          1,
+          7,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'attack-left-',
+      Phaser.Animation.generateFrameNames(
+          'attack-left-',
+          1,
+          7,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'attack-down-',
+      Phaser.Animation.generateFrameNames(
+          'attack-down-',
+          1,
+          5,
+          '.png'
+      ),
+      5,
+      true
+  )
   },
 
   update: function () {
