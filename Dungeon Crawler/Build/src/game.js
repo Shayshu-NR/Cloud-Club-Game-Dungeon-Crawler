@@ -145,6 +145,12 @@ maingame.test_env.prototype = {
       '../Assets/General assets/backpack-icon-cropped.png')
 
     this.load.image('actives', '../Assets/General assets/ActiveItems.png')
+
+    this.load.image(
+      'merchant', 
+      '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/wizzard_f_hit_anim_f0.png'
+    )
+    
   },
 
   create: function () {
@@ -331,6 +337,19 @@ maingame.test_env.prototype = {
         true
       )
     }
+
+    //-------------------- Merchant --------------------
+    game.add.button(112, 291, 'merchant', function() {
+      game.player_attributes = {
+        "backpack": player.backpack,
+        "actives": player.active_items,
+        "current": player.current_item,
+        "x" : player.body.position.x,
+        "y" : player.body.position.y
+      };
+      game.current_time = timeLimit
+      game.state.start("Merchant");
+    })
 
     //-------------------- Add example weapon --------------------
     default_sword = game.add.group()
