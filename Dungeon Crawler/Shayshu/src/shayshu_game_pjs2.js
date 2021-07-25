@@ -362,7 +362,7 @@ maingame.test_env.prototype = {
             return false
         }
 
-        black_beard = pirate.create(741, 575, 'pirate', '')
+        black_beard = pirate.create(700, 500, 'pirate', '')
 
         black_beard.animations.add(
             'walk-down',
