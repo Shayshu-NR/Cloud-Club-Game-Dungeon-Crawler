@@ -190,18 +190,14 @@ function shark_track(enemy) {
         }
     }
     // Move it to the center of the room
+    
     else {
-        x_cal = (enemy.bounds.x1 + enemy.bounds.x2) / 2
-        y_cal = (enemy.bounds.y1 + enemy.bounds.y2) / 2
-        var center = {
-            x: x_cal,
-            y: y_cal
-        }
-        game.physics.arcade.moveToObject(enemy, center, 10, 5000)
+        game.physics.arcade.moveTo(enemy, enemy.center.x, enemy.center.y, 100)
 
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {
                 enemy.animations.play('swim_right')
+
             }
             else {
                 enemy.animations.play('swim_left')
@@ -216,28 +212,29 @@ function shark_track(enemy) {
             }
         }
     }
+    
 }
-/*
-function pirate_track(enemy) {
 
-    if (enemy.inBounds() & Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 150) {
+function pirate_track(enemy) { 
+
+    if (enemy.inBounds() & Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 100) {
 
         game.physics.arcade.moveToObject(enemy, player, 60, 1000)
 
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {
-                enemy.animations.play('swim_right')
+                enemy.animations.play('walk-right')
             }
             else {
-                enemy.animations.play('swim_left')
+                enemy.animations.play('walk-left')
             }
         }
         else {
             if (enemy.body.velocity.y > 0) {
-                enemy.animations.play('swim_down')
+                enemy.animations.play('walk-down')
             }
             else {
-                enemy.animations.play('swim_up')
+                enemy.animations.play('walk-up')
             }
         }
     }
@@ -253,26 +250,23 @@ function pirate_track(enemy) {
 
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {
-                enemy.animations.play('swim_right')
+                enemy.animations.play('walk-right')
             }
             else {
-                enemy.animations.play('swim_left')
+                enemy.animations.play('walk-left')
             }
         }
         else {
             if (enemy.body.velocity.y > 0) {
-                enemy.animations.play('swim_down')
+                enemy.animations.play('walk-down')
             }
             else {
-                enemy.animations.play('swim_up')
+                enemy.animations.play('walk-up')
             }
         }
     }
 }
-enemy.body.acceleration.x = ?
-enemy.body.acceleration.y = ?
-enemy.body.maxVelocity.x = ?
-enemy.body.maxVelocity.y = ?
+/* 
 */
 function level_up(player) {
     player.getCurrentLevel();
@@ -285,7 +279,7 @@ function level_up(player) {
     lvltxt2.text = "" + (player.level + 1);
 }
 
-var tick = function() {
+var tick = function () {
     timeLimit++;
     var minutes = Math.floor(timeLimit / 6000);
     var seconds = Math.floor((timeLimit - (minutes * 6000)) / 100);
@@ -294,7 +288,7 @@ var tick = function() {
     this.timeText.text = timeString;
 };
 
-var addZeros = function(num) {
+var addZeros = function (num) {
     if (num < 10) {
         num = "0" + num;
     }

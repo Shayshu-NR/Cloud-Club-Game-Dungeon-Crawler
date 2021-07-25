@@ -116,7 +116,7 @@ maingame.test_env.prototype = {
     )
 
     this.load.atlas(
-      "pirate_walk", 
+      "pirate_walk",
       "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.png",
       "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.json"
     )
@@ -340,7 +340,7 @@ maingame.test_env.prototype = {
     lizard = game.add.physicsGroup(Phaser.Physics.ARCADE)
     shark = game.add.physicsGroup(Phaser.Physics.ARCADE)
     pirate = game.add.physicsGroup(Phaser.Physics.ARCADE)
-    
+
     lizard.enableBody = true
     shark.enableBody = true
     pirate.enableBody = true
@@ -482,8 +482,8 @@ maingame.test_env.prototype = {
       var src = BuildItems.itemData.Items[i].src;
 
       var newChest
-      if(BuildItems.itemData.Items[i].chest.Opened){
-       newChest = statics.create(x, y, 'chest', 5)
+      if (BuildItems.itemData.Items[i].chest.Opened) {
+        newChest = statics.create(x, y, 'chest', 5)
       }
 
       else {
@@ -499,7 +499,7 @@ maingame.test_env.prototype = {
 
       newChest.item = BuildItems.itemData.Items[i].chest
 
-      
+
       console.log(newChest.position.x)
       itemChests.push(newChest)
 
@@ -549,8 +549,8 @@ maingame.test_env.prototype = {
           "backpack": player.backpack,
           "actives": player.active_items,
           "current": player.current_item,
-          "x" : player.body.position.x,
-          "y" : player.body.position.y
+          "x": player.body.position.x,
+          "y": player.body.position.y
         };
         game.current_time = timeLimit
         game.state.start("Backpack");
@@ -641,117 +641,125 @@ maingame.test_env.prototype = {
 
 
     //-------------------- Pirate Creation -----------------------
-    pirates = pirate.create(200, 50, 'pirate_walk', 'walk-down-1.png')
+    pirates = pirate.create(115.5, 475.5, 'pirate_walk', 'walk-down-1.png')
     pirates.scale.setTo(1.5)
-    /* sharky.bounds = {
-            x1: 16,
-            x2: 60,
-            y1: 48,
-            y2: 112
-        }
-        sharky.inBounds = function () {
 
-            if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
-                if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
-                    return true
-                }
-            }
-            return false
+    pirates.bounds = {
+      x1: 16,
+      x2: 215,
+      y1: 405,
+      y2: 546
+    }
+    pirates.inBounds = function () {
+
+      if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
+        if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
+          return true
         }
-     */
+      }
+      return false
+    }
+
+    pirates.center = {
+      x_cal:(pirates.bounds.x1 + pirates.bounds.x2) / 2,
+      y_cal: (pirates.bounds.y1 + pirates.bounds.y2) / 2
+    }
+
     pirates.animations.add(
       'walk-down',
       Phaser.Animation.generateFrameNames(
-          'walk-down-',
-          1,
-          12,  //number of frames
-          '.png'
+        'walk-down-',
+        1,
+        12,  //number of frames
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
-      'walk-left-',
+    )
+    pirates.animations.add(
+      'walk-left',
       Phaser.Animation.generateFrameNames(
-          'walk-left-',
-          1,
-          12,
-          '.png'
+        'walk-left-',
+        1,
+        12,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
-      'walk-right-',
+    )
+    pirates.animations.add(
+      'walk-right',
       Phaser.Animation.generateFrameNames(
-          'walk-right-',
-          1,
-          12,
-          '.png'
+        'walk-right-',
+        1,
+        12,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
+    )
+    pirates.animations.add(
       'walk-up-',
       Phaser.Animation.generateFrameNames(
-          'walk-up-',
-          1,
-          12,
-          '.png'
+        'walk-up-',
+        1,
+        12,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
+    )
+    pirates.animations.add(
       'attack-up-',
       Phaser.Animation.generateFrameNames(
-          'attack-up-',
-          1,
-          5,
-          '.png'
+        'attack-up-',
+        1,
+        5,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
+    )
+    pirates.animations.add(
       'attack-right-',
       Phaser.Animation.generateFrameNames(
-          'attack-right-',
-          1,
-          7,
-          '.png'
+        'attack-right-',
+        1,
+        7,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
+    )
+    pirates.animations.add(
       'attack-left-',
       Phaser.Animation.generateFrameNames(
-          'attack-left-',
-          1,
-          7,
-          '.png'
+        'attack-left-',
+        1,
+        7,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
+    )
+    pirates.animations.add(
       'attack-down-',
       Phaser.Animation.generateFrameNames(
-          'attack-down-',
-          1,
-          5,
-          '.png'
+        'attack-down-',
+        1,
+        5,
+        '.png'
       ),
       5,
       true
-  )
+    )
+
   },
 
   update: function () {
+    pirate_track(pirates)
     if (cursors.startMenu.downDuration(100)) {
-      
+
       game.state.start("StartMenu")
     }
 
@@ -837,7 +845,7 @@ maingame.test_env.prototype = {
     if (!cursors.space.isDown) {
       keyReset = false;
     }
-    
+
 
     //-------------------- Enter skill tree state --------------------
     if (cursors.esc.downDuration(100)) {
@@ -845,8 +853,8 @@ maingame.test_env.prototype = {
         "backpack": player.backpack,
         "actives": player.active_items,
         "current": player.current_item,
-        "x" : player.body.position.x,
-        "y" : player.body.position.y
+        "x": player.body.position.x,
+        "y": player.body.position.y
       };
       game.current_time = timeLimit
       game.state.start("Skill tree");
@@ -863,8 +871,8 @@ maingame.test_env.prototype = {
         "backpack": player.backpack,
         "actives": player.active_items,
         "current": player.current_item,
-        "x" : player.body.position.x,
-        "y" : player.body.position.y
+        "x": player.body.position.x,
+        "y": player.body.position.y
       };
       game.current_time = timeLimit
       game.state.start("Backpack");
@@ -904,7 +912,7 @@ maingame.test_env.prototype = {
     game.playerHealth = player.health
   },
 
-  render: function() { 
+  render: function () {
     game.debug.bodyInfo(player, 32, 32);
   }
 };
