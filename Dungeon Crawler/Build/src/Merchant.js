@@ -2,7 +2,7 @@ maingame.merchant = function (game) { }
 
 maingame.merchant.prototype = {
     preload: function () {
-        this.load.image('background', '../Assets/General assets/merchant/ripleys.png')
+        this.load.image('background', '../Assets/General assets/Merchant/ripleys.png')
 
         // Load all the item assets for that particular level
         // item1, item2... item20
