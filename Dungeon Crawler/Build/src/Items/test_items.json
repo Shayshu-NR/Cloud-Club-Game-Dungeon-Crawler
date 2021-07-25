@@ -1,40 +1,47 @@
 {
-    "Items" : [
+    "Items": [
         {
             "Name": "Chest_1",
-            "x": "100",
-            "y": "200",
+            "x": "50",
+            "y": "210",
             "src": {
-                "atlas": "Path to atlas",
-                "tilesheet": "Path to tilesheet"
+                "atlas": "../Assets/General assets/Potions/potions.png",
+                "tilesheet": "../Assets/General assets/Potions/potions.json"
             },
+    
+            "item": null,
             "chest": {
                 "name": "SpeedPotion",
                 "group": "potion",
                 "atlas": "potion_set",
                 "src": "speed_pot_1.png",
-                "use": "function () {use_potion(player, \"Speed_Potion\")}",
-                "ai_scale": [1, 1]
+                "use": " use_potion(player, \"Speed_Potion\")",
+                "ai_scale": [1, 1],
+                "Opened" : false ,
+                "Taken" : false
+                
             }
-            
         },
         {
             "Name": "Chest_2",
-            "x": "150",
-            "y": "200",
+            "x": "200",
+            "y": "210",
             "src": {
-                "atlas": "Path to atlas",
-                "tilesheet": "Path to tilesheet"
+                "atlas": "../Assets/General assets/Potions/potions.png",
+                "tilesheet": "../Assets/General assets/Potions/potions.json"
             },
+            
+            "item": null,
             "chest": {
-                "name": "SpeedPotion",
+                "name": "HealthPotion",
                 "group": "potion",
                 "atlas": "potion_set",
-                "src": "speed_pot_1.png",
-                "use": "function () {use_potion(player, \"Speed_Potion\")}",
-                "ai_scale": [1, 1]
+                "src": "health_pot_1.png",
+                "use": "use_potion(player, \"Health_Potion\")",
+                "ai_scale": [1, 1],
+                "Opened" : false,
+                "Taken" : false
             }
-            
         }
     ]
 }

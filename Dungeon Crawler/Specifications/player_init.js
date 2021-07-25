@@ -76,7 +76,7 @@ function init_player(game, player) {
         else {
             for (i = 0; i < player.health; i++) {
                 if (health_bars[i] == null) {
-                    health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart', 'heart.png')
+                    health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart')
                     health_bars[i].fixedToCamera = true
                 }
             }
@@ -116,6 +116,8 @@ function init_player(game, player) {
 
     player.luck = game.playerLuck
 
+    player.money = game.playerMoney
+
     player.crit_damage = function () {
         if (probability(player.crit_chance)) {
             return player.damage * player.crit_chance
@@ -129,7 +131,14 @@ function init_player(game, player) {
     console.log("BPCK", player.backpack)
     console.log("AI", player.active_items)
 
+    player.use_potion = [
+        console.log("speed")
+        , 
 
+        function useHealh(){
+            console.log("health")
+        }
+    ]
 
     return player
 }

@@ -11,13 +11,17 @@ game.playerDefense = 1
 game.playerLuck = 0
 game.player_attributes = {
     "backpack" : {},
-    "actives" : []
+    "actives" : [],
+    "x" : 128,
+    "y" : 128
 }
 game.current_time = 0
+game.playerMoney = 0
 
 game.state.add("Main", maingame.test_env)
 game.state.add("Backpack", maingame.BackPack)
 game.state.add("Skill tree", maingame.skill_tree)
 game.state.add("Game", maingame.test_env)
 game.state.add("StartMenu", maingame.startmenu)
-game.state.start("Main")
+game.state.add("Merchant", maingame.merchant);
+game.state.start("StartMenu")

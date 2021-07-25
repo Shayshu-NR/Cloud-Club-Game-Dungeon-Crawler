@@ -16,6 +16,8 @@ var lizard_direction = 1;
 var big_guy;
 var new_nme;
 var shark
+var pirate
+var pirates
 
 //-------------------- Utilities --------------------
 var keyReset = false;
@@ -45,6 +47,10 @@ var health_bars;
 var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
+
+//-------------------- HUD -----------------------
+
+
 
 maingame.test_env = function (game) { };
 
@@ -107,7 +113,15 @@ maingame.test_env.prototype = {
       "potion_set",
       "../Assets/General assets/Potions/potions.png",
       "../Assets/General assets/Potions/potions.json"
-    );
+    )
+
+    this.load.atlas(
+      "pirate_walk", 
+      "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.png",
+      "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.json"
+    )
+
+
     this.load.image('arrow', '../Assets/General assets/arrow_right.png')
 
     this.load.image(
@@ -155,7 +169,7 @@ maingame.test_env.prototype = {
     map.setCollisionBetween(1, 999, true, 'wall')
 
     //-------------------- Add player model --------------------
-    player = game.add.sprite(128, 128, 'eng', 'idle_down.png')
+    player = game.add.sprite(game.player_attributes["x"], game.player_attributes["y"], 'eng', 'idle_down.png')
     player.swing = false
     player = init_player(game, player)
 
@@ -325,12 +339,15 @@ maingame.test_env.prototype = {
     //-------------------- Add example enemies --------------------
     lizard = game.add.physicsGroup(Phaser.Physics.ARCADE)
     shark = game.add.physicsGroup(Phaser.Physics.ARCADE)
-
+    pirate = game.add.physicsGroup(Phaser.Physics.ARCADE)
+    
     lizard.enableBody = true
     shark.enableBody = true
+    pirate.enableBody = true
 
     game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
     game.physics.arcade.enable(shark, Phaser.Physics.ARCADE)
+    game.physics.arcade.enable(pirate, Phaser.Physics.ARCADE)
 
     new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
     new_nme = enemy_init(new_nme, 10, 500)
@@ -363,7 +380,6 @@ maingame.test_env.prototype = {
       true
     )
     big_guy.animations.play('run')
-
     new_nme.animations.add(
       'idle',
       Phaser.Animation.generateFrameNames(
@@ -456,11 +472,8 @@ maingame.test_env.prototype = {
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
-    chest = statics.create(50, 200, 'chest', 0)
-    game.physics.arcade.enable(chest)
-    chest.body.immovable = true
-    chest.enableBody = true
 
+    itemChests = []
 
     for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
       console.log("Making chest", i)
@@ -468,30 +481,51 @@ maingame.test_env.prototype = {
       var y = Number(BuildItems.itemData.Items[i].y);
       var src = BuildItems.itemData.Items[i].src;
 
-      var newChest = statics.create(x, y, 'chest', 0)
+      var newChest
+      if(BuildItems.itemData.Items[i].chest.Opened){
+       newChest = statics.create(x, y, 'chest', 5)
+      }
+
+      else {
+        newChest = statics.create(x, y, 'chest', 0)
+        newChest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+      }
+
+      newChest.collide = true
       game.physics.arcade.enable(newChest)
       newChest.body.immovable = true
       newChest.enableBody = true
       newChest.classPosition = i
 
+      newChest.item = BuildItems.itemData.Items[i].chest
+
+      
+      console.log(newChest.position.x)
       itemChests.push(newChest)
+
+
+      // var newChest = statics.create(x, y, 'chest', 0)
+
+      // game.physics.arcade.enable(newChest)
+      // newChest.body.immovable = true
+      // newChest.enableBody = true
+
+      // itemChests.push(newChest)
+
+      // chest.item = {
+      //   name: "SpeedPotion",
+      //   group: potion,
+      //   atlas: "potion_set",
+      //   src: "speed_pot_1.png",
+      //   use: function () {
+      //     use_potion(player, "Speed_Potion")
+      //   },
+      //   ai_scale: [1, 1],
+      //   itemChests[i].collide = true
+      //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+      //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
+      // }
     }
-
-    chest.item = {
-      name: "SpeedPotion",
-      group: potion,
-      atlas: "potion_set",
-      src: "speed_pot_1.png",
-      use: function () {
-        use_potion(player, "Speed_Potion")
-      },
-      ai_scale: [1, 1],
-    }
-
-    chest.collide = true
-
-    chest.animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-    chest.animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
 
     //-------------------- Added water example --------------------
     const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
@@ -515,6 +549,8 @@ maingame.test_env.prototype = {
           "backpack": player.backpack,
           "actives": player.active_items,
           "current": player.current_item,
+          "x" : player.body.position.x,
+          "y" : player.body.position.y
         };
         game.current_time = timeLimit
         game.state.start("Backpack");
@@ -522,8 +558,8 @@ maingame.test_env.prototype = {
       })
     stats.fixedToCamera = true;
 
-    var bar_holder = statics.create(150, 560, 'bar', 'Bar.png')
-    xp_bar = bars.create(158, 552, 'xp_bar', 'bar-filler.png')
+    var bar_holder = statics.create(150, 560, 'bar')
+    xp_bar = bars.create(158, 552, 'xp_bar')
     bar_holder.fixedToCamera = true
     xp_bar.fixedToCamera = true
     player.exp = 0
@@ -563,16 +599,14 @@ maingame.test_env.prototype = {
         console.log("active item create")
         icon[i] = game.add.image(62 + 28 * i, 557, activeBar[i]["atlas"], activeBar[i]["src"])
         icon[i].scale.set(activeBar[i].ai_scale[0], activeBar[i].ai_scale[1])
-
       }
     }
-
 
     //ammo set up
     player.ammo = 10
     ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
     for (var i = 0; i < 10; i++) {
-      ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire', 'fire.png')
+      ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire')
       ammo_bars[i].fixedToCamera = true
 
     }
@@ -603,32 +637,150 @@ maingame.test_env.prototype = {
     this.timeText.fixedToCamera = true;
     this.timer = game.time.events.loop(10, tick, this)
 
+    itemChests[0].animations.play('open')
+
+
+    //-------------------- Pirate Creation -----------------------
+    pirates = pirate.create(200, 50, 'pirate_walk', 'walk-down-1.png')
+    pirates.scale.setTo(1.5)
+    /* sharky.bounds = {
+            x1: 16,
+            x2: 60,
+            y1: 48,
+            y2: 112
+        }
+        sharky.inBounds = function () {
+
+            if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
+                if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
+                    return true
+                }
+            }
+            return false
+        }
+     */
+    pirates.animations.add(
+      'walk-down',
+      Phaser.Animation.generateFrameNames(
+          'walk-down-',
+          1,
+          12,  //number of frames
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'walk-left-',
+      Phaser.Animation.generateFrameNames(
+          'walk-left-',
+          1,
+          12,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'walk-right-',
+      Phaser.Animation.generateFrameNames(
+          'walk-right-',
+          1,
+          12,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'walk-up-',
+      Phaser.Animation.generateFrameNames(
+          'walk-up-',
+          1,
+          12,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'attack-up-',
+      Phaser.Animation.generateFrameNames(
+          'attack-up-',
+          1,
+          5,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'attack-right-',
+      Phaser.Animation.generateFrameNames(
+          'attack-right-',
+          1,
+          7,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'attack-left-',
+      Phaser.Animation.generateFrameNames(
+          'attack-left-',
+          1,
+          7,
+          '.png'
+      ),
+      5,
+      true
+  )
+  pirates.animations.add(
+      'attack-down-',
+      Phaser.Animation.generateFrameNames(
+          'attack-down-',
+          1,
+          5,
+          '.png'
+      ),
+      5,
+      true
+  )
   },
 
   update: function () {
     if (cursors.startMenu.downDuration(100)) {
+      
       game.state.start("StartMenu")
     }
 
-    // Add opened and item taken logic
-    game.physics.arcade.collide(player, chest, function openChest(player) {
-      if (chest.collide) {
-        chest.collide = false;
-        chest.animations.play('open')
-        // Set chest opened flag
-        //var staticIndex = chest.classPosition
-        //BuildItems.hasf__[staticIndex].openedFlag = true;
-        var item = statics.create(chest.position.x + 8, chest.position.y + 8, chest.item.atlas, chest.item.src)
+    for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
+      game.physics.arcade.collide(player, itemChests[i], function openChest(player) {
 
-        game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
-          item.kill()
-          player.putBackpack(chest.item)
-          // Set item taken flag
-        }, this);
+        if (itemChests[i].collide) {
+          //so that the chest doesnt open and close
+          itemChests[i].animations.play('open')
+          itemChests[i].collide = false
 
-      }
+          if (!BuildItems.itemData.Items[i].chest.Taken) {
+            BuildItems.itemData.Items[i].chest.Taken = true
+            BuildItems.itemData.Items[i].chest.Opened = true
 
-    }, null, this)
+            var item = statics.create(itemChests[i].position.x + 8, itemChests[i].position.y + 8, itemChests[i].item.atlas, itemChests[i].item.src)
+            item.info = itemChests[i].item //itemChests[i].item doesn't work inside the collectItemFromChest function
+            console.log(itemChests)
+
+            game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
+              player.putBackpack(item.info)
+              item.kill()
+              // Set item taken flag
+            }, this);
+
+          }
+        }
+      })
+    }
 
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
@@ -685,12 +837,17 @@ maingame.test_env.prototype = {
     if (!cursors.space.isDown) {
       keyReset = false;
     }
-    if (cursors.z.isDown) {
-      weapon.fire();
-    }
+    
 
     //-------------------- Enter skill tree state --------------------
     if (cursors.esc.downDuration(100)) {
+      game.player_attributes = {
+        "backpack": player.backpack,
+        "actives": player.active_items,
+        "current": player.current_item,
+        "x" : player.body.position.x,
+        "y" : player.body.position.y
+      };
       game.current_time = timeLimit
       game.state.start("Skill tree");
     }
@@ -706,6 +863,8 @@ maingame.test_env.prototype = {
         "backpack": player.backpack,
         "actives": player.active_items,
         "current": player.current_item,
+        "x" : player.body.position.x,
+        "y" : player.body.position.y
       };
       game.current_time = timeLimit
       game.state.start("Backpack");
@@ -719,7 +878,7 @@ maingame.test_env.prototype = {
 
     if (cursors.useAct1.downDuration(100)) {
       if (player.active_items[0] !== null && typeof player.active_items[0] == 'object') {
-        player.active_items[0].use()
+        eval(player.active_items[0].use) //changes the string for function into a function
         player.active_items[0] = null
         icon[0].kill()
 
@@ -727,14 +886,14 @@ maingame.test_env.prototype = {
     }
     if (cursors.useAct2.downDuration(100)) {
       if (player.active_items[1] !== null && typeof player.active_items[1] == 'object') {
-        player.active_items[1].use()
+        eval(player.active_items[1].use) //changes the string for function into a function
         player.active_items[1] = null;
         icon[1].kill()
       }
     }
     if (cursors.useAct3.downDuration(100)) {
       if (player.active_items[2] !== null && typeof player.active_items[2] == 'object') {
-        player.active_items[2].use()
+        eval(player.active_items[2].use) //changes the string for function into a function
         player.active_items[2] = null;
         icon[2].kill()
       }
@@ -743,5 +902,9 @@ maingame.test_env.prototype = {
     this.timeText.x = 650 + this.camera.view.x
     player.healthchange()
     game.playerHealth = player.health
+  },
+
+  render: function() { 
+    game.debug.bodyInfo(player, 32, 32);
   }
 };

@@ -56,6 +56,7 @@ function use_potion(player, potion) {
       [player]
     );
   }
+
   if (potion == "Attack_Potion") {
     potion_sprite = game.add.sprite(
       player.position.x + 5,
@@ -85,6 +86,7 @@ function use_potion(player, potion) {
       [player]
     );
   }
+  
   var event = game.time.events.add(
     Phaser.Timer.SECOND * 0.5,
     potion_gone,
