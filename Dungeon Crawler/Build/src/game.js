@@ -150,7 +150,12 @@ maingame.test_env.prototype = {
       'merchant', 
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/wizzard_f_hit_anim_f0.png'
     )
-    
+
+    this.load.atlas(
+      'currency',
+      '../Assets/General assets/currency.png',
+      '../Assets/General assets/currency.json'
+    )
   },
 
   create: function () {
