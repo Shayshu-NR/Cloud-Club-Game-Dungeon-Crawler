@@ -5,6 +5,7 @@ var BuildItems = new Items("test_items.json")
 var map;
 var ground;
 var walls;
+var door;
 
 //-------------------- Player --------------------
 var player;
@@ -22,6 +23,9 @@ var pirates
 //-------------------- Utilities --------------------
 var keyReset = false;
 var cursors;
+var currency_json;
+var enemies_json;
+var door_json;
 
 //-------------------- Weapons --------------------
 var default_sword;
@@ -48,7 +52,6 @@ var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
 
-//-------------------- HUD -----------------------
 
 
 
@@ -156,9 +159,19 @@ maingame.test_env.prototype = {
       '../Assets/General assets/currency.png',
       '../Assets/General assets/currency.json'
     )
+
+    // 
+    game.load.text('currency', '../Specifications/currency.json')
+    game.load.text('enemies', '../Specifications/enemies.json')
+    game.load.text('doors', '../Specifications/door.json')
   },
 
   create: function () {
+    //-------------------- Load Currency --------------------
+    currency_json = JSON.parse(game.cache.getText('currency'))
+    enemies_json = JSON.parse(game.cache.getText('enemies'))
+    door_json = JSON.parse(game.cache.getText('doors'))
+
     //-------------------- Start physics engine --------------------
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
@@ -183,6 +196,15 @@ maingame.test_env.prototype = {
     player = game.add.sprite(game.player_attributes["x"], game.player_attributes["y"], 'eng', 'idle_down.png')
     player.swing = false
     player = init_player(game, player)
+
+
+    //-------------------- Add Doors --------------------
+    door = game.add.group()
+    door.enableBody = true
+
+    door_json.forEach(function(element) {
+      // var doorInstance = door.create(element.x, element.y,)
+    })
 
     {
       player.animations.add(
