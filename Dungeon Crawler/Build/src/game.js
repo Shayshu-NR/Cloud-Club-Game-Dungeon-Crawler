@@ -124,6 +124,11 @@ maingame.test_env.prototype = {
       "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.json"
     )
 
+    this.load.atlas(
+      "full_pirate",
+      "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.png",
+      "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.json"
+    )
 
     this.load.image('arrow', '../Assets/General assets/arrow_right.png')
 
@@ -150,7 +155,7 @@ maingame.test_env.prototype = {
     this.load.image('actives', '../Assets/General assets/ActiveItems.png')
 
     this.load.image(
-      'merchant', 
+      'merchant',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/wizzard_f_hit_anim_f0.png'
     )
 
@@ -160,7 +165,12 @@ maingame.test_env.prototype = {
       '../Assets/General assets/currency.json'
     )
 
-    // 
+    this.load.atlas(
+      'door-atlas',
+      '../Assets/General assets/Ripleys Aquarium/door-atlas.png',
+      '../Assets/General assets/Ripleys Aquarium/door-atlas.json'
+    )
+
     game.load.text('currency', '../Specifications/currency.json')
     game.load.text('enemies', '../Specifications/enemies.json')
     game.load.text('doors', '../Specifications/door.json')
@@ -202,8 +212,10 @@ maingame.test_env.prototype = {
     door = game.add.group()
     door.enableBody = true
 
-    door_json.forEach(function(element) {
-      // var doorInstance = door.create(element.x, element.y,)
+    door_json.forEach(function (key, value) {
+      var doorInstance = door.create(key.x + 16, key.y - 16, 'door-atlas', key.name); 
+      doorInstance.state = key.state;
+      doorInstance.body.immovable = true
     })
 
     {
@@ -366,13 +378,13 @@ maingame.test_env.prototype = {
     }
 
     //-------------------- Merchant --------------------
-    game.add.button(112, 291, 'merchant', function() {
+    game.add.button(112, 291, 'merchant', function () {
       game.player_attributes = {
         "backpack": player.backpack,
         "actives": player.active_items,
         "current": player.current_item,
-        "x" : player.body.position.x,
-        "y" : player.body.position.y
+        "x": player.body.position.x,
+        "y": player.body.position.y
       };
       game.current_time = timeLimit
       game.state.start("Merchant");
@@ -549,14 +561,23 @@ maingame.test_env.prototype = {
       console.log(newChest.position.x)
       itemChests.push(newChest)
 
+      itemChests[i].collide = true
+      itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+      itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
+    }
 
-      // var newChest = statics.create(x, y, 'chest', 0)
+    // chest.item = {
+    //   name: "SpeedPotion",
+    //   group: potion,
+    //   atlas: "potion_set",
+    //   src: "speed_pot_1.png",
+    //   use: function () {
+    //     use_potion(player, "Speed_Potion")
+    //   },
+    //   ai_scale: [1, 1],
+    // }
 
-      // game.physics.arcade.enable(newChest)
-      // newChest.body.immovable = true
-      // newChest.enableBody = true
-
-      // itemChests.push(newChest)
+    //chest.collide = true
 
       // chest.item = {
       //   name: "SpeedPotion",
@@ -571,22 +592,7 @@ maingame.test_env.prototype = {
       //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
       //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
       // }
-    }
-
-    //-------------------- Added water example --------------------
-    const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
-    test.animations.add(
-      'wave',
-      Phaser.Animation.generateFrameNames(
-        'water_f',
-        1,
-        6,
-        '.png'
-      ),
-      5,
-      true
-    )
-    test.animations.play('wave')
+    
 
     //-------------------- HUD --------------------
     var stats = game.add.button(10, 545, 'bpack',
@@ -687,17 +693,17 @@ maingame.test_env.prototype = {
 
 
     //-------------------- Pirate Creation -----------------------
-    pirates = pirate.create(115.5, 475.5, 'pirate_walk', 'walk-down-1.png')
+    pirates = pirate.create(115.5, 475.5, 'full_pirate', 'walk-down-1.png')
     pirates.scale.setTo(1.5)
+    pirates.enableBody = true
 
     pirates.bounds = {
       x1: 16,
       x2: 215,
-      y1: 405,
-      y2: 546
+      y1: 430,
+      y2: 521
     }
     pirates.inBounds = function () {
-
       if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
         if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
           return true
@@ -707,7 +713,7 @@ maingame.test_env.prototype = {
     }
 
     pirates.center = {
-      x_cal:(pirates.bounds.x1 + pirates.bounds.x2) / 2,
+      x_cal: (pirates.bounds.x1 + pirates.bounds.x2) / 2,
       y_cal: (pirates.bounds.y1 + pirates.bounds.y2) / 2
     }
 
@@ -804,6 +810,7 @@ maingame.test_env.prototype = {
 
   update: function () {
     pirate_track(pirates)
+    pirate_attack(pirates)
     if (cursors.startMenu.downDuration(100)) {
 
       game.state.start("StartMenu")
@@ -843,7 +850,9 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
     // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
-
+    game.physics.arcade.collide(player,pirates, damage_player, null, this)
+    game.physics.arcade.collide(player, door, open_door, null, this);
+    
     //-------------------- Movement --------------------
     var speed = player.speed;
     potion_set = game.add.group();
