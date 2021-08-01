@@ -117,6 +117,7 @@ function shark_track(enemy) {
 function damage_player(player, enemy) {
     // Deal damage to a player and knock them back in 
     // the opposite direction they're facing
+    
     if (!player.knockback) {
         var dmg_dealt = enemy.damage * player.defense
         kill_player(player, dmg_dealt)

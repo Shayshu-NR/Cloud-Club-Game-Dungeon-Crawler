@@ -667,6 +667,7 @@ maingame.test_env.prototype = {
     //-------------------- Pirate Creation -----------------------
     pirates = pirate.create(115.5, 475.5, 'pirate_walk', 'walk-down-1.png')
     pirates.scale.setTo(1.5)
+    pirates.enableBody = true
 
     pirates.bounds = {
       x1: 16,
@@ -821,6 +822,7 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
     // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
+    game.physics.arcade.collide(player,pirates, damage_player, null, this)
 
     //-------------------- Movement --------------------
     var speed = player.speed;
