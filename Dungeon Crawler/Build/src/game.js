@@ -834,7 +834,7 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
     // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
-    game.physics.arcade.collide(player, door);
+    game.physics.arcade.collide(player, door, open_door, null, this);
     
     //-------------------- Movement --------------------
     var speed = player.speed;

@@ -153,6 +153,15 @@ function damage_player(player, enemy) {
     }
 }
 
+function open_door(player, door){
+    if(door.state == "Closed"){
+        var door_name = door.animations.currentFrame.name;
+      door.loadTexture('door-atlas', door_name.substring(0, door_name.length - 4) + "_open.png")
+      door.body.destroy();
+      door.state = "Open";
+    }
+}
+
 
 function kill_player(player, amount) {
     for (i = 0; i < amount; i++) {
