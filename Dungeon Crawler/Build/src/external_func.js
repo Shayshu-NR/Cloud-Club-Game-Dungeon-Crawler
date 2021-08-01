@@ -124,19 +124,19 @@ function damage_player(player, enemy) {
 
     if (player.body.touching["left"]) {
         player.animations.play('hurt_left')
-        player.body.velocity.x = 125
+        player.body.velocity.x = 135
     }
     if (player.body.touching["right"]) {
         player.animations.play('hurt_right')
-        player.body.velocity.x = -125
+        player.body.velocity.x = -135
     }
     if (player.body.touching["down"]) {
         player.animations.play('hurt_down')
-        player.body.velocity.y = -100
+        player.body.velocity.y = -110
     }
     if (player.body.touching["up"]) {
         player.animations.play('hurt_up')
-        player.body.velocity.y = 100
+        player.body.velocity.y = 110
     }
 
     if (!player.knockback) {

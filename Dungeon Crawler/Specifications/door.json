@@ -2,7 +2,7 @@
     {
         "x" : 123,
         "y" : 123,
-        "state" : "Open/Closed",
-        "name" : "door_right"
+        "state" : "Closed",
+        "name" : "door.png"
     }
 ]
