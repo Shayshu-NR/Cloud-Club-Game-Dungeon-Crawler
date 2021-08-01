@@ -256,7 +256,7 @@ function pirate_track(enemy) {
             x: x_cal,
             y: y_cal
         }
-        game.physics.arcade.moveToObject(enemy, center, 50)
+        game.physics.arcade.moveToObject(enemy, center, 100, 1000)
 
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {
