@@ -5,6 +5,7 @@ var BuildItems = new Items("test_items.json")
 var map;
 var ground;
 var walls;
+var door;
 
 //-------------------- Player --------------------
 var player;
@@ -22,6 +23,9 @@ var pirates
 //-------------------- Utilities --------------------
 var keyReset = false;
 var cursors;
+var currency_json;
+var enemies_json;
+var door_json;
 
 //-------------------- Weapons --------------------
 var default_sword;
@@ -48,7 +52,6 @@ var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
 
-//-------------------- HUD -----------------------
 
 
 
@@ -152,7 +155,7 @@ maingame.test_env.prototype = {
     this.load.image('actives', '../Assets/General assets/ActiveItems.png')
 
     this.load.image(
-      'merchant', 
+      'merchant',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/wizzard_f_hit_anim_f0.png'
     )
 
@@ -161,9 +164,24 @@ maingame.test_env.prototype = {
       '../Assets/General assets/currency.png',
       '../Assets/General assets/currency.json'
     )
+
+    this.load.atlas(
+      'door-atlas',
+      '../Assets/General assets/Ripleys Aquarium/door-atlas.png',
+      '../Assets/General assets/Ripleys Aquarium/door-atlas.json'
+    )
+
+    game.load.text('currency', '../Specifications/currency.json')
+    game.load.text('enemies', '../Specifications/enemies.json')
+    game.load.text('doors', '../Specifications/door.json')
   },
 
   create: function () {
+    //-------------------- Load Currency --------------------
+    currency_json = JSON.parse(game.cache.getText('currency'))
+    enemies_json = JSON.parse(game.cache.getText('enemies'))
+    door_json = JSON.parse(game.cache.getText('doors'))
+
     //-------------------- Start physics engine --------------------
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
@@ -188,6 +206,17 @@ maingame.test_env.prototype = {
     player = game.add.sprite(game.player_attributes["x"], game.player_attributes["y"], 'eng', 'idle_down.png')
     player.swing = false
     player = init_player(game, player)
+
+
+    //-------------------- Add Doors --------------------
+    door = game.add.group()
+    door.enableBody = true
+
+    door_json.forEach(function (key, value) {
+      var doorInstance = door.create(key.x + 16, key.y - 16, 'door-atlas', key.name); 
+      doorInstance.state = key.state;
+      doorInstance.body.immovable = true
+    })
 
     {
       player.animations.add(
@@ -349,13 +378,13 @@ maingame.test_env.prototype = {
     }
 
     //-------------------- Merchant --------------------
-    game.add.button(112, 291, 'merchant', function() {
+    game.add.button(112, 291, 'merchant', function () {
       game.player_attributes = {
         "backpack": player.backpack,
         "actives": player.active_items,
         "current": player.current_item,
-        "x" : player.body.position.x,
-        "y" : player.body.position.y
+        "x": player.body.position.x,
+        "y": player.body.position.y
       };
       game.current_time = timeLimit
       game.state.start("Merchant");
@@ -565,21 +594,6 @@ maingame.test_env.prototype = {
       // }
     
 
-    //-------------------- Added water example --------------------
-    const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
-    test.animations.add(
-      'wave',
-      Phaser.Animation.generateFrameNames(
-        'water_f',
-        1,
-        6,
-        '.png'
-      ),
-      5,
-      true
-    )
-    test.animations.play('wave')
-
     //-------------------- HUD --------------------
     var stats = game.add.button(10, 545, 'bpack',
       function () {
@@ -699,7 +713,7 @@ maingame.test_env.prototype = {
     }
 
     pirates.center = {
-      x_cal:(pirates.bounds.x1 + pirates.bounds.x2) / 2,
+      x_cal: (pirates.bounds.x1 + pirates.bounds.x2) / 2,
       y_cal: (pirates.bounds.y1 + pirates.bounds.y2) / 2
     }
 
@@ -837,7 +851,8 @@ maingame.test_env.prototype = {
     // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
     game.physics.arcade.collide(player,pirates, damage_player, null, this)
-
+    game.physics.arcade.collide(player, door, open_door, null, this);
+    
     //-------------------- Movement --------------------
     var speed = player.speed;
     potion_set = game.add.group();
