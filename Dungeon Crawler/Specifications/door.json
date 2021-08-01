@@ -16,5 +16,11 @@
         "y" : 400,
         "state" : "Closed",
         "name" : "door.png"
+    },
+    {
+        "x" : 203,
+        "y" : 123,
+        "state" : "Closed",
+        "name" : "door_left.png"
     }
 ]

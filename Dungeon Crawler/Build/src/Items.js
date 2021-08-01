@@ -9,7 +9,6 @@ class Items {
             .then(data => this.itemData = data);
     }
 }
-
 /*
 
 Read from a json file in the items folder with name src_file

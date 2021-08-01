@@ -117,6 +117,7 @@ function shark_track(enemy) {
 function damage_player(player, enemy) {
     // Deal damage to a player and knock them back in 
     // the opposite direction they're facing
+
     if (!player.knockback) {
         var dmg_dealt = enemy.damage * player.defense
         kill_player(player, dmg_dealt)
@@ -153,6 +154,15 @@ function damage_player(player, enemy) {
     }
 }
 
+function open_door(player, door){
+    if(door.state == "Closed"){
+        var door_name = door.animations.currentFrame.name;
+      door.loadTexture('door-atlas', door_name.substring(0, door_name.length - 4) + "_open.png")
+      door.body.destroy();
+      door.state = "Open";
+    }
+}
+
 
 function kill_player(player, amount) {
     for (i = 0; i < amount; i++) {
@@ -166,60 +176,60 @@ function kill_player(player, amount) {
     }
 }
 
-function shark_track(enemy) {
+// function shark_track(enemy) {
 
-    if (enemy.inBounds() & Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 150) {
+//     if (enemy.inBounds() & Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 150) {
 
-        game.physics.arcade.moveToObject(enemy, player, 60, 1000)
+//         game.physics.arcade.moveToObject(enemy, player, 60, 1000)
 
-        if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
-            if (enemy.body.velocity.x > 0) {
-                enemy.animations.play('swim_right')
-            }
-            else {
-                enemy.animations.play('swim_left')
-            }
-        }
-        else {
-            if (enemy.body.velocity.y > 0) {
-                enemy.animations.play('swim_down')
-            }
-            else {
-                enemy.animations.play('swim_up')
-            }
-        }
-    }
-    // Move it to the center of the room
-    
-    else {
-        game.physics.arcade.moveTo(enemy, enemy.center.x, enemy.center.y, 100)
+//         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
+//             if (enemy.body.velocity.x > 0) {
+//                 enemy.animations.play('swim_right')
+//             }
+//             else {
+//                 enemy.animations.play('swim_left')
+//             }
+//         }
+//         else {
+//             if (enemy.body.velocity.y > 0) {
+//                 enemy.animations.play('swim_down')
+//             }
+//             else {
+//                 enemy.animations.play('swim_up')
+//             }
+//         }
+//     }
+//     // Move it to the center of the room
 
-        if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
-            if (enemy.body.velocity.x > 0) {
-                enemy.animations.play('swim_right')
+//     else {
+//         game.physics.arcade.moveTo(enemy, enemy.center.x, enemy.center.y, 100)
 
-            }
-            else {
-                enemy.animations.play('swim_left')
-            }
-        }
-        else {
-            if (enemy.body.velocity.y > 0) {
-                enemy.animations.play('swim_down')
-            }
-            else {
-                enemy.animations.play('swim_up')
-            }
-        }
-    }
-    
-}
+//         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
+//             if (enemy.body.velocity.x > 0) {
+//                 enemy.animations.play('swim_right')
 
-function pirate_track(enemy) { 
+//             }
+//             else {
+//                 enemy.animations.play('swim_left')
+//             }
+//         }
+//         else {
+//             if (enemy.body.velocity.y > 0) {
+//                 enemy.animations.play('swim_down')
+//             }
+//             else {
+//                 enemy.animations.play('swim_up')
+//             }
+//         }
+//     }
+
+// }
+
+function pirate_track(enemy) {
 
     if (enemy.inBounds() & Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 100) {
 
-        game.physics.arcade.moveToObject(enemy, player, 60, 1000)
+        game.physics.arcade.moveToObject(enemy, player, 60)
 
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {
@@ -246,7 +256,7 @@ function pirate_track(enemy) {
             x: x_cal,
             y: y_cal
         }
-        game.physics.arcade.moveToObject(enemy, center, 10, 5000)
+        game.physics.arcade.moveToObject(enemy, center, 50)
 
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {
@@ -261,13 +271,32 @@ function pirate_track(enemy) {
                 enemy.animations.play('walk-down')
             }
             else {
-                enemy.animations.play('walk-up')
+                enemy.animations.play('walk-up-')
             }
         }
     }
 }
-/* 
-*/
+function pirate_attack(enemy) {
+    if (Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 10) {
+        if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
+            if (enemy.body.velocity.x > 0) {
+                enemy.animations.play('attack-right-')
+            }
+            else {
+                enemy.animations.play('attack-left-')
+            }
+        }
+        else {
+            if (enemy.body.velocity.y > 0) {
+                enemy.animations.play('attack-down-')
+            }
+            else {
+                enemy.animations.play('attack-up-')
+            }
+        }
+    }
+
+}
 function level_up(player) {
     player.getCurrentLevel();
 
