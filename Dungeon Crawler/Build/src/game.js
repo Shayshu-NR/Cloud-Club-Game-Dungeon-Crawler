@@ -819,7 +819,7 @@ maingame.test_env.prototype = {
       true
     )
     pirates.animations.add(
-      'attack-down-',
+      'attack-down',
       Phaser.Animation.generateFrameNames(
         'attack-down-',
         1,
@@ -860,7 +860,7 @@ maingame.test_env.prototype = {
               player.putBackpack(item.info)
               item.kill()
               // Set item taken flag
-            }, this);
+            }, this); 
 
           }
         }

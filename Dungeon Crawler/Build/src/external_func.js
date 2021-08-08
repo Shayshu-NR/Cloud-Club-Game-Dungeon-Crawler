@@ -234,18 +234,18 @@ function pirate_track(enemy) {
     if (Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 75) {
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {
-                enemy.animations.play('attack-right-')
+                enemy.animations.play('attack-right')
             }
             else {
-                enemy.animations.play('attack-left-')
+                enemy.animations.play('attack-left')
             }
         }
         else {
             if (enemy.body.velocity.y > 0) {
-                enemy.animations.play('attack-up-')
+                enemy.animations.play('attack-down')
             }
             else {
-                enemy.animations.play('attack-down-')
+                enemy.animations.play('attack-up')
             }
         }
     }
@@ -299,6 +299,7 @@ function pirate_track(enemy) {
         }
     }
 }
+
 function pirate_attack(enemy) {
     if (Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 75) {
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
@@ -311,10 +312,10 @@ function pirate_attack(enemy) {
         }
         else {
             if (enemy.body.velocity.y > 0) {
-                enemy.animations.play('attack-down-')
+                enemy.animations.play('attack-up-')
             }
             else {
-                enemy.animations.play('attack-up-')
+                enemy.animations.play('attack-down-')
             }
         }
     }

@@ -13,6 +13,7 @@ maingame.BackPack.prototype = {
                 game.load.image('arrow', '../Assets/General assets/Skill Tree/atks.png')
                 game.load.image('backpack', '../Assets/General assets/backpack.png')
                 game.load.image('actives', '../Assets/General assets/ActiveItems.png')
+                game.load.image('current', '../Assets/General assets/CurrentItem.png')
                 game.load.image('button', '../Assets/General assets/Backbtn.png')
                 game.load.image('bpckBackground', '../Assets/General assets/bpckBackground2.png')
                 game.load.image('invtBackground', '../Assets/General assets/invtBackround1.png')
@@ -45,6 +46,7 @@ maingame.BackPack.prototype = {
                 active_items = game.player_attributes["actives"]
                 inventory = []
                 actives = Array(3).fill(0);
+                current = [0];
 
                 console.log("Backpack: ", backpack)
                 console.log("Active Items", active_items)
@@ -57,7 +59,8 @@ maingame.BackPack.prototype = {
                 }
 
                 this.add.image(50, 50, 'backpack');
-                this.add.image(50, 400, 'actives')
+                this.add.image(120, 400, 'actives')
+                this.add.image(50, 401, 'current');
 
                 var item = game.add.group();
 
@@ -137,9 +140,15 @@ maingame.BackPack.prototype = {
                                 } else {
                                         //success
                                         // Move item from backpack to active
-                                        console.log(2)
+                                        console.log(inv_x, inv_y)
                                         if (sprite.inv[1] == 5) {
-                                                actives[sprite.inv[0]] = 0
+                                                if (inv_x == 0) {
+                                                        console.log("Current");
+                                                }
+                                                else {
+                                                        console.log("Actives")
+                                                        actives[sprite.inv[0]] = 0
+                                                }
                                         } else {
                                                 inventory[sprite.inv[1]][sprite.inv[0]] = 0
                                         }
