@@ -32,6 +32,11 @@ function swing_default_sword(player) {
     var event = game.time.events.add(Phaser.Timer.SECOND * player.attack_speed, sheath_sword, this, [weapon])
 }
 
+function add_coins(player, coin){
+    player.money += 10;
+    coin.kill();
+}
+
 function sheath_sword(weapon) {
     weapon[0].kill()
     player.swing = false

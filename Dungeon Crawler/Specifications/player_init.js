@@ -116,7 +116,7 @@ function init_player(game, player) {
 
     player.luck = game.playerLuck
 
-    player.money = game.playerMoney
+    player.money = game.player_attributes["money"]
 
     player.crit_damage = function () {
         if (probability(player.crit_chance)) {
