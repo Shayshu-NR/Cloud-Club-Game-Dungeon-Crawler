@@ -23,7 +23,18 @@ player.potion_status = string
 // Double check how map copying works in JS
 // Map with meta data see backpack
 // Equiped item
-player.current_item = { "Sword" }
+player.current_item = {
+    "Name" : "Sword",
+    "Atlas" : "sword-atlas",
+    "Frames" : [0, 12],
+    "Frame_Name" : "Sword-Swing",
+    "Knockback" : 12,
+    "Damage" : 12,
+    "Attack_Speed" : 125,
+    "Weapon_Type" : "Projectile",
+    "Speed" :  12445,
+    "Distance" : 120
+}
 
 //~~~~~ Active items ~~~~~
 // Array of Maps with meta data see backpack
