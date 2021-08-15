@@ -1,0 +1,26 @@
+[
+    {
+        "x" : 96,
+        "y" : 160,
+        "state" : "Closed",
+        "name" : "door.png"
+    },
+    {
+        "x" : 1232,
+        "y" : 432,
+        "state" : "Closed",
+        "name" : "door.png"
+    },
+    {
+        "x" : 96,
+        "y" : 400,
+        "state" : "Closed",
+        "name" : "door.png"
+    },
+    {
+        "x" : 203,
+        "y" : 123,
+        "state" : "Closed",
+        "name" : "door_left.png"
+    }
+]

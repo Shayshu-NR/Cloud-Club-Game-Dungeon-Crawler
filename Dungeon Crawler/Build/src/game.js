@@ -1,10 +1,11 @@
-var maingame = {};
+   var maingame = {};
 var BuildItems = new Items("test_items.json")
 
 //-------------------- Tile map --------------------
 var map;
 var ground;
 var walls;
+var door;
 
 //-------------------- Player --------------------
 var player;
@@ -22,6 +23,9 @@ var pirates
 //-------------------- Utilities --------------------
 var keyReset = false;
 var cursors;
+var currency_json;
+var enemies_json;
+var door_json;
 
 //-------------------- Weapons --------------------
 var default_sword;
@@ -32,6 +36,7 @@ var chest;
 var statics
 var icon = [];
 var itemChests = [];
+var coins;
 
 //-------------------- Items -----------------------
 var potion;
@@ -48,7 +53,6 @@ var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
 
-//-------------------- HUD -----------------------
 
 
 
@@ -116,11 +120,16 @@ maingame.test_env.prototype = {
     )
 
     this.load.atlas(
-      "pirate_walk", 
+      "pirate_walk",
       "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.png",
       "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.json"
     )
 
+    this.load.atlas(
+      "full_pirate",
+      "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.png",
+      "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.json"
+    )
 
     this.load.image('arrow', '../Assets/General assets/arrow_right.png')
 
@@ -145,9 +154,35 @@ maingame.test_env.prototype = {
       '../Assets/General assets/backpack-icon-cropped.png')
 
     this.load.image('actives', '../Assets/General assets/ActiveItems.png')
+
+    this.load.image(
+      'merchant',
+      '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/wizzard_f_hit_anim_f0.png'
+    )
+
+    this.load.atlas(
+      'currency-atlas',
+      '../Assets/General assets/currency.png',
+      '../Assets/General assets/currency.json'
+    )
+
+    this.load.atlas(
+      'door-atlas',
+      '../Assets/General assets/Ripleys Aquarium/door-atlas.png',
+      '../Assets/General assets/Ripleys Aquarium/door-atlas.json'
+    )
+
+    game.load.text('currency', '../Specifications/currency.json')
+    game.load.text('enemies', '../Specifications/enemies.json')
+    game.load.text('doors', '../Specifications/door.json')
   },
 
   create: function () {
+    //-------------------- Load Currency --------------------
+    currency_json = JSON.parse(game.cache.getText('currency'))
+    enemies_json = JSON.parse(game.cache.getText('enemies'))
+    door_json = JSON.parse(game.cache.getText('doors'))
+
     //-------------------- Start physics engine --------------------
     game.physics.startSystem(Phaser.Physics.ARCADE)
 
@@ -172,6 +207,39 @@ maingame.test_env.prototype = {
     player = game.add.sprite(game.player_attributes["x"], game.player_attributes["y"], 'eng', 'idle_down.png')
     player.swing = false
     player = init_player(game, player)
+
+
+    //-------------------- Add Doors --------------------
+    door = game.add.group()
+    door.enableBody = true
+
+    door_json.forEach(function (key, value) {
+      var doorInstance = door.create(key.x + 16, key.y - 16, 'door-atlas', key.name); 
+      doorInstance.state = key.state;
+      doorInstance.body.immovable = true
+    })
+
+    //-------------------- Add Currency --------------------
+    coins = game.add.group();
+    coins.enableBody  = true;
+
+    currency_json.forEach(function(key, value) {
+      var coinInstance = coins.create(key.x + 16, key.y - 16, 'currency-atlas', 'currency_1.png'); 
+      coinInstance.body.immovable = true
+      coinInstance.scale.set(0.65, 0.65);
+      coinInstance.animations.add(
+        'spin',
+        Phaser.Animation.generateFrameNames(
+          'currency_',
+          1,
+          6,
+          '.png'
+        ),
+        10,
+        true
+      );
+      coinInstance.animations.play('spin');
+    })
 
     {
       player.animations.add(
@@ -332,6 +400,20 @@ maingame.test_env.prototype = {
       )
     }
 
+    //-------------------- Merchant --------------------
+    game.add.button(112, 291, 'merchant', function () {
+      game.player_attributes = {
+        "backpack": player.backpack,
+        "actives": player.active_items,
+        "current": player.current_item,
+        "x": player.body.position.x,
+        "y": player.body.position.y,
+        "money" : player.money
+      };
+      game.current_time = timeLimit
+      game.state.start("Merchant");
+    })
+
     //-------------------- Add example weapon --------------------
     default_sword = game.add.group()
     default_sword.enableBody = true
@@ -340,7 +422,7 @@ maingame.test_env.prototype = {
     lizard = game.add.physicsGroup(Phaser.Physics.ARCADE)
     shark = game.add.physicsGroup(Phaser.Physics.ARCADE)
     pirate = game.add.physicsGroup(Phaser.Physics.ARCADE)
-    
+
     lizard.enableBody = true
     shark.enableBody = true
     pirate.enableBody = true
@@ -482,8 +564,8 @@ maingame.test_env.prototype = {
       var src = BuildItems.itemData.Items[i].src;
 
       var newChest
-      if(BuildItems.itemData.Items[i].chest.Opened){
-       newChest = statics.create(x, y, 'chest', 5)
+      if (BuildItems.itemData.Items[i].chest.Opened) {
+        newChest = statics.create(x, y, 'chest', 5)
       }
 
       else {
@@ -499,18 +581,27 @@ maingame.test_env.prototype = {
 
       newChest.item = BuildItems.itemData.Items[i].chest
 
-      
+
       console.log(newChest.position.x)
       itemChests.push(newChest)
 
+      itemChests[i].collide = true
+      itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+      itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
+    }
 
-      // var newChest = statics.create(x, y, 'chest', 0)
+    // chest.item = {
+    //   name: "SpeedPotion",
+    //   group: potion,
+    //   atlas: "potion_set",
+    //   src: "speed_pot_1.png",
+    //   use: function () {
+    //     use_potion(player, "Speed_Potion")
+    //   },
+    //   ai_scale: [1, 1],
+    // }
 
-      // game.physics.arcade.enable(newChest)
-      // newChest.body.immovable = true
-      // newChest.enableBody = true
-
-      // itemChests.push(newChest)
+    //chest.collide = true
 
       // chest.item = {
       //   name: "SpeedPotion",
@@ -525,22 +616,7 @@ maingame.test_env.prototype = {
       //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
       //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
       // }
-    }
-
-    //-------------------- Added water example --------------------
-    const test = game.add.sprite(100, 200, 'water', 'water_f1.png')
-    test.animations.add(
-      'wave',
-      Phaser.Animation.generateFrameNames(
-        'water_f',
-        1,
-        6,
-        '.png'
-      ),
-      5,
-      true
-    )
-    test.animations.play('wave')
+    
 
     //-------------------- HUD --------------------
     var stats = game.add.button(10, 545, 'bpack',
@@ -549,8 +625,8 @@ maingame.test_env.prototype = {
           "backpack": player.backpack,
           "actives": player.active_items,
           "current": player.current_item,
-          "x" : player.body.position.x,
-          "y" : player.body.position.y
+          "x": player.body.position.x,
+          "y": player.body.position.y
         };
         game.current_time = timeLimit
         game.state.start("Backpack");
@@ -641,117 +717,125 @@ maingame.test_env.prototype = {
 
 
     //-------------------- Pirate Creation -----------------------
-    pirates = pirate.create(200, 50, 'pirate_walk', 'walk-down-1.png')
+    pirates = pirate.create(115.5, 475.5, 'full_pirate', 'walk-down-1.png')
     pirates.scale.setTo(1.5)
-    /* sharky.bounds = {
-            x1: 16,
-            x2: 60,
-            y1: 48,
-            y2: 112
-        }
-        sharky.inBounds = function () {
+    pirates.enableBody = true
 
-            if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
-                if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
-                    return true
-                }
-            }
-            return false
+    pirates.bounds = {
+      x1: 16,
+      x2: 215,
+      y1: 430,
+      y2: 521
+    }
+    pirates.inBounds = function () {
+      if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
+        if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
+          return true
         }
-     */
+      }
+      return false
+    }
+
+    pirates.center = {
+      x_cal: (pirates.bounds.x1 + pirates.bounds.x2) / 2,
+      y_cal: (pirates.bounds.y1 + pirates.bounds.y2) / 2
+    }
+
     pirates.animations.add(
       'walk-down',
       Phaser.Animation.generateFrameNames(
-          'walk-down-',
-          1,
-          12,  //number of frames
-          '.png'
+        'walk-down-',
+        1,
+        12,  //number of frames
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
-      'walk-left-',
+    )
+    pirates.animations.add(
+      'walk-left',
       Phaser.Animation.generateFrameNames(
-          'walk-left-',
-          1,
-          12,
-          '.png'
+        'walk-left-',
+        1,
+        12,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
-      'walk-right-',
+    )
+    pirates.animations.add(
+      'walk-right',
       Phaser.Animation.generateFrameNames(
-          'walk-right-',
-          1,
-          12,
-          '.png'
+        'walk-right-',
+        1,
+        12,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
+    )
+    pirates.animations.add(
       'walk-up-',
       Phaser.Animation.generateFrameNames(
-          'walk-up-',
-          1,
-          12,
-          '.png'
+        'walk-up-',
+        1,
+        12,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
-      'attack-up-',
+    )
+    pirates.animations.add(
+      'attack-up',
       Phaser.Animation.generateFrameNames(
-          'attack-up-',
-          1,
-          5,
-          '.png'
+        'attack-up-',
+        1,
+        5,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
+    )
+    pirates.animations.add(
       'attack-right-',
       Phaser.Animation.generateFrameNames(
-          'attack-right-',
-          1,
-          7,
-          '.png'
+        'attack-right-',
+        1,
+        7,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
+    )
+    pirates.animations.add(
       'attack-left-',
       Phaser.Animation.generateFrameNames(
-          'attack-left-',
-          1,
-          7,
-          '.png'
+        'attack-left-',
+        1,
+        7,
+        '.png'
       ),
       5,
       true
-  )
-  pirates.animations.add(
-      'attack-down-',
+    )
+    pirates.animations.add(
+      'attack-down',
       Phaser.Animation.generateFrameNames(
-          'attack-down-',
-          1,
-          5,
-          '.png'
+        'attack-down-',
+        1,
+        5,
+        '.png'
       ),
       5,
       true
-  )
+    )
+
   },
 
   update: function () {
+    pirate_track(pirates)
     if (cursors.startMenu.downDuration(100)) {
-      
+
       game.state.start("StartMenu")
     }
 
@@ -775,7 +859,7 @@ maingame.test_env.prototype = {
               player.putBackpack(item.info)
               item.kill()
               // Set item taken flag
-            }, this);
+            }, this); 
 
           }
         }
@@ -789,7 +873,10 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
     // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
-
+    game.physics.arcade.collide(player,pirates, damage_player, null, this)
+    game.physics.arcade.collide(player, door, open_door, null, this);
+    game.physics.arcade.collide(player, coins, add_coins, null, this);
+    
     //-------------------- Movement --------------------
     var speed = player.speed;
     potion_set = game.add.group();
@@ -837,7 +924,7 @@ maingame.test_env.prototype = {
     if (!cursors.space.isDown) {
       keyReset = false;
     }
-    
+
 
     //-------------------- Enter skill tree state --------------------
     if (cursors.esc.downDuration(100)) {
@@ -845,8 +932,9 @@ maingame.test_env.prototype = {
         "backpack": player.backpack,
         "actives": player.active_items,
         "current": player.current_item,
-        "x" : player.body.position.x,
-        "y" : player.body.position.y
+        "x": player.body.position.x,
+        "y": player.body.position.y,
+        "money" : player.money
       };
       game.current_time = timeLimit
       game.state.start("Skill tree");
@@ -863,8 +951,9 @@ maingame.test_env.prototype = {
         "backpack": player.backpack,
         "actives": player.active_items,
         "current": player.current_item,
-        "x" : player.body.position.x,
-        "y" : player.body.position.y
+        "x": player.body.position.x,
+        "y": player.body.position.y,
+        "money" : player.money
       };
       game.current_time = timeLimit
       game.state.start("Backpack");
@@ -904,7 +993,7 @@ maingame.test_env.prototype = {
     game.playerHealth = player.health
   },
 
-  render: function() { 
+  render: function () {
     game.debug.bodyInfo(player, 32, 32);
   }
 };
