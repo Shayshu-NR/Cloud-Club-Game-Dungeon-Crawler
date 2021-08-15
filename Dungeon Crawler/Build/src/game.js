@@ -1,4 +1,4 @@
-var maingame = {};
+   var maingame = {};
 var BuildItems = new Items("test_items.json")
 
 //-------------------- Tile map --------------------
@@ -797,7 +797,7 @@ maingame.test_env.prototype = {
       true
     )
     pirates.animations.add(
-      'attack-right',
+      'attack-right-',
       Phaser.Animation.generateFrameNames(
         'attack-right-',
         1,
@@ -808,7 +808,7 @@ maingame.test_env.prototype = {
       true
     )
     pirates.animations.add(
-      'attack-left',
+      'attack-left-',
       Phaser.Animation.generateFrameNames(
         'attack-left-',
         1,
@@ -834,7 +834,6 @@ maingame.test_env.prototype = {
 
   update: function () {
     pirate_track(pirates)
-    pirate_attack(pirates)
     if (cursors.startMenu.downDuration(100)) {
 
       game.state.start("StartMenu")
