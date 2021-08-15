@@ -144,6 +144,8 @@ maingame.BackPack.prototype = {
                                         if (sprite.inv[1] == 5) {
                                                 if (inv_x == 0) {
                                                         console.log("Current");
+                                                        return;
+                                                        // Call moveBackPackToCurrent
                                                 }
                                                 else {
                                                         console.log("Actives")
@@ -167,9 +169,16 @@ maingame.BackPack.prototype = {
                         } else {
                                 //can move item with success
                                 if (sprite.inv[1] == 5) {
-                                        // Moving active item to backpack
-                                        moveActiveToBackpack(backpack, active_items, active_items[sprite.inv_x], 0)
-                                        actives[sprite.inv[0]] = 0
+                                        if(inx_x == 0){
+                                                console.log("Current")
+                                                return;
+                                        }
+                                        else{
+                                                // Moving active item to backpack
+                                                moveActiveToBackpack(backpack, active_items, active_items[sprite.inv_x], 0)
+                                                actives[sprite.inv[0]] = 0
+                                                
+                                        }
                                 } else {
                                         inventory[sprite.inv[1]][sprite.inv[0]] = 0
                                 }
