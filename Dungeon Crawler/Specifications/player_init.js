@@ -69,10 +69,42 @@ function init_player(game, player) {
             either delete from backpack or splice from actives
         }
     }
-    
     */
-    // moveActiveToCurrent
-    // moveBackpackToCurrent
+    player.moveBackpackToCurrent = function (item, index) {
+        // Only accept an item if it's a weapon and the current item slot is empty.
+
+        if (Object.keys(player.current_item).length != 0 | item.Weapon_Type == 'undefined') {
+            return;
+        }
+        else {
+            player.current_item = {};
+            var idx = player.active_items.indexOf(item);
+
+            for (const [key, value] of Object.entries(item)) {
+                player.current_item.key = value;
+            }
+
+            player.backpack.delete(item);
+        }
+    }
+
+    player.moveActiveToCurrent = function (item, index) {
+        // 
+
+        if (Object.keys(player.current_item).length != 0 | item.Weapon_Type == 'undefined') {
+            return;
+        }
+        else {
+            player.current_item = {};
+
+            for (const [key, value] of Object.entries(item)) {
+                player.current_item.key = value;
+            }
+
+            player.active_items.splice(idx, 1);
+        }
+    }
+
     // moveCurrentToBackpack
     // moveCurrentToActive
 
@@ -109,6 +141,14 @@ function init_player(game, player) {
     player.getCurrentLevel = function () {
         player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
         return player.level
+    }
+
+    player.current_item = {
+        "name": "sword",
+        "group": default_sword,
+        "src": "../Assests/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png",
+        "dmg": 1,
+        "quantity": 1
     }
 
     player.skills = {}
@@ -154,9 +194,9 @@ function init_player(game, player) {
 
     player.use_potion = [
         console.log("speed")
-        , 
+        ,
 
-        function useHealh(){
+        function useHealh() {
             console.log("health")
         }
     ]
