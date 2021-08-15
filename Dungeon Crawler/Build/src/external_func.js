@@ -32,6 +32,11 @@ function swing_default_sword(player) {
     var event = game.time.events.add(Phaser.Timer.SECOND * player.attack_speed, sheath_sword, this, [weapon])
 }
 
+function add_coins(player, coin){
+    player.money += 10;
+    coin.kill();
+}
+
 function sheath_sword(weapon) {
     weapon[0].kill()
     player.swing = false
@@ -181,18 +186,18 @@ function pirate_track(enemy) {
         game.physics.arcade.moveToObject(enemy, player, 40)
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {
-                enemy.animations.play('attack-right-')
+                enemy.animations.play('attack-right')
             }
             else {
-                enemy.animations.play('attack-left-')
+                enemy.animations.play('attack-left')
             }
         }
         else {
             if (enemy.body.velocity.y > 0) {
-                enemy.animations.play('attack-up-')
+                enemy.animations.play('attack-down')
             }
             else {
-                enemy.animations.play('attack-down-')
+                enemy.animations.play('attack-up')
             }
         }
     }
@@ -246,6 +251,7 @@ function pirate_track(enemy) {
         }
     }
 }
+
 
 
 function level_up(player) {

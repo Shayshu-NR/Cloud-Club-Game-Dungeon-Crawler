@@ -1,4 +1,4 @@
-var maingame = {};
+   var maingame = {};
 var BuildItems = new Items("test_items.json")
 
 //-------------------- Tile map --------------------
@@ -36,6 +36,7 @@ var chest;
 var statics
 var icon = [];
 var itemChests = [];
+var coins;
 
 //-------------------- Items -----------------------
 var potion;
@@ -160,7 +161,7 @@ maingame.test_env.prototype = {
     )
 
     this.load.atlas(
-      'currency',
+      'currency-atlas',
       '../Assets/General assets/currency.png',
       '../Assets/General assets/currency.json'
     )
@@ -216,6 +217,28 @@ maingame.test_env.prototype = {
       var doorInstance = door.create(key.x + 16, key.y - 16, 'door-atlas', key.name); 
       doorInstance.state = key.state;
       doorInstance.body.immovable = true
+    })
+
+    //-------------------- Add Currency --------------------
+    coins = game.add.group();
+    coins.enableBody  = true;
+
+    currency_json.forEach(function(key, value) {
+      var coinInstance = coins.create(key.x + 16, key.y - 16, 'currency-atlas', 'currency_1.png'); 
+      coinInstance.body.immovable = true
+      coinInstance.scale.set(0.65, 0.65);
+      coinInstance.animations.add(
+        'spin',
+        Phaser.Animation.generateFrameNames(
+          'currency_',
+          1,
+          6,
+          '.png'
+        ),
+        10,
+        true
+      );
+      coinInstance.animations.play('spin');
     })
 
     {
@@ -384,7 +407,8 @@ maingame.test_env.prototype = {
         "actives": player.active_items,
         "current": player.current_item,
         "x": player.body.position.x,
-        "y": player.body.position.y
+        "y": player.body.position.y,
+        "money" : player.money
       };
       game.current_time = timeLimit
       game.state.start("Merchant");
@@ -795,7 +819,7 @@ maingame.test_env.prototype = {
       true
     )
     pirates.animations.add(
-      'attack-down-',
+      'attack-down',
       Phaser.Animation.generateFrameNames(
         'attack-down-',
         1,
@@ -810,7 +834,6 @@ maingame.test_env.prototype = {
 
   update: function () {
     pirate_track(pirates)
-
     if (cursors.startMenu.downDuration(100)) {
 
       game.state.start("StartMenu")
@@ -836,7 +859,7 @@ maingame.test_env.prototype = {
               player.putBackpack(item.info)
               item.kill()
               // Set item taken flag
-            }, this);
+            }, this); 
 
           }
         }
@@ -852,6 +875,7 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
     game.physics.arcade.collide(player,pirates, damage_player, null, this)
     game.physics.arcade.collide(player, door, open_door, null, this);
+    game.physics.arcade.collide(player, coins, add_coins, null, this);
     
     //-------------------- Movement --------------------
     var speed = player.speed;
@@ -909,7 +933,8 @@ maingame.test_env.prototype = {
         "actives": player.active_items,
         "current": player.current_item,
         "x": player.body.position.x,
-        "y": player.body.position.y
+        "y": player.body.position.y,
+        "money" : player.money
       };
       game.current_time = timeLimit
       game.state.start("Skill tree");
@@ -927,7 +952,8 @@ maingame.test_env.prototype = {
         "actives": player.active_items,
         "current": player.current_item,
         "x": player.body.position.x,
-        "y": player.body.position.y
+        "y": player.body.position.y,
+        "money" : player.money
       };
       game.current_time = timeLimit
       game.state.start("Backpack");

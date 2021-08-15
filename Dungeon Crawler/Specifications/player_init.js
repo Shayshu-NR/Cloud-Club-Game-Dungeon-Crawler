@@ -55,6 +55,27 @@ function init_player(game, player) {
         }
     }
 
+    /*
+    function moveToCurrent(item=null, src='backpack'){
+
+        if(item.weapon != 'undefined'){
+            if(current.size > 0){
+                // Call api to move current to backpack
+            }
+            player.current = {
+                item.name....
+            }
+    
+            either delete from backpack or splice from actives
+        }
+    }
+    
+    */
+    // moveActiveToCurrent
+    // moveBackpackToCurrent
+    // moveCurrentToBackpack
+    // moveCurrentToActive
+
     player.healthchange = function () {
         if (player.health > 10) { //makes sure the array doesn't go out of bounds
             console.log("invalid health")
@@ -116,7 +137,7 @@ function init_player(game, player) {
 
     player.luck = game.playerLuck
 
-    player.money = game.playerMoney
+    player.money = game.player_attributes["money"]
 
     player.crit_damage = function () {
         if (probability(player.crit_chance)) {
