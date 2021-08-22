@@ -18,12 +18,12 @@ maingame.merchant.prototype = {
 
         // Add the 3 items to the level (these should be buttons)
 
-        var x = 84;
+        var x = 2*88;
         var GeneratedItems = ['item1', 'item2', 'item3'];
 
         GeneratedItems.forEach(function (key, value) {
             console.log(key, value)
-            game.add.button(2 * x * (value + 1), 2 * 44, key, function () {
+            game.add.button( 167 + x * (value), 2 * 43, key, function () {
                 console.log("Item purchased")
             })
         });
