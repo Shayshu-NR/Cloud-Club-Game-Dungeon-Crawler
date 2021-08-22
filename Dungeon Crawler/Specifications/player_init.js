@@ -143,12 +143,27 @@ function init_player(game, player) {
         return player.level
     }
 
-    player.current_item = {
-        "name": "sword",
-        "group": default_sword,
-        "src": "../Assests/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png",
-        "dmg": 1,
-        "quantity": 1
+    if(Object.keys(game.player_attributes.current).length === 0){
+        player.current_item = {
+            "name": "sword",
+            "group": default_sword,
+            "atlas" : "sword",
+            "src": "'weapon_regular_sword_down.png'",
+            "dmg": 1,
+            "quantity": 1
+        }
+
+        game.player_attributes.current = {
+            "name": "sword",
+            "group": default_sword,
+            "atlas" : "sword",
+            "src": "'weapon_regular_sword_down.png'",
+            "dmg": 1,
+            "quantity": 1
+        }
+    }
+    else{
+        player.current_item = game.player_attributes.current;
     }
 
     player.skills = {}

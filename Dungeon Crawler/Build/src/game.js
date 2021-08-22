@@ -113,6 +113,7 @@ maingame.test_env.prototype = {
       '../Assets/General assets/Player/main-character.png',
       '../Assets/General assets/Player/main-character.json'
     )
+    
     this.load.atlas(
       "potion_set",
       "../Assets/General assets/Potions/potions.png",
@@ -673,13 +674,12 @@ maingame.test_env.prototype = {
     }
 
     //ammo set up
-    player.ammo = 10
-    ammo_bars = [null, null, null, null, null, null, null, null, null, null, null]
-    for (var i = 0; i < 10; i++) {
-      ammo_bars[i] = bars.create(i * 16, 25, 'ammo_fire')
-      ammo_bars[i].fixedToCamera = true
+    var coinIcon = game.add.image(16, 25, 'currency-atlas', 'currency_1.png');
+    coinIcon.fixedToCamera = true;
+    game.moneyText = game.add.text(64, 26, String(player.money));
+    game.moneyText.fill = "#FFFFFF";
+    game.moneyText.fixedToCamera = true;
 
-    }
     maxXpPoints = 100
 
     //-------------------- Weapon example --------------------
@@ -702,10 +702,10 @@ maingame.test_env.prototype = {
     var seconds = Math.floor((timeLimit - (minutes * 6000)) / 100);
     var miliseconds = timeLimit - (seconds / 100) - (minutes * 6000);
     var timeString = addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
-    this.timeText = game.add.text(650, 20, timeString)
-    this.timeText.fill = "#FFFFFF"
+    this.timeText = game.add.text(650, 20, timeString);
+    this.timeText.fill = "#FFFFFF";
     this.timeText.fixedToCamera = true;
-    this.timer = game.time.events.loop(10, tick, this)
+    this.timer = game.time.events.loop(10, tick, this);
 
     itemChests[0].animations.play('open')
 
@@ -823,7 +823,6 @@ maingame.test_env.prototype = {
       5,
       true
     )
-
   },
 
   update: function () {
