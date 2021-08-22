@@ -24,7 +24,7 @@ maingame.merchant.prototype = {
         GeneratedItems.forEach(function (key, value) {
             console.log(key, value)
             game.add.button( 167 + x * (value), 2 * 43, key, function () {
-                console.log("Item purchased")
+
             })
         });
 

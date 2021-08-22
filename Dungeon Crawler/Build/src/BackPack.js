@@ -23,16 +23,15 @@ maingame.BackPack.prototype = {
                         "../Assets/General assets/Potions/potions.png",
                         "../Assets/General assets/Potions/potions.json"
                 );
-                game.load.atlas('sword',
+                game.load.atlas(
+                        'sword',
                         '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png',
-                        '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json')
-
+                        '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json'
+                )
                 game.load.image('eng', '../Assets/General assets/Player/idile-down-4.png')
 
-
-
         },
-
+        
         create: function () {
                 game.add.image(0, 0, 'bpckBackground')
                 game.add.image(25, 25, 'invtBackground')
@@ -45,7 +44,7 @@ maingame.BackPack.prototype = {
 
                 backpack = game.player_attributes["backpack"];
                 active_items = game.player_attributes["actives"];
-                current_item = {}//game.player_attributes["current"];
+                current_item = game.player_attributes["current"];
                 inventory = []
                 actives = Array(3).fill(0);
                 current = [0];
@@ -108,6 +107,20 @@ maingame.BackPack.prototype = {
                         }
                 }
 
+                // Initialize current item iterface...
+                if(Object.keys(current_item).length > 0){
+                        current_item.group = item.create(70, 70*6, current_item.atlas, current_item.src);
+
+                        current_item.group.inputEnabled = true;
+                        current_item.group.input.enableDrag();
+                        current_item.group.events.onDragStart.add(onDragStart, this);
+                        current_item.group.events.onDragStop.add(onDragStop, this);
+                        current_item.group.inv_x = i
+                        current_item.group.inv_y = 5
+                        current_item.group.inv = [i, 5]
+
+                }
+
                 function actionOnClick() {
                         console.log("return to game")
                         game.state.start("Game");
@@ -141,7 +154,7 @@ maingame.BackPack.prototype = {
                         else if (inv_y == 5) {
                                 act_x = inv_x;
                                 // If active item slot is full send it back
-                                if (actives[act_x] == 1) {
+                                if (actives[act_x] == 1 | Object.keys(current_item).length > 0) {
                                         //move it back/fail
                                         console.log(1)
                                         sprite.position.x = (sprite.inv[0] + 1) * 70
@@ -158,6 +171,7 @@ maingame.BackPack.prototype = {
                                                         actives[sprite.inv[0]] = 0
                                                 }
                                                 else {
+                                                        console.log("Faile", inv_x, inv_y);
                                                         sprite.position.x = (sprite.inv[0] + 1) * 70
                                                         sprite.position.y = (sprite.inv[1] + 1) * 70
                                                         return
@@ -240,11 +254,9 @@ maingame.BackPack.prototype = {
                         }
                         else {
                                 console.log("Move Backpack to Current")
+                                console.log(backpack, item, index);
                                 current_item = {};
-
-                                for (const [key, value] of Object.entries(item)) {
-                                        current_item.key = value;
-                                }
+                                current_item = {...item};
                                 
                                 delete backpack[item.name]
 
@@ -259,11 +271,9 @@ maingame.BackPack.prototype = {
                         }
                         else {
                                 current_item = {};
-                                var idx = player.active_items.indexOf(item);
+                                var idx = active_items.indexOf(item);
 
-                                for (const [key, value] of Object.entries(item)) {
-                                        player.current_item.key = value;
-                                }
+                                current_item = {...item};
 
                                 active_items.splice(idx, 1);
                         }
@@ -295,5 +305,4 @@ maingame.BackPack.prototype = {
 
 
         }
-
 }
