@@ -498,13 +498,7 @@ maingame.test_env.prototype = {
     cursors.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC)
 
     //-------------------- Adding player weapons and dictionary --------------------
-    player.current_item = {
-      "name": "sword",
-      "group": default_sword,
-      "src": "../Assests/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png",
-      "dmg": 1,
-      "quantity": 1
-    }
+
 
     // player.backpack.potion = {
     //   "name": "potion",
