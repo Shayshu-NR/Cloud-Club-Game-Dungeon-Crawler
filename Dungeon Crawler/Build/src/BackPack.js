@@ -122,9 +122,15 @@ maingame.BackPack.prototype = {
                 }
 
                 function actionOnClick() {
-                        console.log("return to game")
+                        game.player_attributes = {
+                                backpack: backpack,
+                                actives: active_items,
+                                current: current_item,
+                        };
+                        game.current_time = timeLimit
                         game.state.start("Game");
                 }
+                
                 function onDragStart(sprite, pointer) {
                         console.log("Dragging " + sprite.key);
                         sprite.input.enableSnap(70, 70, false, true);

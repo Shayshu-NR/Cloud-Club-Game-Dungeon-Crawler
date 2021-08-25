@@ -1,4 +1,4 @@
-   var maingame = {};
+var maingame = {};
 var BuildItems = new Items("test_items.json")
 
 //-------------------- Tile map --------------------
@@ -113,7 +113,7 @@ maingame.test_env.prototype = {
       '../Assets/General assets/Player/main-character.png',
       '../Assets/General assets/Player/main-character.json'
     )
-    
+
     this.load.atlas(
       "potion_set",
       "../Assets/General assets/Potions/potions.png",
@@ -215,17 +215,17 @@ maingame.test_env.prototype = {
     door.enableBody = true
 
     door_json.forEach(function (key, value) {
-      var doorInstance = door.create(key.x + 16, key.y - 16, 'door-atlas', key.name); 
+      var doorInstance = door.create(key.x + 16, key.y - 16, 'door-atlas', key.name);
       doorInstance.state = key.state;
       doorInstance.body.immovable = true
     })
 
     //-------------------- Add Currency --------------------
     coins = game.add.group();
-    coins.enableBody  = true;
+    coins.enableBody = true;
 
-    currency_json.forEach(function(key, value) {
-      var coinInstance = coins.create(key.x + 16, key.y - 16, 'currency-atlas', 'currency_1.png'); 
+    currency_json.forEach(function (key, value) {
+      var coinInstance = coins.create(key.x + 16, key.y - 16, 'currency-atlas', 'currency_1.png');
       coinInstance.body.immovable = true
       coinInstance.scale.set(0.65, 0.65);
       coinInstance.animations.add(
@@ -409,7 +409,7 @@ maingame.test_env.prototype = {
         "current": player.current_item,
         "x": player.body.position.x,
         "y": player.body.position.y,
-        "money" : player.money
+        "money": player.money
       };
       game.current_time = timeLimit
       game.state.start("Merchant");
@@ -598,20 +598,20 @@ maingame.test_env.prototype = {
 
     //chest.collide = true
 
-      // chest.item = {
-      //   name: "SpeedPotion",
-      //   group: potion,
-      //   atlas: "potion_set",
-      //   src: "speed_pot_1.png",
-      //   use: function () {
-      //     use_potion(player, "Speed_Potion")
-      //   },
-      //   ai_scale: [1, 1],
-      //   itemChests[i].collide = true
-      //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-      //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
-      // }
-    
+    // chest.item = {
+    //   name: "SpeedPotion",
+    //   group: potion,
+    //   atlas: "potion_set",
+    //   src: "speed_pot_1.png",
+    //   use: function () {
+    //     use_potion(player, "Speed_Potion")
+    //   },
+    //   ai_scale: [1, 1],
+    //   itemChests[i].collide = true
+    //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
+    //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
+    // }
+
 
     //-------------------- HUD --------------------
     var stats = game.add.button(10, 545, 'bpack',
@@ -674,9 +674,9 @@ maingame.test_env.prototype = {
     }
 
     //ammo set up
-    var coinIcon = game.add.image(16, 25, 'currency-atlas', 'currency_1.png');
+    var coinIcon = game.add.image(8, 25, 'currency-atlas', 'currency_1.png');
     coinIcon.fixedToCamera = true;
-    game.moneyText = game.add.text(64, 26, String(player.money));
+    game.moneyText = game.add.text(56, 26, String(player.money));
     game.moneyText.fill = "#FFFFFF";
     game.moneyText.fixedToCamera = true;
 
@@ -852,7 +852,7 @@ maingame.test_env.prototype = {
               player.putBackpack(item.info)
               item.kill()
               // Set item taken flag
-            }, this); 
+            }, this);
 
           }
         }
@@ -866,10 +866,10 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
     // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
-    game.physics.arcade.collide(player,pirates, damage_player, null, this)
+    game.physics.arcade.collide(player, pirates, damage_player, null, this)
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
-    
+
     //-------------------- Movement --------------------
     var speed = player.speed;
     potion_set = game.add.group();
@@ -927,7 +927,7 @@ maingame.test_env.prototype = {
         "current": player.current_item,
         "x": player.body.position.x,
         "y": player.body.position.y,
-        "money" : player.money
+        "money": player.money
       };
       game.current_time = timeLimit
       game.state.start("Skill tree");
@@ -946,7 +946,7 @@ maingame.test_env.prototype = {
         "current": player.current_item,
         "x": player.body.position.x,
         "y": player.body.position.y,
-        "money" : player.money
+        "money": player.money
       };
       game.current_time = timeLimit
       game.state.start("Backpack");
@@ -987,6 +987,6 @@ maingame.test_env.prototype = {
   },
 
   render: function () {
-    game.debug.bodyInfo(player, 32, 32);
+    //game.debug.bodyInfo(player, 32, 32);
   }
 };
