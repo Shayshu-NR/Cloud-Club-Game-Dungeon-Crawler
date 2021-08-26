@@ -1,4 +1,4 @@
-   var maingame = {};
+var maingame = {};
 var BuildItems = new Items("test_items.json")
 
 //-------------------- Tile map --------------------
@@ -834,6 +834,7 @@ maingame.test_env.prototype = {
 
   update: function () {
     pirate_track(pirates)
+    player.moveCurrentToBackpack()
     if (cursors.startMenu.downDuration(100)) {
 
       game.state.start("StartMenu")
@@ -947,6 +948,7 @@ maingame.test_env.prototype = {
     }
 
     if (cursors.bckpck.isDown) {
+    
       game.player_attributes = {
         "backpack": player.backpack,
         "actives": player.active_items,

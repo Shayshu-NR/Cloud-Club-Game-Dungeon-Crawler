@@ -54,7 +54,6 @@ function init_player(game, player) {
             return "fail";
         }
     }
-
     /*
     function moveToCurrent(item=null, src='backpack'){
 
@@ -76,6 +75,24 @@ function init_player(game, player) {
     // moveCurrentToBackpack
     // moveCurrentToActive
 
+    player.moveCurrentToBackpack = function(item){
+        if (player.backpack.length < MAX_BACKPACK_SIZE) {
+            player.backpack[item["name"]] = item;
+            player.current_item = null
+        } else {
+            return "fail";
+        }
+    
+    }
+
+    player.moveCurrentToActive = function (item, index){
+
+    }
+
+    player.moveBackpackToCurrent = function (item, index){
+
+
+    }
     player.healthchange = function () {
         if (player.health > 10) { //makes sure the array doesn't go out of bounds
             console.log("invalid health")
@@ -137,7 +154,7 @@ function init_player(game, player) {
 
     player.luck = game.playerLuck
 
-    player.money = game.player_attributes["money"]
+    player.money = game.playerMoney
 
     player.crit_damage = function () {
         if (probability(player.crit_chance)) {
