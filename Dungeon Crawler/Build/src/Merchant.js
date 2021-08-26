@@ -16,29 +16,38 @@ maingame.merchant.prototype = {
         var bck = game.add.image(0, 0, 'background');
         bck.scale.set(2)
 
+        // Add back button, see Backpack.js
+        // Add currency UI see game.js line 667
+
         // Add the 3 items to the level (these should be buttons)
 
-        var x = 84;
+        var x = 2*88;
         var GeneratedItems = ['item1', 'item2', 'item3'];
 
         GeneratedItems.forEach(function (key, value) {
             console.log(key, value)
-            game.add.button(2 * x * (value + 1), 2 * 44, key, function () {
-                console.log("Item purchased")
+            game.add.button( 167 + x * (value) - (game.cache.getImage(key).width / 2) , 2 * 43 - (game.cache.getImage(key).height / 2), key, function () {
+                /* 
+                if(player.money < item.price){
+                    reject
+                }
+                else{
+                    player.money -= item.price
+                    item.kill()
+                }
+                */
             })
         });
 
-        // foreach(item in GeneratedItems){
-        //     game.add.button(x , 44, 'item' + (1, 2, 3), function(){
-        //         // if (cost of item <= player.currency){
-        //         //     add item to player backpack 
-        //         //     subtract currency from player
-        //         // }
-        //     })
-        //     x += 85;
-        // }
-
-
+        function actionOnClick() {
+                game.player_attributes = {
+                        backpack: backpack,
+                        actives: active_items,
+                        current: current_item,
+                };
+                game.current_time = timeLimit
+                game.state.start("Game");
+        }
     },
 
     update: function () {
@@ -47,5 +56,8 @@ maingame.merchant.prototype = {
     },
 
     render: function () {
-    }
+    },
+
+    
 }
+

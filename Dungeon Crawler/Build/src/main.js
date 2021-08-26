@@ -14,7 +14,8 @@ game.player_attributes = {
     "actives" : [],
     "x" : 128,
     "y" : 128,
-    "money" : 0
+    "money" : 0,
+    "current" : {}
 }
 game.current_time = 0
 game.playerMoney = 0

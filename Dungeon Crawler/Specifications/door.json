@@ -12,15 +12,45 @@
         "name" : "door.png"
     },
     {
-        "x" : 96,
-        "y" : 400,
+        "x" : 720,
+        "y" : 752,
         "state" : "Closed",
         "name" : "door.png"
     },
     {
-        "x" : 203,
-        "y" : 123,
+        "x" : 96,
+        "y" : 624,
+        "state" : "Closed",
+        "name" : "door.png"
+    },
+    {
+        "x" : 496,
+        "y" : 512,
         "state" : "Closed",
         "name" : "door_left.png"
+    },
+    {
+        "x" : 496,
+        "y" : 544,
+        "state" : "Closed",
+        "name" : "door_left.png"
+    },
+    {
+        "x" : 1120,
+        "y" : 528,
+        "state" : "Closed",
+        "name" : "door_right.png"
+    },
+    {
+        "x" : 1120,
+        "y" : 560,
+        "state" : "Closed",
+        "name" : "door_right.png"
+    },
+    {
+        "x" : 96,
+        "y" : 400,
+        "state" : "Closed",
+        "name" : "door.png"
     }
 ]

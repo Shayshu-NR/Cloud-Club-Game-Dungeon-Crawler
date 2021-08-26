@@ -68,10 +68,42 @@ function init_player(game, player) {
             either delete from backpack or splice from actives
         }
     }
-    
     */
-    // moveActiveToCurrent
-    // moveBackpackToCurrent
+    player.moveBackpackToCurrent = function (item, index) {
+        // Only accept an item if it's a weapon and the current item slot is empty.
+
+        if (Object.keys(player.current_item).length != 0 | item.Weapon_Type == 'undefined') {
+            return;
+        }
+        else {
+            player.current_item = {};
+            var idx = player.active_items.indexOf(item);
+
+            for (const [key, value] of Object.entries(item)) {
+                player.current_item.key = value;
+            }
+
+            player.backpack.delete(item);
+        }
+    }
+
+    player.moveActiveToCurrent = function (item, index) {
+        // 
+
+        if (Object.keys(player.current_item).length != 0 | item.Weapon_Type == 'undefined') {
+            return;
+        }
+        else {
+            player.current_item = {};
+
+            for (const [key, value] of Object.entries(item)) {
+                player.current_item.key = value;
+            }
+
+            player.active_items.splice(idx, 1);
+        }
+    }
+
     // moveCurrentToBackpack
     // moveCurrentToActive
 
@@ -128,6 +160,29 @@ function init_player(game, player) {
         return player.level
     }
 
+    if(Object.keys(game.player_attributes.current).length === 0){
+        player.current_item = {
+            "name": "sword",
+            "group": default_sword,
+            "atlas" : "sword",
+            "src": "'weapon_regular_sword_down.png'",
+            "dmg": 1,
+            "quantity": 1
+        }
+
+        game.player_attributes.current = {
+            "name": "sword",
+            "group": default_sword,
+            "atlas" : "sword",
+            "src": "'weapon_regular_sword_down.png'",
+            "dmg": 1,
+            "quantity": 1
+        }
+    }
+    else{
+        player.current_item = game.player_attributes.current;
+    }
+
     player.skills = {}
 
     player.speed = game.playerSpeed
@@ -171,9 +226,9 @@ function init_player(game, player) {
 
     player.use_potion = [
         console.log("speed")
-        , 
+        ,
 
-        function useHealh(){
+        function useHealh() {
             console.log("health")
         }
     ]
