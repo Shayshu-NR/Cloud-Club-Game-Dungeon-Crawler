@@ -541,34 +541,6 @@ maingame.test_env.prototype = {
       itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
     }
 
-    // chest.item = {
-    //   name: "SpeedPotion",
-    //   group: potion,
-    //   atlas: "potion_set",
-    //   src: "speed_pot_1.png",
-    //   use: function () {
-    //     use_potion(player, "Speed_Potion")
-    //   },
-    //   ai_scale: [1, 1],
-    // }
-
-    //chest.collide = true
-
-    // chest.item = {
-    //   name: "SpeedPotion",
-    //   group: potion,
-    //   atlas: "potion_set",
-    //   src: "speed_pot_1.png",
-    //   use: function () {
-    //     use_potion(player, "Speed_Potion")
-    //   },
-    //   ai_scale: [1, 1],
-    //   itemChests[i].collide = true
-    //   itemChests[i].animations.add('open', [0, 1, 2, 3, 4, 5, 6, 7], 300, false)
-    //   itemChests[i].animations.add('close', [7, 6, 5, 4, 3, 2], 300, false)
-    // }
-
-
     //-------------------- HUD --------------------
     var stats = game.add.button(10, 545, 'bpack',
       function () {
@@ -640,10 +612,11 @@ maingame.test_env.prototype = {
 
     //-------------------- Weapon example --------------------
     weapon = game.add.weapon(30, 'arrow')
-    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS
-    weapon.bulletSpeed = 400
-    weapon.fireRate = 1000
-    weapon.trackSprite(player, 0, 0, true)
+    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+    weapon.bulletSpeed = 400;
+    weapon.fireRate = 1000;
+    weapon.trackSprite(player, 0, 0, true);
+    
     cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
     cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
     cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)

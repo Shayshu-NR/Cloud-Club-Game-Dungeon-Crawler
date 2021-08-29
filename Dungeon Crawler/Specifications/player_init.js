@@ -45,6 +45,7 @@ function init_player(game, player) {
             player.backpack[item_moved["name"]] = item_moved;
         }
     }
+    
     player.moveActiveToBackpack = function (item, index) {
         if (player.backpack.length < MAX_BACKPACK_SIZE) {
             idx = player.active_items.indexOf(item);
@@ -107,21 +108,21 @@ function init_player(game, player) {
     // moveCurrentToBackpack
     // moveCurrentToActive
 
-    player.moveCurrentToBackpack = function(item){
+    player.moveCurrentToBackpack = function (item) {
         if (player.backpack.length < MAX_BACKPACK_SIZE) {
             player.backpack[item["name"]] = item;
             player.current_item = null
         } else {
             return "fail";
         }
-    
-    }
-
-    player.moveCurrentToActive = function (item, index){
 
     }
 
-    player.moveBackpackToCurrent = function (item, index){
+    player.moveCurrentToActive = function (item, index) {
+
+    }
+
+    player.moveBackpackToCurrent = function (item, index) {
 
 
     }
@@ -160,11 +161,11 @@ function init_player(game, player) {
         return player.level
     }
 
-    if(Object.keys(game.player_attributes.current).length === 0){
+    if (Object.keys(game.player_attributes.current).length === 0) {
         player.current_item = {
             "name": "sword",
             "group": default_sword,
-            "atlas" : "sword",
+            "atlas": "sword",
             "src": "'weapon_regular_sword_down.png'",
             "dmg": 1,
             "quantity": 1
@@ -173,13 +174,13 @@ function init_player(game, player) {
         game.player_attributes.current = {
             "name": "sword",
             "group": default_sword,
-            "atlas" : "sword",
+            "atlas": "sword",
             "src": "'weapon_regular_sword_down.png'",
             "dmg": 1,
             "quantity": 1
         }
     }
-    else{
+    else {
         player.current_item = game.player_attributes.current;
     }
 
