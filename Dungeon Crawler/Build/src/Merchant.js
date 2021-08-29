@@ -12,10 +12,19 @@ maingame.merchant.prototype = {
         this.load.image('button', '../Assets/General assets/Backbtn.png');
         this.load.image('popup', '../Assets/General assets/Concrete.png');
 
-
+        //this.load.text('items', ..jsonfile)
     },
 
     create: function () {
+        /*
+        var jsonItems = JSON.Parse(game.ca...text('items'))
+
+        foreach(item){
+            //some P(x)
+            GeneratedItems.push(item)
+        }
+        
+        */
         var bck = game.add.image(0, 0, 'background');
         bck.scale.set(2)
 
@@ -64,7 +73,7 @@ maingame.merchant.prototype = {
                 game.player_attributes = {
                         backpack: backpack,
                         actives: active_items,
-                        current: current_item,
+                        current: current_item, 
                 };
                 game.current_time = timeLimit
                 game.state.start("Game");

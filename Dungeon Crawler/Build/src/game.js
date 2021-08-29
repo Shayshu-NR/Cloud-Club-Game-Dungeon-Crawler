@@ -432,6 +432,8 @@ maingame.test_env.prototype = {
     game.physics.arcade.enable(shark, Phaser.Physics.ARCADE)
     game.physics.arcade.enable(pirate, Phaser.Physics.ARCADE)
 
+    //-------------------- Enemy Creation Script --------------------
+
     new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
     new_nme = enemy_init(new_nme, 10, 500)
 
@@ -498,52 +500,6 @@ maingame.test_env.prototype = {
     cursors.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     cursors.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC)
 
-    //-------------------- Adding player weapons and dictionary --------------------
-
-
-    // player.backpack.potion = {
-    //   "name": "potion",
-    //   "group": potion,
-    //   "atlas" : "potion_set",
-    //   "src": "health_pot_1.png",
-    //   "ai_scale" : (x, y)
-    // }
-
-    // lesser_sword = {
-    //   "name" : "Lesser sword",
-    //   "group" : default_sword,
-    //   "src" : "weapon_regular_sword_up.png",
-    //   "atlas" : "sword",
-    //   "dmg" : 0.6,
-    //   "quantity" : 1
-    // }
-
-    // player.backpack = {
-    //   "potion": ption1,
-    //   "lesser_sword" : lesser_sword
-    // }
-
-    //-------------------- Chest example --------------------
-    // chest = game.add.group()
-    // chest.enableBody = true
-
-    // const new_chest = chest.create(50, 200, 'chest', 'chest_empty_open_anim_f0.png')
-    // new_chest.body.immovable = true
-    // new_chest.opened = false
-    // new_chest.item = {
-    //   "name": "potion"
-    // }
-    // new_chest.animations.add(
-    //   'open',
-    //   Phaser.Animation.generateFrameNames(
-    //     'chest_empty_open_anim_f',
-    //     0,
-    //     2,
-    //     '.png'
-    //   ),
-    //   10,
-    //   false
-    // )
 
     statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
