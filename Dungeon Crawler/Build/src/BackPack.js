@@ -2,6 +2,7 @@ var cursors
 var backpack
 var active_items
 var current_item
+var inventory
 const MAX_BACKPACK_SIZE = 16
 
 maingame.BackPack = function (game) {
@@ -45,19 +46,12 @@ maingame.BackPack.prototype = {
                 backpack = game.player_attributes["backpack"];
                 active_items = game.player_attributes["actives"];
                 current_item = game.player_attributes["current"];
-                inventory = []
+                inventory = Array(3).fill().map(() => Array(4).fill(0));
                 actives = Array(3).fill(0);
                 current = [0];
 
                 console.log("Backpack: ", backpack)
                 console.log("Active Items", active_items)
-
-                for (var i = 0; i < 4; i++) {
-                        inventory.push([])
-                        for (var j = 0; j < 4; j++) {
-                                inventory[i][j] = 0
-                        }
-                }
 
                 this.add.image(50, 50, 'backpack');
                 this.add.image(120, 400, 'actives')
@@ -70,11 +64,12 @@ maingame.BackPack.prototype = {
 
                 //initializing backpack interface with items
                 bpList = Object.keys(backpack)
-                console.log(bpList)
+                console.log(bpList, inventory)
                 count = 0;
                 for (var j = 1; j <= 4; j++) {
                         for (var i = 1; i <= 4; i++) {
                                 if (count == bpList.length) {
+                                        console.log("Break")
                                         break;
                                 }
                                 backpack[bpList[count]]["group"] = item.create(i * 70, j * 70, backpack[bpList[count]]["atlas"], backpack[bpList[count]]["src"])
@@ -87,6 +82,7 @@ maingame.BackPack.prototype = {
                                 backpack[bpList[count]]["group"].inv = [i - 1, j - 1]
                                 backpack[bpList[count]]["group"].name = backpack[bpList[count]]["name"]
                                 inventory[i - 1][j - 1] = 1;
+                                console.log(inventory);
                                 count++;
                                 console.log(count)
                         }
@@ -160,7 +156,7 @@ maingame.BackPack.prototype = {
                         else if (inv_y == 5) {
                                 act_x = inv_x;
                                 // If active item slot is full send it back
-                                if (actives[act_x] == 1 | Object.keys(current_item).length > 0) {
+                                if (actives[act_x] == 1) {
                                         //move it back/fail
                                         console.log(1)
                                         sprite.position.x = (sprite.inv[0] + 1) * 70
@@ -207,16 +203,9 @@ maingame.BackPack.prototype = {
                         } else {
                                 //can move item with success
                                 if (sprite.inv[1] == 5) {
-                                        if (inv_x == 0) {
-                                                console.log("MoveActiveToCurrent")
-                                                return;
-                                        }
-                                        else {
-                                                // Moving active item to backpack
-                                                moveActiveToBackpack(backpack, active_items, active_items[sprite.inv_x], 0)
-                                                actives[sprite.inv[0]] = 0
-
-                                        }
+                                        // Moving active item to backpack
+                                        moveActiveToBackpack(backpack, active_items, active_items[sprite.inv_x], 0)
+                                        actives[sprite.inv[0]] = 0
                                 } else {
                                         inventory[sprite.inv[1]][sprite.inv[0]] = 0
                                 }

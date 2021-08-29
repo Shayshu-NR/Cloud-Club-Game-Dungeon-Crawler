@@ -711,6 +711,15 @@ maingame.test_env.prototype = {
 
 
     //-------------------- Pirate Creation -----------------------
+    /*
+    foreach(nme in json )
+      create nme
+      foreach(animation in json.animation)
+        nme.animation.add(asdlkhalskd)
+      
+      special other init
+    */
+
     pirates = pirate.create(115.5, 475.5, 'full_pirate', 'walk-down-1.png')
     pirates.scale.setTo(1.5)
     pirates.enableBody = true

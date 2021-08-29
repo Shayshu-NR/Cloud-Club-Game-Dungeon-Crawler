@@ -3,6 +3,20 @@
         "Name" : "merchant",
         "x" : 123,
         "y" : 123,
+        "Health" : 123,
+        "Exp" : 123, 
+        "Coins" : 123,
+        "Atlas" : "asf",
+        "Frame1" : "asd",
+        "Scale" : 1.5,
+        "Animations" : [
+            {
+                "Name" : "walk-down",
+                "Start" : 0,
+                "End" : 12,
+                "FrameRate" : 12
+            }
+        ],
         "Extra" : {
             "Bounds" : {
                 "x" : 123,
