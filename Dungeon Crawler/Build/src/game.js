@@ -53,9 +53,6 @@ var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
 
-
-
-
 maingame.test_env = function (game) { };
 
 maingame.test_env.prototype = {
@@ -205,7 +202,8 @@ maingame.test_env.prototype = {
     map.setCollisionBetween(1, 999, true, 'wall')
 
     //-------------------- Add player model --------------------
-    player = game.add.sprite(game.player_attributes["x"], game.player_attributes["y"], 'eng', 'idle_down.png')
+    console.log(game.player_attributes.x, game.player_attributes.y);
+    player = game.add.sprite(game.player_attributes.x, game.player_attributes.y, 'eng', 'idle_down.png')
     player.swing = false
     player = init_player(game, player)
 
@@ -443,13 +441,13 @@ maingame.test_env.prototype = {
       
       special other init
     */
-
-    for(var x =0; x<= (Animations[Animation.length-1]) ;x++){
-      merchants = merchant.create(123, 123,'full_merchant', JSON.parse(game.cache.getText(Animations[x].name))
-      for(var y = 0; ;y++){
+    var enemyJson = JSON.parse(game.cache.getText('enemies'));
+    // for(var x =0; x<= (Animations[Animation.length-1]) ;x++){
+    //   merchants = merchant.create(123, 123,'full_merchant', JSON.parse(game.cache.getText(Animations[x].name))
+    //   for(var y = 0; ;y++){
           
-      }
-    }
+    //   }
+    // }
 
     new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
     new_nme = enemy_init(new_nme, 10, 500)
@@ -633,7 +631,7 @@ maingame.test_env.prototype = {
     weapon.bulletSpeed = 400;
     weapon.fireRate = 1000;
     weapon.trackSprite(player, 0, 0, true);
-    
+
     cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
     cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
     cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)

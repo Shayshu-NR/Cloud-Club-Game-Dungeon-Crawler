@@ -166,7 +166,7 @@ function init_player(game, player) {
             "name": "sword",
             "group": default_sword,
             "atlas": "sword",
-            "src": "'weapon_regular_sword_down.png'",
+            "src": "weapon_regular_sword_down.png",
             "dmg": 1,
             "quantity": 1
         }
@@ -175,7 +175,7 @@ function init_player(game, player) {
             "name": "sword",
             "group": default_sword,
             "atlas": "sword",
-            "src": "'weapon_regular_sword_down.png'",
+            "src": "weapon_regular_sword_down.png",
             "dmg": 1,
             "quantity": 1
         }
