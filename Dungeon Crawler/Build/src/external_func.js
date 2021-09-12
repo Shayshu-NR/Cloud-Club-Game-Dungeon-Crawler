@@ -5,6 +5,42 @@ function lizard_turn_around(enemy, walls) {
     enemy.body.velocity.x = -current
 }
 
+// Use the currently equipped weapon
+function use_current_weapon() {
+
+    if (player.current_item.weapon_type === "melee") {
+        player.body.velocity.x = 0
+        player.body.velocity.y = 0
+        player.swing = true
+
+        // Left
+        if (player_facing == 0) {
+            weapon = default_sword.create(player.position.x - 10, player.position.y + 16, player.current_item.atlas, player.current_item.frames[0]);
+        }
+        // Right
+        else if (player_facing == 1) {
+            weapon = default_sword.create(player.position.x + 22, player.position.y + 16, 'sword', player.current_item.frames[1]);
+        }
+        // Up
+        else if (player_facing == 2) {
+            weapon = default_sword.create(player.position.x + 11, player.position.y - 14, 'sword', player.current_item.frames[2]);
+        }
+        // Down
+        else if (player_facing == 3) {
+            weapon = default_sword.create(player.position.x + 11, player.position.y + 24, 'sword', player.current_item.frames[3]);
+        }
+        weapon.body.immovable = true
+
+        var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [weapon])
+    }
+    else if (player.current_item.weapon_type === "projectile") {
+
+    }
+    else {
+        return;
+    }
+}
+
 function swing_default_sword(player) {
     player.body.velocity.x = 0
     player.body.velocity.y = 0
@@ -29,10 +65,10 @@ function swing_default_sword(player) {
     }
     weapon.body.immovable = true
 
-    var event = game.time.events.add(Phaser.Timer.SECOND * player.attack_speed, sheath_sword, this, [weapon])
+    var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [weapon])
 }
 
-function add_coins(player, coin){
+function add_coins(player, coin) {
     player.money += 10;
     coin.kill();
     game.moneyText.text = player.money;
@@ -51,21 +87,21 @@ function open_chest(player, chest) {
     }
 }
 
-function lizard_dmg(default_sword, lizard) {
-    if (lizard.health <= 0) {
-        lizard.kill()
-        player.exp += lizard.exp
+function lizard_dmg(default_sword, enemy) {
+    if (enemy.health <= 0) {
+        enemy.kill()
+        player.exp += enemy.exp
         game.playerExp = player.exp
     }
-    if (!lizard.immune) {
-        var damage = player.current_item["dmg"] + player.damage + player.crit_damage()
-        show_dmg(damage, lizard)
+    if (!enemy.immune) {
+        var damage = player.current_item["damage"] + player.damage + player.crit_damage();
+        show_dmg(damage, enemy);
 
-        lizard.health -= damage
-        console.log(lizard.health)
-        lizard.immune = true
+        enemy.health -= damage
+        console.log(enemy.health)
+        enemy.immune = true
         setTimeout(function () {
-            lizard.immune = false
+            enemy.immune = false
         }, player.attack_speed * 2000)
     }
 }
@@ -160,16 +196,15 @@ function damage_player(player, enemy) {
     }
 }
 
-function open_door(player, door){
-    if(door.state == "Closed"){
+function open_door(player, door) {
+    if (door.state == "Closed") {
         var door_name = door.animations.currentFrame.name;
         // Add timed event!
-      door.loadTexture('door-atlas', door_name.substring(0, door_name.length - 4) + "_open.png")
-      door.body.destroy();
-      door.state = "Open";
+        door.loadTexture('door-atlas', door_name.substring(0, door_name.length - 4) + "_open.png")
+        door.body.destroy();
+        door.state = "Open";
     }
 }
-
 
 function kill_player(player, amount) {
     for (i = 0; i < amount; i++) {
@@ -254,9 +289,8 @@ function pirate_track(enemy) {
     }
 }
 
-
-
 function level_up(player) {
+    console.log("LEVEL");
     player.getCurrentLevel();
 
     console.log("Reached level", player.level);
@@ -265,6 +299,7 @@ function level_up(player) {
 
     lvltxt1.text = "" + player.level;
     lvltxt2.text = "" + (player.level + 1);
+    //xp_bar.scale.set((player.exp / maxXpPoints) * 8, 2);
 }
 
 var tick = function () {
