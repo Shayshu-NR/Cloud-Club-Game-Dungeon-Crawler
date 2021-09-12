@@ -2,7 +2,9 @@ var cursors;
 var backpack;
 var active_items;
 var current_item;
-var inventory;
+var inventory = [[], [], [], []];
+var xpos;
+var ypos;
 const MAX_BACKPACK_SIZE = 16
 
 maingame.BackPack = function (game) {
@@ -43,10 +45,12 @@ maingame.BackPack.prototype = {
                 button = game.add.button(700, 70, 'button', actionOnClick, this, 2, 1, 0);
                 button.scale.setTo(2, 2)
 
+                xpos = game.player_attributes.x;
+                ypos = game.player_attributes.y;
+
                 backpack = game.player_attributes["backpack"];
                 active_items = game.player_attributes["actives"];
                 current_item = game.player_attributes["current"];
-                inventory = [[], [], []];
                 inventory = Array(4).fill().map(() => Array(4).fill(0));
                 actives = Array(3).fill(0);
                 current = [0];
@@ -69,7 +73,9 @@ maingame.BackPack.prototype = {
                 count = 0;
                 for (var j = 1; j <= 4; j++) {
                         for (var i = 1; i <= 4; i++) {
-                                if (count == bpList.length) {
+                                if (count >= bpList.length) {
+                                        inventory[j - 1][i - 1] = 0;
+                                        console.log("BREAK", inventory, count, i, j)
                                         break;
                                 }
                                 backpack[bpList[count]]["group"] = item.create(i * 70, j * 70, backpack[bpList[count]]["atlas"], backpack[bpList[count]]["src"])
@@ -81,10 +87,9 @@ maingame.BackPack.prototype = {
                                 backpack[bpList[count]]["group"].inv_y = j - 1
                                 backpack[bpList[count]]["group"].inv = [i - 1, j - 1]
                                 backpack[bpList[count]]["group"].name = backpack[bpList[count]]["name"]
-                                inventory[i - 1][j - 1] = 1;
-                                console.log(inventory);
+                                inventory[j - 1][i - 1] = 1;
+                                console.log("NORMAL", inventory, count, i, j);
                                 count++;
-                                console.log(count)
                         }
                 }
 
@@ -99,6 +104,7 @@ maingame.BackPack.prototype = {
                                 active_items[i]["group"].inv_x = i;
                                 active_items[i]["group"].inv_y = 5;
                                 active_items[i]["group"].inv = [i, 5];
+                                active_items[i]["group"].name = active_items[i].name;
                                 actives[i] = 1;
                         }
                 }
@@ -114,6 +120,7 @@ maingame.BackPack.prototype = {
                         current_item.group.inv_x = i;
                         current_item.group.inv_y = 5;
                         current_item.group.inv = [i, 5]
+                        current_item.group.name = current_item.name
 
                 }
 
@@ -122,6 +129,8 @@ maingame.BackPack.prototype = {
                                 backpack: backpack,
                                 actives: active_items,
                                 current: current_item,
+                                x: xpos,
+                                y: ypos
                         };
                         game.current_time = timeLimit
                         game.state.start("Game");
@@ -136,7 +145,7 @@ maingame.BackPack.prototype = {
                 function onDragStop(sprite, pointer) {
                         var inv_x = (sprite.x / 70) - 1
                         var inv_y = (sprite.y / 70) - 1
-                        console.log(sprite.x + ", " + sprite.y);
+                        console.log(sprite.x + ", " + sprite.y, sprite);
                         console.log(inventory);
                         console.log(actives)
 
@@ -182,13 +191,21 @@ maingame.BackPack.prototype = {
                                                 inventory[sprite.inv[1]][sprite.inv[0]] = 0
                                         }
 
-                                        if (inv_x == 0) {
+                                        if (inv_x == 0 && Object.keys(current_item).length == 0) {
                                                 console.log(current_item)
-                                                moveBackpackToCurrent(backpack, sprite, act_x);
+                                                moveBackpackToCurrent(backpack, backpack[sprite.name], act_x);
                                         }
-                                        else {
+                                        else if (inv_y == 5 && inv_x != 0) {
                                                 moveBackpackToActive(backpack, sprite, act_x)
                                                 actives[act_x] = 1
+                                        }
+                                        else {
+                                                console.log("Can't move current -> active");
+                                                //move it back / fail
+                                                sprite.position.x = (sprite.inv[0] + 1) * 70;
+                                                sprite.position.y = (sprite.inv[1] + 1) * 70;
+                                                inventory[sprite.inv[1]][sprite.inv[0]] = 1
+                                                return;
                                         }
                                         sprite.inv[0] = inv_x
                                         sprite.inv[1] = inv_y
@@ -204,7 +221,7 @@ maingame.BackPack.prototype = {
                                 //can move item with success
                                 if (sprite.inv[1] == 5) {
                                         if (sprite.inv[0] === 0) {
-                                                moveCurrentToBackPack(backpack, item, inv_x);
+                                                moveCurrentToBackPack(backpack, current_item, inv_x);
                                         }
                                         else {
                                                 // Moving active item to backpack
@@ -248,7 +265,7 @@ maingame.BackPack.prototype = {
 
                 moveBackpackToCurrent = function (backpack, item, index) {
                         // removed for testing...
-                        // | moveBackpackToCurrent
+                        console.log("MoveBTC")
                         if (Object.keys(current_item).length != 0) {
                                 console.log("Failed");
                                 return;
@@ -284,7 +301,7 @@ maingame.BackPack.prototype = {
                         if (Object.keys(backpack).length < MAX_BACKPACK_SIZE) {
                                 backpack[item["name"]] = item;
                                 current_item = {};
-                                console.log(backpack, current_item)
+                                console.log(backpack, current_item, item);
                         } else {
                                 console.log("Failed");
                         }
@@ -308,8 +325,11 @@ maingame.BackPack.prototype = {
                                 backpack: backpack,
                                 actives: active_items,
                                 current: current_item,
+                                x: xpos,
+                                y: ypos
                         };
                         game.current_time = timeLimit
+
                         game.state.start("Game");
                 }
         }

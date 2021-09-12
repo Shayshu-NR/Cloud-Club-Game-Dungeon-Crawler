@@ -30,6 +30,7 @@ var door_json;
 //-------------------- Weapons --------------------
 var default_sword;
 var weapon;
+var playerWeapon;
 
 //-------------------- Treasure --------------------
 var chest;
@@ -52,9 +53,6 @@ var health_bars;
 var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
-
-
-
 
 maingame.test_env = function (game) { };
 
@@ -205,7 +203,8 @@ maingame.test_env.prototype = {
     map.setCollisionBetween(1, 999, true, 'wall')
 
     //-------------------- Add player model --------------------
-    player = game.add.sprite(game.player_attributes["x"], game.player_attributes["y"], 'eng', 'idle_down.png')
+    console.log(game.player_attributes.x, game.player_attributes.y);
+    player = game.add.sprite(game.player_attributes.x, game.player_attributes.y, 'eng', 'idle_down.png')
     player.swing = false
     player = init_player(game, player)
 
@@ -416,38 +415,41 @@ maingame.test_env.prototype = {
     })
 
     //-------------------- Add example weapon --------------------
-    default_sword = game.add.group()
-    default_sword.enableBody = true
+    default_sword = game.add.group();
+    default_sword.enableBody = true;
+
+    playerWeapon = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    playerWeapon.enableBody = true;
 
     //-------------------- Add example enemies --------------------
-    lizard = game.add.physicsGroup(Phaser.Physics.ARCADE)
-    shark = game.add.physicsGroup(Phaser.Physics.ARCADE)
-    pirate = game.add.physicsGroup(Phaser.Physics.ARCADE)
+    lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    shark = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    pirate = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
-    lizard.enableBody = true
-    shark.enableBody = true
-    pirate.enableBody = true
+    lizard.enableBody = true;
+    shark.enableBody = true;
+    pirate.enableBody = true;
 
-    game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE)
-    game.physics.arcade.enable(shark, Phaser.Physics.ARCADE)
-    game.physics.arcade.enable(pirate, Phaser.Physics.ARCADE)
+    game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE);
+    game.physics.arcade.enable(shark, Phaser.Physics.ARCADE);
+    game.physics.arcade.enable(pirate, Phaser.Physics.ARCADE);
 
     //-------------------- Enemy Creation Script --------------------
 
 
-     /*
-    foreach(nme in json )
-      create nme
-      foreach(animation in json.animation)
-        nme.animation.add(asdlkhalskd)
-      
-      special other init
-    */
-
+    /*
+   foreach(nme in json )
+     create nme
+     foreach(animation in json.animation)
+       nme.animation.add(asdlkhalskd)
+     
+     special other init
+   */
+    var enemyJson = JSON.parse(game.cache.getText('enemies'));
     // for(var x =0; x<= (Animations[Animation.length-1]) ;x++){
     //   merchants = merchant.create(123, 123,'full_merchant', JSON.parse(game.cache.getText(Animations[x].name))
     //   for(var y = 0; ;y++){
-          
+
     //   }
     // }
 
@@ -575,10 +577,10 @@ maingame.test_env.prototype = {
     stats.fixedToCamera = true;
 
     var bar_holder = statics.create(150, 560, 'bar')
-    xp_bar = bars.create(158, 552, 'xp_bar')
+    xp_bar = bars.create(158, 562, 'xp_bar')
     bar_holder.fixedToCamera = true
     xp_bar.fixedToCamera = true
-    player.exp = 0
+    //player.exp = 0
     player.level = 1
     player.getCurrentLevel = function () {
       player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
@@ -633,7 +635,7 @@ maingame.test_env.prototype = {
     weapon.bulletSpeed = 400;
     weapon.fireRate = 1000;
     weapon.trackSprite(player, 0, 0, true);
-    
+
     cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
     cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
     cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
@@ -669,6 +671,10 @@ maingame.test_env.prototype = {
     pirates = pirate.create(115.5, 475.5, 'full_pirate', 'walk-down-1.png')
     pirates.scale.setTo(1.5)
     pirates.enableBody = true
+    pirates.exp = 100;
+    pirates.health = 3
+    pirates.immune = false;
+
 
     pirates.bounds = {
       x1: 16,
@@ -823,6 +829,7 @@ maingame.test_env.prototype = {
     // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
     game.physics.arcade.collide(player, pirates, damage_player, null, this)
+    game.physics.arcade.collide(playerWeapon, pirates, lizard_dmg, null, this);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
 
@@ -868,7 +875,7 @@ maingame.test_env.prototype = {
 
     if (cursors.space.downDuration(100) && !keyReset) {
       keyReset = true;
-      swing_default_sword(player);
+      use_current_weapon();
     }
     if (!cursors.space.isDown) {
       keyReset = false;
@@ -885,7 +892,9 @@ maingame.test_env.prototype = {
         "y": player.body.position.y,
         "money": player.money
       };
-      game.current_time = timeLimit
+
+      game.playerExp = player.exp;
+      game.current_time = timeLimit;
       game.state.start("Skill tree");
     }
     //-------------------- EXP update and HUD --------------------
@@ -896,7 +905,6 @@ maingame.test_env.prototype = {
     }
 
     if (cursors.bckpck.isDown) {
-    
       game.player_attributes = {
         "backpack": player.backpack,
         "actives": player.active_items,
@@ -905,6 +913,8 @@ maingame.test_env.prototype = {
         "y": player.body.position.y,
         "money": player.money
       };
+
+      game.playerExp = player.exp;
       game.current_time = timeLimit
       game.state.start("Backpack");
       console.log("in backpack state");

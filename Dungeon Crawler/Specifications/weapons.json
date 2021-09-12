@@ -1,5 +1,15 @@
 [
     {
-        "Knockback" : 123
+        "name": "HealthPotion",
+        "group": "potion",
+        "atlas": "potion_set",
+        "src": "health_pot_1.png",
+        "use": "use_potion(player, \"Health_Potion\")",
+        "weapon_type" : "melee/projectile",
+        "knockback" : 123, // unique to melee
+        "speed" : 123, // unique to projectiles
+        "damage" : 123,
+        "range" : 123, // unique to projectiles
+        "frequency" : 123
     }
 ]
