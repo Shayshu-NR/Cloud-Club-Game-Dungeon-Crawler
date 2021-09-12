@@ -444,12 +444,12 @@ maingame.test_env.prototype = {
       special other init
     */
 
-    for(var x =0; x<= (Animations[Animation.length-1]) ;x++){
-      merchants = merchant.create(123, 123,'full_merchant', JSON.parse(game.cache.getText(Animations[x].name))
-      for(var y = 0; ;y++){
+    // for(var x =0; x<= (Animations[Animation.length-1]) ;x++){
+    //   merchants = merchant.create(123, 123,'full_merchant', JSON.parse(game.cache.getText(Animations[x].name))
+    //   for(var y = 0; ;y++){
           
-      }
-    }
+    //   }
+    // }
 
     new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
     new_nme = enemy_init(new_nme, 10, 500)
