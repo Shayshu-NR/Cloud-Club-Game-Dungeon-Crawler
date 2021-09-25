@@ -117,6 +117,9 @@ function throw_projectile(player) {
 
 function add_coins(player, coin) {
     player.money += 10;
+
+    levelCoins.itemData[coin.index].collected = true;
+
     coin.kill();
     game.moneyText.text = player.money;
 }

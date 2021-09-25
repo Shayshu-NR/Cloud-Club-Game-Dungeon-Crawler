@@ -130,9 +130,11 @@ maingame.BackPack.prototype = {
                                 actives: active_items,
                                 current: current_item,
                                 x: xpos,
-                                y: ypos
+                                y: ypos,
+                                money : game.player_attributes.money
                         };
                         game.current_time = timeLimit
+
                         game.state.start("Game");
                 }
 
@@ -326,7 +328,8 @@ maingame.BackPack.prototype = {
                                 actives: active_items,
                                 current: current_item,
                                 x: xpos,
-                                y: ypos
+                                y: ypos,
+                                money : game.player_attributes.money
                         };
                         game.current_time = timeLimit
 

@@ -1,5 +1,6 @@
 var maingame = {};
 var BuildItems = new Items("test_items.json")
+var levelCoins = new Coins("currency.json");
 
 //-------------------- Tile map --------------------
 var map;
@@ -223,22 +224,25 @@ maingame.test_env.prototype = {
     coins = game.add.group();
     coins.enableBody = true;
 
-    currency_json.forEach(function (key, value) {
-      var coinInstance = coins.create(key.x + 16, key.y - 16, 'currency-atlas', 'currency_1.png');
-      coinInstance.body.immovable = true
-      coinInstance.scale.set(0.65, 0.65);
-      coinInstance.animations.add(
-        'spin',
-        Phaser.Animation.generateFrameNames(
-          'currency_',
-          1,
-          6,
-          '.png'
-        ),
-        10,
-        true
-      );
-      coinInstance.animations.play('spin');
+    levelCoins.itemData.forEach(function (key, value) {
+      if (!key.collected) {
+        var coinInstance = coins.create(key.x + 16, key.y - 16, 'currency-atlas', 'currency_1.png');
+        coinInstance.body.immovable = true
+        coinInstance.scale.set(0.65, 0.65);
+        coinInstance.index = value;
+        coinInstance.animations.add(
+          'spin',
+          Phaser.Animation.generateFrameNames(
+            'currency_',
+            1,
+            6,
+            '.png'
+          ),
+          10,
+          true
+        );
+        coinInstance.animations.play('spin');
+      }
     })
 
     {
@@ -402,7 +406,7 @@ maingame.test_env.prototype = {
 
     //-------------------- Merchant --------------------
     game.add.button(25, 280, 'merchant', function () {
-      game.player_attributes = {
+       game.player_attributes = {
         "backpack": player.backpack,
         "actives": player.active_items,
         "current": player.current_item,
@@ -410,7 +414,9 @@ maingame.test_env.prototype = {
         "y": player.body.position.y,
         "money": player.money
       };
-      game.current_time = timeLimit
+
+      game.playerExp = player.exp;
+      game.current_time = timeLimit;
       game.state.start("Merchant");
     })
 
@@ -446,70 +452,6 @@ maingame.test_env.prototype = {
      special other init
    */
     var enemyJson = JSON.parse(game.cache.getText('enemies'));
-    // for(var x =0; x<= (Animations[Animation.length-1]) ;x++){
-    //   merchants = merchant.create(123, 123,'full_merchant', JSON.parse(game.cache.getText(Animations[x].name))
-    //   for(var y = 0; ;y++){
-
-    //   }
-    // }
-
-    // new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
-    // new_nme = enemy_init(new_nme, 10, 500)
-
-    // big_guy = lizard.create(600, 200, 'big_guy', 'big_demon_idle_anim_f3.png')
-    // var big_guy_tween = game.add.tween(big_guy)
-    // big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
-    // big_guy = enemy_init(big_guy, 25, 500)
-
-    // big_guy.animations.add(
-    //   'idle',
-    //   Phaser.Animation.generateFrameNames(
-    //     'big_demon_idle_anim_f',
-    //     0,
-    //     3,
-    //     '.png'
-    //   ),
-    //   10,
-    //   true
-    // )
-    // big_guy.animations.add(
-    //   'run',
-    //   Phaser.Animation.generateFrameNames(
-    //     'big_demon_run_anim_f',
-    //     0,
-    //     3,
-    //     '.png'
-    //   ),
-    //   10,
-    //   true
-    // )
-    // big_guy.animations.play('run')
-    // new_nme.animations.add(
-    //   'idle',
-    //   Phaser.Animation.generateFrameNames(
-    //     'lizard_m_idle_anim_f',
-    //     0,
-    //     3,
-    //     '.png'
-    //   ),
-    //   10,
-    //   true
-    // )
-    // new_nme.animations.add(
-    //   'run',
-    //   Phaser.Animation.generateFrameNames(
-    //     'lizard_m_run_anim_f',
-    //     0,
-    //     3,
-    //     '.png'
-    //   ),
-    //   10,
-    //   true
-    // )
-
-    // new_nme.animations.play('run')
-    // new_nme.body.velocity.x = 120
-    // new_nme.body.bounce.set(-1)
 
     //-------------------- Physics engine and control setting --------------------
     game.world.setBounds(0, 0, 16 * 100, 16 * 100)
@@ -568,9 +510,12 @@ maingame.test_env.prototype = {
           "actives": player.active_items,
           "current": player.current_item,
           "x": player.body.position.x,
-          "y": player.body.position.y
+          "y": player.body.position.y,
+          "money": player.money
         };
-        game.current_time = timeLimit
+  
+        game.playerExp = player.exp;
+        game.current_time = timeLimit;
         game.state.start("Backpack");
         console.log("in backpack state");
       })
