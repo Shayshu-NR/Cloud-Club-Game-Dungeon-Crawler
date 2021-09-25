@@ -55,17 +55,12 @@ var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
 
-maingame.test_env = function (game) { };
+maingame.Ripleys = function (game) { };
 
-maingame.test_env.prototype = {
+maingame.Ripleys.prototype = {
   preload: function () {
     this.load.image('tiles',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png')
-
-    this.load.tilemap('example_map',
-      '../Assets/Example assets/Tiled Map/Example_tile.json',
-      null,
-      Phaser.Tilemap.TILED_JSON)
 
     this.load.tilemap('ripleys',
       '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map-old.json',
@@ -76,26 +71,10 @@ maingame.test_env.prototype = {
       '../Assets/General assets/Ripleys Aquarium/tileset.png')
 
 
-    this.load.atlas('player',
-      '../Assets/Example assets/legend of faune files/spritesheet.png',
-      '../Assets/Example assets/legend of faune files/faun_spritesheet.json')
-
-    this.load.atlas('lizard',
-      '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard_spritesheet.png',
-      '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/lizard.json')
-
-
     this.load.atlas('sword',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword_spritesheet.png',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json')
 
-    this.load.atlas('big_guy',
-      '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/biguy_spritesheet.png',
-      '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/bigguy.json')
-
-    // this.load.atlas('chest',
-    //   '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest_spritesheet.png',
-    //   '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/chest.json')
     this.load.spritesheet('chest', '../Gabrielle/src/Assets/chest.png',
       32, 32);
 
