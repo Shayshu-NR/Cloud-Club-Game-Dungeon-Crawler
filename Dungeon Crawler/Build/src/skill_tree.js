@@ -58,6 +58,7 @@ maingame.skill_tree.prototype = {
     update: function () {
 
         if (cursors.esc.downDuration(100)) {
+            
             game.current_time = timeLimit
             game.state.start("Main", true, false)
         }

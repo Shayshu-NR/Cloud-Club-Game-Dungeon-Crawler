@@ -67,7 +67,7 @@ maingame.test_env.prototype = {
       Phaser.Tilemap.TILED_JSON)
 
     this.load.tilemap('ripleys',
-      '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map.json',
+      '../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map-old.json',
       null,
       Phaser.Tilemap.TILED_JSON)
 
@@ -401,7 +401,7 @@ maingame.test_env.prototype = {
     }
 
     //-------------------- Merchant --------------------
-    game.add.button(112, 291, 'merchant', function () {
+    game.add.button(25, 280, 'merchant', function () {
       game.player_attributes = {
         "backpack": player.backpack,
         "actives": player.active_items,
@@ -453,63 +453,63 @@ maingame.test_env.prototype = {
     //   }
     // }
 
-    new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
-    new_nme = enemy_init(new_nme, 10, 500)
+    // new_nme = lizard.create(600, 142, 'lizard', 'lizard_m_idle_anim_f0.png')
+    // new_nme = enemy_init(new_nme, 10, 500)
 
-    big_guy = lizard.create(600, 200, 'big_guy', 'big_demon_idle_anim_f3.png')
-    var big_guy_tween = game.add.tween(big_guy)
-    big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
-    big_guy = enemy_init(big_guy, 25, 500)
+    // big_guy = lizard.create(600, 200, 'big_guy', 'big_demon_idle_anim_f3.png')
+    // var big_guy_tween = game.add.tween(big_guy)
+    // big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
+    // big_guy = enemy_init(big_guy, 25, 500)
 
-    big_guy.animations.add(
-      'idle',
-      Phaser.Animation.generateFrameNames(
-        'big_demon_idle_anim_f',
-        0,
-        3,
-        '.png'
-      ),
-      10,
-      true
-    )
-    big_guy.animations.add(
-      'run',
-      Phaser.Animation.generateFrameNames(
-        'big_demon_run_anim_f',
-        0,
-        3,
-        '.png'
-      ),
-      10,
-      true
-    )
-    big_guy.animations.play('run')
-    new_nme.animations.add(
-      'idle',
-      Phaser.Animation.generateFrameNames(
-        'lizard_m_idle_anim_f',
-        0,
-        3,
-        '.png'
-      ),
-      10,
-      true
-    )
-    new_nme.animations.add(
-      'run',
-      Phaser.Animation.generateFrameNames(
-        'lizard_m_run_anim_f',
-        0,
-        3,
-        '.png'
-      ),
-      10,
-      true
-    )
+    // big_guy.animations.add(
+    //   'idle',
+    //   Phaser.Animation.generateFrameNames(
+    //     'big_demon_idle_anim_f',
+    //     0,
+    //     3,
+    //     '.png'
+    //   ),
+    //   10,
+    //   true
+    // )
+    // big_guy.animations.add(
+    //   'run',
+    //   Phaser.Animation.generateFrameNames(
+    //     'big_demon_run_anim_f',
+    //     0,
+    //     3,
+    //     '.png'
+    //   ),
+    //   10,
+    //   true
+    // )
+    // big_guy.animations.play('run')
+    // new_nme.animations.add(
+    //   'idle',
+    //   Phaser.Animation.generateFrameNames(
+    //     'lizard_m_idle_anim_f',
+    //     0,
+    //     3,
+    //     '.png'
+    //   ),
+    //   10,
+    //   true
+    // )
+    // new_nme.animations.add(
+    //   'run',
+    //   Phaser.Animation.generateFrameNames(
+    //     'lizard_m_run_anim_f',
+    //     0,
+    //     3,
+    //     '.png'
+    //   ),
+    //   10,
+    //   true
+    // )
 
-    new_nme.animations.play('run')
-    new_nme.body.velocity.x = 120
-    new_nme.body.bounce.set(-1)
+    // new_nme.animations.play('run')
+    // new_nme.body.velocity.x = 120
+    // new_nme.body.bounce.set(-1)
 
     //-------------------- Physics engine and control setting --------------------
     game.world.setBounds(0, 0, 16 * 100, 16 * 100)

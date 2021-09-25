@@ -69,51 +69,51 @@ function swing_default_sword(player) {
 }
 
 function throw_projectile(player) {
-    if (player.current_item.group == "projectile" && player.current_item.in_progress == false && player.current_item.amount!=0) {
+    if (player.current_item.group == "projectile" && player.current_item.in_progress == false && player.current_item.amount != 0) {
         player.current_item.in_progress = true
         var statics
-        var projectile = statics.create(player.position.x,player.position.y,player.current_item.src)
-        player.current_item.amount-=1 //amount of the ammo the player has because there cannot be infinate arrows
+        var projectile = statics.create(player.position.x, player.position.y, player.current_item.src)
+        player.current_item.amount -= 1 //amount of the ammo the player has because there cannot be infinate arrows
         console.log(player.current_item.amount)
 
-        if((player.body.velocity.x && player.body.velocity.y)!=0){
-            var v1, v2; 
+        if ((player.body.velocity.x && player.body.velocity.y) != 0) {
+            var v1, v2;
             v1 = player.body.velocity.x
             v2 = player.body.velocity.y
-            var speed = ((v1^2 + v2^2))^(1/2)
+            var speed = ((v1 ^ 2 + v2 ^ 2)) ^ (1 / 2)
 
-            projectile.body.velocity.x = (v1/speed)*player.current_item.speed
-            projectile.body.velocity.y = (v2/speed)*player.current_item.speed
+            projectile.body.velocity.x = (v1 / speed) * player.current_item.speed
+            projectile.body.velocity.y = (v2 / speed) * player.current_item.speed
         }
         else {
-            if(player_facing == 0){
+            if (player_facing == 0) {
                 projectile.body.velocity.x = -player.current_item.speed
                 projectile.body.velocity.y = 0
             }
-            else if(player_facing == 1){
+            else if (player_facing == 1) {
                 projectile.body.velocity.x = player.current_item.speed
-                projectile.body.velocity.y = 0 
+                projectile.body.velocity.y = 0
             }
-            else if(player_facing == 2){
+            else if (player_facing == 2) {
                 projectile.body.velocity.x = 0
                 projectile.body.velocity.y = player.current_item.speed
             }
-            else{
-                    projectile.body.velocity.x = 0
-                    projectile.body.velocity.y = -player.current_item.speed
+            else {
+                projectile.body.velocity.x = 0
+                projectile.body.velocity.y = -player.current_item.speed
             }
         }
 
         /*
         if the projectile collides with a wall or enemy we want the projectile to die/explode/restart?
         */
-        setTimeout(function kill_projectile(){
+        setTimeout(function kill_projectile() {
             projectile.kill()
             player.current_item.in_progress = false
-          }, player.current_item.frequency);
+        }, player.current_item.frequency);
     }
 }
- 
+
 
 function add_coins(player, coin) {
     player.money += 10;
@@ -364,4 +364,38 @@ var addZeros = function (num) {
     }
     return num;
 };
+
+function moveState(state) {
+    var playerX;
+    var playerY;
+    var bpck;
+    var activeItems;
+    var currentItem;
+
+    try{
+        playerX = player.body.position.x;
+        playerY = player.body.position.y;
+        bpck = player.backpack;
+        activeItems = player.activeItems;
+        currentItem = player.current_item;
+    }
+    catch(error){
+        playerX = xpos;
+        playerY = ypos;
+        bpck = backpack;
+    }
+
+    game.player_attributes = {
+        "backpack": bpck,
+        "actives": activeItems,
+        "current": currentItem,
+        "x": playerX,
+        "y": playerY,
+        "money": player.money
+    };
+
+    game.playerExp = player.exp;
+    game.current_time = timeLimit
+    game.state.start(state);
+}
 //~~~~~

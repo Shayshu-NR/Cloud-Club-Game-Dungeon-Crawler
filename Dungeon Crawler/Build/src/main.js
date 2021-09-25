@@ -13,7 +13,7 @@ game.player_attributes = {
     "backpack" : {},
     "actives" : [],
     "x" : 128,
-    "y" : 128,
+    "y" : 85,
     "money" : 0,
     "current" : {}
 }
