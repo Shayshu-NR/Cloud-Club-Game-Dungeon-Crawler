@@ -67,6 +67,54 @@ function swing_default_sword(player) {
 
     var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [weapon])
 }
+function swing_melee(player) {
+    if (player.current_item == "melee") {
+        player.body.velocity.x = 0
+        player.body.velocity.y = 0
+        player.swing = true
+
+        // Left
+        if (player_facing == 0) {
+            weapon = default_sword.create(player.position.x - 10, player.position.y + 16, player.current_item.src, 'weapon_regular_sword_left.png')
+        }
+        // Right
+        else if (player_facing == 1) {
+            weapon = default_sword.create(player.position.x + 22, player.position.y + 16, player.current_item.src, 'weapon_regular_sword_right.png')
+        }
+        // Up
+        else if (player_facing == 2) {
+            weapon = default_sword.create(player.position.x + 11, player.position.y - 14, player.current_item.src, 'weapon_regular_sword_up.png')
+
+        }
+        // Down
+        else if (player_facing == 3) {
+            weapon = default_sword.create(player.position.x + 11, player.position.y + 24, player.current_item.src, 'weapon_regular_sword_down.png')
+        }
+        weapon.body.immovable = true
+
+        var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [weapon])
+    }
+}
+
+function knockack_enemies(weapon, enemy){
+    var velocity = {
+        x: enemy.velocity.x,
+        y: enemy.velocity.y,
+        z = (y^2+x^2)^(1/2)
+    }
+
+    enemy.velocity.x = -x/z*weapon.knockback
+    enemy.velocity.y = -y/z*weapon.knockback
+
+    var timedEvent = this.time.addEvent({
+        delay:1000,
+        callback: function set_to_original(){
+            enemy.velocity.x = -x/z*weapon.knockback,
+            enemy.velocity.y = -y/z*weapon.knockback
+        }
+        
+    })
+}
 
 function throw_projectile(player) {
     if (player.current_item.group == "projectile" && player.current_item.in_progress == false && player.current_item.amount != 0) {
@@ -375,14 +423,14 @@ function moveState(state) {
     var activeItems;
     var currentItem;
 
-    try{
+    try {
         playerX = player.body.position.x;
         playerY = player.body.position.y;
         bpck = player.backpack;
         activeItems = player.activeItems;
         currentItem = player.current_item;
     }
-    catch(error){
+    catch (error) {
         playerX = xpos;
         playerY = ypos;
         bpck = backpack;

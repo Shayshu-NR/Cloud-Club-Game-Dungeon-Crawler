@@ -795,6 +795,7 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(playerWeapon, pirates, lizard_dmg, null, this);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
+    game.physics.arcade.collide(player.current_item, enemies, knockback_enemies, null, this);
 
     //-------------------- Movement --------------------
     var speed = player.speed;
