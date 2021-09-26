@@ -404,22 +404,6 @@ maingame.test_env.prototype = {
       )
     }
 
-    //-------------------- Merchant --------------------
-    game.add.button(25, 280, 'merchant', function () {
-       game.player_attributes = {
-        "backpack": player.backpack,
-        "actives": player.active_items,
-        "current": player.current_item,
-        "x": player.body.position.x,
-        "y": player.body.position.y,
-        "money": player.money
-      };
-
-      game.playerExp = player.exp;
-      game.current_time = timeLimit;
-      game.state.start("Merchant");
-    })
-
     //-------------------- Add example weapon --------------------
     default_sword = game.add.group();
     default_sword.enableBody = true;
@@ -440,8 +424,46 @@ maingame.test_env.prototype = {
     game.physics.arcade.enable(shark, Phaser.Physics.ARCADE);
     game.physics.arcade.enable(pirate, Phaser.Physics.ARCADE);
 
-    //-------------------- Enemy Creation Script --------------------
+    var enemyMapping = {
+      "merchant": "button",
+      "pirate": pirate,
+      "shark": shark
+    }
 
+    //-------------------- Enemy Creation Script --------------------
+    var enemyJson = JSON.parse(game.cache.getText('enemies'));
+    enemyJson.forEach(function (element, index) {
+      var nmeInst;
+
+      if (enemyMapping[element.Name] != "button") {
+        nmeInst = enemyMapping[element.Name].create(element.x, element.y, element.Atlas, element.Frame1);
+
+        nmeInst.scale.set(element.Scale, element.Scale);
+
+        nmeInst.health = element.Health;
+        nmeInst.exp = element.Exp;
+        nmeInst.coins = element.Coins;
+
+        element.Animation.forEach(function (element, index) {
+          nmeInst.animations.add(
+            element.Name,
+            Phaser.Animation.generateFrameNames(
+              element.Name + "-",
+              element.Start,
+              element.End,  //number of frames
+              '.png'
+            ),
+            element.FrameRate,
+            true
+          )
+        });
+      }
+      else {
+        var f = new Function(element.Extra.callback.arguments, element.Extra.callback.body)
+        nmeInst = game.add.button(element.x, element.y, element.Frame1, f);
+        nmeInst.scale.set(element.Scale, element.Scale);
+      }
+    });
 
     /*
    foreach(nme in json )
@@ -451,7 +473,6 @@ maingame.test_env.prototype = {
      
      special other init
    */
-    var enemyJson = JSON.parse(game.cache.getText('enemies'));
 
     //-------------------- Physics engine and control setting --------------------
     game.world.setBounds(0, 0, 16 * 100, 16 * 100)
@@ -466,7 +487,6 @@ maingame.test_env.prototype = {
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
-
     itemChests = []
 
     for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
@@ -513,7 +533,7 @@ maingame.test_env.prototype = {
           "y": player.body.position.y,
           "money": player.money
         };
-  
+
         game.playerExp = player.exp;
         game.current_time = timeLimit;
         game.state.start("Backpack");
@@ -525,7 +545,6 @@ maingame.test_env.prototype = {
     xp_bar = bars.create(158, 562, 'xp_bar')
     bar_holder.fixedToCamera = true
     xp_bar.fixedToCamera = true
-    //player.exp = 0
     player.level = 1
     player.getCurrentLevel = function () {
       player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1

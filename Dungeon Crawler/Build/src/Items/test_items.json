@@ -15,7 +15,7 @@
                 "group": "potion",
                 "atlas": "potion_set",
                 "src": "speed_pot_1.png",
-                "use": " use_potion(player, \"Speed_Potion\")",
+                "use": "use_potion(player, \"Speed_Potion\")",
                 "ai_scale": [1, 1],
                 "Opened" : false ,
                 "Taken" : false
