@@ -96,11 +96,11 @@ function swing_melee(player) {
     }
 }
 
-function knockack_enemies(weapon, enemy){
+function knockback_enemies(weapon, enemy){
     var velocity = {
         x: enemy.velocity.x,
         y: enemy.velocity.y,
-        z = (y^2+x^2)^(1/2)
+        z :  (velocity.y**2 + velocity.x**2)**(1/2)
     }
 
     enemy.velocity.x = -x/z*weapon.knockback
@@ -128,7 +128,7 @@ function throw_projectile(player) {
             var v1, v2;
             v1 = player.body.velocity.x
             v2 = player.body.velocity.y
-            var speed = ((v1 ^ 2 + v2 ^ 2)) ^ (1 / 2)
+            var speed = ((v1 ** 2 + v2 ** 2)) ** (1 / 2)
 
             projectile.body.velocity.x = (v1 / speed) * player.current_item.speed
             projectile.body.velocity.y = (v2 / speed) * player.current_item.speed
@@ -393,7 +393,7 @@ function level_up(player) {
 
     console.log("Reached level", player.level);
     lastLevelPoints = player.exp;
-    maxXpPoints = (100 * player.level) ^ 1.5;
+    maxXpPoints = (100 * player.level) ** 1.5;
 
     lvltxt1.text = "" + player.level;
     lvltxt2.text = "" + (player.level + 1);

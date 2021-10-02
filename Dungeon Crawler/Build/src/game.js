@@ -20,6 +20,7 @@ var new_nme;
 var shark
 var pirate
 var pirates
+var enemies 
 
 //-------------------- Utilities --------------------
 var keyReset = false;
@@ -415,6 +416,7 @@ maingame.test_env.prototype = {
     lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
     shark = game.add.physicsGroup(Phaser.Physics.ARCADE);
     pirate = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    enemies = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     lizard.enableBody = true;
     shark.enableBody = true;
@@ -444,36 +446,35 @@ maingame.test_env.prototype = {
         nmeInst.exp = element.Exp;
         nmeInst.coins = element.Coins;
 
-        element.Animation.forEach(function (element, index) {
+        element.Animations.forEach(function (frameElement, index) {
           nmeInst.animations.add(
-            element.Name,
+            frameElement.Name,
             Phaser.Animation.generateFrameNames(
-              element.Name + "-",
-              element.Start,
-              element.End,  //number of frames
+              frameElement.Name + "-",
+              frameElement.Start,
+              frameElement.End,
               '.png'
             ),
-            element.FrameRate,
+            frameElement.FrameRate,
             true
-          )
+          );
         });
 
         switch (element.Name) {
           case "pirate":
-
-            nmeInst.bounds = element.Extra.filter(x => Object.keys(x)[0] === "bounds")
+          case "shark":
+            nmeInst.bounds = element.Extra.filter(x => Object.keys(x)[0] === "bounds");
             nmeInst.inBounds = function () {
               if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
                 if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
-                  return true
+                  return true;
                 }
               }
-              return false
+              return false;
             }
-
             nmeInst.center = {
-              x_cal: (pirates.bounds.x1 + pirates.bounds.x2) / 2,
-              y_cal: (pirates.bounds.y1 + pirates.bounds.y2) / 2
+              x_cal: (nmeInst.bounds.x1 + nmeInst.bounds.x2) / 2,
+              y_cal: (nmeInst.bounds.y1 + nmeInst.bounds.y2) / 2
             }
             break;
           default:
@@ -481,20 +482,12 @@ maingame.test_env.prototype = {
         }
       }
       else {
-        var f = new Function(element.Extra.callback.arguments, element.Extra.callback.body)
+        var callbackFunction = element.Extra.filter(x => Object.keys(x)[0] === "callback")[0];
+        var f = new Function(callbackFunction.arguments, callbackFunction.body)
         nmeInst = game.add.button(element.x, element.y, element.Frame1, f);
         nmeInst.scale.set(element.Scale, element.Scale);
       }
     });
-
-    /*
-   foreach(nme in json )
-     create nme
-     foreach(animation in json.animation)
-       nme.animation.add(asdlkhalskd)
-     
-     special other init
-   */
 
     //-------------------- Physics engine and control setting --------------------
     game.world.setBounds(0, 0, 16 * 100, 16 * 100)
@@ -676,7 +669,6 @@ maingame.test_env.prototype = {
       }
       return false
     }
-
     pirates.center = {
       x_cal: (pirates.bounds.x1 + pirates.bounds.x2) / 2,
       y_cal: (pirates.bounds.y1 + pirates.bounds.y2) / 2
