@@ -438,7 +438,7 @@ maingame.test_env.prototype = {
       if (enemyMapping[element.Name] != "button") {
         nmeInst = enemyMapping[element.Name].create(element.x, element.y, element.Atlas, element.Frame1);
 
-        nmeInst.scale.set(element.Scale, element.Scale);
+        nmeInst.scale.set(element.Scale);
 
         nmeInst.health = element.Health;
         nmeInst.exp = element.Exp;
@@ -457,6 +457,28 @@ maingame.test_env.prototype = {
             true
           )
         });
+
+        switch (element.Name) {
+          case "pirate":
+
+            nmeInst.bounds = element.Extra.filter(x => Object.keys(x)[0] === "bounds")
+            nmeInst.inBounds = function () {
+              if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
+                if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
+                  return true
+                }
+              }
+              return false
+            }
+
+            nmeInst.center = {
+              x_cal: (pirates.bounds.x1 + pirates.bounds.x2) / 2,
+              y_cal: (pirates.bounds.y1 + pirates.bounds.y2) / 2
+            }
+            break;
+          default:
+            break;
+        }
       }
       else {
         var f = new Function(element.Extra.callback.arguments, element.Extra.callback.body)
