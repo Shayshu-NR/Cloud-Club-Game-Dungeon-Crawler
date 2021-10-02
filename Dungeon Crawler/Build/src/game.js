@@ -206,9 +206,9 @@ maingame.test_env.prototype = {
 
     //-------------------- Add player model --------------------
     console.log(game.player_attributes.x, game.player_attributes.y);
-    player = game.add.sprite(game.player_attributes.x, game.player_attributes.y, 'eng', 'idle_down.png')
-    player.swing = false
-    player = init_player(game, player)
+    player = game.add.sprite(game.player_attributes.x, game.player_attributes.y, 'eng', 'idle_down.png');
+    player.swing = false;
+    player = init_player(game, player);
 
 
     //-------------------- Add Doors --------------------
@@ -445,6 +445,8 @@ maingame.test_env.prototype = {
         nmeInst.health = element.Health;
         nmeInst.exp = element.Exp;
         nmeInst.coins = element.Coins;
+        nmeInst.enableBody = true;
+        nmeInst.Damage = element.Damage;
 
         element.Animations.forEach(function (frameElement, index) {
           nmeInst.animations.add(
@@ -463,7 +465,8 @@ maingame.test_env.prototype = {
         switch (element.Name) {
           case "pirate":
           case "shark":
-            nmeInst.bounds = element.Extra.filter(x => Object.keys(x)[0] === "bounds");
+            console.log("Pirate LOGIC")
+            nmeInst.bounds = element.Extra.filter(x => Object.keys(x)[0] === "bounds")[0].bounds;
             nmeInst.inBounds = function () {
               if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
                 if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
@@ -482,7 +485,8 @@ maingame.test_env.prototype = {
         }
       }
       else {
-        var callbackFunction = element.Extra.filter(x => Object.keys(x)[0] === "callback")[0];
+        var callbackFunction = element.Extra.filter(x => Object.keys(x)[0] === "callback")[0].callback;
+        
         var f = new Function(callbackFunction.arguments, callbackFunction.body)
         nmeInst = game.add.button(element.x, element.y, element.Frame1, f);
         nmeInst.scale.set(element.Scale, element.Scale);
@@ -496,7 +500,6 @@ maingame.test_env.prototype = {
     cursors = game.input.keyboard.createCursorKeys()
     cursors.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR)
     cursors.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC)
-
 
     statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -553,7 +556,7 @@ maingame.test_env.prototype = {
         game.current_time = timeLimit;
         game.state.start("Backpack");
         console.log("in backpack state");
-      })
+    });
     stats.fixedToCamera = true;
 
     var bar_holder = statics.create(150, 560, 'bar')
@@ -646,126 +649,12 @@ maingame.test_env.prototype = {
       
       special other init
     */
-
-    pirates = pirate.create(115.5, 475.5, 'full_pirate', 'walk-down-1.png')
-    pirates.scale.setTo(1.5)
-    pirates.enableBody = true
-    pirates.exp = 100;
-    pirates.health = 3
-    pirates.immune = false;
-
-
-    pirates.bounds = {
-      x1: 16,
-      x2: 215,
-      y1: 430,
-      y2: 521
-    }
-    pirates.inBounds = function () {
-      if (this.position.x > this.bounds.x1 && this.position.x < this.bounds.x2) {
-        if (this.position.y > this.bounds.y1 && this.position.y < this.bounds.y2) {
-          return true
-        }
-      }
-      return false
-    }
-    pirates.center = {
-      x_cal: (pirates.bounds.x1 + pirates.bounds.x2) / 2,
-      y_cal: (pirates.bounds.y1 + pirates.bounds.y2) / 2
-    }
-
-    pirates.animations.add(
-      'walk-down',
-      Phaser.Animation.generateFrameNames(
-        'walk-down-',
-        1,
-        12,  //number of frames
-        '.png'
-      ),
-      5,
-      true
-    )
-    pirates.animations.add(
-      'walk-left',
-      Phaser.Animation.generateFrameNames(
-        'walk-left-',
-        1,
-        12,
-        '.png'
-      ),
-      5,
-      true
-    )
-    pirates.animations.add(
-      'walk-right',
-      Phaser.Animation.generateFrameNames(
-        'walk-right-',
-        1,
-        12,
-        '.png'
-      ),
-      5,
-      true
-    )
-    pirates.animations.add(
-      'walk-up-',
-      Phaser.Animation.generateFrameNames(
-        'walk-up-',
-        1,
-        12,
-        '.png'
-      ),
-      5,
-      true
-    )
-    pirates.animations.add(
-      'attack-up',
-      Phaser.Animation.generateFrameNames(
-        'attack-up-',
-        1,
-        5,
-        '.png'
-      ),
-      5,
-      true
-    )
-    pirates.animations.add(
-      'attack-right-',
-      Phaser.Animation.generateFrameNames(
-        'attack-right-',
-        1,
-        7,
-        '.png'
-      ),
-      5,
-      true
-    )
-    pirates.animations.add(
-      'attack-left-',
-      Phaser.Animation.generateFrameNames(
-        'attack-left-',
-        1,
-        7,
-        '.png'
-      ),
-      5,
-      true
-    )
-    pirates.animations.add(
-      'attack-down',
-      Phaser.Animation.generateFrameNames(
-        'attack-down-',
-        1,
-        5,
-        '.png'
-      ),
-      5,
-      true
-    )
   },
 
   update: function () {
-    pirate_track(pirates)
+
+    pirate.children.forEach(x => pirate_track(x))
+
     player.moveCurrentToBackpack()
     if (cursors.startMenu.downDuration(100)) {
 
@@ -789,6 +678,7 @@ maingame.test_env.prototype = {
             console.log(itemChests)
 
             game.time.events.add(Phaser.Timer.SECOND * 1, function collectItemFromChest() {
+              console.log(item.info)
               player.putBackpack(item.info)
               item.kill()
               // Set item taken flag
@@ -805,7 +695,7 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
     // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
-    game.physics.arcade.collide(player, pirates, damage_player, null, this)
+    game.physics.arcade.collide(player, pirate, damage_player, null, this)
     game.physics.arcade.collide(playerWeapon, pirates, lizard_dmg, null, this);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);

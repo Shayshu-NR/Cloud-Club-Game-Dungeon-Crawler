@@ -67,6 +67,7 @@ function swing_default_sword(player) {
 
     var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [weapon])
 }
+
 function swing_melee(player) {
     if (player.current_item == "melee") {
         player.body.velocity.x = 0
@@ -259,7 +260,7 @@ function damage_player(player, enemy) {
     // the opposite direction they're facing
 
     if (!player.knockback) {
-        var dmg_dealt = enemy.damage * player.defense
+        var dmg_dealt = enemy.Damage * player.defense
         kill_player(player, dmg_dealt)
     }
 
@@ -339,7 +340,7 @@ function pirate_track(enemy) {
 
     else if (enemy.inBounds() & Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 100) {
 
-        game.physics.arcade.moveToObject(enemy, player, 40)
+        game.physics.arcade.moveToObject(enemy, player, 29)
 
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {

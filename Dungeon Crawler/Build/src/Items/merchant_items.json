@@ -1,0 +1,29 @@
+[
+  {
+    "name": "SpeedPotion",
+    "group": "potion",
+    "atlas": "potion_set",
+    "src": "speed_pot_1.png",
+    "use": "use_potion(player, \"Speed_Potion\")",
+    "price" : 100,
+    "chance" : 0.8
+  },
+  {
+    "name": "Health_Potion",
+    "group": "potion",
+    "atlas": "potion_set",
+    "src": "health_pot_1.png",
+    "use": "use_potion(player, \"Health_Potion\")",
+    "price" : 200,
+    "chance" : 0.15
+  },
+  {
+    "name": "Attack_Potion",
+    "group": "potion",
+    "atlas": "potion_set",
+    "src": "strength_pot_1.png",
+    "use": "use_potion(player, \"Attack_Potion\")",
+    "price" : 300,
+    "chance" : 0.05
+  }
+]
