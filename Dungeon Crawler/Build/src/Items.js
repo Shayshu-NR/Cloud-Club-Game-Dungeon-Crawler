@@ -21,6 +21,16 @@ class Coins {
             .then(data => this.itemData.forEach(x => x.collected = false))
     }
 }
+
+class MerchantItems {
+
+    constructor(src_file) {
+        fetch('./src/Items/' + src_file)
+            .then(results => results.json())
+            .then(data => this.itemData = data)
+            .then(data => this.genItems = getItemsToDisplay(this.itemData))
+    }
+}
 /*
 
 Read from a json file in the items folder with name src_file
