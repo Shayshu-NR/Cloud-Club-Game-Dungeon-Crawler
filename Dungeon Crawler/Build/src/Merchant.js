@@ -1,6 +1,6 @@
 var merchant_items = new MerchantItems("merchant_items.json")
 
-maingame.merchant = function (game) {};
+maingame.merchant = function (game) { };
 
 maingame.merchant.prototype = {
   preload: function () {
@@ -48,42 +48,59 @@ maingame.merchant.prototype = {
     game.moneyText.fixedToCamera = true;
 
     // Add the 3 items to the level (these should be buttons)
-
     var x = 2 * 88;
     var GeneratedItems = merchant_items.genItems;
 
-    GeneratedItems.forEach(function(key, value){
-        game.add.button(
-            167 + x * value - game.cache.getImage(key.atlas).width / (2 * key.atlaswidth) ,
-            2 * 43 - game.cache.getImage(key.atlas).height / (2 * key.atlasheight),
-            key,
-            function () {
-              if (player.money < item.price) {
-                console.log("Player does not have enough money");
-                var style = {
-                  font: "bold 15pt Dungeon Crawler",
-                  fill: "red",
-                };
-    
-                var text = game.add.text(10, 10, "Not enough money", style);
-    
-                game.time.events.add(
-                  2000,
-                  function (arr) {
-                    game.add
-                      .tween(arr[0])
-                      .to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-                  },
-                  this,
-                  [text]
-                );
-              } else {
-                player.money -= item.price;
-                item.kill();
-              }
-            },
-            key.src
-          );
+    GeneratedItems.forEach(function (key, value) {
+      this.item = key;
+
+      game.add.text(
+        150 + x * value - game.cache.getImage(key.atlas).width / (2 * key.atlaswidth), 
+        2 * 34 - game.cache.getImage(key.atlas).height / (2 * key.atlasheight), 
+        String(key.price) + " Coins", 
+        {
+          font: "bold 10pt Dungeon Crawler",
+          fill: "white",
+        });
+
+      game.add.button(
+        167 + x * value - game.cache.getImage(key.atlas).width / (2 * key.atlaswidth),
+        2 * 43 - game.cache.getImage(key.atlas).height / (2 * key.atlasheight),
+        key.atlas,
+        function () {
+          var item = this
+
+          if (player.money < item.price) {
+            console.log("Player does not have enough money");
+            var style = {
+              font: "bold 15pt Dungeon Crawler",
+              fill: "red",
+            };
+
+            var text = game.add.text(10, 0, "Not enough money", style);
+
+            game.time.events.add(
+              2000,
+              function (arr) {
+                game.add
+                  .tween(arr[0])
+                  .to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+              },
+              this,
+              [text]
+            );
+          } else {
+            player.money -= item.price;
+            item.kill();
+            console.log("Bought!")
+          }
+        },
+        item,
+        key.src,
+        key.src,
+        key.src,
+        key.src
+      );
     })
 
     /*
@@ -136,17 +153,17 @@ maingame.merchant.prototype = {
     // Check when player presses esc and leave state...
   },
 
-  render: function () {},
+  render: function () { },
 };
 
 function getItemsToDisplay(itemList) {
-    var weights = [];
-    itemList.forEach(x => weights.push(x.chance));
-    
-    var generatedItems = [];
+  var weights = [];
+  itemList.forEach(x => weights.push(x.chance));
 
-    [1,2,3].forEach(x => generatedItems.push(weighted_random(itemList, weights)));
-    return generatedItems;
+  var generatedItems = [];
+
+  [1, 2, 3].forEach(x => generatedItems.push(weighted_random(itemList, weights)));
+  return generatedItems;
 }
 
 function weighted_random(items, weights) {
@@ -160,3 +177,29 @@ function weighted_random(items, weights) {
 
   return items[i];
 }
+
+/*
+if (player.money < item.price) {
+            console.log("Player does not have enough money");
+            var style = {
+              font: "bold 15pt Dungeon Crawler",
+              fill: "red",
+            };
+
+            var text = game.add.text(10, 10, "Not enough money", style);
+
+            game.time.events.add(
+              2000,
+              function (arr) {
+                game.add
+                  .tween(arr[0])
+                  .to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
+              },
+              this,
+              [text]
+            );
+          } else {
+            player.money -= item.price;
+            item.kill();
+          }
+*/
