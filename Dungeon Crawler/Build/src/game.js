@@ -56,6 +56,7 @@ var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
 
+
 maingame.test_env = function (game) { };
 
 maingame.test_env.prototype = {

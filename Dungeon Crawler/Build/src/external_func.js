@@ -68,32 +68,34 @@ function swing_default_sword(player) {
     var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [weapon])
 }
 
-function swing_melee(player) {
-    if (player.current_item == "melee") {
+function swing_melee(player, current_item) {
+    
+    if (current_item.weapon_type == "melee") {
+        console.log("swinging")
         player.body.velocity.x = 0
         player.body.velocity.y = 0
         player.swing = true
 
         // Left
         if (player_facing == 0) {
-            weapon = default_sword.create(player.position.x - 10, player.position.y + 16, player.current_item.src, 'weapon_regular_sword_left.png')
+            weapon = default_sword.create(player.position.x - 10, player.position.y + 16, current_item.src, 'weapon_regular_sword_left.png')
         }
         // Right
         else if (player_facing == 1) {
-            weapon = default_sword.create(player.position.x + 22, player.position.y + 16, player.current_item.src, 'weapon_regular_sword_right.png')
+            weapon = default_sword.create(player.position.x + 22, player.position.y + 16, current_item.src, 'weapon_regular_sword_right.png')
         }
         // Up
         else if (player_facing == 2) {
-            weapon = default_sword.create(player.position.x + 11, player.position.y - 14, player.current_item.src, 'weapon_regular_sword_up.png')
+            weapon = default_sword.create(player.position.x + 11, player.position.y - 14, current_item.src, 'weapon_regular_sword_up.png')
 
         }
         // Down
         else if (player_facing == 3) {
-            weapon = default_sword.create(player.position.x + 11, player.position.y + 24, player.current_item.src, 'weapon_regular_sword_down.png')
+            weapon = default_sword.create(player.position.x + 11, player.position.y + 24, current_item.src, 'weapon_regular_sword_down.png')
         }
         weapon.body.immovable = true
-
-        var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [weapon])
+        console.log("swinging")
+        var event = game.time.events.add((Phaser.Timer.SECOND * current_item.frequency) * current_item.attack_speed, sheath_sword, this, [weapon])
     }
 }
 
