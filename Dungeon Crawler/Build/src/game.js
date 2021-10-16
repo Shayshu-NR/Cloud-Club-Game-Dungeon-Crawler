@@ -20,7 +20,7 @@ var new_nme;
 var shark
 var pirate
 var pirates
-var enemies 
+var enemies
 
 //-------------------- Utilities --------------------
 var keyReset = false;
@@ -161,6 +161,10 @@ maingame.test_env.prototype = {
       'merchant',
       '../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/wizzard_f_hit_anim_f0.png'
     )
+    this.load.image(
+      'laser',
+      '../Assets/General assets/CN Tower/Laser.png'
+    )
 
     this.load.atlas(
       'currency-atlas',
@@ -180,6 +184,7 @@ maingame.test_env.prototype = {
   },
 
   create: function () {
+   
     //-------------------- Load Currency --------------------
     currency_json = JSON.parse(game.cache.getText('currency'))
     enemies_json = JSON.parse(game.cache.getText('enemies'))
@@ -432,6 +437,18 @@ maingame.test_env.prototype = {
       "pirate": pirate,
       "shark": shark
     }
+     //----------- Dummy Variable ----------------------------
+     player.lazer = {
+      amount : 5,
+      damage: 1,
+      frequency: 1,
+      group: undefined,
+      speed: 3,
+      name: "lazer_beam",
+      quantity: 1,
+      src: "Laser.png",
+      weapon_type: "projectile"
+    }
 
     //-------------------- Enemy Creation Script --------------------
     var enemyJson = JSON.parse(game.cache.getText('enemies'));
@@ -487,7 +504,7 @@ maingame.test_env.prototype = {
       }
       else {
         var callbackFunction = element.Extra.filter(x => Object.keys(x)[0] === "callback")[0].callback;
-        
+
         var f = new Function(callbackFunction.arguments, callbackFunction.body)
         nmeInst = game.add.button(element.x, element.y, element.Frame1, f);
         nmeInst.scale.set(element.Scale, element.Scale);
@@ -557,7 +574,7 @@ maingame.test_env.prototype = {
         game.current_time = timeLimit;
         game.state.start("Backpack");
         console.log("in backpack state");
-    });
+      });
     stats.fixedToCamera = true;
 
     var bar_holder = statics.create(150, 560, 'bar')
