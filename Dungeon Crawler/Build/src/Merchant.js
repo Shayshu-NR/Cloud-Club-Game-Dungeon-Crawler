@@ -50,11 +50,11 @@ maingame.merchant.prototype = {
     // Add the 3 items to the level (these should be buttons)
     var x = 2 * 88;
     var GeneratedItems = merchant_items.genItems;
+    game.merchantItems = []
 
     GeneratedItems.forEach(function (key, value) {
-      this.item = key;
 
-      game.add.text(
+      var priceText = game.add.text(
         150 + x * value - game.cache.getImage(key.atlas).width / (2 * key.atlaswidth), 
         2 * 34 - game.cache.getImage(key.atlas).height / (2 * key.atlasheight), 
         String(key.price) + " Coins", 
@@ -62,13 +62,19 @@ maingame.merchant.prototype = {
           font: "bold 10pt Dungeon Crawler",
           fill: "white",
         });
+      
+      var contextData = {
+        "item" : key,
+        "pricetext" : priceText,
+        "item_index" : value
+      }
 
-      game.add.button(
+      var newItem = game.add.button(
         167 + x * value - game.cache.getImage(key.atlas).width / (2 * key.atlaswidth),
         2 * 43 - game.cache.getImage(key.atlas).height / (2 * key.atlasheight),
         key.atlas,
         function () {
-          var item = this
+          var item = this.item
 
           if (player.money < item.price) {
             console.log("Player does not have enough money");
@@ -91,16 +97,20 @@ maingame.merchant.prototype = {
             );
           } else {
             player.money -= item.price;
-            item.kill();
+            game.merchantItems[this.item_index].kill();
+            this.pricetext.kill();
+            player.putBackpack(this.item)
             console.log("Bought!")
           }
         },
-        item,
+        contextData,
         key.src,
         key.src,
         key.src,
         key.src
       );
+
+      game.merchantItems.push(newItem)
     })
 
     /*

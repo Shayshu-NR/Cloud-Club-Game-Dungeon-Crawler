@@ -8,7 +8,8 @@
     "src": "speed_pot_1.png",
     "use": "use_potion(player, \"Speed_Potion\")",
     "price" : 100,
-    "chance" : 0.8
+    "chance" : 0.8,
+    "ai_scale": [1, 1]
   },
   {
     "name": "Health_Potion",
@@ -19,7 +20,8 @@
     "src": "health_pot_1.png",
     "use": "use_potion(player, \"Health_Potion\")",
     "price" : 200,
-    "chance" : 0.15
+    "chance" : 0.15,
+    "ai_scale": [1, 1]
   },
   {
     "name": "Attack_Potion",
@@ -30,6 +32,7 @@
     "src": "strength_pot_1.png",
     "use": "use_potion(player, \"Attack_Potion\")",
     "price" : 300,
-    "chance" : 0.05
+    "chance" : 0.05,
+    "ai_scale": [1, 1]
   }
 ]
