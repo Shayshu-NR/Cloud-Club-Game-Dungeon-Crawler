@@ -78,20 +78,20 @@ function swing_melee(player, current_item) {
 
         // Left
         if (player_facing == 0) {
-            weapon = default_sword.create(player.position.x - 10, player.position.y + 16, current_item.src, 'weapon_regular_sword_left.png')
+            weapon = default_sword.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_left.png')
         }
         // Right
         else if (player_facing == 1) {
-            weapon = default_sword.create(player.position.x + 22, player.position.y + 16, current_item.src, 'weapon_regular_sword_right.png')
+            weapon = default_sword.create(player.position.x + 22, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_right.png')
         }
         // Up
         else if (player_facing == 2) {
-            weapon = default_sword.create(player.position.x + 11, player.position.y - 14, current_item.src, 'weapon_regular_sword_up.png')
+            weapon = default_sword.create(player.position.x + 11, player.position.y - 14, current_item.atlas, 'weapon_regular_sword_up.png')
 
         }
         // Down
         else if (player_facing == 3) {
-            weapon = default_sword.create(player.position.x + 11, player.position.y + 24, current_item.src, 'weapon_regular_sword_down.png')
+            weapon = default_sword.create(player.position.x + 11, player.position.y + 24, current_item.atlas, 'weapon_regular_sword_down.png')
         }
         weapon.body.immovable = true
         console.log("swinging")

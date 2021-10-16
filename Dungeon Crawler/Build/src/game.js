@@ -744,7 +744,7 @@ maingame.test_env.prototype = {
 
     if (cursors.space.downDuration(100) && !keyReset) {
       keyReset = true;
-      use_current_weapon();
+      swing_melee(player, player.current_item);
     }
     if (!cursors.space.isDown) {
       keyReset = false;

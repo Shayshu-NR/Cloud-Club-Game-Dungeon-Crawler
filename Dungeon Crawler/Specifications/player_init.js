@@ -172,7 +172,8 @@ function init_player(game, player) {
             "damage": 1,
             "knockback" : 3,
             "frequency" : 1,
-            "quantity": 1
+            "quantity": 1,
+            "attack_speed" : 1
         }
 
         game.player_attributes.current = {
