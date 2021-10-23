@@ -20,14 +20,15 @@ game.player_attributes = {
 game.current_time = 0
 game.playerMoney = 0
 
-game.state.add("Main", maingame.test_env)
+game.state.add("Main", maingame.test_env);
 
 // Levels
-game.state.add("Ripleys", maingame.Ripleys)
+game.state.add("Ripleys", maingame.Ripleys);
 
-game.state.add("Backpack", maingame.BackPack)
-game.state.add("Skill tree", maingame.skill_tree)
-game.state.add("Game", maingame.test_env)
-game.state.add("StartMenu", maingame.startmenu)
+game.state.add("Backpack", maingame.BackPack);
+game.state.add("Skill tree", maingame.skill_tree);
+game.state.add("Game", maingame.test_env);
+game.state.add("StartMenu", maingame.startmenu);
 game.state.add("Merchant", maingame.merchant);
+game.state.add("GameOver", maingame.gameOver);
 game.state.start("StartMenu")

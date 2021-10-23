@@ -78,20 +78,20 @@ function swing_melee(player, current_item) {
 
         // Left
         if (player_facing == 0) {
-            weapon = default_sword.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_left.png')
+            weapon = playerWeapon.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_left.png')
         }
         // Right
         else if (player_facing == 1) {
-            weapon = default_sword.create(player.position.x + 22, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_right.png')
+            weapon = playerWeapon.create(player.position.x + 22, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_right.png')
         }
         // Up
         else if (player_facing == 2) {
-            weapon = default_sword.create(player.position.x + 11, player.position.y - 14, current_item.atlas, 'weapon_regular_sword_up.png')
+            weapon = playerWeapon.create(player.position.x + 11, player.position.y - 14, current_item.atlas, 'weapon_regular_sword_up.png')
 
         }
         // Down
         else if (player_facing == 3) {
-            weapon = default_sword.create(player.position.x + 11, player.position.y + 24, current_item.atlas, 'weapon_regular_sword_down.png')
+            weapon = playerWeapon.create(player.position.x + 11, player.position.y + 24, current_item.atlas, 'weapon_regular_sword_down.png')
         }
         weapon.body.immovable = true
         console.log("swinging")
@@ -189,6 +189,7 @@ function open_chest(player, chest) {
 }
 
 function lizard_dmg(default_sword, enemy) {
+
     if (enemy.health <= 0) {
         enemy.kill()
         player.exp += enemy.exp
@@ -199,7 +200,8 @@ function lizard_dmg(default_sword, enemy) {
         show_dmg(damage, enemy);
 
         enemy.health -= damage
-        console.log(enemy.health)
+        console.log("nme health:", enemy.health)
+        
         enemy.immune = true
         setTimeout(function () {
             enemy.immune = false
@@ -212,7 +214,7 @@ function show_dmg(damage, enemy) {
     var y_pos = enemy.position.y - (enemy.height / 2) - 2
     var style = {
         font: 'bold 20pt Dungeon Crawler',
-        fill: 'red'
+        fill: (enemy.hasOwnProperty('current_item') ? 'white' : 'red')
     }
 
     var text = game.add.text(x_pos, y_pos, String(damage), style)
@@ -263,7 +265,8 @@ function damage_player(player, enemy) {
 
     if (!player.knockback) {
         var dmg_dealt = enemy.Damage * player.defense
-        kill_player(player, dmg_dealt)
+        show_dmg(dmg_dealt, player);
+        kill_player(player, dmg_dealt);
     }
 
     if (player.body.touching["left"]) {

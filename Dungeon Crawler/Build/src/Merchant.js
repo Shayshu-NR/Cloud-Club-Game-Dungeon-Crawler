@@ -100,6 +100,7 @@ maingame.merchant.prototype = {
             game.merchantItems[this.item_index].kill();
             this.pricetext.kill();
             player.putBackpack(this.item)
+            game.moneyText.text = player.money;
             console.log("Bought!")
           }
         },
@@ -112,41 +113,6 @@ maingame.merchant.prototype = {
 
       game.merchantItems.push(newItem)
     })
-
-    /*
-    GeneratedItems.forEach(function (key, value) {
-      console.log(key, value);
-      game.add.button(
-        167 + x * value - game.cache.getImage(key).width / 2,
-        2 * 43 - game.cache.getImage(key).height / 2,
-        key,
-        function () {
-          if (player.money < item.price) {
-            console.log("Player does not have enough money");
-            var style = {
-              font: "bold 15pt Dungeon Crawler",
-              fill: "red",
-            };
-
-            var text = game.add.text(10, 10, "Not enough money", style);
-
-            game.time.events.add(
-              2000,
-              function (arr) {
-                game.add
-                  .tween(arr[0])
-                  .to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-              },
-              this,
-              [text]
-            );
-          } else {
-            player.money -= item.price;
-            item.kill();
-          }
-        }
-      );
-    });*/
 
     function actionOnClick() {
       game.player_attributes = {
@@ -187,29 +153,3 @@ function weighted_random(items, weights) {
 
   return items[i];
 }
-
-/*
-if (player.money < item.price) {
-            console.log("Player does not have enough money");
-            var style = {
-              font: "bold 15pt Dungeon Crawler",
-              fill: "red",
-            };
-
-            var text = game.add.text(10, 10, "Not enough money", style);
-
-            game.time.events.add(
-              2000,
-              function (arr) {
-                game.add
-                  .tween(arr[0])
-                  .to({ alpha: 0 }, 1000, Phaser.Easing.Linear.None, true);
-              },
-              this,
-              [text]
-            );
-          } else {
-            player.money -= item.price;
-            item.kill();
-          }
-*/

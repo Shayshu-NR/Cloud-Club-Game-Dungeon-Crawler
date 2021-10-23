@@ -184,7 +184,7 @@ maingame.test_env.prototype = {
   },
 
   create: function () {
-   
+
     //-------------------- Load Currency --------------------
     currency_json = JSON.parse(game.cache.getText('currency'))
     enemies_json = JSON.parse(game.cache.getText('enemies'))
@@ -437,9 +437,9 @@ maingame.test_env.prototype = {
       "pirate": pirate,
       "shark": shark
     }
-     //----------- Dummy Variable ----------------------------
-     player.lazer = {
-      amount : 5,
+    //----------- Dummy Variable ----------------------------
+    player.lazer = {
+      amount: 5,
       damage: 1,
       frequency: 1,
       group: undefined,
@@ -465,6 +465,7 @@ maingame.test_env.prototype = {
         nmeInst.coins = element.Coins;
         nmeInst.enableBody = true;
         nmeInst.Damage = element.Damage;
+        nmeInst.immune = false;
 
         element.Animations.forEach(function (frameElement, index) {
           nmeInst.animations.add(
@@ -601,10 +602,8 @@ maingame.test_env.prototype = {
     //health-bar set-up
     health_bars = [null, null, null, null, null, null, null, null, null, null, null]
     for (var i = 0; i < 10; i++) {
-      health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart')
-      health_bars[i].fixedToCamera = true
-      //health_bars[i].animations.add('blink', [2, 1, 2, 1, 2], 15, true) 
-
+      health_bars[i] = bars.create(8 + i * 16, 5, 'health_heart');
+      health_bars[i].fixedToCamera = true;
     }
 
     var actives = game.add.image(55, 550, 'actives')
@@ -629,13 +628,6 @@ maingame.test_env.prototype = {
 
     maxXpPoints = 100
 
-    //-------------------- Weapon example --------------------
-    weapon = game.add.weapon(30, 'arrow')
-    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-    weapon.bulletSpeed = 400;
-    weapon.fireRate = 1000;
-    weapon.trackSprite(player, 0, 0, true);
-
     cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
     cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
     cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B)
@@ -655,18 +647,7 @@ maingame.test_env.prototype = {
     this.timeText.fixedToCamera = true;
     this.timer = game.time.events.loop(10, tick, this);
 
-    itemChests[0].animations.play('open')
-
-
-    //-------------------- Pirate Creation -----------------------
-    /*
-    foreach(nme in json )
-      create nme
-      foreach(animation in json.animation)
-        nme.animation.add(asdlkhalskd)
-      
-      special other init
-    */
+    itemChests[0].animations.play('open');
   },
 
   update: function () {
@@ -711,10 +692,9 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(player, walls);
     game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
-    // game.physics.arcade.collide(player, chest, open_chest, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
     game.physics.arcade.collide(player, pirate, damage_player, null, this)
-    game.physics.arcade.collide(playerWeapon, pirates, lizard_dmg, null, this);
+    game.physics.arcade.collide(playerWeapon, pirate, lizard_dmg, null, this);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
     game.physics.arcade.collide(player.current_item, enemies, knockback_enemies, null, this);
@@ -805,6 +785,7 @@ maingame.test_env.prototype = {
       game.state.start("Backpack");
       console.log("in backpack state");
     }
+
     //-------------------- EXP update and HUD --------------------
     // Point checking
     if (player.exp - lastLevelPoints >= maxXpPoints) {
@@ -837,9 +818,9 @@ maingame.test_env.prototype = {
     this.timeText.x = 650 + this.camera.view.x
     player.healthchange()
     game.playerHealth = player.health
-  },
 
-  render: function () {
-    //game.debug.bodyInfo(player, 32, 32);
+    if (player.health <= 0) {
+      game.state.start("GameOver");
+    }
   }
 };
