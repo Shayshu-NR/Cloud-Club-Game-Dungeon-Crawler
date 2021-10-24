@@ -69,7 +69,7 @@ function swing_default_sword(player) {
 }
 
 function swing_melee(player, current_item) {
-    
+
     if (current_item.weapon_type == "melee") {
         console.log("swinging")
         player.body.velocity.x = 0
@@ -99,27 +99,27 @@ function swing_melee(player, current_item) {
     }
 }
 
-function knockback_enemies(weapon, enemy){
+function knockback_enemies(weapon, enemy) {
     var velocity = {
         x: enemy.velocity.x,
         y: enemy.velocity.y,
-        z :  (velocity.y**2 + velocity.x**2)**(1/2)
+        z: (velocity.y ** 2 + velocity.x ** 2) ** (1 / 2)
     }
 
-    enemy.velocity.x = -x/z*weapon.knockback
-    enemy.velocity.y = -y/z*weapon.knockback
+    enemy.velocity.x = -x / z * weapon.knockback
+    enemy.velocity.y = -y / z * weapon.knockback
 
     var timedEvent = this.time.addEvent({
-        delay:1000,
-        callback: function set_to_original(){
-            enemy.velocity.x = -x/z*weapon.knockback,
-            enemy.velocity.y = -y/z*weapon.knockback
+        delay: 1000,
+        callback: function set_to_original() {
+            enemy.velocity.x = -x / z * weapon.knockback,
+                enemy.velocity.y = -y / z * weapon.knockback
         }
-        
+
     })
 }
 
-function throw_projectile(player,current_item) {
+function throw_projectile(player, current_item) {
     if (current_item.weapon_type == "projectile" && current_item.amount != 0) {
         console.log("throwing")
         current_item.in_progress = true
@@ -201,7 +201,7 @@ function lizard_dmg(default_sword, enemy) {
 
         enemy.health -= damage
         console.log("nme health:", enemy.health)
-        
+
         enemy.immune = true
         setTimeout(function () {
             enemy.immune = false
@@ -394,6 +394,15 @@ function pirate_track(enemy) {
 }
 
 function level_up(player) {
+    // add level up text 
+    var lvlUpText = statics.create(400, 525, 'LevelUp', 0);
+    lvlUpText.fixedToCamera = true;
+    lvlUpText.animations.add("lvlup", [0, 1, 2, 3, 4, 5, 6, 7, 8], 10, true);
+    lvlUpText.animations.play("lvlup");
+
+    game.time.events.add((Phaser.Timer.SECOND * 5), function(lvluptxt){ lvluptxt[0].kill();}, this, [lvlUpText])
+
+
     console.log("LEVEL");
     player.getCurrentLevel();
 
