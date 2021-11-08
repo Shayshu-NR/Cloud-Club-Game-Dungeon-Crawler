@@ -1,6 +1,7 @@
 var maingame = {};
 var BuildItems = new Items("test_items.json");
 var levelCoins = new Coins("currency.json");
+var enemyJson = new Enemies("ripleys_enemies.json");
 
 //-------------------- Tile map --------------------
 var map;
@@ -29,6 +30,7 @@ var cursors;
 var currency_json;
 var enemies_json;
 var door_json;
+var enemyCount = 0;
 
 //-------------------- Weapons --------------------
 var default_sword;
@@ -98,8 +100,14 @@ maingame.test_env.prototype = {
     );
 
     this.load.spritesheet("chest", "../Gabrielle/src/Assets/chest.png", 32, 32);
-    
-    this.load.spritesheet("LevelUp", "../Assets/General assets/LevelUp.png", 100, 25, 9);
+
+    this.load.spritesheet(
+      "LevelUp",
+      "../Assets/General assets/LevelUp.png",
+      100,
+      25,
+      9
+    );
 
     this.load.image(
       "heart",
@@ -134,6 +142,12 @@ maingame.test_env.prototype = {
       "full_pirate",
       "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.png",
       "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.json"
+    );
+
+    this.load.atlas(
+      "shark",
+      "../Assets/General assets/Ripleys Aquarium/shark-swim/Shark_atlas_sheet.png",
+      "../Assets/General assets/Ripleys Aquarium/shark-swim/Shark_atlas_js.json"
     );
 
     this.load.image("arrow", "../Assets/General assets/arrow_right.png");
@@ -182,6 +196,7 @@ maingame.test_env.prototype = {
   },
 
   create: function () {
+    enemyCount = 0;
     //-------------------- Load Currency --------------------
     currency_json = JSON.parse(game.cache.getText("currency"));
     enemies_json = JSON.parse(game.cache.getText("enemies"));
@@ -377,11 +392,10 @@ maingame.test_env.prototype = {
     };
 
     //-------------------- Enemy Creation Script --------------------
-    var enemyJson = JSON.parse(game.cache.getText("enemies"));
-    enemyJson.forEach(function (element, index) {
+    enemyJson.emeData.forEach(function (element, index) {
       var nmeInst;
 
-      if (enemyMapping[element.Name] != "button") {
+      if (enemyMapping[element.Name] != "button" && !element.dead) {
         nmeInst = enemyMapping[element.Name].create(
           element.x,
           element.y,
@@ -397,6 +411,7 @@ maingame.test_env.prototype = {
         nmeInst.enableBody = true;
         nmeInst.Damage = element.Damage;
         nmeInst.immune = false;
+        nmeInst.index = index;
 
         element.Animations.forEach(function (frameElement, index) {
           nmeInst.animations.add(
@@ -415,7 +430,6 @@ maingame.test_env.prototype = {
         switch (element.Name) {
           case "pirate":
           case "shark":
-            console.log("Pirate LOGIC");
             nmeInst.bounds = element.Extra.filter(
               (x) => Object.keys(x)[0] === "bounds"
             )[0].bounds;
@@ -441,7 +455,9 @@ maingame.test_env.prototype = {
           default:
             break;
         }
-      } else {
+
+        enemyCount++;
+      } else if (!element.dead) {
         var callbackFunction = element.Extra.filter(
           (x) => Object.keys(x)[0] === "callback"
         )[0].callback;
@@ -617,6 +633,7 @@ maingame.test_env.prototype = {
 
   update: function () {
     pirate.children.forEach((x) => pirate_track(x));
+    shark.children.forEach((x) => shark_track(x));
 
     player.moveCurrentToBackpack();
     if (cursors.startMenu.downDuration(100)) {
@@ -664,11 +681,16 @@ maingame.test_env.prototype = {
 
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
+    game.physics.arcade.collide(pirate, walls);
+    game.physics.arcade.collide(shark, walls);
+
     game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
     game.physics.arcade.collide(player, pirate, damage_player, null, this);
+    game.physics.arcade.collide(player, shark, damage_player, null, this);
     game.physics.arcade.collide(playerWeapon, pirate, lizard_dmg, null, this);
+    game.physics.arcade.collide(playerWeapon, shark, lizard_dmg, null, this);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
     game.physics.arcade.collide(
@@ -809,5 +831,13 @@ maingame.test_env.prototype = {
     if (player.health <= 0) {
       game.state.start("GameOver");
     }
+
+    if (killCount == enemyCount) {
+      console.log("LEVEL DONE");
+    }
   },
+
+  render: function() {
+    game.debug.bodyInfo(player, 32, 32);
+  }
 };

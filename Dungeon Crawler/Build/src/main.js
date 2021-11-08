@@ -1,4 +1,7 @@
 const game = new Phaser.Game(800, 600, Phaser.AUTO)
+const levelCount = 1;
+var levelCurrent = 1;
+
 game.playerSpeed = 175
 game.playerDamage = 1
 game.playerAttackSpeed = 1

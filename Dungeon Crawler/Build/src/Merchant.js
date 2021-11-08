@@ -120,6 +120,8 @@ maingame.merchant.prototype = {
         actives: active_items,
         current: current_item,
       };
+
+      game.playerExp = game.playerExp;
       game.current_time = timeLimit;
       game.state.start("Game");
     }

@@ -90,5 +90,53 @@
         }
       }
     ]
+  },
+  {
+    "Name": "shark",
+    "x": 790,
+    "y": 560,
+    "Health": 3,
+    "Exp": 150,
+    "Coins": 0,
+    "Damage": 5,
+    "Atlas": "shark",
+    "Frame1": "shark-swim-left-f1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "shark-swim-right-f",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 10
+      },
+      {
+        "Name": "shark-swim-left-f",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 10
+      },
+      {
+        "Name": "shark-swim-up-f",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 10
+      },
+      {
+        "Name": "shark-swim-down-f",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 10
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 608,
+          "x2": 967,
+          "y1": 432,
+          "y2": 688
+        }
+      }
+    ]
   }
 ]

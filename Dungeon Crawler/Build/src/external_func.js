@@ -1,11 +1,10 @@
-// ~~~~~
+//~~~~~
 function lizard_turn_around(enemy, walls) {
     current = enemy.body.velocity.x
     lizard_direction *= -1
     enemy.body.velocity.x = -current
 }
 
-// Use the currently equipped weapon
 function use_current_weapon() {
 
     if (player.current_item.weapon_type === "melee") {
@@ -99,24 +98,28 @@ function swing_melee(player, current_item) {
     }
 }
 
-function knockback_enemies(weapon, enemy) {
+function knockback_enemies(currentWep, enemy) {
+
     var velocity = {
-        x: enemy.velocity.x,
-        y: enemy.velocity.y,
-        z: (velocity.y ** 2 + velocity.x ** 2) ** (1 / 2)
+        x: enemy.body.velocity.x,
+        y: enemy.body.velocity.y,
     }
 
-    enemy.velocity.x = -x / z * weapon.knockback
-    enemy.velocity.y = -y / z * weapon.knockback
+    velocity.z = (velocity.y ** 2 + velocity.x ** 2) ** (1 / 2);
 
-    var timedEvent = this.time.addEvent({
-        delay: 1000,
-        callback: function set_to_original() {
-            enemy.velocity.x = -x / z * weapon.knockback,
-                enemy.velocity.y = -y / z * weapon.knockback
-        }
+    enemy.body.velocity.x = -velocity.x / velocity.z * currentWep.knockback
+    enemy.body.velocity.y = -velocity.y / velocity.z * currentWep.knockback
 
-    })
+    game.time.events.add(
+        (Phaser.Timer.SECOND * 10 * currentWep.knockback / currentWep.attack_speed),
+        function set_to_original(nmeInfo) {
+            nmeInfo[0].body.velocity.x = -nmeInfo[1].x / nmeInfo[1].z * nmeInfo[2].knockback,
+                nmeInfo[0].body.velocity.y = -nmeInfo[1].y / nmeInfo[1].z * nmeInfo[2].knockback
+        },
+        this,
+        [enemy, velocity, currentWep]
+    )
+    console.log(enemy, velocity, currentWep);
 }
 
 function throw_projectile(player, current_item) {
@@ -165,7 +168,6 @@ function throw_projectile(player, current_item) {
     }
 }
 
-
 function add_coins(player, coin) {
     player.money += 10;
 
@@ -188,24 +190,31 @@ function open_chest(player, chest) {
     }
 }
 
-function lizard_dmg(default_sword, enemy) {
+function lizard_dmg(weapon, enemy) {
 
     if (enemy.health <= 0) {
+        enemyJson.emeData[enemy.index].dead = true;
+
         enemy.kill()
         player.exp += enemy.exp
         game.playerExp = player.exp
+        killCount++;
     }
     if (!enemy.immune) {
         var damage = player.current_item["damage"] + player.damage + player.crit_damage();
+
         show_dmg(damage, enemy);
 
-        enemy.health -= damage
-        console.log("nme health:", enemy.health)
+        enemy.health -= damage;
 
-        enemy.immune = true
+        // make the enemy knockback...
+        knockback_enemies(player.current_item, enemy);
+
+        enemy.immune = true;
+
         setTimeout(function () {
             enemy.immune = false
-        }, player.attack_speed * 2000)
+        }, player.attack_speed * 2000);
     }
 }
 
@@ -262,8 +271,10 @@ function shark_track(enemy) {
 function damage_player(player, enemy) {
     // Deal damage to a player and knock them back in 
     // the opposite direction they're facing
+    console.log("Damage player")
 
     if (!player.knockback) {
+
         var dmg_dealt = enemy.Damage * player.defense
         show_dmg(dmg_dealt, player);
         kill_player(player, dmg_dealt);
@@ -291,8 +302,9 @@ function damage_player(player, enemy) {
         player.knockback = true
 
         game.time.events.add(
-            500,
+            (Phaser.Timer.SECOND * 0.5),
             function () {
+                console.log("Player knock back done");
                 player.knockback = false
             },
             this
@@ -395,15 +407,14 @@ function pirate_track(enemy) {
 
 function level_up(player) {
     // add level up text 
-    var lvlUpText = statics.create(400, 525, 'LevelUp', 0);
+    var lvlUpText = statics.create(375, 525, 'LevelUp', 0);
     lvlUpText.fixedToCamera = true;
+    lvlUpText.scale.setTo(2, 2);
     lvlUpText.animations.add("lvlup", [0, 1, 2, 3, 4, 5, 6, 7, 8], 10, true);
     lvlUpText.animations.play("lvlup");
 
-    game.time.events.add((Phaser.Timer.SECOND * 5), function(lvluptxt){ lvluptxt[0].kill();}, this, [lvlUpText])
+    game.time.events.add((Phaser.Timer.SECOND * 5), function (lvluptxt) { lvluptxt[0].kill(); }, this, [lvlUpText])
 
-
-    console.log("LEVEL");
     player.getCurrentLevel();
 
     console.log("Reached level", player.level);
@@ -412,7 +423,6 @@ function level_up(player) {
 
     lvltxt1.text = "" + player.level;
     lvltxt2.text = "" + (player.level + 1);
-    //xp_bar.scale.set((player.exp / maxXpPoints) * 8, 2);
 }
 
 var tick = function () {
