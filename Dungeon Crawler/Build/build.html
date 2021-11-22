@@ -6,6 +6,7 @@
     <title>Dungeon Crawler - Cloud Club</title>
     <!-- Phaser Library -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!-- Game -->
     <script type="text/javascript" src="../Specifications/player_init.js"></script>
@@ -32,5 +33,20 @@
         <script type="text/javascript" src="./src/main.js"></script>
     </div>
 </body>
+
+<script>
+
+    $(document).ready(function(){
+        $.ajax({
+          type: "GET",
+          url: "http://127.0.0.1:8000/api/getLeaderBoard/all",
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          success: function (data) {
+              console.log(data);
+          }
+      })
+    });
+</script>
 
 </html>
