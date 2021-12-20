@@ -1,0 +1,142 @@
+[
+  {
+    "Name": "merchant",
+    "x": 25,
+    "y": 280,
+    "Health": 0,
+    "Exp": 0,
+    "Coins": 0,
+    "Atlas": "",
+    "Frame1": "merchant",
+    "Scale": 1,
+    "Animations": [],
+    "Extra": [
+      {
+        "callback": {
+          "arguments": "",
+          "body": "game.player_attributes = { \"backpack\": player.backpack, \"actives\": player.active_items, \"current\": player.current_item, \"x\": player.body.position.x, \"y\": player.body.position.y, \"money\": player.money }; game.playerExp = player.exp; game.current_time = timeLimit; game.state.start(\"Merchant\");"
+        }
+      }
+    ]
+  },
+  {
+    "Name": "pirate",
+    "x": 115.5,
+    "y": 475.5,
+    "Health": 3,
+    "Exp": 100,
+    "Coins": 0,
+    "Damage": 3,
+    "Atlas": "full_pirate",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 16,
+          "x2": 215,
+          "y1": 430,
+          "y2": 521
+        }
+      }
+    ]
+  },
+  {
+    "Name": "shark",
+    "x": 790,
+    "y": 560,
+    "Health": 3,
+    "Exp": 150,
+    "Coins": 0,
+    "Damage": 5,
+    "Atlas": "shark",
+    "Frame1": "shark-swim-left-f1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "shark-swim-right-f",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 10
+      },
+      {
+        "Name": "shark-swim-left-f",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 10
+      },
+      {
+        "Name": "shark-swim-up-f",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 10
+      },
+      {
+        "Name": "shark-swim-down-f",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 10
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 608,
+          "x2": 967,
+          "y1": 432,
+          "y2": 688
+        }
+      }
+    ]
+  }
+]

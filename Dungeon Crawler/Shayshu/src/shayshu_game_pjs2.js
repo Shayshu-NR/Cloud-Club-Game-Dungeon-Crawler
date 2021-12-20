@@ -344,7 +344,7 @@ maingame.test_env.prototype = {
         big_guy_tween.to({ x: 700, y: 200 }, 1000, null, true, 0, -1, true)
         big_guy = enemy_init(big_guy, 25, 500)
 
-        sharky = shark.create(16, 48, 'shark', 'shark-swim-left-f1.png')
+         sharky = shark.create(16, 48, 'shark', 'shark-swim-left-f1.png')
         sharky.scale.setTo(1.5)
         sharky.bounds = {
             x1: 16,

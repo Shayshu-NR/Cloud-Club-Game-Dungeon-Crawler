@@ -6,6 +6,7 @@
     <title>Dungeon Crawler - Cloud Club</title>
     <!-- Phaser Library -->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/phaser/2.6.2/phaser.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
     <!-- Game -->
     <script type="text/javascript" src="../Specifications/player_init.js"></script>
@@ -20,6 +21,7 @@
     <script type="text/javascript" src="./src/HUD.js"></script>
     <script type="text/javascript" src="./src/StartMenu.js"></script>
     <script type="text/javascript" src="./src/Merchant.js"></script>
+    <script type="text/javascript" src="./src/gameOver.js"></script>
     <!-- <script type="text/javascript" src="./src/RipleyLevel.js"></script> -->
 
     <script type="text/javascript" src="./src/Items/test_items.json"></script>
@@ -31,5 +33,40 @@
         <script type="text/javascript" src="./src/main.js"></script>
     </div>
 </body>
+
+<script>
+
+    $(document).ready(function(){
+        $.ajax({
+          type: "GET",
+          url: "http://127.0.0.1:8000/api/getLeaderBoard/all",
+          dataType: "json",
+          contentType: "application/json; charset=utf-8",
+          success: function (data) {
+              console.log(data);
+          }
+      });
+      
+      $.ajax({
+            "url": "http://127.0.0.1:8000/api/setLeaderBoardEntry",
+            "method": "POST",
+            "timeout": 0,
+            "headers": {
+                "Content-Type": "application/json",
+                "Cookie": "XSRF-TOKEN=eyJpdiI6IktZUEVpdDJaWFBUcEJEaXlLTW00THc9PSIsInZhbHVlIjoiY3RXUmtWSnlSNytBMFN2RkRmdHFicVVUbkZhQmtqb09adUdsaTI2Y3RHMHhXeFdXNWhnUDVzZnZuMnJPRXJnakxMb2F1R1NFazVQaWg0QjdOZlVxZTBmNzgzU1VSS3VyQklXWmVseUx1VExtTGxZRjFLa2dMSnVrbjExRkZ3YkEiLCJtYWMiOiI5ZjMzMjYyNWY0YWYxYjVmMDVkZWJhMjY2NzE2YWEwOTA1NTZmZTI1MTg1MDFlMmFhODEwMmI2NjI5OTZjZmM0IiwidGFnIjoiIn0%3D; laravel_session=eyJpdiI6InBkNS9DNG5GZHdISWIzZHdvNkt1UEE9PSIsInZhbHVlIjoiaVNNamtwQlhLMWRubkVXdDJpcGIxMTc5bmR1RTAvdzVybHNPMFVVZ0ZhaEhCTSt1WG5mWkpvNlY2U3N4SGZMc3BrenBxOGpENmgydVRXR2cxdlpHc2JyL3h3dGs4a05SMzd5RkYxUXZBN2FORjZpWEZYaEpTSTBJZ0RaVGNYOHgiLCJtYWMiOiI1MmZmOWY3Mjg4OGQ1MWFlN2Y2ZWVmYWQyNTc1NjA5NWRlNjJhYWY4ZTA4N2Y3ZGM3ZDBlOGUzM2MyNWMwYjhhIiwidGFnIjoiIn0%3D"
+            },
+            "data": JSON.stringify({
+                "Name": "1234",
+                "Time": "23:50:13",
+                "CoinTotal": "12",
+                "Level": "1"
+            }),
+            success: function (data) {
+                console.log(data);
+            }
+      });
+
+    });
+</script>
 
 </html>
