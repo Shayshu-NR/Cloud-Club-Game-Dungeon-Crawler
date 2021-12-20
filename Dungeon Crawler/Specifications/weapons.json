@@ -6,10 +6,13 @@
         "src": "health_pot_1.png",
         "use": "use_potion(player, \"Health_Potion\")",
         "weapon_type" : "melee/projectile",
+        "projectile_group" : "", // unique to projectiles
         "knockback" : 123, // unique to melee
         "speed" : 123, // unique to projectiles
         "damage" : 123,
         "range" : 123, // unique to projectiles
-        "frequency" : 123
+        "frequency" : 123,
+        "projectileKillType" : "Phaser.Weapon.KILL_WORLD_BOUNDS", // unique to projectiles
+        "projectileAngleVariance" : "" // unique to projectiles
     }
 ]
