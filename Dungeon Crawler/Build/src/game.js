@@ -623,11 +623,14 @@ maingame.test_env.prototype = {
     cursors.useAct2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO)
     cursors.useAct3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE)
     cursors.startMenu = game.input.keyboard.addKey(Phaser.Keyboard.P)
+<<<<<<< HEAD
 
     
     
     
 
+=======
+>>>>>>> 0bd9bb1a3552ef2b3c5017f3481bb0a9c2234a1b
 
     //-------------------- Speed run timer --------------------
     timeLimit = game.current_time;
