@@ -33,7 +33,7 @@ var door_json;
 var default_sword;
 var weapon;
 var playerWeapon;
-
+var weapon_prj
 //-------------------- Treasure --------------------
 var chest;
 var statics
@@ -629,7 +629,7 @@ maingame.test_env.prototype = {
 
     maxXpPoints = 100
 
-    //-------------------- Weapon example --------------------
+    //-------------------- Weapon -------------------------
     weapon = game.add.weapon(30, 'arrow')
     weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     weapon.bulletSpeed = 400;
@@ -643,6 +643,11 @@ maingame.test_env.prototype = {
     cursors.useAct2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO)
     cursors.useAct3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE)
     cursors.startMenu = game.input.keyboard.addKey(Phaser.Keyboard.P)
+
+    
+    
+    
+
 
     //-------------------- Speed run timer --------------------
     timeLimit = game.current_time
