@@ -122,52 +122,18 @@ function knockback_enemies(currentWep, enemy) {
     console.log(enemy, velocity, currentWep);
 }
 
-function throw_projectile(player, current_item) {
-    if (current_item.weapon_type == "projectile" && current_item.amount != 0) {
-        console.log("throwing")
-        current_item.in_progress = true    
-        weapon_prj = statics.create(player.position.x, player.position.y, current_item.src)
-        current_item.amount -= 1 //amount of the ammo the player has because there cannot be infinate arrows
-        console.log(current_item.amount)
+function throw_projectile(player){
+    weapon = game.add.weapon(30, 'bullet')
+    weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+    weapon.bulletSpeed = 400
+    weapon.fireRate = 1000;
 
-        weapon_prj = game.add.weapon(30, 'Laser.png')
+   
+    
+    
+    weapon.trackSprite(player, 0, 0, true);
 
-    //     if ((player.body.velocity.x && player.body.velocity.y) != 0) {
-    //         var v1, v2;
-    //         v1 = player.body.velocity.x
-    //         v2 = player.body.velocity.y
-    //         var speed = ((v1 ** 2 + v2 ** 2)) ** (1 / 2)
-
-    //         weapon_prj.body.velocity.x = (v1 / speed) * current_item.speed
-    //         weapon_prj.body.velocity.y = (v2 / speed) * current_item.speed
-    //     }
-    //     else {
-    //         if (player_facing == 0) {
-    //             weapon_prj.body.velocity.x = -player.current_item.speed
-    //             weapon_prj.body.velocity.y = 0
-    //         }
-    //         else if (player_facing == 1) {
-    //             weapon_prj.body.velocity.x = player.current_item.speed
-    //             weapon_prj.body.velocity.y = 0
-    //         }
-    //         else if (player_facing == 2) {
-    //             weapon_prj.body.velocity.x = 0
-    //             weapon_prj.body.velocity.y = player.current_item.speed
-    //         }
-    //         else {
-    //             weapon_prj.body.velocity.x = 0
-    //             weapon_prj.body.velocity.y = -player.current_item.speed
-    //         }
-    //     }
-
-    //     /*
-    //     if the projectile collides with a wall or enemy we want the projectile to die/explode/restart?
-    //     */
-    //     setTimeout(function kill_projectile() {
-    //         weapon_prj.kill()
-    //     }, player.current_item.frequency);
-    // 
-    }
+    weapon.fire()
 }
 
 function add_coins(player, coin) {

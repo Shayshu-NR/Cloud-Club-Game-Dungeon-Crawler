@@ -31,7 +31,7 @@ player.current_item = {
     "Knockback" : 12,
     "Damage" : 12,
     "Attack_Speed" : 125,
-    "Weapon_Type" : "Projectile",
+    "Weapon_Type" : "melee",
     "Speed" :  12445,
     "Distance" : 120
 }

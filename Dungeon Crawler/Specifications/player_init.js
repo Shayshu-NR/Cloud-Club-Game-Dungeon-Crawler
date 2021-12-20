@@ -155,7 +155,7 @@ function init_player(game, player) {
     }
 
 
-    // Exp(level) = 100(level)^1.5
+    // Exp() = 100(level)^1.5
     player.getCurrentLevel = function () {
         player.level = Math.floor(Math.pow((player.exp / 100.0), 2.0 / 3.0)) + 1
         return player.level

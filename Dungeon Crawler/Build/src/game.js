@@ -356,8 +356,9 @@ maingame.test_env.prototype = {
     default_sword = game.add.group();
     default_sword.enableBody = true;
 
-    playerWeapon = game.add.physicsGroup(Phaser.Physics.ARCADE);
-    playerWeapon.enableBody = true;
+    weapon = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    weapon.enableBody = true;
+
 
     //-------------------- Add example enemies --------------------
     lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -474,7 +475,7 @@ maingame.test_env.prototype = {
 
     cursors = game.input.keyboard.createCursorKeys();
     cursors.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    cursors.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
+    cursors.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC);weapon
 
     statics = game.add.physicsGroup(Phaser.Physics.ARCADE);
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -608,7 +609,6 @@ maingame.test_env.prototype = {
 
     maxXpPoints = 100;
 
-<<<<<<< HEAD
     //-------------------- Weapon -------------------------
     weapon = game.add.weapon(30, 'arrow')
     weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -623,15 +623,6 @@ maingame.test_env.prototype = {
     cursors.useAct2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO)
     cursors.useAct3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE)
     cursors.startMenu = game.input.keyboard.addKey(Phaser.Keyboard.P)
-=======
-    cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z);
-    cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F);
-    cursors.bckpck = game.input.keyboard.addKey(Phaser.Keyboard.B);
-    cursors.useAct1 = game.input.keyboard.addKey(Phaser.Keyboard.ONE);
-    cursors.useAct2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO);
-    cursors.useAct3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE);
-    cursors.startMenu = game.input.keyboard.addKey(Phaser.Keyboard.P);
->>>>>>> 367106c5eceaaf48e841c8792305aa31162d8c1b
 
     
     
@@ -644,7 +635,7 @@ maingame.test_env.prototype = {
     var seconds = Math.floor((timeLimit - minutes * 6000) / 100);
     var miliseconds = timeLimit - seconds / 100 - minutes * 6000;
     var timeString =
-      addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
+    addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
     this.timeText = game.add.text(650, 20, timeString);
     this.timeText.fill = "#FFFFFF";
     this.timeText.fixedToCamera = true;
