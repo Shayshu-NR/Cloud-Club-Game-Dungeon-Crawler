@@ -33,7 +33,7 @@ function use_current_weapon() {
         var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [weapon])
     }
     else if (player.current_item.weapon_type === "projectile") {
-
+        throw_projectile(player);
     }
     else {
         return;
@@ -123,15 +123,13 @@ function knockback_enemies(currentWep, enemy) {
 }
 
 function throw_projectile(player){
-    weapon = game.add.weapon(30, 'bullet')
+    weapon = game.add.weapon(30, 'arrow')
     weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     weapon.bulletSpeed = 400
     weapon.fireRate = 1000;
-
-   
+    weapon.fireAngle = player.body.angle * 180 / Math.PI
     
-    
-    weapon.trackSprite(player, 0, 0, true);
+    weapon.trackSprite(player, 0, 0, false);
 
     weapon.fire()
 }
