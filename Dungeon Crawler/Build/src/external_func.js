@@ -5,34 +5,35 @@ function lizard_turn_around(enemy, walls) {
     enemy.body.velocity.x = -current
 }
 
-function use_current_projectile() {
+function use_current_weapon() {
 
-    if (player.current_item.projectile_type === "melee") {
+    if (player.current_item.weapon_type === "melee") {
         player.body.velocity.x = 0
         player.body.velocity.y = 0
         player.swing = true
+        var melee;
 
         // Left
         if (player_facing == 0) {
-            projectile = default_sword.create(player.position.x - 10, player.position.y + 16, player.current_item.atlas, player.current_item.frames[0]);
+            melee = default_sword.create(player.position.x - 10, player.position.y + 16, player.current_item.atlas, player.current_item.frames[0]);
         }
         // Right
         else if (player_facing == 1) {
-            projectile = default_sword.create(player.position.x + 22, player.position.y + 16, player.current_item.atlas, player.current_item.frames[1]);
+            melee = default_sword.create(player.position.x + 22, player.position.y + 16, player.current_item.atlas, player.current_item.frames[1]);
         }
         // Up
         else if (player_facing == 2) {
-            projectile = default_sword.create(player.position.x + 11, player.position.y - 14, player.current_item.atlas, player.current_item.frames[2]);
+            melee = default_sword.create(player.position.x + 11, player.position.y - 14, player.current_item.atlas, player.current_item.frames[2]);
         }
         // Down
         else if (player_facing == 3) {
-            projectile = default_sword.create(player.position.x + 11, player.position.y + 24, player.current_item.atlas, player.current_item.frames[3]);
+            melee = default_sword.create(player.position.x + 11, player.position.y + 24, player.current_item.atlas, player.current_item.frames[3]);
         }
-        projectile.body.immovable = true
+        melee.body.immovable = true
 
-        var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [projectile])
+        var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [melee])
     }
-    else if (player.current_item.projectile_type === "projectile") {
+    else if (player.current_item.weapon_type === "projectile") {
         throw_projectile(player);
     }
     else {
@@ -44,59 +45,61 @@ function swing_default_sword(player) {
     player.body.velocity.x = 0
     player.body.velocity.y = 0
     player.swing = true
+    var melee;
 
     // Left
     if (player_facing == 0) {
-        projectile = default_sword.create(player.position.x - 10, player.position.y + 16, 'sword', 'projectile_regular_sword_left.png')
+        melee = default_sword.create(player.position.x - 10, player.position.y + 16, 'sword', 'weapon_regular_sword_left.png')
     }
     // Right
     else if (player_facing == 1) {
-        weapon = default_sword.create(player.position.x + 22, player.position.y + 16, 'sword', 'weapon_regular_sword_left.png')
-        weapon.rotation+= 3.14
+        melee = default_sword.create(player.position.x + 22, player.position.y + 16, 'sword', 'weapon_regular_sword_left.png')
+        melee.rotation += Math.PI
     }
     // Up
     else if (player_facing == 2) {
-        weapon = default_sword.create(player.position.x + 11, player.position.y - 14, 'sword', 'weapon_regular_sword_left.png')
-        weapon.rotation+= 3.14/2
+        melee = default_sword.create(player.position.x + 11, player.position.y - 14, 'sword', 'weapon_regular_sword_left.png')
+        melee.rotation += Math.PI / 2
     }
     // Down
     else if (player_facing == 3) {
-        weapon = default_sword.create(player.position.x + 11, player.position.y + 24, 'sword', 'weapon_regular_sword_left.png')
-        weapon.rotation+= 3.14 *1.5
+        melee = default_sword.create(player.position.x + 11, player.position.y + 24, 'sword', 'weapon_regular_sword_left.png')
+        melee.rotation += Math.PI * 1.5
     }
-    projectile.body.immovable = true
+    melee.body.immovable = true
 
-    var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [projectile])
+    var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [melee])
 }
 
 function swing_melee(player, current_item) {
 
     //if (current_item.weapon_type == "melee") {
-        console.log("swinging")
-        player.body.velocity.x = 0
-        player.body.velocity.y = 0
-        player.swing = true
+    console.log("swinging")
+    player.body.velocity.x = 0
+    player.body.velocity.y = 0
+    player.swing = true
+    var melee;
 
-        // Left
-        if (player_facing == 0) {
-            projectile = playerprojectile.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'projectile_regular_sword_left.png')
-        }
-        // Right
-        else if (player_facing == 1) {
-            projectile = playerprojectile.create(player.position.x + 22, player.position.y + 16, current_item.atlas, 'projectile_regular_sword_right.png')
-        }
-        // Up
-        else if (player_facing == 2) {
-            projectile = playerprojectile.create(player.position.x + 11, player.position.y - 14, current_item.atlas, 'projectile_regular_sword_up.png')
+    // Left
+    if (player_facing == 0) {
+        melee = playerWeapon.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_left.png')
+    }
+    // Right
+    else if (player_facing == 1) {
+        melee = playerWeapon.create(player.position.x + 22, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_right.png')
+    }
+    // Up
+    else if (player_facing == 2) {
+        melee = playerWeapon.create(player.position.x + 11, player.position.y - 14, current_item.atlas, 'weapon_regular_sword_up.png')
 
-        }
-        // Down
-        else if (player_facing == 3) {
-            projectile = playerprojectile.create(player.position.x + 11, player.position.y + 24, current_item.atlas, 'projectile_regular_sword_down.png')
-        }
-        projectile.body.immovable = true
-        console.log("swinging")
-        var event = game.time.events.add((Phaser.Timer.SECOND * current_item.frequency) * current_item.attack_speed, sheath_sword, this, [weapon])
+    }
+    // Down
+    else if (player_facing == 3) {
+        melee = playerWeapon.create(player.position.x + 11, player.position.y + 24, current_item.atlas, 'weapon_regular_sword_down.png')
+    }
+    melee.body.immovable = true
+    console.log("swinging")
+    var event = game.time.events.add((Phaser.Timer.SECOND * current_item.frequency) * current_item.attack_speed, sheath_sword, this, [melee])
     //}
 }
 
@@ -126,25 +129,26 @@ function knockback_enemies(currentWep, enemy) {
 
 function throw_projectile(player) {
 
-    if (player.current_item.weapon_type == projectile) {
-        weapon = game.add.weapon(30, 'arrow')
-        weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-        weapon.bulletSpeed = 400
-        weapon.fireRate = 1000;
+    if (player.current_item.weapon_type == 'projectile') {
+        var projectile;
+        projectile = game.add.weapon(30, 'arrow')
+        projectile.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+        projectile.bulletSpeed = 400
+        projectile.fireRate = 1000;
 
         if (player_facing == 1)
-            weapon.trackSprite(player, 0 + 32, 0 + 16, false);
+            projectile.trackSprite(player, 0 + 32, 0 + 16, false);
 
         else if (player_facing == 3)
-            weapon.trackSprite(player, 0 + 12, 0 + 36, false);
+            projectile.trackSprite(player, 0 + 12, 0 + 36, false);
 
         else if (player_facing == 2)
-            weapon.trackSprite(player, 0 + 12, 0 - 16, false);
+            projectile.trackSprite(player, 0 + 12, 0 - 16, false);
 
         else
-            weapon.trackSprite(player, 0 - 8, 0 + 16, false);
+            projectile.trackSprite(player, 0 - 8, 0 + 16, false);
 
-        weapon.fire()
+        projectile.fire()
     }
 }
 
@@ -157,8 +161,8 @@ function add_coins(player, coin) {
     game.moneyText.text = player.money;
 }
 
-function sheath_sword(projectile) {
-    projectile[0].kill()
+function sheath_sword(weapon) {
+    weapon[0].kill()
     player.swing = false
 }
 
@@ -170,9 +174,9 @@ function open_chest(player, chest) {
     }
 }
 
-function lizard_dmg(projectile, enemy) {
+function lizard_dmg(weapon, enemy) {
 
-    console.log(projectile);
+    console.log(weapon);
     if (enemy.health <= 0) {
         enemyJson.emeData[enemy.index].dead = true;
 
