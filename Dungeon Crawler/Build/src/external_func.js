@@ -47,7 +47,7 @@ function swing_default_sword(player) {
 
     // Left
     if (player_facing == 0) {
-        projectile = default_sword.create(player.position.x - 10, player.position.y + 16, 'sword', 'projectile_regular_sword_left.png')
+        weapon = default_sword.create(player.position.x - 10, player.position.y + 16, 'sword', 'weapon_rusty_sword.png')
     }
     // Right
     else if (player_facing == 1) {
@@ -64,9 +64,9 @@ function swing_default_sword(player) {
         weapon = default_sword.create(player.position.x + 11, player.position.y + 24, 'sword', 'weapon_regular_sword_left.png')
         weapon.rotation+= 3.14 *1.5
     }
-    projectile.body.immovable = true
+   
 
-    var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [projectile])
+    var event = game.time.events.add((Phaser.Timer.SECOND * current_item.frequency) * current_item.attack_speed, sheath_sword, this, [weapon])
 }
 
 function swing_melee(player, current_item) {
@@ -94,7 +94,6 @@ function swing_melee(player, current_item) {
         else if (player_facing == 3) {
             projectile = playerprojectile.create(player.position.x + 11, player.position.y + 24, current_item.atlas, 'projectile_regular_sword_down.png')
         }
-        projectile.body.immovable = true
         console.log("swinging")
         var event = game.time.events.add((Phaser.Timer.SECOND * current_item.frequency) * current_item.attack_speed, sheath_sword, this, [weapon])
     //}
