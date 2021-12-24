@@ -475,7 +475,7 @@ maingame.test_env.prototype = {
 
     cursors = game.input.keyboard.createCursorKeys();
     cursors.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-    cursors.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC);weapon
+    cursors.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 
     statics = game.add.physicsGroup(Phaser.Physics.ARCADE);
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -610,7 +610,7 @@ maingame.test_env.prototype = {
     maxXpPoints = 100;
 
     //-------------------- Weapon -------------------------
-    weapon = game.add.weapon(30, 'arrow')
+    weapon = this.game.plugins.add(Phaser.Weapon)//game.add.weapon(30, 'arrow')
     weapon.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
     weapon.bulletSpeed = 400;
     weapon.fireRate = 1000;
@@ -699,6 +699,8 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(player, shark, damage_player, null, this);
     game.physics.arcade.collide(playerWeapon, pirate, lizard_dmg, null, this);
     game.physics.arcade.collide(playerWeapon, shark, lizard_dmg, null, this);
+    game.physics.arcade.overlap(weapon.bullets, shark, lizard_dmg);
+    game.physics.arcade.overlap(weapon.bullets, pirate, lizard_dmg);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
     game.physics.arcade.collide(
@@ -848,5 +850,9 @@ maingame.test_env.prototype = {
 
   render: function() {
     game.debug.bodyInfo(player, 32, 32);
+
+    game.debug.body(player);
+
+    game.debug.body(weapon);
   }
 };
