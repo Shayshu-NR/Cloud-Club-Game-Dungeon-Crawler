@@ -1,0 +1,95 @@
+{
+	"frames": {
+		"BigSword_Down.png": {
+			"frame": {
+				"x": 10,
+				"y": 10,
+				"w": 26,
+				"h": 23
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 26,
+				"h": 23
+			},
+			"sourceSize": {
+				"w": 26,
+				"h": 23
+			}
+		},
+		"BigSword_Left.png": {
+			"frame": {
+				"x": 10,
+				"y": 53,
+				"w": 26,
+				"h": 23
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 26,
+				"h": 23
+			},
+			"sourceSize": {
+				"w": 26,
+				"h": 23
+			}
+		},
+		"BigSword_Right.png": {
+			"frame": {
+				"x": 56,
+				"y": 10,
+				"w": 26,
+				"h": 23
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 26,
+				"h": 23
+			},
+			"sourceSize": {
+				"w": 26,
+				"h": 23
+			}
+		},
+		"BigSword_Up.png": {
+			"frame": {
+				"x": 56,
+				"y": 53,
+				"w": 26,
+				"h": 23
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 26,
+				"h": 23
+			},
+			"sourceSize": {
+				"w": 26,
+				"h": 23
+			}
+		}
+	},
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 92,
+			"h": 86
+		},
+		"scale": "1"
+	}
+}
