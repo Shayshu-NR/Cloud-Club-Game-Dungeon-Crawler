@@ -59,7 +59,7 @@ var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
 
-maingame.test_env = function (game) {};
+maingame.test_env = function (game) { };
 
 maingame.test_env.prototype = {
   preload: function () {
@@ -193,6 +193,8 @@ maingame.test_env.prototype = {
     game.load.text("currency", "../Specifications/currency.json");
     game.load.text("enemies", "./src/Enemies/ripleys_enemies.json");
     game.load.text("doors", "../Specifications/door.json");
+
+    game.load.image("ripleys-background", "../Assets/General assets/water-texture.png")
   },
 
   create: function () {
@@ -208,6 +210,7 @@ maingame.test_env.prototype = {
     //-------------------- Add tile map and tile set --------------------
     map = game.add.tilemap("ripleys");
     map.addTilesetImage("ripleys", "ripleys_tiles");
+    game.add.image(0, 0, "ripleys-background")
 
     //-------------------- Create layer --------------------
     map.createLayer("ground");
@@ -221,6 +224,13 @@ maingame.test_env.prototype = {
 
     //-------------------- Add wall colision --------------------
     map.setCollisionBetween(1, 999, true, "wall");
+
+    //-------------------- Add example weapon --------------------
+    default_sword = game.add.group();
+    default_sword.enableBody = true;
+
+    weapon = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    weapon.enableBody = true;
 
     //-------------------- Add player model --------------------
     console.log(game.player_attributes.x, game.player_attributes.y);
@@ -351,13 +361,6 @@ maingame.test_env.prototype = {
       player.animations.add("idle-down", ["idle_down.png"], 2, true);
       player.animations.add("idle-up", ["idle_up.png"], 2, true);
     }
-
-    //-------------------- Add example weapon --------------------
-    default_sword = game.add.group();
-    default_sword.enableBody = true;
-
-    weapon = game.add.physicsGroup(Phaser.Physics.ARCADE);
-    weapon.enableBody = true;
 
 
     //-------------------- Add example enemies --------------------
@@ -623,14 +626,14 @@ maingame.test_env.prototype = {
     cursors.useAct2 = game.input.keyboard.addKey(Phaser.Keyboard.TWO)
     cursors.useAct3 = game.input.keyboard.addKey(Phaser.Keyboard.THREE)
     cursors.startMenu = game.input.keyboard.addKey(Phaser.Keyboard.P)
-    
+
     //-------------------- Speed run timer --------------------
     timeLimit = game.current_time;
     var minutes = Math.floor(timeLimit / 6000);
     var seconds = Math.floor((timeLimit - minutes * 6000) / 100);
     var miliseconds = timeLimit - seconds / 100 - minutes * 6000;
     var timeString =
-    addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
+      addZeros(minutes) + ":" + addZeros(seconds) + "." + addZeros(miliseconds);
     this.timeText = game.add.text(650, 20, timeString);
     this.timeText.fill = "#FFFFFF";
     this.timeText.fixedToCamera = true;
@@ -697,8 +700,8 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
     game.physics.arcade.collide(player, pirate, damage_player, null, this);
     game.physics.arcade.collide(player, shark, damage_player, null, this);
-    game.physics.arcade.collide(playerWeapon, pirate, lizard_dmg, null, this);
-    game.physics.arcade.collide(playerWeapon, shark, lizard_dmg, null, this);
+    game.physics.arcade.collide(player.current_item.group, pirate, lizard_dmg, null, this);
+    game.physics.arcade.collide(player.current_item.group, shark, lizard_dmg, null, this);
     game.physics.arcade.overlap(weapon.bullets, shark, lizard_dmg);
     game.physics.arcade.overlap(weapon.bullets, pirate, lizard_dmg);
     game.physics.arcade.collide(player, door, open_door, null, this);
@@ -715,10 +718,8 @@ maingame.test_env.prototype = {
     var speed = player.speed;
     potion_set = game.add.group();
     if (player.potion_status == "Speed Potion") {
-      speed = 350;
-    } else {
-      speed = 175;
-    }
+      speed = speed * 1.5;
+    } 
 
     idle_direction = ["idle-left", "idle-right", "idle-up", "idle-down"];
 
@@ -753,8 +754,7 @@ maingame.test_env.prototype = {
 
     if (cursors.space.downDuration(100) && !keyReset) {
       keyReset = true;
-      //swing_melee(player, player.current_item);
-      swing_default_sword(player);
+      use_current_weapon();
     }
     if (!cursors.space.isDown) {
       keyReset = false;
@@ -848,11 +848,11 @@ maingame.test_env.prototype = {
     }
   },
 
-  render: function() {
+  render: function () {
     game.debug.bodyInfo(player, 32, 32);
 
-    game.debug.body(player);
+    //game.debug.body(player);
 
-    game.debug.body(weapon);
+    game.debug.body(player.current_item.group);
   }
 };

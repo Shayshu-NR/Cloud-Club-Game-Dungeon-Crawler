@@ -92,12 +92,84 @@
     ]
   },
   {
+    "Name": "pirate",
+    "x": 750,
+    "y": 560,
+    "Health": 3,
+    "Exp": 100,
+    "Coins": 0,
+    "Damage": 3,
+    "Atlas": "full_pirate",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 608,
+          "x2": 967,
+          "y1": 432,
+          "y2": 688
+        }
+      }
+    ]
+  },
+  {
     "Name": "shark",
     "x": 790,
     "y": 560,
     "Health": 3,
     "Exp": 150,
-    "Coins": 0,
+    "Coins": 200,
     "Damage": 5,
     "Atlas": "shark",
     "Frame1": "shark-swim-left-f1.png",
