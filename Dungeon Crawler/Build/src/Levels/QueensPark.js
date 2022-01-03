@@ -1,4 +1,3 @@
-var maingame = {};
 var BuildItems = new Items("test_items.json");
 var levelCoins = new Coins("currency.json");
 var enemyJson = new Enemies("ripleys_enemies.json");
@@ -59,33 +58,10 @@ var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
 
-maingame.test_env = function (game) { };
+maingame.QueensPark = function (game) { };
 
-maingame.test_env.prototype = {
+maingame.QueensPark.prototype = {
   preload: function () {
-    this.load.image(
-      "tiles",
-      "../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png"
-    );
-
-    this.load.tilemap(
-      "example_map",
-      "../Assets/Example assets/Tiled Map/Example_tile.json",
-      null,
-      Phaser.Tilemap.TILED_JSON
-    );
-
-    this.load.tilemap(
-      "ripleys",
-      "../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map-old.json",
-      null,
-      Phaser.Tilemap.TILED_JSON
-    );
-
-    this.load.image(
-      "ripleys_tiles",
-      "../Assets/General assets/Ripleys Aquarium/tileset.png"
-    );
 
     this.load.tilemap(
       "queenspark",
@@ -124,12 +100,6 @@ maingame.test_env.prototype = {
     this.load.image(
       "heart",
       "../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/frames/ui_heart_full.png"
-    );
-
-    this.load.atlas(
-      "water",
-      "../Assets/General assets/Ripleys Aquarium/water_atlas.png",
-      "../Assets/General assets/Ripleys Aquarium/water_atlas.json"
     );
 
     this.load.atlas(
@@ -203,10 +173,8 @@ maingame.test_env.prototype = {
     );
 
     game.load.text("currency", "../Specifications/currency.json");
-    game.load.text("enemies", "./src/Enemies/ripleys_enemies.json");
+    game.load.text("enemies", "../Enemies/ripleys_enemies.json");
     game.load.text("doors", "../Specifications/door.json");
-
-    game.load.image("ripleys-background", "../Assets/General assets/water-texture.png")
   },
 
   create: function () {
@@ -220,22 +188,17 @@ maingame.test_env.prototype = {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //-------------------- Add tile map and tile set --------------------
-    map = game.add.tilemap("ripleys");
-    map.addTilesetImage("ripleys", "ripleys_tiles");
-    game.add.image(0, 0, "ripleys-background")
+    map = game.add.tilemap("queenspark");
+    map.addTilesetImage("queenspark", "queenspark_tiles");
 
     //-------------------- Create layer --------------------
     map.createLayer("ground");
-    map.createLayer("water");
-    map.createLayer("rocks");
-    walls = map.createLayer("wall");
-    map.createLayer("glass");
-    map.createLayer("kelp");
-    map.createLayer("decoration");
-    map.createLayer("decoration-2");
+    walls = map.createLayer("walls");
+    map.createLayer("decorations");
 
     //-------------------- Add wall colision --------------------
-    map.setCollisionBetween(1, 999, true, "wall");
+    map.setCollisionBetween(1, 999, true, "walls");
+    map.setCollisionBetween(1, 999, true, "decorations")
 
     //-------------------- Add example weapon --------------------
     default_sword = game.add.group();
