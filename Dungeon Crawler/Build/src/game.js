@@ -558,8 +558,11 @@ maingame.test_env.prototype = {
       player.level = Math.floor(Math.pow(player.exp / 100.0, 2.0 / 3.0)) + 1;
       return player.level;
     };
+    player.getCurrentLevel()
     bar_holder.scale.set(8, 2);
-    xp_bar.scale.set((player.exp / maxXpPoints) * 8, 2);
+
+    maxXpPoints = Math.floor(100*player.level)^1.5
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / maxXpPoints) * 8, 2);
 
     lvltxt1 = game.add.text(150, 534, "", {
       fontSize: "16px",
@@ -620,7 +623,7 @@ maingame.test_env.prototype = {
     game.moneyText.fill = "#FFFFFF";
     game.moneyText.fixedToCamera = true;
 
-    maxXpPoints = 100;
+  
 
     //-------------------- Weapon -------------------------
     weapon = this.game.plugins.add(Phaser.Weapon)//game.add.weapon(30, 'arrow')
@@ -790,6 +793,8 @@ maingame.test_env.prototype = {
     if (player.exp - lastLevelPoints >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
+      lastLevelPoints = player.exp
+      maxXpPoints = (100*player.level)^1.5
     }
 
     if (cursors.bckpck.isDown) {
@@ -810,9 +815,9 @@ maingame.test_env.prototype = {
 
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if (player.exp - lastLevelPoints >= maxXpPoints) {
-      level_up(player);
-    }
+    // if (player.exp - lastLevelPoints >= maxXpPoints) {
+    //   level_up(player);
+    // }
 
     if (cursors.useAct1.downDuration(100)) {
       if (
