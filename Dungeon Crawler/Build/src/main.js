@@ -25,8 +25,6 @@ game.playerMoney = 0
 
 game.state.add("Main", maingame.test_env);
 
-// Levels
-game.state.add("Ripleys", maingame.Ripleys);
 
 game.state.add("Backpack", maingame.BackPack);
 game.state.add("Skill tree", maingame.skill_tree);
@@ -34,4 +32,10 @@ game.state.add("Game", maingame.test_env);
 game.state.add("StartMenu", maingame.startmenu);
 game.state.add("Merchant", maingame.merchant);
 game.state.add("GameOver", maingame.gameOver);
+
+
+// Levels
+game.state.add("Ripleys", maingame.Ripleys);
+game.state.add("QueensPark", maingame.QueensPark);
+
 game.state.start("StartMenu")

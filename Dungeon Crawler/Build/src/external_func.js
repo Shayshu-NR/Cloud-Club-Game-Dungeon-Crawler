@@ -8,33 +8,10 @@ function lizard_turn_around(enemy, walls) {
 function use_current_weapon() {
 
     if (player.current_item.weapon_type === "melee") {
-        player.body.velocity.x = 0
-        player.body.velocity.y = 0
-        player.swing = true
-        var melee;
-
-        // Left
-        if (player_facing == 0) {
-            melee = default_sword.create(player.position.x - 10, player.position.y + 16, player.current_item.atlas, player.current_item.frames[0]);
-        }
-        // Right
-        else if (player_facing == 1) {
-            melee = default_sword.create(player.position.x + 22, player.position.y + 16, player.current_item.atlas, player.current_item.frames[1]);
-        }
-        // Up
-        else if (player_facing == 2) {
-            melee = default_sword.create(player.position.x + 11, player.position.y - 14, player.current_item.atlas, player.current_item.frames[2]);
-        }
-        // Down
-        else if (player_facing == 3) {
-            melee = default_sword.create(player.position.x + 11, player.position.y + 24, player.current_item.atlas, player.current_item.frames[3]);
-        }
-        melee.body.immovable = true
-
-        var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [melee])
+        swing_melee(player, player.current_item)
     }
     else if (player.current_item.weapon_type === "projectile") {
-        throw_projectile(player);
+        throw_projectile(player, player.current_item);
     }
     else {
         return;
@@ -72,8 +49,6 @@ function swing_default_sword(player) {
 }
 
 function swing_melee(player, current_item) {
-
-    //if (current_item.weapon_type == "melee") {
     console.log("swinging")
     player.body.velocity.x = 0
     player.body.velocity.y = 0
@@ -82,25 +57,23 @@ function swing_melee(player, current_item) {
 
     // Left
     if (player_facing == 0) {
-        melee = playerWeapon.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_rusty_sword.png')
+        melee = current_item.group.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_rusty_sword.png')
     }
     // Right
     else if (player_facing == 1) {
-        melee = playerWeapon.create(player.position.x + 22, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_right.png')
+        melee = current_item.group.create(player.position.x + 22, player.position.y + 16, current_item.atlas, current_item.frames[1])
     }
     // Up
     else if (player_facing == 2) {
-        melee = playerWeapon.create(player.position.x + 11, player.position.y - 14, current_item.atlas, 'weapon_regular_sword_up.png')
-
+        melee = current_item.group.create(player.position.x + 8, player.position.y - 14, current_item.atlas, current_item.frames[2])
     }
     // Down
     else if (player_facing == 3) {
-        melee = playerWeapon.create(player.position.x + 11, player.position.y + 24, current_item.atlas, 'weapon_regular_sword_down.png')
+        melee = current_item.group.create(player.position.x + 8, player.position.y + 24, current_item.atlas, current_item.frames[3])
     }
     melee.body.immovable = true
     console.log("swinging")
-    var event = game.time.events.add((Phaser.Timer.SECOND * current_item.frequency) * current_item.attack_speed, sheath_sword, this, [melee])
-    //}
+    let event = game.time.events.add((Phaser.Timer.SECOND * current_item.frequency) * current_item.attack_speed, sheath_sword, this, [melee])
 }
 
 function knockback_enemies(currentWep, enemy) {
@@ -127,29 +100,29 @@ function knockback_enemies(currentWep, enemy) {
     console.log(enemy, velocity, currentWep);
 }
 
-function throw_projectile(player) {
+function throw_projectile(player, current_item) {
 
-    if (player.current_item.weapon_type == 'projectile') {
-        var projectile;
-        projectile = game.add.weapon(30, 'arrow')
-        projectile.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-        projectile.bulletSpeed = 400
-        projectile.fireRate = 1000;
+    let projectile;
+    projectile = game.add.weapon(30, current_item.atlas)
+    projectile.bulletKillType = current_item.projectileKillType;
+    projectile.bulletSpeed = current_item.speed
+    projectile.fireRate = current_item.frequency;
+    projectile.fireAngle = player.body.angle * 180 / Math.PI
 
-        if (player_facing == 1)
-            projectile.trackSprite(player, 0 + 32, 0 + 16, false);
+    if (player.body.facing == 1)
+        projectile.trackSprite(player, 0 + 32, 0 + 16, false);
 
-        else if (player_facing == 3)
-            projectile.trackSprite(player, 0 + 12, 0 + 36, false);
+    else if (player.body.facing == 3)
+        projectile.trackSprite(player, 0 + 12, 0 + 36, false);
 
-        else if (player_facing == 2)
-            projectile.trackSprite(player, 0 + 12, 0 - 16, false);
+    else if (player.body.facing == 2)
+        projectile.trackSprite(player, 0 + 12, 0 - 16, false);
 
-        else
-            projectile.trackSprite(player, 0 - 8, 0 + 16, false);
+    else
+        projectile.trackSprite(player, 0 - 8, 0 + 16, false);
 
-        projectile.fire()
-    }
+    projectile.fire()
+
 }
 
 function add_coins(player, coin) {

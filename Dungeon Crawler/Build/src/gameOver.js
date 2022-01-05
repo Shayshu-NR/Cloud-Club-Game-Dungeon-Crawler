@@ -12,6 +12,7 @@ maingame.gameOver.prototype = {
 
         let button = game.add.button(350, 300, 'retryBtn', function(){
             game.state.start("StartMenu");
+            location.reload()
         });
     },
 

@@ -2,6 +2,7 @@ function init_player(game, player) {
     game.physics.arcade.enable(player, Phaser.Physics.ARCADE)
     // player.body.immovable = true 
     player.enableBody = true
+    player.body.facing = 2;
 
     player.putBackpack = function (item, quantity = 1) {
         index = item["name"];
@@ -45,7 +46,7 @@ function init_player(game, player) {
             player.backpack[item_moved["name"]] = item_moved;
         }
     }
-    
+
     player.moveActiveToBackpack = function (item, index) {
         if (player.backpack.length < MAX_BACKPACK_SIZE) {
             idx = player.active_items.indexOf(item);
@@ -105,9 +106,6 @@ function init_player(game, player) {
         }
     }
 
-    // moveCurrentToBackpack
-    // moveCurrentToActive
-
     player.moveCurrentToBackpack = function (item) {
         if (player.backpack.length < MAX_BACKPACK_SIZE) {
             player.backpack[item["name"]] = item;
@@ -124,8 +122,8 @@ function init_player(game, player) {
 
     player.moveBackpackToCurrent = function (item, index) {
 
-
     }
+
     player.healthchange = function () {
         if (player.health > 10) { //makes sure the array doesn't go out of bounds
             console.log("invalid health")
@@ -166,27 +164,51 @@ function init_player(game, player) {
             "name": "sword",
             "group": default_sword,
             "atlas": "sword",
-            "weapon_type" : "melee",
+            "weapon_type": "melee",
             "src": "weapon_regular_sword_down.png",
-            "frames" : ["weapon_regular_sword_down.png", "weapon_regular_sword_right.png", "weapon_regular_sword_up.png", "weapon_regular_sword_down.png"],
+            "frames": [
+                "weapon_regular_sword_left.png", 
+                "weapon_regular_sword_right.png", 
+                "weapon_regular_sword_up.png", 
+                "weapon_regular_sword_down.png"
+            ],
             "damage": 1,
-            "knockback" : 3,
-            "frequency" : 1,
+            "knockback": 3,
+            "frequency": 1,
             "quantity": 1,
-            "attack_speed" : 1
+            "attack_speed": 1,
+            "projectileKillType" : Phaser.Weapon.KILL_WORLD_BOUNDS,
+            "speed": "123"
         }
 
         game.player_attributes.current = {
             "name": "sword",
             "group": default_sword,
             "atlas": "sword",
+            "weapon_type": "melee",
             "src": "weapon_regular_sword_down.png",
+            "frames": [
+                "weapon_regular_sword_left.png", 
+                "weapon_regular_sword_right.png", 
+                "weapon_regular_sword_up.png", 
+                "weapon_regular_sword_down.png"
+            ],
             "damage": 1,
-            "quantity": 1
+            "knockback": 3,
+            "frequency": 1,
+            "quantity": 1,
+            "attack_speed": 1,
+            "projectileKillType" : Phaser.Weapon.KILL_WORLD_BOUNDS,
+            "speed": "123"
         }
     }
     else {
         player.current_item = game.player_attributes.current;
+
+        if(player.current_item.group.type == 0) {
+            player.current_item.group = game.add.group();
+            player.current_item.group.enableBody = true;
+        }
     }
 
     player.skills = {}

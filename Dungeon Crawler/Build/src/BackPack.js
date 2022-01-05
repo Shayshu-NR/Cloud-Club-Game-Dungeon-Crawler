@@ -121,6 +121,7 @@ maingame.BackPack.prototype = {
                         current_item.group.inv_y = 5;
                         current_item.group.inv = [i, 5]
                         current_item.group.name = current_item.name
+                        current[0] = 1;
 
                 }
 

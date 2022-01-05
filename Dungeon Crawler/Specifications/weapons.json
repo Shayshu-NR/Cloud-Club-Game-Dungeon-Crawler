@@ -12,6 +12,6 @@
         "damage" : 123,
         "range" : 123, // unique to projectiles
         "frequency" : 123,
-        "projectileKillType" : "Phaser.Weapon.KILL_WORLD_BOUNDS", // unique to projectiles
+        "projectileKillType" : "Phaser.Weapon.KILL_WORLD_BOUNDS" // unique to projectiles
     }
 ]

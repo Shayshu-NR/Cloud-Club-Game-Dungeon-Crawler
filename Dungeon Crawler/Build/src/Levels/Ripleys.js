@@ -1,4 +1,3 @@
-var maingame = {};
 var BuildItems = new Items("test_items.json");
 var levelCoins = new Coins("currency.json");
 var enemyJson = new Enemies("ripleys_enemies.json");
@@ -59,22 +58,10 @@ var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
 
-maingame.test_env = function (game) { };
+maingame.Ripleys = function (game) { };
 
-maingame.test_env.prototype = {
+maingame.Ripleys.prototype = {
   preload: function () {
-    this.load.image(
-      "tiles",
-      "../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/0x72_DungeonTilesetII_v1.3.png"
-    );
-
-    this.load.tilemap(
-      "example_map",
-      "../Assets/Example assets/Tiled Map/Example_tile.json",
-      null,
-      Phaser.Tilemap.TILED_JSON
-    );
-
     this.load.tilemap(
       "ripleys",
       "../Assets/General assets/Ripleys Aquarium/ripleys-aquarium-map-old.json",
@@ -85,24 +72,6 @@ maingame.test_env.prototype = {
     this.load.image(
       "ripleys_tiles",
       "../Assets/General assets/Ripleys Aquarium/tileset.png"
-    );
-
-    this.load.tilemap(
-      "queenspark",
-      "../Assets/General assets/Queens Park/queenspark.json",
-      null,
-      Phaser.Tilemap.TILED_JSON
-    );
-
-    this.load.image(
-      "queenspark_tiles",
-      "../Assets/General assets/Queens Park/tileset.png"
-    );
-
-    this.load.atlas(
-      "player",
-      "../Assets/Example assets/legend of faune files/spritesheet.png",
-      "../Assets/Example assets/legend of faune files/faun_spritesheet.json"
     );
 
     this.load.atlas(
@@ -202,8 +171,8 @@ maingame.test_env.prototype = {
       "../Assets/General assets/Ripleys Aquarium/door-atlas.json"
     );
 
-    game.load.text("currency", "../Specifications/currency.json");
-    game.load.text("enemies", "./src/Enemies/ripleys_enemies.json");
+    game.load.text("currency", "../Currency/ripleys_currency.json");
+    game.load.text("enemies", "../Enemies/ripleys_enemies.json");
     game.load.text("doors", "../Specifications/door.json");
 
     game.load.image("ripleys-background", "../Assets/General assets/water-texture.png")
