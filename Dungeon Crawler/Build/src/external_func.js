@@ -49,7 +49,7 @@ function swing_default_sword(player) {
 
     // Left
     if (player_facing == 0) {
-        melee = default_sword.create(player.position.x - 10, player.position.y + 16, 'sword', 'weapon_regular_sword_left.png')
+        melee = default_sword.create(player.position.x - 10, player.position.y + 16, 'tiles', 'weapon_rusty_sword.png')
     }
     // Right
     else if (player_facing == 1) {
@@ -82,7 +82,7 @@ function swing_melee(player, current_item) {
 
     // Left
     if (player_facing == 0) {
-        melee = playerWeapon.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_regular_sword_left.png')
+        melee = playerWeapon.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_rusty_sword.png')
     }
     // Right
     else if (player_facing == 1) {
