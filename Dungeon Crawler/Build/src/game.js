@@ -511,6 +511,7 @@ maingame.test_env.prototype = {
         newChest = statics.create(x, y, "chest", 0);
         newChest.animations.add("open", [0, 1, 2, 3, 4, 5, 6, 7], 300, false);
       }
+      console.log(newChest)
 
       newChest.collide = true;
       game.physics.arcade.enable(newChest);
@@ -524,13 +525,10 @@ maingame.test_env.prototype = {
       itemChests.push(newChest);
 
       itemChests[i].collide = true;
-      itemChests[i].animations.add(
-        "open",
-        [0, 1, 2, 3, 4, 5, 6, 7],
-        300,
-        false
-      );
+     
+      //if (!itemChests[i].item.Opened)
       itemChests[i].animations.add("close", [7, 6, 5, 4, 3, 2], 300, false);
+
     }
 
     //-------------------- HUD --------------------

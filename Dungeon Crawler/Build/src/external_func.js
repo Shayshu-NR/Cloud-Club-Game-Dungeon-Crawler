@@ -18,36 +18,35 @@ function use_current_weapon() {
     }
 }
 
-// function swing_default_sword(player) {
-//     player.body.velocity.x = 0
-//     player.body.velocity.y = 0
-//     player.swing = true
-//     var melee;
+function swing_default_sword(player) {
+    player.body.velocity.x = 0
+    player.body.velocity.y = 0
+    player.swing = true
+    var melee;
 
-//     // Left
-//     if (player_facing == 0) {
-//         melee = default_sword.create(player.position.x - 10, player.position.y + 16, 'sword', 'weapon_regular_sword_left.png')
-//     }
-//     // Right
-//     else if (player_facing == 1) {
-//         melee = default_sword.create(player.position.x + 22, player.position.y + 16, 'sword', 'weapon_regular_sword_left.png')
-//         melee.rotation += Math.PI
+    // Left
+    if (player_facing == 0) {
+        melee = default_sword.create(player.position.x - 10, player.position.y + 16, 'tiles', 'weapon_rusty_sword.png')
+    }
+    // Right
+    else if (player_facing == 1) {
+        melee = default_sword.create(player.position.x + 22, player.position.y + 16, 'sword', 'weapon_regular_sword_left.png')
+        melee.rotation += Math.PI
+    }
+    // Up
+    else if (player_facing == 2) {
+        melee = default_sword.create(player.position.x + 11, player.position.y - 14, 'sword', 'weapon_regular_sword_left.png')
+        melee.rotation += Math.PI / 2
+    }
+    // Down
+    else if (player_facing == 3) {
+        melee = default_sword.create(player.position.x + 11, player.position.y + 24, 'sword', 'weapon_regular_sword_left.png')
+        melee.rotation += Math.PI * 1.5
+    }
+    melee.body.immovable = true
 
-//     }
-//     // Up
-//     else if (player_facing == 2) {
-//         melee = default_sword.create(player.position.x + 11, player.position.y - 14, 'sword', 'weapon_regular_sword_left.png')
-//         melee.rotation += Math.PI / 2
-//     }
-//     // Down
-//     else if (player_facing == 3) {
-//         melee = default_sword.create(player.position.x + 11, player.position.y + 24, 'sword', 'weapon_regular_sword_left.png')
-//         melee.rotation += Math.PI * 1.5
-//     }
-//     melee.body.immovable = true
-
-//     var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [melee])
-// }
+    var event = game.time.events.add((Phaser.Timer.SECOND * player.current_item.frequency) * player.attack_speed, sheath_sword, this, [melee])
+}
 
 function swing_melee(player, current_item) {
     console.log("swinging")
@@ -58,7 +57,7 @@ function swing_melee(player, current_item) {
 
     // Left
     if (player_facing == 0) {
-        melee = current_item.group.create(player.position.x - 10, player.position.y + 16, current_item.atlas, current_item.frames[0])
+        melee = current_item.group.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_rusty_sword.png')
     }
     // Right
     else if (player_facing == 1) {
