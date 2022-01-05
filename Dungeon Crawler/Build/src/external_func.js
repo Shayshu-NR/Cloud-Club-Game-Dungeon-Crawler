@@ -127,11 +127,17 @@ function throw_projectile(player, current_item) {
 }
 
 function add_coins(player, coin) {
-    player.money += 10;
+    console.log("add coins", coin);
 
-    levelCoins.itemData[coin.index].collected = true;
+    if(typeof coin.enemy == 'undefined'){
+        levelCoins.itemData[coin.index].collected = true;
+        coin.kill();
+        player.money += 10;
+    }
+    else {
+        player.money += enemyJson.emeData[coin.index].Coins
+    }
 
-    coin.kill();
     game.moneyText.text = player.money;
 }
 
@@ -156,6 +162,7 @@ function lizard_dmg(weapon, enemy) {
 
         enemy.kill()
         player.exp += enemy.exp
+        add_coins(player, enemy);
         game.playerExp = player.exp
         killCount++;
     }

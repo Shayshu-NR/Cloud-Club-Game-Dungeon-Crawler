@@ -14,7 +14,7 @@ class Coins {
 
     constructor(src_file) {
         var jsonData;
-        fetch('./src/Items/' + src_file)
+        fetch('./src/Currency/' + src_file)
             .then(results => results.json())
             .then(data => jsonData = data)
             .then(data => this.itemData = data)
