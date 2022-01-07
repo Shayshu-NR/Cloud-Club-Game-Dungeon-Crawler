@@ -561,7 +561,7 @@ maingame.test_env.prototype = {
     player.getCurrentLevel()
     bar_holder.scale.set(8, 2);
 
-    maxXpPoints = 100*(Math.pow(player.level, 3.0/2.0))
+    maxXpPoints = 100*(Math.pow(Math.ceil(player.level) - 1, 3.0/2.0))
     xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
 
     lvltxt1 = game.add.text(150, 534, "", {
