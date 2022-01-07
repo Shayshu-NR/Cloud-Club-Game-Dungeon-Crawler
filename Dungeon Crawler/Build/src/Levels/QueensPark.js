@@ -290,25 +290,20 @@ maingame.QueensPark.prototype = {
     xp_bar = bars.create(158, 562, "xp_bar");
     bar_holder.fixedToCamera = true;
     xp_bar.fixedToCamera = true;
-    player.level = 1;
-    player.getCurrentLevel = function () {
-      player.level = Math.floor(Math.pow(player.exp / 100.0, 2.0 / 3.0)) + 1;
-      return player.level;
-    };
     bar_holder.scale.set(8, 2);
-    xp_bar.scale.set((player.exp / maxXpPoints) * 8, 2);
 
-    lvltxt1 = game.add.text(150, 534, "", {
+    maxXpPoints = 100*(Math.pow(player.getCurrentLevel(), 3.0/2.0))
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * (8), 2);
+
+    lvltxt1 = game.add.text(150, 534, String(player.getCurrentLevel()), {
       fontSize: "16px",
       fill: "#FFFFFF",
     });
-    lvltxt1.text = "" + player.level;
 
-    lvltxt2 = game.add.text(780, 534, "", {
+    lvltxt2 = game.add.text(780, 534, String(player.getCurrentLevel() + 1), {
       fontSize: "16px",
       fill: "#FFFFFF",
     });
-    lvltxt2.text = "" + (player.level + 1);
 
     lvltxt1.fixedToCamera = true;
     lvltxt2.fixedToCamera = true;
@@ -528,9 +523,14 @@ maingame.QueensPark.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if (player.exp  >= maxXpPoints) {
+    if ((player.exp - lastLevelPoints) >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
+
+      lastLevelPoints = maxXpPoints
+      maxXpPoints = 100*(Math.pow(player.getCurrentLevel() - 1, 3.0/2.0))
+      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
+      console.log(maxXpPoints)
     }
 
     if (cursors.bckpck.isDown) {

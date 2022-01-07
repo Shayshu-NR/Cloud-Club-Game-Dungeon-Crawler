@@ -386,8 +386,8 @@ function level_up(player) {
     lastLevelPoints = Math.floor(100 *(player.level-1)**1.5);
     maxXpPoints = Math.floor(100 *(player.level)**1.5);
 
-    lvltxt1.text = "" + player.level;
-    lvltxt2.text = "" + (player.level + 1);
+    lvltxt1.text = "" + String(player.getCurrentLevel());
+    lvltxt2.text = "" + String(player.getCurrentLevel() + 1);
     xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
 
 }
