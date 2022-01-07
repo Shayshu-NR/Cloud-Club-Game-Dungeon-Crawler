@@ -8,7 +8,7 @@
                 "atlas": "../Assets/General assets/Potions/potions.png",
                 "tilesheet": "../Assets/General assets/Potions/potions.json"
             },
-            
+            "Opened" : false,
             "item": null,
             "chest": {
                 "name": "HealthPotion",
@@ -29,7 +29,7 @@
                 "atlas": "../Assets/General assets/Potions/potions.png",
                 "tilesheet": "../Assets/General assets/Potions/potions.json"
             },
-            
+            "Opened" : false,
             "item": null,
             "chest": {
                 "name": "Attack_Potion",

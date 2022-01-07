@@ -5,6 +5,7 @@ var current_item;
 var inventory = [[], [], [], []];
 var xpos;
 var ypos;
+var current_state;
 const MAX_BACKPACK_SIZE = 16
 
 maingame.BackPack = function (game) {
@@ -51,6 +52,7 @@ maingame.BackPack.prototype = {
                 backpack = game.player_attributes["backpack"];
                 active_items = game.player_attributes["actives"];
                 current_item = game.player_attributes["current"];
+                current_state = game.player_attributes["state"];
                 inventory = Array(4).fill().map(() => Array(4).fill(0));
                 actives = Array(3).fill(0);
                 current = [0];
@@ -132,11 +134,12 @@ maingame.BackPack.prototype = {
                                 current: current_item,
                                 x: xpos,
                                 y: ypos,
-                                money : game.player_attributes.money
+                                money : game.player_attributes.money,
+                                state: current_state
                         };
                         game.current_time = timeLimit
 
-                        game.state.start("Game");
+                        game.state.start(game.player_attributes.state);
                 }
 
                 function onDragStart(sprite, pointer) {
@@ -330,11 +333,12 @@ maingame.BackPack.prototype = {
                                 current: current_item,
                                 x: xpos,
                                 y: ypos,
-                                money : game.player_attributes.money
+                                money : game.player_attributes.money,
+                                state: current_state
                         };
                         game.current_time = timeLimit
 
-                        game.state.start("Game");
+                        game.state.start(game.player_attributes.state);
                 }
         }
 }

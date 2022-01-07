@@ -1,7 +1,3 @@
-var BuildItems = new Items("test_items.json");
-var levelCoins = new Coins("currency.json");
-var enemyJson = new Enemies("ripleys_enemies.json");
-
 //-------------------- Tile map --------------------
 var map;
 var ground;
@@ -172,14 +168,17 @@ maingame.QueensPark.prototype = {
       "../Assets/General assets/Ripleys Aquarium/door-atlas.json"
     );
 
-    game.load.text("currency", "../Specifications/currency.json");
-    game.load.text("enemies", "../Enemies/ripleys_enemies.json");
-    game.load.text("doors", "../Specifications/door.json");
+    game.load.text("currency", "../Currency/queenspark_currency.json");
+    game.load.text("enemies", "../Enemies/queenspark_enemies.json");
+    game.load.text("doors", "../Doors/queenspark_doors.json");
   },
 
   create: function () {
     enemyCount = 0;
     //-------------------- Load Currency --------------------
+    BuildItems = new Items("queenspark_items.json");
+    levelCoins = new Coins("queenspark_currency.json");
+    enemyJson = new Enemies("queenspark_enemies.json");
     currency_json = JSON.parse(game.cache.getText("currency"));
     enemies_json = JSON.parse(game.cache.getText("enemies"));
     door_json = JSON.parse(game.cache.getText("doors"));
@@ -221,122 +220,15 @@ maingame.QueensPark.prototype = {
     //-------------------- Add Doors --------------------
     door = game.add.group();
     door.enableBody = true;
+    CreateDoors(door_json, door);
 
-    door_json.forEach(function (key, value) {
-      var doorInstance = door.create(
-        key.x + 16,
-        key.y - 16,
-        "door-atlas",
-        key.name
-      );
-      doorInstance.state = key.state;
-      doorInstance.body.immovable = true;
-    });
 
     //-------------------- Add Currency --------------------
     coins = game.add.group();
     coins.enableBody = true;
+    CreateCoins(levelCoins, coins);
 
-    levelCoins.itemData.forEach(function (key, value) {
-      if (!key.collected) {
-        var coinInstance = coins.create(
-          key.x + 16,
-          key.y - 16,
-          "currency-atlas",
-          "currency_1.png"
-        );
-        coinInstance.body.immovable = true;
-        coinInstance.scale.set(0.65, 0.65);
-        coinInstance.index = value;
-        coinInstance.animations.add(
-          "spin",
-          Phaser.Animation.generateFrameNames("currency_", 1, 6, ".png"),
-          10,
-          true
-        );
-        coinInstance.animations.play("spin");
-      }
-    });
-
-    {
-      player.animations.add(
-        "walk_down",
-        Phaser.Animation.generateFrameNames("walk_down_", 1, 7, ".png"),
-        10,
-        true
-      );
-      player.animations.add(
-        "walk_up",
-        Phaser.Animation.generateFrameNames("walk_up_", 1, 7, ".png"),
-        10,
-        true
-      );
-      player.animations.add(
-        "walk_right",
-        Phaser.Animation.generateFrameNames("walk_right_", 1, 8, ".png"),
-        10,
-        true
-      );
-      player.animations.add(
-        "walk_left",
-        Phaser.Animation.generateFrameNames("walk_left_", 1, 8, ".png"),
-        10,
-        true
-      );
-      player.animations.add(
-        "attack_right",
-        Phaser.Animation.generateFrameNames("attack_right_", 1, 4, ".png"),
-        8,
-        true
-      );
-      player.animations.add(
-        "attack_left",
-        Phaser.Animation.generateFrameNames("attack_left_", 1, 4, ".png"),
-        8,
-        true
-      );
-      player.animations.add(
-        "attack_up",
-        Phaser.Animation.generateFrameNames("attack_up_", 1, 3, ".png"),
-        8,
-        true
-      );
-      player.animations.add(
-        "attack_down",
-        Phaser.Animation.generateFrameNames("attack_down_", 1, 4, ".png"),
-        8,
-        true
-      );
-      player.animations.add(
-        "hurt_up",
-        Phaser.Animation.generateFrameNames("hurt_up_", 1, 3, ".png"),
-        10,
-        true
-      );
-      player.animations.add(
-        "hurt_down",
-        Phaser.Animation.generateFrameNames("hurt_down_", 1, 3, ".png"),
-        10,
-        true
-      );
-      player.animations.add(
-        "hurt_left",
-        Phaser.Animation.generateFrameNames("hurt_left_", 1, 4, ".png"),
-        10,
-        true
-      );
-      player.animations.add(
-        "hurt_right",
-        Phaser.Animation.generateFrameNames("hurt_right_", 1, 4, ".png"),
-        10,
-        true
-      );
-      player.animations.add("idle-left", ["idle_left.png"], 2, true);
-      player.animations.add("idle-right", ["idle_right.png"], 2, true);
-      player.animations.add("idle-down", ["idle_down.png"], 2, true);
-      player.animations.add("idle-up", ["idle_up.png"], 2, true);
-    }
-
+    player = CreatePlayerAnimations(player);
 
     //-------------------- Add example enemies --------------------
     lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -357,95 +249,9 @@ maingame.QueensPark.prototype = {
       pirate: pirate,
       shark: shark,
     };
-    //----------- Dummy Variable ----------------------------
-    player.lazer = {
-      amount: 5,
-      damage: 1,
-      frequency: 1,
-      group: undefined,
-      speed: 3,
-      name: "lazer_beam",
-      quantity: 1,
-      src: "Laser.png",
-      weapon_type: "projectile",
-    };
 
     //-------------------- Enemy Creation Script --------------------
-    enemyJson.emeData.forEach(function (element, index) {
-      var nmeInst;
-
-      if (enemyMapping[element.Name] != "button" && !element.dead) {
-        nmeInst = enemyMapping[element.Name].create(
-          element.x,
-          element.y,
-          element.Atlas,
-          element.Frame1
-        );
-
-        nmeInst.scale.set(element.Scale);
-
-        nmeInst.health = element.Health;
-        nmeInst.exp = element.Exp;
-        nmeInst.coins = element.Coins;
-        nmeInst.enableBody = true;
-        nmeInst.Damage = element.Damage;
-        nmeInst.immune = false;
-        nmeInst.index = index;
-
-        element.Animations.forEach(function (frameElement, index) {
-          nmeInst.animations.add(
-            frameElement.Name,
-            Phaser.Animation.generateFrameNames(
-              frameElement.Name + "-",
-              frameElement.Start,
-              frameElement.End,
-              ".png"
-            ),
-            frameElement.FrameRate,
-            true
-          );
-        });
-
-        switch (element.Name) {
-          case "pirate":
-          case "shark":
-            nmeInst.bounds = element.Extra.filter(
-              (x) => Object.keys(x)[0] === "bounds"
-            )[0].bounds;
-            nmeInst.inBounds = function () {
-              if (
-                this.position.x > this.bounds.x1 &&
-                this.position.x < this.bounds.x2
-              ) {
-                if (
-                  this.position.y > this.bounds.y1 &&
-                  this.position.y < this.bounds.y2
-                ) {
-                  return true;
-                }
-              }
-              return false;
-            };
-            nmeInst.center = {
-              x_cal: (nmeInst.bounds.x1 + nmeInst.bounds.x2) / 2,
-              y_cal: (nmeInst.bounds.y1 + nmeInst.bounds.y2) / 2,
-            };
-            break;
-          default:
-            break;
-        }
-
-        enemyCount++;
-      } else if (!element.dead) {
-        var callbackFunction = element.Extra.filter(
-          (x) => Object.keys(x)[0] === "callback"
-        )[0].callback;
-
-        var f = new Function(callbackFunction.arguments, callbackFunction.body);
-        nmeInst = game.add.button(element.x, element.y, element.Frame1, f);
-        nmeInst.scale.set(element.Scale, element.Scale);
-      }
-    });
+    LoadEnemies(game, enemyJson, enemyMapping);
 
     //-------------------- Physics engine and control setting --------------------
     game.world.setBounds(0, 0, 16 * 100, 16 * 100);
@@ -459,42 +265,7 @@ maingame.QueensPark.prototype = {
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
-    itemChests = [];
-
-    for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
-      console.log("Making chest", i);
-      var x = Number(BuildItems.itemData.Items[i].x);
-      var y = Number(BuildItems.itemData.Items[i].y);
-      var src = BuildItems.itemData.Items[i].src;
-
-      var newChest;
-      if (BuildItems.itemData.Items[i].chest.Opened) {
-        newChest = statics.create(x, y, "chest", 5);
-      } else {
-        newChest = statics.create(x, y, "chest", 0);
-        newChest.animations.add("open", [0, 1, 2, 3, 4, 5, 6, 7], 300, false);
-      }
-
-      newChest.collide = true;
-      game.physics.arcade.enable(newChest);
-      newChest.body.immovable = true;
-      newChest.enableBody = true;
-      newChest.classPosition = i;
-
-      newChest.item = BuildItems.itemData.Items[i].chest;
-
-      console.log(newChest.position.x);
-      itemChests.push(newChest);
-
-      itemChests[i].collide = true;
-      itemChests[i].animations.add(
-        "open",
-        [0, 1, 2, 3, 4, 5, 6, 7],
-        300,
-        false
-      );
-      itemChests[i].animations.add("close", [7, 6, 5, 4, 3, 2], 300, false);
-    }
+    itemChests = CreateChests(game, BuildItems, statics);
 
     //-------------------- HUD --------------------
     var stats = game.add.button(10, 545, "bpack", function () {
@@ -505,6 +276,7 @@ maingame.QueensPark.prototype = {
         x: player.body.position.x,
         y: player.body.position.y,
         money: player.money,
+        state: "QueensPark"
       };
 
       game.playerExp = player.exp;
@@ -555,7 +327,7 @@ maingame.QueensPark.prototype = {
       null,
       null,
     ];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < player.health; i++) {
       health_bars[i] = bars.create(8 + i * 16, 5, "health_heart");
       health_bars[i].fixedToCamera = true;
     }
@@ -613,8 +385,6 @@ maingame.QueensPark.prototype = {
     this.timeText.fill = "#FFFFFF";
     this.timeText.fixedToCamera = true;
     this.timer = game.time.events.loop(10, tick, this);
-
-    itemChests[0].animations.play("open");
   },
 
   update: function () {
@@ -626,43 +396,48 @@ maingame.QueensPark.prototype = {
       game.state.start("StartMenu");
     }
 
-    for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
-      game.physics.arcade.collide(
-        player,
-        itemChests[i],
-        function openChest(player) {
-          if (itemChests[i].collide) {
-            //so that the chest doesnt open and close
-            itemChests[i].animations.play("open");
-            itemChests[i].collide = false;
-
-            if (!BuildItems.itemData.Items[i].chest.Taken) {
-              BuildItems.itemData.Items[i].chest.Taken = true;
-              BuildItems.itemData.Items[i].chest.Opened = true;
-
-              var item = statics.create(
-                itemChests[i].position.x + 8,
-                itemChests[i].position.y + 8,
-                itemChests[i].item.atlas,
-                itemChests[i].item.src
-              );
-              item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
-              console.log(itemChests);
-
-              game.time.events.add(
-                Phaser.Timer.SECOND * 1,
-                function collectItemFromChest() {
-                  console.log(item.info);
-                  player.putBackpack(item.info);
-                  item.kill();
-                  // Set item taken flag
-                },
-                this
-              );
+    try {
+        for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
+          game.physics.arcade.collide(
+            player,
+            itemChests[i],
+            function openChest(player) {
+              if (itemChests[i].collide) {
+                //so that the chest doesnt open and close
+                itemChests[i].animations.play("open");
+                itemChests[i].collide = false;
+    
+                if (!BuildItems.itemData.Items[i].chest.Taken) {
+                  BuildItems.itemData.Items[i].chest.Taken = true;
+                  BuildItems.itemData.Items[i].chest.Opened = true;
+    
+                  var item = statics.create(
+                    itemChests[i].position.x + 8,
+                    itemChests[i].position.y + 8,
+                    itemChests[i].item.atlas,
+                    itemChests[i].item.src
+                  );
+                  item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
+                  console.log(itemChests);
+    
+                  game.time.events.add(
+                    Phaser.Timer.SECOND * 1,
+                    function collectItemFromChest() {
+                      console.log(item.info);
+                      player.putBackpack(item.info);
+                      item.kill();
+                      // Set item taken flag
+                    },
+                    this
+                  );
+                }
+              }
             }
-          }
+          );
         }
-      );
+    }
+    catch {
+
     }
 
     //-------------------- Collision engine --------------------
@@ -694,7 +469,7 @@ maingame.QueensPark.prototype = {
     potion_set = game.add.group();
     if (player.potion_status == "Speed Potion") {
       speed = speed * 1.5;
-    } 
+    }
 
     idle_direction = ["idle-left", "idle-right", "idle-up", "idle-down"];
 
@@ -744,6 +519,7 @@ maingame.QueensPark.prototype = {
         x: player.body.position.x,
         y: player.body.position.y,
         money: player.money,
+        state: "QueensPark"
       };
 
       game.playerExp = player.exp;
@@ -765,6 +541,7 @@ maingame.QueensPark.prototype = {
         x: player.body.position.x,
         y: player.body.position.y,
         money: player.money,
+        state: "QueensPark"
       };
 
       game.playerExp = player.exp;
