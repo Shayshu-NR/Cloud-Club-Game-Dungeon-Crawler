@@ -561,8 +561,8 @@ maingame.test_env.prototype = {
     player.getCurrentLevel()
     bar_holder.scale.set(8, 2);
 
-    maxXpPoints = Math.floor(100*player.level)^1.5
-    xp_bar.scale.set(((player.exp-lastLevelPoints) / maxXpPoints) * 8, 2);
+    maxXpPoints = 100*(Math.pow(player.level, 3.0/2.0))
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
 
     lvltxt1 = game.add.text(150, 534, "", {
       fontSize: "16px",
@@ -790,11 +790,14 @@ maingame.test_env.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if (player.exp - lastLevelPoints >= maxXpPoints) {
+    if ((player.exp - lastLevelPoints) >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
-      lastLevelPoints = player.exp
-      maxXpPoints = (100*player.level)^1.5
+
+      lastLevelPoints = maxXpPoints
+      maxXpPoints = 100*(Math.pow(player.level, 3.0/2.0))
+      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
+      print(maxXpPoints)
     }
 
     if (cursors.bckpck.isDown) {

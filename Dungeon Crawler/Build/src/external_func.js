@@ -377,7 +377,7 @@ function level_up(player) {
 
     console.log("Reached level", player.level);
     lastLevelPoints = player.exp;
-    maxXpPoints = (100 * player.level) ** 1.5;
+    maxXpPoints = 100 *( player.level)**1.5;
 
     lvltxt1.text = "" + player.level;
     lvltxt2.text = "" + (player.level + 1);
