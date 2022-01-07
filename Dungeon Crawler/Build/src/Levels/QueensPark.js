@@ -295,8 +295,11 @@ maingame.QueensPark.prototype = {
       player.level = Math.floor(Math.pow(player.exp / 100.0, 2.0 / 3.0)) + 1;
       return player.level;
     };
+    player.getCurrentLevel()
     bar_holder.scale.set(8, 2);
-    xp_bar.scale.set((player.exp / maxXpPoints) * 8, 2);
+
+    xmaxXpPoints = 100*(Math.pow(player.level, 3.0/2.0))
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
 
     lvltxt1 = game.add.text(150, 534, "", {
       fontSize: "16px",
@@ -528,9 +531,14 @@ maingame.QueensPark.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if (player.exp - lastLevelPoints >= maxXpPoints) {
+    if ((player.exp - lastLevelPoints) >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
+
+      lastLevelPoints = maxXpPoints
+      maxXpPoints = 100*(Math.pow(player.level, 3.0/2.0))
+      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
+      console.log(maxXpPoints)
     }
 
     if (cursors.bckpck.isDown) {
