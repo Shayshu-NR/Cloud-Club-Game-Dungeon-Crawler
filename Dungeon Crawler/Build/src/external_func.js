@@ -383,8 +383,8 @@ function level_up(player) {
     player.getCurrentLevel();
 
     console.log("Reached level", player.level);
-    lastLevelPoints = maxXpPoints;
-    maxXpPoints = Math.floor(100 *( player.level)**1.5);
+    lastLevelPoints = Math.floor(100 *(player.level-1)**1.5);
+    maxXpPoints = Math.floor(100 *(player.level)**1.5);
 
     lvltxt1.text = "" + player.level;
     lvltxt2.text = "" + (player.level + 1);
