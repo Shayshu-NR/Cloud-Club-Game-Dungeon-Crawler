@@ -223,7 +223,6 @@ maingame.QueensPark.prototype = {
     door.enableBody = true;
     CreateDoors(door_json, door);
 
-
     //-------------------- Add Currency --------------------
     coins = game.add.group();
     coins.enableBody = true;
@@ -524,12 +523,9 @@ maingame.QueensPark.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if ((player.exp) >= maxXpPoints) {
-      console.log(maxXpPoints, lastLevelPoints)
+    if (player.exp  >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
-      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * xpBarScale, 2);
-      console.log(maxXpPoints, lastLevelPoints)
     }
 
     if (cursors.bckpck.isDown) {
