@@ -256,18 +256,6 @@ maingame.Ripleys.prototype = {
       pirate: pirate,
       shark: shark,
     };
-    //----------- Dummy Variable ----------------------------
-    player.lazer = {
-      amount: 5,
-      damage: 1,
-      frequency: 1,
-      group: undefined,
-      speed: 3,
-      name: "lazer_beam",
-      quantity: 1,
-      src: "Laser.png",
-      weapon_type: "projectile",
-    };
 
     //-------------------- Enemy Creation Script --------------------
     LoadEnemies(game, enemyJson, enemyMapping);
@@ -309,25 +297,20 @@ maingame.Ripleys.prototype = {
     xp_bar = bars.create(158, 562, "xp_bar");
     bar_holder.fixedToCamera = true;
     xp_bar.fixedToCamera = true;
-    player.level = 1;
-    player.getCurrentLevel = function () {
-      player.level = Math.floor(Math.pow(player.exp / 100.0, 2.0 / 3.0)) + 1;
-      return player.level;
-    };
     bar_holder.scale.set(8, 2);
-    xp_bar.scale.set((player.exp / maxXpPoints) * 8, 2);
 
-    lvltxt1 = game.add.text(150, 534, "", {
+    maxXpPoints = 100*(Math.pow(player.getCurrentLevel(), 3.0/2.0))
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * (8), 2);
+
+    lvltxt1 = game.add.text(150, 534, String(player.getCurrentLevel()), {
       fontSize: "16px",
       fill: "#FFFFFF",
     });
-    lvltxt1.text = "" + player.level;
 
-    lvltxt2 = game.add.text(780, 534, "", {
+    lvltxt2 = game.add.text(780, 534, String(player.getCurrentLevel() + 1), {
       fontSize: "16px",
       fill: "#FFFFFF",
     });
-    lvltxt2.text = "" + (player.level + 1);
 
     lvltxt1.fixedToCamera = true;
     lvltxt2.fixedToCamera = true;
@@ -346,7 +329,7 @@ maingame.Ripleys.prototype = {
       null,
       null,
     ];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < player.health; i++) {
       health_bars[i] = bars.create(8 + i * 16, 5, "health_heart");
       health_bars[i].fixedToCamera = true;
     }
@@ -376,7 +359,6 @@ maingame.Ripleys.prototype = {
     game.moneyText.fill = "#FFFFFF";
     game.moneyText.fixedToCamera = true;
 
-    maxXpPoints = 100;
 
     //-------------------- Weapon -------------------------
     weapon = this.game.plugins.add(Phaser.Weapon)//game.add.weapon(30, 'arrow')
@@ -404,8 +386,6 @@ maingame.Ripleys.prototype = {
     this.timeText.fill = "#FFFFFF";
     this.timeText.fixedToCamera = true;
     this.timer = game.time.events.loop(10, tick, this);
-
-    itemChests[0].animations.play("open");
   },
 
   update: function () {
@@ -484,6 +464,7 @@ maingame.Ripleys.prototype = {
       null,
       this
     );
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * xpBarScale, 2);
 
     //-------------------- Movement --------------------
     var speed = player.speed;
@@ -548,9 +529,12 @@ maingame.Ripleys.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if (player.exp - lastLevelPoints >= maxXpPoints) {
+    if ((player.exp) >= maxXpPoints) {
+      console.log(maxXpPoints, lastLevelPoints)
       level_up(player);
       add_health(player, 3);
+      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * xpBarScale, 2);
+      console.log(maxXpPoints, lastLevelPoints)
     }
 
     if (cursors.bckpck.isDown) {
@@ -615,7 +599,7 @@ maingame.Ripleys.prototype = {
     }
 
     if (killCount == enemyCount) {
-      console.log("LEVEL DONE");
+      //console.log("LEVEL DONE");
     }
   },
 
