@@ -383,11 +383,13 @@ function level_up(player) {
     player.getCurrentLevel();
 
     console.log("Reached level", player.level);
-    lastLevelPoints = player.exp;
-    maxXpPoints = 100 *( player.level)**1.5;
+    lastLevelPoints = maxXpPoints;
+    maxXpPoints = Math.floor(100 *( player.level)**1.5);
 
     lvltxt1.text = "" + player.level;
     lvltxt2.text = "" + (player.level + 1);
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
+
 }
 
 var tick = function () {

@@ -726,6 +726,7 @@ maingame.test_env.prototype = {
       null,
       this
     );
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
 
     //-------------------- Movement --------------------
     var speed = player.speed;
@@ -793,11 +794,6 @@ maingame.test_env.prototype = {
     if ((player.exp - lastLevelPoints) >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
-
-      lastLevelPoints = maxXpPoints
-      maxXpPoints = 100*(Math.pow(player.level, 3.0/2.0))
-      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
-      print(maxXpPoints)
     }
 
     if (cursors.bckpck.isDown) {
