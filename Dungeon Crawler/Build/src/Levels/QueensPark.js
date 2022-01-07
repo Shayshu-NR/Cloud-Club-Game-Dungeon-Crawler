@@ -463,6 +463,7 @@ maingame.QueensPark.prototype = {
       null,
       this
     );
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
 
     //-------------------- Movement --------------------
     var speed = player.speed;
