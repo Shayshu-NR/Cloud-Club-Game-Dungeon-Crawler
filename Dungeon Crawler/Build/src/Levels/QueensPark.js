@@ -290,28 +290,20 @@ maingame.QueensPark.prototype = {
     xp_bar = bars.create(158, 562, "xp_bar");
     bar_holder.fixedToCamera = true;
     xp_bar.fixedToCamera = true;
-    player.level = 1;
-    player.getCurrentLevel = function () {
-      player.level = Math.floor(Math.pow(player.exp / 100.0, 2.0 / 3.0)) + 1;
-      return player.level;
-    };
-    player.getCurrentLevel()
     bar_holder.scale.set(8, 2);
 
-    xmaxXpPoints = 100*(Math.pow(player.level, 3.0/2.0))
+    maxXpPoints = 100*(Math.pow(player.getCurrentLevel(), 3.0/2.0))
     xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * (8), 2);
 
-    lvltxt1 = game.add.text(150, 534, "", {
+    lvltxt1 = game.add.text(150, 534, String(player.getCurrentLevel()), {
       fontSize: "16px",
       fill: "#FFFFFF",
     });
-    lvltxt1.text = "" + player.level;
 
-    lvltxt2 = game.add.text(780, 534, "", {
+    lvltxt2 = game.add.text(780, 534, String(player.getCurrentLevel() + 1), {
       fontSize: "16px",
       fill: "#FFFFFF",
     });
-    lvltxt2.text = "" + (player.level + 1);
 
     lvltxt1.fixedToCamera = true;
     lvltxt2.fixedToCamera = true;
@@ -360,7 +352,7 @@ maingame.QueensPark.prototype = {
     game.moneyText.fill = "#FFFFFF";
     game.moneyText.fixedToCamera = true;
 
-    maxXpPoints = 100;
+    //maxXpPoints = 100 * (player.getCurrentLevel()) ** 1.5;
 
     //-------------------- Weapon -------------------------
     weapon = this.game.plugins.add(Phaser.Weapon)//game.add.weapon(30, 'arrow')
@@ -537,7 +529,7 @@ maingame.QueensPark.prototype = {
       add_health(player, 3);
 
       lastLevelPoints = maxXpPoints
-      maxXpPoints = 100*(Math.pow(player.level, 3.0/2.0))
+      maxXpPoints = 100*(Math.pow(player.getCurrentLevel() - 1, 3.0/2.0))
       xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
       console.log(maxXpPoints)
     }
