@@ -357,7 +357,6 @@ maingame.QueensPark.prototype = {
     game.moneyText.fill = "#FFFFFF";
     game.moneyText.fixedToCamera = true;
 
-    maxXpPoints = 100;
 
     //-------------------- Weapon -------------------------
     weapon = this.game.plugins.add(Phaser.Weapon)//game.add.weapon(30, 'arrow')
