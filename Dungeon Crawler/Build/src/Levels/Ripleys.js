@@ -236,7 +236,6 @@ maingame.Ripleys.prototype = {
 
     player = CreatePlayerAnimations(player);
 
-
     //-------------------- Add example enemies --------------------
     lizard = game.add.physicsGroup(Phaser.Physics.ARCADE);
     shark = game.add.physicsGroup(Phaser.Physics.ARCADE);
@@ -521,6 +520,7 @@ maingame.Ripleys.prototype = {
         x: player.body.position.x,
         y: player.body.position.y,
         money: player.money,
+        state: "Ripleys"
       };
 
       game.playerExp = player.exp;
@@ -529,12 +529,9 @@ maingame.Ripleys.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if ((player.exp) >= maxXpPoints) {
-      console.log(maxXpPoints, lastLevelPoints)
+    if (player.exp  >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
-      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * xpBarScale, 2);
-      console.log(maxXpPoints, lastLevelPoints)
     }
 
     if (cursors.bckpck.isDown) {
@@ -545,6 +542,7 @@ maingame.Ripleys.prototype = {
         x: player.body.position.x,
         y: player.body.position.y,
         money: player.money,
+        state: "Ripleys"
       };
 
       game.playerExp = player.exp;
