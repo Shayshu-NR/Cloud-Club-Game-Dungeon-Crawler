@@ -53,6 +53,7 @@ var health_bars;
 var ammo_bar;
 var timeLimit = 0;
 var activeBar = [];
+var xpBarScale = 8;
 
 maingame.QueensPark = function (game) { };
 
@@ -458,7 +459,7 @@ maingame.QueensPark.prototype = {
       null,
       this
     );
-    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * xpBarScale, 2);
 
     //-------------------- Movement --------------------
     var speed = player.speed;
@@ -524,14 +525,12 @@ maingame.QueensPark.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if ((player.exp - lastLevelPoints) >= maxXpPoints) {
+    if ((player.exp) >= maxXpPoints) {
+      console.log(maxXpPoints, lastLevelPoints)
       level_up(player);
       add_health(player, 3);
-
-      lastLevelPoints = maxXpPoints
-      maxXpPoints = 100*(Math.pow(player.getCurrentLevel() - 1, 3.0/2.0))
-      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
-      console.log(maxXpPoints)
+      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * xpBarScale, 2);
+      console.log(maxXpPoints, lastLevelPoints)
     }
 
     if (cursors.bckpck.isDown) {
@@ -597,7 +596,7 @@ maingame.QueensPark.prototype = {
     }
 
     if (killCount == enemyCount) {
-      console.log("LEVEL DONE");
+      //console.log("LEVEL DONE");
     }
   },
 

@@ -380,15 +380,13 @@ function level_up(player) {
 
     game.time.events.add((Phaser.Timer.SECOND * 5), function (lvluptxt) { lvluptxt[0].kill(); }, this, [lvlUpText])
 
-    player.getCurrentLevel();
-
     console.log("Reached level", player.level);
-    lastLevelPoints = Math.floor(100 *(player.level-1)**1.5);
-    maxXpPoints = Math.floor(100 *(player.level)**1.5);
+    lastLevelPoints = Math.floor(100 *(player.getCurrentLevel()-1)**1.5);
+    maxXpPoints = Math.floor(100 *(player.getCurrentLevel())**1.5);
 
     lvltxt1.text = "" + String(player.getCurrentLevel());
     lvltxt2.text = "" + String(player.getCurrentLevel() + 1);
-    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
+    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * xpBarScale, 2);
 
 }
 
