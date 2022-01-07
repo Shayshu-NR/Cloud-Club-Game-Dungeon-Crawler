@@ -131,10 +131,10 @@ function add_coins(player, coin) {
     if(typeof coin.enemy == 'undefined'){
         levelCoins.itemData[coin.index].collected = true;
         coin.kill();
-        player.money += 10;
+        player.money += 10 + (probability(player.luck) ? 10 : 0);
     }
     else {
-        player.money += enemyJson.emeData[coin.index].Coins
+        player.money += enemyJson.emeData[coin.index].Coins + (probability(player.luck) ? enemyJson.emeData[coin.index].Coins : 0);
     }
 
     game.moneyText.text = player.money;

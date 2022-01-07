@@ -1,7 +1,3 @@
-var BuildItems = new Items("test_items.json");
-var levelCoins = new Coins("currency.json");
-var enemyJson = new Enemies("ripleys_enemies.json");
-
 //-------------------- Tile map --------------------
 var map;
 var ground;
@@ -172,14 +168,17 @@ maingame.QueensPark.prototype = {
       "../Assets/General assets/Ripleys Aquarium/door-atlas.json"
     );
 
-    game.load.text("currency", "../Specifications/currency.json");
-    game.load.text("enemies", "../Enemies/ripleys_enemies.json");
-    game.load.text("doors", "../Specifications/door.json");
+    game.load.text("currency", "../Currency/queenspark_currency.json");
+    game.load.text("enemies", "../Enemies/queenspark_enemies.json");
+    game.load.text("doors", "../Doors/queenspark_doors.json");
   },
 
   create: function () {
     enemyCount = 0;
     //-------------------- Load Currency --------------------
+    BuildItems = new Items("queenspark_items.json");
+    levelCoins = new Coins("queenspark_currency.json");
+    enemyJson = new Enemies("queenspark_enemies.json");
     currency_json = JSON.parse(game.cache.getText("currency"));
     enemies_json = JSON.parse(game.cache.getText("enemies"));
     door_json = JSON.parse(game.cache.getText("doors"));
@@ -222,7 +221,7 @@ maingame.QueensPark.prototype = {
     door = game.add.group();
     door.enableBody = true;
     CreateDoors(door_json, door);
-    
+
 
     //-------------------- Add Currency --------------------
     coins = game.add.group();
@@ -328,7 +327,7 @@ maingame.QueensPark.prototype = {
       null,
       null,
     ];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < player.health; i++) {
       health_bars[i] = bars.create(8 + i * 16, 5, "health_heart");
       health_bars[i].fixedToCamera = true;
     }
@@ -386,8 +385,6 @@ maingame.QueensPark.prototype = {
     this.timeText.fill = "#FFFFFF";
     this.timeText.fixedToCamera = true;
     this.timer = game.time.events.loop(10, tick, this);
-
-    itemChests[0].animations.play("open");
   },
 
   update: function () {
@@ -399,43 +396,48 @@ maingame.QueensPark.prototype = {
       game.state.start("StartMenu");
     }
 
-    for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
-      game.physics.arcade.collide(
-        player,
-        itemChests[i],
-        function openChest(player) {
-          if (itemChests[i].collide) {
-            //so that the chest doesnt open and close
-            itemChests[i].animations.play("open");
-            itemChests[i].collide = false;
-
-            if (!BuildItems.itemData.Items[i].chest.Taken) {
-              BuildItems.itemData.Items[i].chest.Taken = true;
-              BuildItems.itemData.Items[i].chest.Opened = true;
-
-              var item = statics.create(
-                itemChests[i].position.x + 8,
-                itemChests[i].position.y + 8,
-                itemChests[i].item.atlas,
-                itemChests[i].item.src
-              );
-              item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
-              console.log(itemChests);
-
-              game.time.events.add(
-                Phaser.Timer.SECOND * 1,
-                function collectItemFromChest() {
-                  console.log(item.info);
-                  player.putBackpack(item.info);
-                  item.kill();
-                  // Set item taken flag
-                },
-                this
-              );
+    try {
+        for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
+          game.physics.arcade.collide(
+            player,
+            itemChests[i],
+            function openChest(player) {
+              if (itemChests[i].collide) {
+                //so that the chest doesnt open and close
+                itemChests[i].animations.play("open");
+                itemChests[i].collide = false;
+    
+                if (!BuildItems.itemData.Items[i].chest.Taken) {
+                  BuildItems.itemData.Items[i].chest.Taken = true;
+                  BuildItems.itemData.Items[i].chest.Opened = true;
+    
+                  var item = statics.create(
+                    itemChests[i].position.x + 8,
+                    itemChests[i].position.y + 8,
+                    itemChests[i].item.atlas,
+                    itemChests[i].item.src
+                  );
+                  item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
+                  console.log(itemChests);
+    
+                  game.time.events.add(
+                    Phaser.Timer.SECOND * 1,
+                    function collectItemFromChest() {
+                      console.log(item.info);
+                      player.putBackpack(item.info);
+                      item.kill();
+                      // Set item taken flag
+                    },
+                    this
+                  );
+                }
+              }
             }
-          }
+          );
         }
-      );
+    }
+    catch {
+
     }
 
     //-------------------- Collision engine --------------------
@@ -467,7 +469,7 @@ maingame.QueensPark.prototype = {
     potion_set = game.add.group();
     if (player.potion_status == "Speed Potion") {
       speed = speed * 1.5;
-    } 
+    }
 
     idle_direction = ["idle-left", "idle-right", "idle-up", "idle-down"];
 

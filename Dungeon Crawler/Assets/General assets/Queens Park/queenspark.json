@@ -45,10 +45,21 @@
  "tiledversion":"1.7.1",
  "tileheight":16,
  "tilesets":[
-        {
-         "firstgid":1,
-         "source":"queenspark_tileset.tsx"
-        }],
+       {
+              "columns": 7,
+                 "firstgid":1,
+              "image": "tileset.png",
+              "imageheight": 128,
+              "imagewidth": 112,
+              "margin": 0,
+              "name": "queenspark",
+              "spacing": 0,
+              "tilecount": 56,
+              "tileheight": 16,
+              "tilewidth": 16
+            }
+        
+       ],
  "tilewidth":16,
  "type":"map",
  "version":"1.6",

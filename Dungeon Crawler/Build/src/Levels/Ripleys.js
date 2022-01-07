@@ -417,44 +417,49 @@ maingame.Ripleys.prototype = {
       game.state.start("StartMenu");
     }
 
-    for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
-      game.physics.arcade.collide(
-        player,
-        itemChests[i],
-        function openChest(player) {
-          if (itemChests[i].collide) {
-            //so that the chest doesnt open and close
-            itemChests[i].animations.play("open");
-            itemChests[i].collide = false;
-
-            if (!BuildItems.itemData.Items[i].chest.Taken) {
-              BuildItems.itemData.Items[i].chest.Taken = true;
-              BuildItems.itemData.Items[i].chest.Opened = true;
-
-              var item = statics.create(
-                itemChests[i].position.x + 8,
-                itemChests[i].position.y + 8,
-                itemChests[i].item.atlas,
-                itemChests[i].item.src
-              );
-              item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
-              console.log(itemChests);
-
-              game.time.events.add(
-                Phaser.Timer.SECOND * 1,
-                function collectItemFromChest() {
-                  console.log(item.info);
-                  player.putBackpack(item.info);
-                  item.kill();
-                  // Set item taken flag
-                },
-                this
-              );
+    try {
+      for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
+        game.physics.arcade.collide(
+          player,
+          itemChests[i],
+          function openChest(player) {
+            if (itemChests[i].collide) {
+              //so that the chest doesnt open and close
+              itemChests[i].animations.play("open");
+              itemChests[i].collide = false;
+  
+              if (!BuildItems.itemData.Items[i].chest.Taken) {
+                BuildItems.itemData.Items[i].chest.Taken = true;
+                BuildItems.itemData.Items[i].chest.Opened = true;
+  
+                var item = statics.create(
+                  itemChests[i].position.x + 8,
+                  itemChests[i].position.y + 8,
+                  itemChests[i].item.atlas,
+                  itemChests[i].item.src
+                );
+                item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
+                console.log(itemChests);
+  
+                game.time.events.add(
+                  Phaser.Timer.SECOND * 1,
+                  function collectItemFromChest() {
+                    console.log(item.info);
+                    player.putBackpack(item.info);
+                    item.kill();
+                    // Set item taken flag
+                  },
+                  this
+                );
+              }
             }
           }
-        }
-      );
-    }
+        );
+      }
+  }
+  catch {
+    
+  }
 
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
