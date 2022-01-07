@@ -523,14 +523,10 @@ maingame.QueensPark.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if ((player.exp - lastLevelPoints) >= maxXpPoints) {
+    if (player.exp  >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
 
-      lastLevelPoints = maxXpPoints
-      maxXpPoints = 100*(Math.pow(player.getCurrentLevel() - 1, 3.0/2.0))
-      xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * 8, 2);
-      console.log(maxXpPoints)
     }
 
     if (cursors.bckpck.isDown) {
