@@ -84,7 +84,7 @@ maingame.QueensPark.prototype = {
       "../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json"
     );
 
-    this.load.spritesheet("chest", "../Gabrielle/src/Assets/chest.png", 32, 32);
+    this.load.spritesheet("chest", "../Assets/General assets/Queens Park/garbage animation/garbageanimation.png", 36, 36);
 
     this.load.spritesheet(
       "LevelUp",
@@ -172,14 +172,15 @@ maingame.QueensPark.prototype = {
     game.load.text("currency", "./src/Currency/queenspark_currency.json");
     game.load.text("enemies", "./src/Enemies/queenspark_enemies.json");
     game.load.text("doors", "./src/Doors/queenspark_doors.json");
+
+    BuildItems = new Items("queenspark_items.json");
+    levelCoins = new Coins("queenspark_currency.json");
+    enemyJson = new Enemies("queenspark_enemies.json");
   },
 
   create: function () {
     enemyCount = 0;
     //-------------------- Load Currency --------------------
-    BuildItems = new Items("queenspark_items.json");
-    levelCoins = new Coins("queenspark_currency.json");
-    enemyJson = new Enemies("queenspark_enemies.json");
     currency_json = JSON.parse(game.cache.getText("currency"));
     enemies_json = JSON.parse(game.cache.getText("enemies"));
     door_json = JSON.parse(game.cache.getText("doors"));
@@ -194,10 +195,8 @@ maingame.QueensPark.prototype = {
     //-------------------- Create layer --------------------
     map.createLayer("ground");
     walls = map.createLayer("walls");
-    map.createLayer("decorations");
 
     //-------------------- Add wall colision --------------------
-    //map.setCollisionBetween(1, 999, true, "walls");
     map.setCollisionBetween(1, 999, true, "decorations")
 
     //-------------------- Add example weapon --------------------
@@ -265,6 +264,7 @@ maingame.QueensPark.prototype = {
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
+    console.log(BuildItems.itemData);
     itemChests = CreateChests(game, BuildItems, statics);
 
     //-------------------- HUD --------------------

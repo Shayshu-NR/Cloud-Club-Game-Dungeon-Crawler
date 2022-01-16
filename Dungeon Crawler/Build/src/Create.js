@@ -1,13 +1,13 @@
 function LoadEnemies(game, enemyJson, enemyMapping) {
   try {
-      enemyJson.emeData.forEach(function (element, index) {
-        var nmeInst;
-    
-        if (enemyMapping[element.Name] != "button" && !element.dead) {
-          nmeInst = enemyMapping[element.Name].create(
-            element.x,
-            element.y,
-            element.Atlas,
+    enemyJson.emeData.forEach(function (element, index) {
+      var nmeInst;
+
+      if (enemyMapping[element.Name] != "button" && !element.dead) {
+        nmeInst = enemyMapping[element.Name].create(
+          element.x,
+          element.y,
+          element.Atlas,
           element.Frame1
         );
 
@@ -83,7 +83,7 @@ function LoadEnemies(game, enemyJson, enemyMapping) {
 
 }
 
-function CreateChests(game, BuildItems, statics) {
+function CreateChests(game, BuildItems, statics, chestSkin = "chest", order = [0, 1, 2, 3, 4, 5, 6, 7]) {
 
   try {
 
@@ -93,14 +93,13 @@ function CreateChests(game, BuildItems, statics) {
       var x = Number(BuildItems.itemData.Items[i].x);
       var y = Number(BuildItems.itemData.Items[i].y);
       var src = BuildItems.itemData.Items[i].src;
+      let newChest;
 
-      var newChest;
       if (BuildItems.itemData.Items[i].chest.Opened) {
-        newChest = statics.create(x, y, "chest", 5);
+        newChest = statics.create(x, y, chestSkin, 5);
       } else {
-        newChest = statics.create(x, y, "chest", 0);
-        newChest.animations.add("open", [0, 1, 2, 3, 4, 5, 6, 7], 300, false);
-        newChest.animations.add("open", [0, 1, 2, 3, 4, 5, 6, 7], 300, false); 
+        newChest = statics.create(x, y, chestSkin, 0);
+        newChest.animations.add("open", order, 300, false);
       }
 
       newChest.collide = true;
@@ -117,16 +116,18 @@ function CreateChests(game, BuildItems, statics) {
       itemChests[i].collide = true;
       itemChests[i].animations.add(
         "open",
-        [0, 1, 2, 3, 4, 5, 6, 7],
+        order,
         300,
         false
       );
-      itemChests[i].animations.add("close", [7, 6, 5, 4, 3, 2], 300, false);
+      itemChests[i].animations.add("close", [7, 6, 5, 4, 3, 2, 1, 0], 300, false);
     }
 
+    console.log("Chests:", itemChests)
     return itemChests;
   }
-  catch {
+  catch (err) {
+    console.log(err, BuildItems)
     return [];
   }
 }

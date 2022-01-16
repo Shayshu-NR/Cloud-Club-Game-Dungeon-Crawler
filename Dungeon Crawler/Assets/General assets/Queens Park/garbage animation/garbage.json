@@ -1,0 +1,183 @@
+{
+	"frames": [
+		{
+			"filename": "garbage_f1.png",
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		{
+			"filename": "garbage_f2.png",
+			"frame": {
+				"x": 16,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		{
+			"filename": "garbage_f3.png",
+			"frame": {
+				"x": 0,
+				"y": 16,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		{
+			"filename": "garbage_f4.png",
+			"frame": {
+				"x": 16,
+				"y": 16,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		{
+			"filename": "garbage_f5.png",
+			"frame": {
+				"x": 32,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		{
+			"filename": "garbage_f6.png",
+			"frame": {
+				"x": 32,
+				"y": 16,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		{
+			"filename": "garbage_f7.png",
+			"frame": {
+				"x": 0,
+				"y": 32,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		},
+		{
+			"filename": "garbage_f8.png",
+			"frame": {
+				"x": 16,
+				"y": 32,
+				"w": 16,
+				"h": 16
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 16,
+				"h": 16
+			},
+			"sourceSize": {
+				"w": 16,
+				"h": 16
+			}
+		}
+	],
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 48,
+			"h": 48
+		},
+		"scale": "1"
+	}
+}
