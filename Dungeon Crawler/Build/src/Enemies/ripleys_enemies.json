@@ -26,7 +26,7 @@
     "Health": 1,
     "Exp": 100,
     "Coins": 100,
-    "Damage": 3,
+    "Damage": 4,
     "Atlas": "full_pirate",
     "Frame1": "walk-down-1.png",
     "Scale": 1.5,

@@ -171,9 +171,9 @@ maingame.Ripleys.prototype = {
       "../Assets/General assets/Ripleys Aquarium/door-atlas.json"
     );
 
-    game.load.text("currency", "../Currency/ripleys_currency.json");
-    game.load.text("enemies", "../Enemies/ripleys_enemies.json");
-    game.load.text("doors", "../Specifications/door.json");
+    game.load.text("currency", "./src/Currency/ripleys_currency.json");
+    game.load.text("enemies", "./src/Enemies/ripleys_enemies.json");
+    game.load.text("doors", "./src/Doors/ripleys_doors.json");
 
     game.load.image("ripleys-background", "../Assets/General assets/water-texture.png")
   },
@@ -298,8 +298,8 @@ maingame.Ripleys.prototype = {
     xp_bar.fixedToCamera = true;
     bar_holder.scale.set(8, 2);
 
-    maxXpPoints = 100*(Math.pow(player.getCurrentLevel(), 3.0/2.0))
-    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * (8), 2);
+    maxXpPoints = 100 * (Math.pow(player.getCurrentLevel(), 3.0 / 2.0))
+    xp_bar.scale.set(((player.exp - lastLevelPoints) / (maxXpPoints - lastLevelPoints)) * (8), 2);
 
     lvltxt1 = game.add.text(150, 534, String(player.getCurrentLevel()), {
       fontSize: "16px",
@@ -347,6 +347,7 @@ maingame.Ripleys.prototype = {
           activeBar[i]["atlas"],
           activeBar[i]["src"]
         );
+        icon[i].fixedToCamera = true;
         icon[i].scale.set(activeBar[i].ai_scale[0], activeBar[i].ai_scale[1]);
       }
     }
@@ -406,11 +407,11 @@ maingame.Ripleys.prototype = {
               //so that the chest doesnt open and close
               itemChests[i].animations.play("open");
               itemChests[i].collide = false;
-  
+
               if (!BuildItems.itemData.Items[i].chest.Taken) {
                 BuildItems.itemData.Items[i].chest.Taken = true;
                 BuildItems.itemData.Items[i].chest.Opened = true;
-  
+
                 var item = statics.create(
                   itemChests[i].position.x + 8,
                   itemChests[i].position.y + 8,
@@ -419,7 +420,7 @@ maingame.Ripleys.prototype = {
                 );
                 item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
                 console.log(itemChests);
-  
+
                 game.time.events.add(
                   Phaser.Timer.SECOND * 1,
                   function collectItemFromChest() {
@@ -435,10 +436,10 @@ maingame.Ripleys.prototype = {
           }
         );
       }
-  }
-  catch {
-    
-  }
+    }
+    catch {
+
+    }
 
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
@@ -463,14 +464,14 @@ maingame.Ripleys.prototype = {
       null,
       this
     );
-    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * xpBarScale, 2);
+    xp_bar.scale.set(((player.exp - lastLevelPoints) / (maxXpPoints - lastLevelPoints)) * xpBarScale, 2);
 
     //-------------------- Movement --------------------
     var speed = player.speed;
     potion_set = game.add.group();
     if (player.potion_status == "Speed Potion") {
       speed = speed * 1.5;
-    } 
+    }
 
     idle_direction = ["idle-left", "idle-right", "idle-up", "idle-down"];
 
@@ -529,7 +530,7 @@ maingame.Ripleys.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if (player.exp  >= maxXpPoints) {
+    if (player.exp >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
     }
@@ -597,7 +598,17 @@ maingame.Ripleys.prototype = {
     }
 
     if (killCount == enemyCount) {
-      //console.log("LEVEL DONE");
+      game.player_attributes = {
+        backpack: player.backpack,
+        actives: player.active_items,
+        current: player.current_item,
+        x: player.body.position.x,
+        y: player.body.position.y,
+        money: player.money,
+        state: "QueensPark"
+      };
+
+      game.state.start("QueensPark");
     }
   },
 
