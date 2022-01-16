@@ -57,7 +57,7 @@ function swing_melee(player, current_item) {
 
     // Left
     if (player_facing == 0) {
-        melee = current_item.group.create(player.position.x - 10, player.position.y + 16, current_item.atlas, 'weapon_rusty_sword.png')
+        melee = current_item.group.create(player.position.x - 10, player.position.y + 16, current_item.atlas, current_item.frames[4])
     }
     // Right
     else if (player_facing == 1) {
