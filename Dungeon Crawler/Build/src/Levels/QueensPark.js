@@ -1,5 +1,6 @@
 //-------------------- Tile map --------------------
 var map;
+var decorations;
 var ground;
 var walls;
 var door;
@@ -84,7 +85,7 @@ maingame.QueensPark.prototype = {
       "../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json"
     );
 
-    this.load.spritesheet("chest", "../Assets/General assets/Queens Park/garbage animation/garbageanimation.png", 36, 36);
+    this.load.spritesheet("chest", "../Assets/General assets/Queens Park/garbage animation/garbageanimation.png", 16, 16);
 
     this.load.spritesheet(
       "LevelUp",
@@ -194,11 +195,13 @@ maingame.QueensPark.prototype = {
 
     //-------------------- Create layer --------------------
     map.createLayer("ground");
+    decorations = map.createLayer("decorations");
     walls = map.createLayer("walls");
 
     //-------------------- Add wall colision --------------------
+    map.setCollisionBetween(1, 999, true, "walls")
     map.setCollisionBetween(1, 999, true, "decorations")
-
+    
     //-------------------- Add example weapon --------------------
     default_sword = game.add.group();
     default_sword.enableBody = true;
@@ -260,12 +263,12 @@ maingame.QueensPark.prototype = {
     cursors.space = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
     cursors.esc = game.input.keyboard.addKey(Phaser.Keyboard.ESC);
 
-    statics = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    statics = game.add.physicsGroup(Phaser.Physics.ARCADE)
     bars = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     //~~~~~~~~~~ chest creation ~~~~~~~~~~~~~~~~
-    console.log(BuildItems.itemData);
     itemChests = CreateChests(game, BuildItems, statics);
+    console.log(itemChests)
 
     //-------------------- HUD --------------------
     var stats = game.add.button(10, 545, "bpack", function () {
@@ -391,7 +394,7 @@ maingame.QueensPark.prototype = {
     }
 
     try {
-      for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
+      for (var i = 0; i < itemChests.length; i++) {
         game.physics.arcade.collide(
           player,
           itemChests[i],
@@ -406,21 +409,19 @@ maingame.QueensPark.prototype = {
                 BuildItems.itemData.Items[i].chest.Opened = true;
 
                 var item = statics.create(
-                  itemChests[i].position.x + 8,
-                  itemChests[i].position.y + 8,
+                  itemChests[i].position.x,
+                  itemChests[i].position.y - 18,
                   itemChests[i].item.atlas,
                   itemChests[i].item.src
                 );
-                item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
-                console.log(itemChests);
+                item.info = itemChests[i].item;
+                console.log("Chest Collide: " + [i]);
 
                 game.time.events.add(
                   Phaser.Timer.SECOND * 1,
                   function collectItemFromChest() {
-                    console.log(item.info);
                     player.putBackpack(item.info);
                     item.kill();
-                    // Set item taken flag
                   },
                   this
                 );
@@ -501,6 +502,7 @@ maingame.QueensPark.prototype = {
       keyReset = true;
       use_current_weapon();
     }
+
     if (!cursors.space.isDown) {
       keyReset = false;
     }
@@ -597,9 +599,7 @@ maingame.QueensPark.prototype = {
 
   render: function () {
     game.debug.bodyInfo(player, 32, 32);
-
-    //game.debug.body(player);
-
+    game.debug.body(player);
     game.debug.body(player.current_item.group);
   }
 };

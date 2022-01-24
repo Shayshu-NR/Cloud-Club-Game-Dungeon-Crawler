@@ -84,50 +84,48 @@ function LoadEnemies(game, enemyJson, enemyMapping) {
 }
 
 function CreateChests(game, BuildItems, statics, chestSkin = "chest", order = [0, 1, 2, 3, 4, 5, 6, 7]) {
-
+  console.log("Create Chest: ", BuildItems)
   try {
-
-    let itemChests = [];
+    var itemChests = [];
 
     for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
       var x = Number(BuildItems.itemData.Items[i].x);
       var y = Number(BuildItems.itemData.Items[i].y);
       var src = BuildItems.itemData.Items[i].src;
-      let newChest;
+      var newChest;
 
       if (BuildItems.itemData.Items[i].chest.Opened) {
-        newChest = statics.create(x, y, chestSkin, 5);
+        newChest = statics.create(x, y, chestSkin, 7);
       } else {
         newChest = statics.create(x, y, chestSkin, 0);
-        newChest.animations.add("open", order, 300, false);
       }
 
-      newChest.collide = true;
+      newChest.animations.add(
+        "open",
+        [0, 1, 2, 3, 4, 5, 6, 7],
+        10,
+        false
+      );
+      newChest.animations.add(
+        "close",
+        [7, 6, 5, 4, 3, 2, 1, 0],
+        10,
+        false
+      );
+
       game.physics.arcade.enable(newChest);
       newChest.body.immovable = true;
       newChest.enableBody = true;
       newChest.classPosition = i;
-
       newChest.item = BuildItems.itemData.Items[i].chest;
+      newChest.collide = true;
 
-      console.log(newChest.position.x);
       itemChests.push(newChest);
-
-      itemChests[i].collide = true;
-      itemChests[i].animations.add(
-        "open",
-        order,
-        300,
-        false
-      );
-      itemChests[i].animations.add("close", [7, 6, 5, 4, 3, 2, 1, 0], 300, false);
     }
-
-    console.log("Chests:", itemChests)
     return itemChests;
   }
   catch (err) {
-    console.log(err, BuildItems)
+    console.log("Error: ", err, BuildItems)
     return [];
   }
 }
