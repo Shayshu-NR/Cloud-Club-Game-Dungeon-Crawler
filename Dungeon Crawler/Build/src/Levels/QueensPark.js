@@ -169,9 +169,9 @@ maingame.QueensPark.prototype = {
       "../Assets/General assets/Ripleys Aquarium/door-atlas.json"
     );
 
-    game.load.text("currency", "../Currency/queenspark_currency.json");
-    game.load.text("enemies", "../Enemies/queenspark_enemies.json");
-    game.load.text("doors", "../Doors/queenspark_doors.json");
+    game.load.text("currency", "./src/Currency/queenspark_currency.json");
+    game.load.text("enemies", "./src/Enemies/queenspark_enemies.json");
+    game.load.text("doors", "./src/Doors/queenspark_doors.json");
   },
 
   create: function () {
@@ -197,7 +197,7 @@ maingame.QueensPark.prototype = {
     map.createLayer("decorations");
 
     //-------------------- Add wall colision --------------------
-    map.setCollisionBetween(1, 999, true, "walls");
+    //map.setCollisionBetween(1, 999, true, "walls");
     map.setCollisionBetween(1, 999, true, "decorations")
 
     //-------------------- Add example weapon --------------------
@@ -292,8 +292,8 @@ maingame.QueensPark.prototype = {
     xp_bar.fixedToCamera = true;
     bar_holder.scale.set(8, 2);
 
-    maxXpPoints = 100*(Math.pow(player.getCurrentLevel(), 3.0/2.0))
-    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * (8), 2);
+    maxXpPoints = 100 * (Math.pow(player.getCurrentLevel(), 3.0 / 2.0))
+    xp_bar.scale.set(((player.exp - lastLevelPoints) / (maxXpPoints - lastLevelPoints)) * (8), 2);
 
     lvltxt1 = game.add.text(150, 534, String(player.getCurrentLevel()), {
       fontSize: "16px",
@@ -391,44 +391,44 @@ maingame.QueensPark.prototype = {
     }
 
     try {
-        for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
-          game.physics.arcade.collide(
-            player,
-            itemChests[i],
-            function openChest(player) {
-              if (itemChests[i].collide) {
-                //so that the chest doesnt open and close
-                itemChests[i].animations.play("open");
-                itemChests[i].collide = false;
-    
-                if (!BuildItems.itemData.Items[i].chest.Taken) {
-                  BuildItems.itemData.Items[i].chest.Taken = true;
-                  BuildItems.itemData.Items[i].chest.Opened = true;
-    
-                  var item = statics.create(
-                    itemChests[i].position.x + 8,
-                    itemChests[i].position.y + 8,
-                    itemChests[i].item.atlas,
-                    itemChests[i].item.src
-                  );
-                  item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
-                  console.log(itemChests);
-    
-                  game.time.events.add(
-                    Phaser.Timer.SECOND * 1,
-                    function collectItemFromChest() {
-                      console.log(item.info);
-                      player.putBackpack(item.info);
-                      item.kill();
-                      // Set item taken flag
-                    },
-                    this
-                  );
-                }
+      for (var i = 0; i < BuildItems.itemData.Items.length; i++) {
+        game.physics.arcade.collide(
+          player,
+          itemChests[i],
+          function openChest(player) {
+            if (itemChests[i].collide) {
+              //so that the chest doesnt open and close
+              itemChests[i].animations.play("open");
+              itemChests[i].collide = false;
+
+              if (!BuildItems.itemData.Items[i].chest.Taken) {
+                BuildItems.itemData.Items[i].chest.Taken = true;
+                BuildItems.itemData.Items[i].chest.Opened = true;
+
+                var item = statics.create(
+                  itemChests[i].position.x + 8,
+                  itemChests[i].position.y + 8,
+                  itemChests[i].item.atlas,
+                  itemChests[i].item.src
+                );
+                item.info = itemChests[i].item; //itemChests[i].item doesn't work inside the collectItemFromChest function
+                console.log(itemChests);
+
+                game.time.events.add(
+                  Phaser.Timer.SECOND * 1,
+                  function collectItemFromChest() {
+                    console.log(item.info);
+                    player.putBackpack(item.info);
+                    item.kill();
+                    // Set item taken flag
+                  },
+                  this
+                );
               }
             }
-          );
-        }
+          }
+        );
+      }
     }
     catch {
 
@@ -457,7 +457,7 @@ maingame.QueensPark.prototype = {
       null,
       this
     );
-    xp_bar.scale.set(((player.exp-lastLevelPoints) / (maxXpPoints-lastLevelPoints)) * xpBarScale, 2);
+    xp_bar.scale.set(((player.exp - lastLevelPoints) / (maxXpPoints - lastLevelPoints)) * xpBarScale, 2);
 
     //-------------------- Movement --------------------
     var speed = player.speed;
@@ -523,7 +523,7 @@ maingame.QueensPark.prototype = {
     }
     //-------------------- EXP update and HUD --------------------
     // Point checking
-    if (player.exp  >= maxXpPoints) {
+    if (player.exp >= maxXpPoints) {
       level_up(player);
       add_health(player, 3);
     }

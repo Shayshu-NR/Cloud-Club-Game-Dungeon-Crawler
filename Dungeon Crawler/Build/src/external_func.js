@@ -29,7 +29,7 @@ function swing_default_sword(player) {
         melee = default_sword.create(player.position.x - 10, player.position.y + 16, 'tiles', 'weapon_rusty_sword.png')
     }
     // Right
-    else if (player_facing == 1) {
+    else if (player_facing == 1) { 
         melee = default_sword.create(player.position.x + 22, player.position.y + 16, 'sword', 'weapon_regular_sword_left.png')
         melee.rotation += Math.PI
     }
@@ -57,7 +57,7 @@ function swing_melee(player, current_item) {
 
     // Left
     if (player_facing == 0) {
-        melee = current_item.group.create(player.position.x - 10, player.position.y + 16, current_item.atlas, current_item.frames[4])
+        melee = current_item.group.create(player.position.x - 10, player.position.y + 16, current_item.atlas, current_item.frames[0]);
     }
     // Right
     else if (player_facing == 1) {
@@ -126,8 +126,6 @@ function throw_projectile(player, current_item) {
 }
 
 function add_coins(player, coin) {
-    console.log("add coins", coin);
-
     if(typeof coin.enemy == 'undefined'){
         levelCoins.itemData[coin.index].collected = true;
         coin.kill();

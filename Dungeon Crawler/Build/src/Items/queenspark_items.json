@@ -1,1 +1,25 @@
-[]
+{
+  "Items": [
+    {
+      "Name": "Chest_1",
+      "x": "653",
+      "y": "300",
+      "src": {
+        "atlas": "../Assets/General assets/Potions/potions.png",
+        "tilesheet": "../Assets/General assets/Potions/potions.json"
+      },
+      "Opened": false,
+      "item": null,
+      "chest": {
+        "name": "HealthPotion",
+        "group": "potion",
+        "atlas": "potion_set",
+        "src": "health_pot_1.png",
+        "use": "use_potion(player, \"Health_Potion\")",
+        "ai_scale": [1, 1],
+        "Opened": false,
+        "Taken": false
+      }
+    }
+  ]
+}

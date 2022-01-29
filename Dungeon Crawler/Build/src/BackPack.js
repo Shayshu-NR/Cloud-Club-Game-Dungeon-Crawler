@@ -60,6 +60,7 @@ maingame.BackPack.prototype = {
                 console.log("Inventory: ", inventory);
                 console.log("Backpack: ", backpack);
                 console.log("Active Items", active_items);
+                console.log("Current State", current_state);
 
                 this.add.image(50, 50, 'backpack');
                 this.add.image(120, 400, 'actives')

@@ -1,46 +1,46 @@
 {
-    "Items": [
-        {
-            "Name": "Chest_2",
-            "x": "200",
-            "y": "210",
-            "src": {
-                "atlas": "../Assets/General assets/Potions/potions.png",
-                "tilesheet": "../Assets/General assets/Potions/potions.json"
-            },
-            "Opened" : false,
-            "item": null,
-            "chest": {
-                "name": "HealthPotion",
-                "group": "potion",
-                "atlas": "potion_set",
-                "src": "health_pot_1.png",
-                "use": "use_potion(player, \"Health_Potion\")",
-                "ai_scale": [1, 1],
-                "Opened" : false,
-                "Taken" : false
-            }
-        },
-        {
-            "Name": "Chest_3",
-            "x": "735",
-            "y": "880",
-            "src": {
-                "atlas": "../Assets/General assets/Potions/potions.png",
-                "tilesheet": "../Assets/General assets/Potions/potions.json"
-            },
-            "Opened" : false,
-            "item": null,
-            "chest": {
-                "name": "Attack_Potion",
-                "group": "potion",
-                "atlas": "potion_set",
-                "src": "strength_pot_1.png",
-                "use": "use_potion(player, \"Attack_Potion\")",
-                "ai_scale": [1, 1],
-                "Opened" : false,
-                "Taken" : false
-            }
-        }
-    ]
+  "Items": [
+    {
+      "Name": "Chest_2",
+      "x": "200",
+      "y": "210",
+      "src": {
+        "atlas": "../Assets/General assets/Potions/potions.png",
+        "tilesheet": "../Assets/General assets/Potions/potions.json"
+      },
+      "Opened": false,
+      "item": null,
+      "chest": {
+        "name": "HealthPotion",
+        "group": "potion",
+        "atlas": "potion_set",
+        "src": "health_pot_1.png",
+        "use": "use_potion(player, \"Health_Potion\")",
+        "ai_scale": [1, 1],
+        "Opened": false,
+        "Taken": false
+      }
+    },
+    {
+      "Name": "Chest_3",
+      "x": "735",
+      "y": "880",
+      "src": {
+        "atlas": "../Assets/General assets/Potions/potions.png",
+        "tilesheet": "../Assets/General assets/Potions/potions.json"
+      },
+      "Opened": false,
+      "item": null,
+      "chest": {
+        "name": "Attack_Potion",
+        "group": "potion",
+        "atlas": "potion_set",
+        "src": "strength_pot_1.png",
+        "use": "use_potion(player, \"Attack_Potion\")",
+        "ai_scale": [1, 1],
+        "Opened": false,
+        "Taken": false
+      }
+    }
+  ]
 }
