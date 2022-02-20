@@ -1,0 +1,36 @@
+{
+	"frames": [
+		{
+			"filename": "WalkDown.png",
+			"frame": {
+				"x": 0,
+				"y": 0,
+				"w": 896,
+				"h": 64
+			},
+			"rotated": false,
+			"trimmed": false,
+			"spriteSourceSize": {
+				"x": 0,
+				"y": 0,
+				"w": 896,
+				"h": 64
+			},
+			"sourceSize": {
+				"w": 896,
+				"h": 64
+			}
+		}
+	],
+	"meta": {
+		"app": "http://www.codeandweb.com/texturepacker",
+		"version": "1.0",
+		"image": "spritesheet.png",
+		"format": "RGBA8888",
+		"size": {
+			"w": 896,
+			"h": 64
+		},
+		"scale": "1"
+	}
+}
