@@ -40,6 +40,7 @@ function LoadEnemies(game, enemyJson, enemyMapping) {
           case "pirate":
           case "shark":
           case "pedestrian":
+          case "hedge_monster":
             nmeInst.bounds = element.Extra.filter(
               (x) => Object.keys(x)[0] === "bounds"
             )[0].bounds;

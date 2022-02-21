@@ -21,6 +21,7 @@ var new_nme;
 var shark;
 var pirate;
 var pedestrian;
+var hedge_monster;
 var pirates;
 var enemies;
 var killCount = 0;
@@ -161,6 +162,12 @@ maingame.test_env.prototype = {
       "angry_pedestrian",
       "../Assets/General assets/Queens Park/angry_pedestrian/angry_pedestrian.png",
       "../Assets/General assets/Queens Park/angry_pedestrian/angry_pedestrian.json"
+    );
+
+    this.load.atlas(
+      "hedge_monster",
+      "../Assets/General assets/Queens Park/hedge_monster/hedge_monster_atlas.png",
+      "../Assets/General assets/Queens Park/hedge_monster/hedge_monster_atlas.json"
     );
 
     this.load.atlas(
@@ -387,23 +394,27 @@ maingame.test_env.prototype = {
     shark = game.add.physicsGroup(Phaser.Physics.ARCADE);
     pirate = game.add.physicsGroup(Phaser.Physics.ARCADE);
     pedestrian = game.add.physicsGroup(Phaser.Physics.ARCADE);
+    hedge_monster = game.add.physicsGroup(Phaser.Physics.ARCADE);
     enemies = game.add.physicsGroup(Phaser.Physics.ARCADE);
 
     lizard.enableBody = true;
     shark.enableBody = true;
     pirate.enableBody = true;
     pedestrian.enableBody = true;
+    hedge_monster.enableBody = true;
 
     game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE);
     game.physics.arcade.enable(shark, Phaser.Physics.ARCADE);
     game.physics.arcade.enable(pirate, Phaser.Physics.ARCADE);
     game.physics.arcade.enable(pedestrian, Phaser.Physics.ARCADE);
+    game.physics.arcade.enable(hedge_monster, Phaser.Physics.ARCADE);
 
     var enemyMapping = {
       merchant: "button",
       pirate: pirate,
       shark: shark,
       pedestrian: pedestiran,
+      hedge_monster: hedge_monster,
     };
     //----------- Dummy Variable ----------------------------
     player.lazer = {
@@ -458,6 +469,7 @@ maingame.test_env.prototype = {
           case "pirate":
           case "pedestrian":
           case "shark":
+          case "hedge_monster":
             nmeInst.bounds = element.Extra.filter(
               (x) => Object.keys(x)[0] === "bounds"
             )[0].bounds;
@@ -671,6 +683,7 @@ maingame.test_env.prototype = {
     pirate.children.forEach((x) => pirate_track(x));
     pedestrian.children.forEach((x) => pirate_track(x));
     shark.children.forEach((x) => shark_track(x));
+    hedge_monster.children.forEach((x) => hedge_monster_track(x));
 
     player.moveCurrentToBackpack();
     if (cursors.startMenu.downDuration(100)) {
@@ -726,13 +739,16 @@ maingame.test_env.prototype = {
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
     game.physics.arcade.collide(player, pirate, damage_player, null, this);
     game.physics.arcade.collide(player, pedestrian, damage_player, null, this);
+    game.physics.arcade.collide(player, hedge_monster, damage_player, null, this);
     game.physics.arcade.collide(player, shark, damage_player, null, this);
     game.physics.arcade.collide(player.current_item.group, pirate, lizard_dmg, null, this);
     game.physics.arcade.collide(player.current_item.group, pedestrian, lizard_dmg, null, this);
+    game.physics.arcade.collide(player.current_item.group, hedge_monster, lizard_dmg, null, this);
     game.physics.arcade.collide(player.current_item.group, shark, lizard_dmg, null, this);
     game.physics.arcade.overlap(weapon.bullets, shark, lizard_dmg);
     game.physics.arcade.overlap(weapon.bullets, pirate, lizard_dmg);
     game.physics.arcade.overlap(weapon.bullets, pedestrian, lizard_dmg);
+    game.physics.arcade.overlap(weapon.bullets, hedge_monster, lizard_dmg);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
     game.physics.arcade.collide(
