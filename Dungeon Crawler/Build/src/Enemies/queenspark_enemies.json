@@ -1,7 +1,151 @@
 [{
     "Name": "pedestrian",
-    "x": 115.5,
-    "y": 475.5,
+    "x": 720,
+    "y": 560,
+    "Health": 1,
+    "Exp": 100,
+    "Coins": 100,
+    "Damage": 4,
+    "Atlas": "angry_pedestrian",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 608,
+          "x2": 967,
+          "y1": 432,
+          "y2": 688
+        }
+      }
+    ]
+  },
+  {
+    "Name": "hedge_monster",
+    "x": 100,
+    "y": 400,
+    "Health": 3,
+    "Exp": 100,
+    "Coins": 0,
+    "Damage": 3,
+    "Atlas": "hedge_monster",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 16,
+          "x2": 215,
+          "y1": 200,
+          "y2": 521
+        }
+      }
+    ]
+  },
+  {
+    "Name": "pedestrian",
+    "x": 400,
+    "y": 400,
     "Health": 1,
     "Exp": 100,
     "Coins": 100,
@@ -63,10 +207,11 @@
       {
         "bounds": {
           "x1": 16,
-          "x2": 215,
-          "y1": 430,
-          "y2": 521
+          "x2": 800,
+          "y1": 16,
+          "y2": 800
         }
       }
     ]
-  }]
+  }
+]
