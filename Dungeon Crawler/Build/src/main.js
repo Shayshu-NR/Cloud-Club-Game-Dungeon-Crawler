@@ -37,5 +37,6 @@ game.state.add("GameOver", maingame.gameOver);
 // Levels
 game.state.add("Ripleys", maingame.Ripleys);
 game.state.add("QueensPark", maingame.QueensPark);
+game.state.add("CNTower", maingame.CNTower);
 
 game.state.start("StartMenu")

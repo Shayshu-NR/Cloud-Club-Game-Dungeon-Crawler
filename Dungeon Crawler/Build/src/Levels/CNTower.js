@@ -56,28 +56,23 @@ var timeLimit = 0;
 var activeBar = [];
 var xpBarScale = 8;
 
-maingame.QueensPark = function (game) { };
+maingame.CNTower = function (game) { };
 
-maingame.QueensPark.prototype = {
+maingame.CNTower.prototype = {
   preload: function () {
 
     this.load.tilemap(
-      "queenspark",
-      "../Assets/General assets/Queens Park/queenspark.json",
+      "cntower",
+      "../Assets/General assets/CN Tower/CNTower.json",
       null,
       Phaser.Tilemap.TILED_JSON
     );
 
     this.load.image(
-      "queenspark_tiles",
-      "../Assets/General assets/Queens Park/tileset.png"
+      "cntower_tiles",
+      "../Assets/General assets/CN Tower/CNTower_StructureTileset.png"
     );
 
-    this.load.atlas(
-      "player",
-      "../Assets/Example assets/legend of faune files/spritesheet.png",
-      "../Assets/Example assets/legend of faune files/faun_spritesheet.json"
-    );
 
     this.load.atlas(
       "sword",
@@ -171,12 +166,12 @@ maingame.QueensPark.prototype = {
     );
 
     game.load.text("currency", "./src/Currency/queenspark_currency.json");
-    game.load.text("enemies", "./src/Enemies/queenspark_enemies.json");
+    game.load.text("enemies", "./src/Enemies/cntower_enemies.json");
     game.load.text("doors", "./src/Doors/queenspark_doors.json");
 
     BuildItems = new Items("queenspark_items.json");
     levelCoins = new Coins("queenspark_currency.json");
-    enemyJson = new Enemies("queenspark_enemies.json");
+    enemyJson = new Enemies("cntower_enemies.json");
   },
 
   create: function () {
@@ -190,17 +185,15 @@ maingame.QueensPark.prototype = {
     game.physics.startSystem(Phaser.Physics.ARCADE);
 
     //-------------------- Add tile map and tile set --------------------
-    map = game.add.tilemap("queenspark");
-    map.addTilesetImage("queenspark", "queenspark_tiles");
+    map = game.add.tilemap("cntower");
+    map.addTilesetImage("cntower", "cntower_tiles");
 
     //-------------------- Create layer --------------------
-    map.createLayer("ground");
-    decorations = map.createLayer("decorations");
-    walls = map.createLayer("walls");
+    map.createLayer("Tile Layer 1");
+    walls = map.createLayer("Walls");
 
     //-------------------- Add wall colision --------------------
-    map.setCollisionBetween(1, 999, true, "walls")
-    map.setCollisionBetween(1, 999, true, "decorations")
+    map.setCollisionBetween(1, 999, true, "Walls")
     
     //-------------------- Add example weapon --------------------
     default_sword = game.add.group();
