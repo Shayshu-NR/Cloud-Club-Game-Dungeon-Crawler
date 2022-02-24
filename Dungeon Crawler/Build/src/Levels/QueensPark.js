@@ -125,7 +125,7 @@ maingame.QueensPark.prototype = {
       "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.png",
       "../Assets/General assets/Ripleys Aquarium/Pirate/pirate-atlas-sheet.json"
     );
-    
+
     this.load.atlas(
       "angry_pedestrian",
       "../Assets/General assets/Queens Park/angry_pedestrian/angry_pedestrian.png",
@@ -188,9 +188,11 @@ maingame.QueensPark.prototype = {
     game.load.text("enemies", "./src/Enemies/queenspark_enemies.json");
     game.load.text("doors", "./src/Doors/queenspark_doors.json");
 
-    BuildItems = new Items("queenspark_items.json");
-    levelCoins = new Coins("queenspark_currency.json");
-    enemyJson = new Enemies("queenspark_enemies.json");
+    if(enemyJson != null && enemyJson.level != "queenspark_enemies.json"){
+      BuildItems = new Items("queenspark_items.json");
+      levelCoins = new Coins("queenspark_currency.json");
+      enemyJson = new Enemies("queenspark_enemies.json");
+    }
   },
 
   create: function () {
@@ -215,7 +217,7 @@ maingame.QueensPark.prototype = {
     //-------------------- Add wall colision --------------------
     map.setCollisionBetween(1, 999, true, "walls")
     map.setCollisionBetween(1, 999, true, "decorations")
-    
+
     //-------------------- Add example weapon --------------------
     default_sword = game.add.group();
     default_sword.enableBody = true;
@@ -412,7 +414,7 @@ maingame.QueensPark.prototype = {
     pedestrian.children.forEach((x) => pirate_track(x));
     hedge_monster.children.forEach((x) => pirate_track(x));
     shark.children.forEach((x) => shark_track(x));
-    
+
 
     player.moveCurrentToBackpack();
     if (cursors.startMenu.downDuration(100)) {

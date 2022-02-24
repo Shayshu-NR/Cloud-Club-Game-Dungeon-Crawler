@@ -41,14 +41,12 @@ class Enemies {
             .then(data => jsonData = data)
             .then(data => this.emeData = data)
             .then(data => this.emeData.forEach(x => x.dead = false));
-    }
+    
+            this.level = src_file;
+        }
 }
 /*
-
 Read from a json file in the items folder with name src_file
-
 Parse the items
-
 create attributes of the class based on src_file
-
 */
