@@ -37,7 +37,7 @@ maingame.startmenu.prototype = {
         if (game.input.mousePointer.x > 300 && game.input.mousePointer.x < 550) {
             if (game.input.mousePointer.y > 200 && game.input.mousePointer.y < 250) {
                 if(game.input.activePointer.isDown){
-                    game.state.start("QueensPark")
+                    game.state.start("CNTower")
                 }
             }
         }

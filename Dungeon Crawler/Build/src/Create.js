@@ -2,6 +2,7 @@ function LoadEnemies(game, enemyJson, enemyMapping) {
   try {
     enemyJson.emeData.forEach(function (element, index) {
       var nmeInst;
+      console.log()
 
       if (enemyMapping[element.Name] != "button" && !element.dead) {
         nmeInst = enemyMapping[element.Name].create(
