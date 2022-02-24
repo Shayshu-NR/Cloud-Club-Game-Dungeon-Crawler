@@ -629,7 +629,19 @@ maingame.QueensPark.prototype = {
     }
 
     if (killCount == enemyCount) {
-      //console.log("LEVEL DONE");
+      game.player_attributes = {
+        backpack: player.backpack,
+        actives: player.active_items,
+        current: player.current_item,
+        x: 580,
+        y: 1575,
+        money: player.money,
+        state: "CNTower"
+      };
+
+      game.playerExp = player.exp;
+      game.current_time = timeLimit;
+      game.state.start("CNTower");
     }
   },
 

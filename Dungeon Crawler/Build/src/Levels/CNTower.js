@@ -63,7 +63,7 @@ maingame.CNTower.prototype = {
 
     this.load.tilemap(
       "cntower",
-      "../Assets/General assets/CN Tower/CNTower.json",
+      "../Assets/General assets/CN Tower/CNTower_Map.json",
       null,
       Phaser.Tilemap.TILED_JSON
     );
@@ -165,12 +165,12 @@ maingame.CNTower.prototype = {
       "../Assets/General assets/Ripleys Aquarium/door-atlas.json"
     );
 
-    game.load.text("currency", "./src/Currency/queenspark_currency.json");
+    game.load.text("currency", "./src/Currency/cntower_currency.json");
     game.load.text("enemies", "./src/Enemies/cntower_enemies.json");
-    game.load.text("doors", "./src/Doors/queenspark_doors.json");
+    game.load.text("doors", "./src/Doors/cntower_doors.json");
 
-    BuildItems = new Items("queenspark_items.json");
-    levelCoins = new Coins("queenspark_currency.json");
+    BuildItems = new Items("cntower_items.json");
+    levelCoins = new Coins("cntower_currency.json");
     enemyJson = new Enemies("cntower_enemies.json");
   },
 
@@ -189,7 +189,9 @@ maingame.CNTower.prototype = {
     map.addTilesetImage("cntower", "cntower_tiles");
 
     //-------------------- Create layer --------------------
-    map.createLayer("Tile Layer 1");
+    map.createLayer("Sky");
+    map.createLayer("Floor");
+    map.createLayer("Clouds");
     walls = map.createLayer("Walls");
 
     //-------------------- Add wall colision --------------------
@@ -272,7 +274,7 @@ maingame.CNTower.prototype = {
         x: player.body.position.x,
         y: player.body.position.y,
         money: player.money,
-        state: "QueensPark"
+        state: "CNTower"
       };
 
       game.playerExp = player.exp;
@@ -509,7 +511,7 @@ maingame.CNTower.prototype = {
         x: player.body.position.x,
         y: player.body.position.y,
         money: player.money,
-        state: "QueensPark"
+        state: "CNTower"
       };
 
       game.playerExp = player.exp;
@@ -531,7 +533,7 @@ maingame.CNTower.prototype = {
         x: player.body.position.x,
         y: player.body.position.y,
         money: player.money,
-        state: "QueensPark"
+        state: "CNTower"
       };
 
       game.playerExp = player.exp;
