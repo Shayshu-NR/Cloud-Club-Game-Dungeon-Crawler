@@ -1,4 +1,25 @@
-[{
+[
+  {
+    "Name": "merchant",
+    "x": 796,
+    "y": 1086,
+    "Health": 0,
+    "Exp": 0,
+    "Coins": 0,
+    "Atlas": "",
+    "Frame1": "merchant",
+    "Scale": 1,
+    "Animations": [],
+    "Extra": [
+      {
+        "callback": {
+          "arguments": "",
+          "body": "game.player_attributes = { \"backpack\": player.backpack, \"actives\": player.active_items, \"current\": player.current_item, \"x\": player.body.position.x, \"y\": player.body.position.y, \"money\": player.money }; game.playerExp = player.exp; game.current_time = timeLimit; game.state.start(\"Merchant\");"
+        }
+      }
+    ]
+  },
+  {
     "Name": "pedestrian",
     "x": 720,
     "y": 560,
@@ -504,7 +525,511 @@
   },
   {
     "Name": "pedestrian",
-    "x": 400,
+    "x": 600,
+    "y": 900,
+    "Health": 1,
+    "Exp": 100,
+    "Coins": 100,
+    "Damage": 4,
+    "Atlas": "angry_pedestrian",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 300,
+          "x2": 900,
+          "y1": 600,
+          "y2": 1200
+        }
+      }
+    ]
+  },
+  {
+    "Name": "pedestrian",
+    "x": 100,
+    "y": 100,
+    "Health": 1,
+    "Exp": 100,
+    "Coins": 100,
+    "Damage": 4,
+    "Atlas": "angry_pedestrian",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 0,
+          "x2": 200,
+          "y1": 0,
+          "y2": 200
+        }
+      }
+    ]
+  },
+  {
+    "Name": "pedestrian",
+    "x": 450,
+    "y": 1200,
+    "Health": 1,
+    "Exp": 100,
+    "Coins": 100,
+    "Damage": 4,
+    "Atlas": "angry_pedestrian",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 100,
+          "x2": 800,
+          "y1": 800,
+          "y2": 1600
+        }
+      }
+    ]
+  },
+  {
+    "Name": "pedestrian",
+    "x": 800,
+    "y": 800,
+    "Health": 1,
+    "Exp": 100,
+    "Coins": 100,
+    "Damage": 4,
+    "Atlas": "angry_pedestrian",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 500,
+          "x2": 1100,
+          "y1": 500,
+          "y2": 1100
+        }
+      }
+    ]
+  },
+  {
+    "Name": "pedestrian",
+    "x": 500,
+    "y": 1200,
+    "Health": 1,
+    "Exp": 100,
+    "Coins": 100,
+    "Damage": 4,
+    "Atlas": "angry_pedestrian",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 300,
+          "x2": 700,
+          "y1": 1100,
+          "y2": 1500
+        }
+      }
+    ]
+  },
+  {
+    "Name": "hedge_monster",
+    "x": 1200,
+    "y": 400,
+    "Health": 3,
+    "Exp": 100,
+    "Coins": 0,
+    "Damage": 3,
+    "Atlas": "hedge_monster",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 1000,
+          "x2": 1400,
+          "y1": 200,
+          "y2": 600
+        }
+      }
+    ]
+  },
+  {
+    "Name": "hedge_monster",
+    "x": 800,
+    "y": 500,
+    "Health": 3,
+    "Exp": 100,
+    "Coins": 0,
+    "Damage": 3,
+    "Atlas": "hedge_monster",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 4,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 400,
+          "x2": 1200,
+          "y1": 0,
+          "y2": 1000
+        }
+      }
+    ]
+  },
+  {
+    "Name": "pedestrian",
+    "x": 200,
     "y": 400,
     "Health": 1,
     "Exp": 100,
@@ -566,10 +1091,82 @@
     "Extra": [
       {
         "bounds": {
-          "x1": 800,
-          "x2": 1000,
+          "x1": 0,
+          "x2": 400,
+          "y1": 0,
+          "y2": 800
+        }
+      }
+    ]
+  },
+  {
+    "Name": "pedestrian",
+    "x": 400,
+    "y": 1200,
+    "Health": 1,
+    "Exp": 100,
+    "Coins": 100,
+    "Damage": 4,
+    "Atlas": "angry_pedestrian",
+    "Frame1": "walk-down-1.png",
+    "Scale": 1.5,
+    "Animations": [
+      {
+        "Name": "walk-left",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-right",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-up",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "walk-down",
+        "Start": 1,
+        "End": 12,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-up",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-down",
+        "Start": 1,
+        "End": 5,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-left",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      },
+      {
+        "Name": "attack-right",
+        "Start": 1,
+        "End": 7,
+        "FrameRate": 5
+      }
+    ],
+    "Extra": [
+      {
+        "bounds": {
+          "x1": 0,
+          "x2": 800,
           "y1": 800,
-          "y2": 1000
+          "y2": 1600
         }
       }
     ]
