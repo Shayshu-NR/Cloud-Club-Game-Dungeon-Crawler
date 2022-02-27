@@ -32,11 +32,11 @@
       "Opened": false,
       "item": null,
       "chest": {
-        "name": "HealthPotion",
+        "name": "Attack_Potion",
         "group": "potion",
         "atlas": "potion_set",
-        "src": "health_pot_1.png",
-        "use": "use_potion(player, \"Health_Potion\")",
+        "src": "strength_pot_1.png",
+        "use": "use_potion(player, \"Attack_Potion\")",
         "ai_scale": [1, 1],
         "Opened": false,
         "Taken": false
@@ -53,11 +53,11 @@
       "Opened": false,
       "item": null,
       "chest": {
-        "name": "HealthPotion",
+        "name": "Speed_Potion",
         "group": "potion",
         "atlas": "potion_set",
-        "src": "health_pot_1.png",
-        "use": "use_potion(player, \"Health_Potion\")",
+        "src": "speed_pot_1.png",
+        "use": "use_potion(player, \"Speed_Potion\")",
         "ai_scale": [1, 1],
         "Opened": false,
         "Taken": false
