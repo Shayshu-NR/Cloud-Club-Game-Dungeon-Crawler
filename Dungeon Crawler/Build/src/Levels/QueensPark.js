@@ -387,6 +387,7 @@ maingame.QueensPark.prototype = {
     weapon.bulletSpeed = 400;
     weapon.fireRate = 1000;
     weapon.trackSprite(player, 0, 0, true);
+    weapon.group = game.add.physicsGroup(Phaser.Physics.ARCADE)
 
     cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
     cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
@@ -443,7 +444,7 @@ maingame.QueensPark.prototype = {
                   itemChests[i].item.src
                 );
                 item.info = itemChests[i].item;
-                console.log("Chest Collide: " + [i]);
+                console.log("Chest Collide: ", item);
 
                 game.time.events.add(
                   Phaser.Timer.SECOND * 1,
@@ -483,8 +484,9 @@ maingame.QueensPark.prototype = {
     game.physics.arcade.collide(player.current_item.group, shark, lizard_dmg, null, this);
     game.physics.arcade.overlap(weapon.bullets, shark, lizard_dmg);
     game.physics.arcade.overlap(weapon.bullets, pirate, lizard_dmg);
-    game.physics.arcade.overlap(weapon.bullets, pedestrian, lizard_dmg);
+    game.physics.arcade.overlap(weapon.bullets, pedestrian, lizard_dmg, null, this);
     game.physics.arcade.overlap(weapon.bullets, hedge_monster, lizard_dmg);
+    game.physics.arcade.collide(weapon.bullets, walls, (bullet, wall) => {bullet.kill()}, null, this);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
     game.physics.arcade.collide(

@@ -193,6 +193,7 @@ maingame.CNTower.prototype = {
     map.createLayer("Floor");
     map.createLayer("Clouds");
     walls = map.createLayer("Walls");
+    map.createLayer("Decorations")
 
     //-------------------- Add wall colision --------------------
     map.setCollisionBetween(1, 999, true, "Walls")

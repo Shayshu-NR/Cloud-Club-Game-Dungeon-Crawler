@@ -103,7 +103,7 @@ function knockback_enemies(currentWep, enemy) {
 function throw_projectile(player, current_item) {
 
     let projectile;
-    projectile = game.add.weapon(30, current_item.atlas)
+    projectile = weapon.createBullets(1, current_item.atlas)
     projectile.bulletKillType = current_item.projectileKillType;
     projectile.bulletSpeed = current_item.speed
     projectile.fireRate = current_item.frequency;
@@ -121,7 +121,7 @@ function throw_projectile(player, current_item) {
     else
         projectile.trackSprite(player, 0 - 8, 0 + 16, false);
 
-    projectile.fire()
+    projectile.fire();
 
 }
 
@@ -189,7 +189,7 @@ function show_dmg(damage, enemy) {
         fill: (enemy.hasOwnProperty('current_item') ? 'white' : 'red')
     }
 
-    var text = game.add.text(x_pos, y_pos, String(damage), style)
+    let text = game.add.text(x_pos, y_pos, String(damage), style)
 
     game.time.events.add(
         250,

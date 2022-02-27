@@ -11,14 +11,21 @@
       "Opened": false,
       "item": null,
       "chest": {
-        "name": "HealthPotion",
+        "name": "Arrow",
         "group": "potion",
-        "atlas": "potion_set",
-        "src": "health_pot_1.png",
-        "use": "use_potion(player, \"Health_Potion\")",
+        "atlas": "arrow",
+        "src": "arrow",
+        "use": "",
         "ai_scale": [1, 1],
         "Opened": false,
-        "Taken": false
+        "Taken": false,
+        "weapon_type" : "projectile",
+        "knockback" : 1, 
+        "speed" : 800, 
+        "damage" : 1,
+        "range" : 123, 
+        "frequency" : 1500,
+        "projectileKillType" : "Phaser.Weapon.KILL_WORLD_BOUNDS" 
       }
     },
     {
@@ -74,11 +81,11 @@
       "Opened": false,
       "item": null,
       "chest": {
-        "name": "HealthPotion",
+        "name": "Speed_Potion",
         "group": "potion",
         "atlas": "potion_set",
-        "src": "health_pot_1.png",
-        "use": "use_potion(player, \"Health_Potion\")",
+        "src": "speed_pot_1.png",
+        "use": "use_potion(player, \"Speed_Potion\")",
         "ai_scale": [1, 1],
         "Opened": false,
         "Taken": false
