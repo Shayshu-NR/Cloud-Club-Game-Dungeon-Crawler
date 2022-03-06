@@ -23,8 +23,8 @@ maingame.startmenu.prototype = {
         game.player_attributes = {
             "backpack" : {},
             "actives" : [],
-            "x" : 128,
-            "y" : 85,
+            "x" : 700,
+            "y" : 400,
             "money" : 0,
             "current" : {}
         }
