@@ -1,1 +1,53 @@
-[]
+{
+  "Items": [
+    {
+      "Name": "Chest_2",
+      "x": "145",
+      "y": "780",
+      "src": {
+        "atlas": "../Assets/General assets/Potions/potions.png",
+        "tilesheet": "../Assets/General assets/Potions/potions.json"
+      },
+      "Opened": false,
+      "item": null,
+      "chest": {
+        "name": "Attack_Potion",
+        "group": "potion",
+        "atlas": "potion_set",
+        "src": "strength_pot_1.png",
+        "use": "use_potion(player, \"Attack_Potion\")",
+        "ai_scale": [1, 1],
+        "Opened": false,
+        "Taken": false
+      }
+    },
+    {
+      "Name": "Chest_1",
+      "x": "750",
+      "y": "500",
+      "src": {
+        "atlas": "../Assets/General assets/Potions/potions.png",
+        "tilesheet": "../Assets/General assets/Potions/potions.json"
+      },
+      "Opened": false,
+      "item": null,
+      "chest": {
+        "name": "Lazer",
+        "group": "weapon",
+        "atlas": "lazer",
+        "src": "lazer",
+        "use": "",
+        "ai_scale": [1, 1],
+        "Opened": false,
+        "Taken": false,
+        "weapon_type": "projectile",
+        "knockback": 1,
+        "speed": 1200,
+        "damage": 3,
+        "range":300,
+        "frequency": 1200,
+        "projectileKillType": "Phaser.Weapon.KILL_WORLD_BOUNDS"
+      }
+    }
+  ]
+}

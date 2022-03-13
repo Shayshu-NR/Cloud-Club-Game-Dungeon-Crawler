@@ -184,6 +184,8 @@ maingame.QueensPark.prototype = {
       "../Assets/General assets/Ripleys Aquarium/door-atlas.json"
     );
 
+    
+
     game.load.text("currency", "./src/Currency/queenspark_currency.json");
     game.load.text("enemies", "./src/Enemies/queenspark_enemies.json");
     game.load.text("doors", "./src/Doors/queenspark_doors.json");

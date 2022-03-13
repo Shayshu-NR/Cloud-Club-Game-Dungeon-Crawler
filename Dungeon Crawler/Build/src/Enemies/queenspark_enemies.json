@@ -14,7 +14,7 @@
       {
         "callback": {
           "arguments": "",
-          "body": "game.player_attributes = { \"backpack\": player.backpack, \"actives\": player.active_items, \"current\": player.current_item, \"x\": player.body.position.x, \"y\": player.body.position.y, \"money\": player.money }; game.playerExp = player.exp; game.current_time = timeLimit; game.state.start(\"Merchant\");"
+          "body": "game.player_attributes = { backpack: player.backpack, actives: player.active_items, current: player.current_item, x: player.body.position.x, y: player.body.position.y, money: player.money, state: \"QueensPark\" }; game.playerExp = player.exp; game.current_time = timeLimit; game.state.start(\"Merchant\");"
         }
       }
     ]

@@ -89,7 +89,7 @@ function knockback_enemies(currentWep, enemy) {
     enemy.body.velocity.y = -velocity.y / velocity.z * currentWep.knockback
 
     game.time.events.add(
-        (Phaser.Timer.SECOND * 10 * currentWep.knockback / currentWep.attack_speed),
+        (Phaser.Timer.SECOND * 10 * currentWep.knockback / (currentWep?.attack_speed ?? currentWep.frequency/1000)),
         function set_to_original(nmeInfo) {
             nmeInfo[0].body.velocity.x = -nmeInfo[1].x / nmeInfo[1].z * nmeInfo[2].knockback,
                 nmeInfo[0].body.velocity.y = -nmeInfo[1].y / nmeInfo[1].z * nmeInfo[2].knockback
@@ -153,7 +153,7 @@ function open_chest(player, chest) {
 
 function lizard_dmg(weapon, enemy) {
 
-    console.log(weapon);
+    console.log("Lizard DMG", weapon);
     if (enemy.health <= 0) {
         enemyJson.emeData[enemy.index].dead = true;
 
@@ -162,6 +162,17 @@ function lizard_dmg(weapon, enemy) {
         add_coins(player, enemy);
         game.playerExp = player.exp
         killCount++;
+
+        // If the item is a bullet then delete it...
+        try {
+            if(weapon.data.bulletManager != 'undefined'){
+                weapon.kill();
+            }
+        }
+        catch{
+            
+        }
+
     }
     if (!enemy.immune) {
         var damage = player.current_item["damage"] + player.damage + player.crit_damage();
@@ -178,6 +189,16 @@ function lizard_dmg(weapon, enemy) {
         setTimeout(function () {
             enemy.immune = false
         }, player.attack_speed * 2000);
+
+        // If the item is a bullet then delete it...
+        try {
+            if(weapon.data.bulletManager != 'undefined'){
+                weapon.kill();
+            }
+        }
+        catch{
+
+        }
     }
 }
 
@@ -234,7 +255,7 @@ function shark_track(enemy) {
 function damage_player(player, enemy) {
     // Deal damage to a player and knock them back in 
     // the opposite direction they're facing
-    console.log("Damage player")
+    console.log("Damage player", player, enemy)
 
     if (!player.knockback) {
 

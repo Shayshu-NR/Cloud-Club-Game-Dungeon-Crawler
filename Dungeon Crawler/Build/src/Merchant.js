@@ -28,6 +28,7 @@ maingame.merchant.prototype = {
 
   create: function () {
     //merchant_items = JSON.parse(game.cache.getText("items"));
+    console.log(game.player_attributes.state)
 
     var bck = game.add.image(0, 0, "background");
     bck.scale.set(2);
@@ -115,15 +116,8 @@ maingame.merchant.prototype = {
     })
 
     function actionOnClick() {
-      game.player_attributes = {
-        backpack: backpack,
-        actives: active_items,
-        current: current_item,
-      };
-
-      game.playerExp = game.playerExp;
-      game.current_time = timeLimit;
-      game.state.start("Game");
+      game.player_attributes.backpack = player.backpack
+      game.state.start(game.player_attributes.state);
     }
   },
 

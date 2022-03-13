@@ -81,7 +81,7 @@ maingame.CNTower.prototype = {
       "../Assets/Example assets/0x72_DungeonTilesetII_v1.3.1/Spritesheets/sword.json"
     );
 
-    this.load.spritesheet("chest", "../Assets/General assets/Queens Park/garbage animation/garbageanimation.png", 16, 16);
+    this.load.spritesheet("chest", "../Assets/General assets/CN Tower/CN-Tower Chest.png", 32, 32);
 
     this.load.spritesheet(
       "LevelUp",
@@ -173,10 +173,12 @@ maingame.CNTower.prototype = {
     game.load.text("currency", "./src/Currency/cntower_currency.json");
     game.load.text("enemies", "./src/Enemies/cntower_enemies.json");
     game.load.text("doors", "./src/Doors/cntower_doors.json");
-
-    BuildItems = new Items("cntower_items.json");
-    levelCoins = new Coins("cntower_currency.json");
-    enemyJson = new Enemies("cntower_enemies.json");
+    
+    if(enemyJson != null && enemyJson.level != "cntower_enemies.json"){
+      BuildItems = new Items("cntower_items.json");
+      levelCoins = new Coins("cntower_currency.json");
+      enemyJson = new Enemies("cntower_enemies.json");
+    }
   },
 
   create: function () {
@@ -243,6 +245,7 @@ maingame.CNTower.prototype = {
     lizard.enableBody = true;
     shark.enableBody = true;
     pirate.enableBody = true;
+    pedestrian.enableBody = true;
 
     game.physics.arcade.enable(lizard, Phaser.Physics.ARCADE);
     game.physics.arcade.enable(shark, Phaser.Physics.ARCADE);
@@ -366,6 +369,7 @@ maingame.CNTower.prototype = {
     weapon.bulletSpeed = 400;
     weapon.fireRate = 1000;
     weapon.trackSprite(player, 0, 0, true);
+    weapon.group = game.add.physicsGroup(Phaser.Physics.ARCADE)
 
     cursors.z = game.input.keyboard.addKey(Phaser.Keyboard.Z)
     cursors.f = game.input.keyboard.addKey(Phaser.Keyboard.F)
@@ -442,20 +446,18 @@ maingame.CNTower.prototype = {
 
     //-------------------- Collision engine --------------------
     game.physics.arcade.collide(player, walls);
-    game.physics.arcade.collide(pirate, walls);
-    game.physics.arcade.collide(shark, walls);
     game.physics.arcade.collide(pedestrian, walls);
 
     game.physics.arcade.collide(lizard, walls, lizard_turn_around, null, this);
     game.physics.arcade.collide(default_sword, lizard, lizard_dmg, null, this);
     game.physics.arcade.collide(player, lizard, damage_player, null, this);
     game.physics.arcade.collide(player, pirate, damage_player, null, this);
-    game.physics.arcade.collide(player, shark, damage_player, null, this);
     game.physics.arcade.collide(player, pedestrian, damage_player, null, this);
     game.physics.arcade.collide(player.current_item.group, pirate, lizard_dmg, null, this);
+    game.physics.arcade.collide(player.current_item.group, pedestrian, lizard_dmg, null, this);
     game.physics.arcade.collide(player.current_item.group, shark, lizard_dmg, null, this);
-    game.physics.arcade.overlap(weapon.bullets, shark, lizard_dmg);
-    game.physics.arcade.overlap(weapon.bullets, pirate, lizard_dmg);
+    game.physics.arcade.overlap(weapon.bullets, pedestrian, lizard_dmg, null, this);
+    game.physics.arcade.collide(weapon.bullets, walls, (bullet, wall) => {bullet.kill()}, null, this);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
     game.physics.arcade.collide(
