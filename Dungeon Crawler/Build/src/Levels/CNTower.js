@@ -173,8 +173,8 @@ maingame.CNTower.prototype = {
     game.load.text("currency", "./src/Currency/cntower_currency.json");
     game.load.text("enemies", "./src/Enemies/cntower_enemies.json");
     game.load.text("doors", "./src/Doors/cntower_doors.json");
-    
-    if(enemyJson != null && enemyJson.level != "cntower_enemies.json"){
+
+    if (enemyJson != null && enemyJson.level != "cntower_enemies.json") {
       BuildItems = new Items("cntower_items.json");
       levelCoins = new Coins("cntower_currency.json");
       enemyJson = new Enemies("cntower_enemies.json");
@@ -204,7 +204,7 @@ maingame.CNTower.prototype = {
 
     //-------------------- Add wall colision --------------------
     map.setCollisionBetween(1, 999, true, "Walls")
-    
+
     //-------------------- Add example weapon --------------------
     default_sword = game.add.group();
     default_sword.enableBody = true;
@@ -251,7 +251,7 @@ maingame.CNTower.prototype = {
     game.physics.arcade.enable(shark, Phaser.Physics.ARCADE);
     game.physics.arcade.enable(pirate, Phaser.Physics.ARCADE);
     game.physics.arcade.enable(pedestrian, Phaser.Physics.ARCADE);
-    
+
     var enemyMapping = {
       merchant: "button",
       pirate: pirate,
@@ -351,6 +351,7 @@ maingame.CNTower.prototype = {
           activeBar[i]["atlas"],
           activeBar[i]["src"]
         );
+        icon[i].fixedToCamera = true;
         icon[i].scale.set(activeBar[i].ai_scale[0], activeBar[i].ai_scale[1]);
       }
     }
@@ -393,7 +394,7 @@ maingame.CNTower.prototype = {
   },
 
   update: function () {
-    pirate.children.forEach((x) => pirate_track(x)); 
+    pirate.children.forEach((x) => pirate_track(x));
     pedestrian.children.forEach((x) => pirate_track(x));
     shark.children.forEach((x) => shark_track(x));
 
@@ -457,7 +458,7 @@ maingame.CNTower.prototype = {
     game.physics.arcade.collide(player.current_item.group, pedestrian, lizard_dmg, null, this);
     game.physics.arcade.collide(player.current_item.group, shark, lizard_dmg, null, this);
     game.physics.arcade.overlap(weapon.bullets, pedestrian, lizard_dmg, null, this);
-    game.physics.arcade.collide(weapon.bullets, walls, (bullet, wall) => {bullet.kill()}, null, this);
+    game.physics.arcade.collide(weapon.bullets, walls, (bullet, wall) => { bullet.kill() }, null, this);
     game.physics.arcade.collide(player, door, open_door, null, this);
     game.physics.arcade.collide(player, coins, add_coins, null, this);
     game.physics.arcade.collide(

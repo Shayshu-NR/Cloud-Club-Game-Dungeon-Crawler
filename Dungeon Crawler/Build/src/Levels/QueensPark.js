@@ -371,6 +371,7 @@ maingame.QueensPark.prototype = {
           activeBar[i]["atlas"],
           activeBar[i]["src"]
         );
+        icon[i].fixedToCamera = true;
         icon[i].scale.set(activeBar[i].ai_scale[0], activeBar[i].ai_scale[1]);
       }
     }
@@ -419,7 +420,7 @@ maingame.QueensPark.prototype = {
     shark.children.forEach((x) => shark_track(x));
 
 
-    player.moveCurrentToBackpack();
+    
     if (cursors.startMenu.downDuration(100)) {
       game.state.start("StartMenu");
     }

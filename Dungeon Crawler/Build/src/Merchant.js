@@ -34,12 +34,8 @@ maingame.merchant.prototype = {
     bck.scale.set(2);
 
     // Add back button, see Backpack.js
-    button = game.add.button(30, 500, "button", returnToGame, this, 2, 1, 0);
+    button = game.add.button(30, 500, "button", actionOnClick, this, 2, 1, 0);
     button.scale.setTo(2, 2);
-
-    function returnToGame() {
-      game.state.start("Game");
-    } //not sure if this separate function is necessary
 
     // Add currency UI see game.js line 667
     var coinIcon = game.add.image(8, 25, "currency-atlas", "currency_1.png");
