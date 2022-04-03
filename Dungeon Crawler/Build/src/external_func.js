@@ -54,6 +54,7 @@ function swing_melee(player, current_item) {
     player.body.velocity.y = 0
     player.swing = true
     var melee;
+    console.log(player.position.x, player.position.y, current_item.atlas, current_item.frames)
 
     // Left
     if (player_facing == 0) {
@@ -227,11 +228,11 @@ function probability(n) {
     return !!n && Math.random() <= n;
 }
 
-function shark_track(enemy) {
+function shark_track(enemy, speed=60) {
 
     if (Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 150) {
 
-        game.physics.arcade.moveToObject(enemy, player, 60, 1000)
+        game.physics.arcade.moveToObject(enemy, player, speed, 10000)
 
         if (enemy.body.velocity.x > enemy.body.velocity.y) {
             if (enemy.body.velocity.x > 0) {
@@ -318,9 +319,9 @@ function kill_player(player, amount) {
     }
 }
 
-function pirate_track(enemy) {
-    if (Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 50) {
-        game.physics.arcade.moveToObject(enemy, player, 40)
+function pirate_track(enemy, speed=60) {
+    if (Phaser.Math.distance(enemy.position.x, enemy.position.y, player.position.x, player.position.y) < 150) {
+        game.physics.arcade.moveToObject(enemy, player, speed, 1000)
         if (Math.abs(enemy.body.velocity.x) > Math.abs(enemy.body.velocity.y)) {
             if (enemy.body.velocity.x > 0) {
                 enemy.animations.play('attack-right')

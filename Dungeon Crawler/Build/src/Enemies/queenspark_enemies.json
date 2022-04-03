@@ -27,6 +27,7 @@
     "Exp": 100,
     "Coins": 100,
     "Damage": 4,
+    "Speed" : 500,
     "Atlas": "angry_pedestrian",
     "Frame1": "walk-down-1.png",
     "Scale": 1.5,
@@ -93,12 +94,13 @@
   },
   {
     "Name": "pedestrian",
-    "x": 450,
+    "x": 550,
     "y": 1200,
     "Health": 1,
     "Exp": 100,
     "Coins": 100,
     "Damage": 4,
+    "Speed" : 200,
     "Atlas": "angry_pedestrian",
     "Frame1": "walk-down-1.png",
     "Scale": 1.5,
@@ -315,6 +317,7 @@
     "Exp": 100,
     "Coins": 0,
     "Damage": 3,
+    "Speed" : 500,
     "Atlas": "hedge_monster",
     "Frame1": "walk-down-1.png",
     "Scale": 1.5,
@@ -372,9 +375,9 @@
       {
         "bounds": {
           "x1": 16,
-          "x2": 215,
+          "x2": 300,
           "y1": 200,
-          "y2": 521
+          "y2": 600
         }
       }
     ]

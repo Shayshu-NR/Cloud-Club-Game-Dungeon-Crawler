@@ -414,10 +414,10 @@ maingame.QueensPark.prototype = {
   },
 
   update: function () {
-    pirate.children.forEach((x) => pirate_track(x));
-    pedestrian.children.forEach((x) => pirate_track(x));
-    hedge_monster.children.forEach((x) => pirate_track(x));
-    shark.children.forEach((x) => shark_track(x));
+    pirate.children.forEach((x) => pirate_track(x, x.Speed ?? 60));
+    pedestrian.children.forEach((x) => pirate_track(x, x.Speed ?? 60));
+    hedge_monster.children.forEach((x) => pirate_track(x, x.Speed ?? 60));
+    shark.children.forEach((x) => shark_track(x, x.Speed ?? 60));
 
 
     
@@ -648,11 +648,5 @@ maingame.QueensPark.prototype = {
       game.current_time = timeLimit;
       game.state.start("CNTower");
     }
-  },
-
-  render: function () {
-    game.debug.bodyInfo(player, 32, 32);
-    game.debug.body(player);
-    game.debug.body(player.current_item.group);
   }
 };

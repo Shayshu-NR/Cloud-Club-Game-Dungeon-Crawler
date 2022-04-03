@@ -22,6 +22,7 @@ function LoadEnemies(game, enemyJson, enemyMapping) {
         nmeInst.immune = false;
         nmeInst.index = index;
         nmeInst.enemy = true;
+        nmeInst.Speed = element.Speed
 
         element.Animations.forEach(function (frameElement, index) {
           nmeInst.animations.add(
@@ -63,6 +64,7 @@ function LoadEnemies(game, enemyJson, enemyMapping) {
               x_cal: (nmeInst.bounds.x1 + nmeInst.bounds.x2) / 2,
               y_cal: (nmeInst.bounds.y1 + nmeInst.bounds.y2) / 2,
             };
+            
             break;
           default:
             break;

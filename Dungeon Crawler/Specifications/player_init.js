@@ -159,57 +159,13 @@ function init_player(game, player) {
         return player.level
     }
 
-    if (Object.keys(game.player_attributes.current).length === 0) {
-        player.current_item = {
-            "name": "sword",
-            "group": default_sword,
-            "atlas": "sword",
-            "weapon_type": "melee",
-            "src": "weapon_regular_sword_down.png",
-            "frames": [
-                "weapon_regular_sword_left.png", 
-                "weapon_regular_sword_right.png", 
-                "weapon_regular_sword_up.png", 
-                "weapon_regular_sword_down.png"
-            ],
-            "damage": 1,
-            "knockback": 3,
-            "frequency": 1,
-            "quantity": 1,
-            "attack_speed": 1,
-            "projectileKillType" : Phaser.Weapon.KILL_WORLD_BOUNDS,
-            "speed": "123"
-        }
 
-        game.player_attributes.current = {
-            "name": "sword",
-            "group": default_sword,
-            "atlas": "sword",
-            "weapon_type": "melee",
-            "src": "weapon_regular_sword_down.png",
-            "frames": [
-                "weapon_regular_sword_left.png", 
-                "weapon_regular_sword_right.png", 
-                "weapon_regular_sword_up.png", 
-                "weapon_regular_sword_down.png"
-            ],
-            "damage": 1,
-            "knockback": 3,
-            "frequency": 1,
-            "quantity": 1,
-            "attack_speed": 1,
-            "projectileKillType" : Phaser.Weapon.KILL_WORLD_BOUNDS,
-            "speed": "123"
-        }
-    }
-    else {
-        player.current_item = game.player_attributes.current;
+    player.current_item = game.player_attributes.current;
+    
 
-        if(player.current_item.group.type == 0) {
-            player.current_item.group = game.add.group();
-            player.current_item.group.enableBody = true;
-        }
-    }
+    player.current_item.group = game.add.group();
+    player.current_item.group.enableBody = true;
+    
 
     player.skills = {}
 

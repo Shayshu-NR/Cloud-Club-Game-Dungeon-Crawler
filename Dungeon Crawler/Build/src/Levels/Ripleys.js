@@ -610,13 +610,6 @@ maingame.Ripleys.prototype = {
 
       game.state.start("QueensPark");
     }
-  },
-
-  render: function () {
-    game.debug.bodyInfo(player, 32, 32);
-
-    //game.debug.body(player);
-
-    game.debug.body(player.current_item.group);
   }
+
 };

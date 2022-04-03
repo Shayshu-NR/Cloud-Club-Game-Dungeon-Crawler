@@ -174,7 +174,6 @@ maingame.BackPack.prototype = {
                                 // If active item slot is full send it back
                                 if (actives[act_x] == 1) {
                                         //move it back/fail
-                                        console.log(1)
                                         sprite.position.x = (sprite.inv[0] + 1) * 70
                                         sprite.position.y = (sprite.inv[1] + 1) * 70
                                         return
@@ -198,11 +197,11 @@ maingame.BackPack.prototype = {
                                                 inventory[sprite.inv[1]][sprite.inv[0]] = 0
                                         }
 
-                                        if (inv_x == 0 && Object.keys(current_item).length == 0) {
+                                        if (inv_x == 0 && Object.keys(current_item).length == 0 && !backpack[sprite.name].name.includes("Potion")) {
                                                 console.log(current_item)
                                                 moveBackpackToCurrent(backpack, backpack[sprite.name], act_x);
                                         }
-                                        else if (inv_y == 5 && inv_x != 0) {
+                                        else if (inv_y == 5 && inv_x != 0 && backpack[sprite.name].name.includes("Potion")) {
                                                 moveBackpackToActive(backpack, sprite, act_x)
                                                 actives[act_x] = 1
                                         }
