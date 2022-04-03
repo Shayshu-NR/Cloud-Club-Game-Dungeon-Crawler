@@ -32,7 +32,7 @@ game.state.add("Game", maingame.test_env);
 game.state.add("StartMenu", maingame.startmenu);
 game.state.add("Merchant", maingame.merchant);
 game.state.add("GameOver", maingame.gameOver);
-
+game.state.add('Win', maingame.endscreen);
 
 // Levels
 game.state.add("Ripleys", maingame.Ripleys);

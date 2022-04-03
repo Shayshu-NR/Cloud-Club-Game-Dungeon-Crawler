@@ -603,7 +603,7 @@ maingame.CNTower.prototype = {
     }
 
     if (killCount == enemyCount) {
-      //console.log("LEVEL DONE");
+      game.state.start('Win')
     }
   },
 
