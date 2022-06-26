@@ -43,16 +43,48 @@
             </ul>
         </div>
 
-        <canvas>
-            <script type="text/javascript" src="./src/main.js"></script>
-        </canvas>
+        
+        <script type="text/javascript" src="./src/main.js"></script>
+        
 
-        <div class = "footer-container">
-            <ul class = "footer-content">
-                <li><img src = "./images/CCicon.png" alt = "CloudClub Logo"></li>
-                <li><a class = "black-font" href = "https://docs.google.com/forms/d/e/1FAIpQLSdMuwLJIXY-ShAayJ4EwoCMjZ9NWF1Wu1nxET0WNP1j40nrbA/viewform" rel = "Page to report bugs">Report a Bug</a></li>
-            </ul>
-        </div>
+
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                
+                let body = document.querySelector("body");
+
+                let footerContainer = document.createElement("div");
+                let footerContent = document.createElement("ul");
+                let imageContainer = document.createElement("li");
+                let formContainer = document.createElement("li");
+
+                let ccLogo = document.createElement("img");
+                let bugForm = document.createElement("a");
+
+                footerContainer.classList.add("footer-container");
+                footerContent.classList.add("footer-content");
+                bugForm.classList.add("black-font");
+
+                ccLogo.src = "./images/CCicon.png";
+                ccLogo.alt = "CloudClub Logo";
+
+                bugForm.href =
+                "https://docs.google.com/forms/d/e/1FAIpQLSdMuwLJIXY-ShAayJ4EwoCMjZ9NWF1Wu1nxET0WNP1j40nrbA/viewform";
+                bugForm.rel = "Page to report bugs";
+                bugForm.textContent = "Report a Bug";
+
+                imageContainer.appendChild(ccLogo);
+                formContainer.appendChild(bugForm);
+
+                footerContent.appendChild(imageContainer);
+                footerContent.appendChild(formContainer);
+
+                footerContainer.appendChild(footerContent);
+
+                body.appendChild(footerContainer);
+            });
+        </script>
+
 </body>
 
 </html>

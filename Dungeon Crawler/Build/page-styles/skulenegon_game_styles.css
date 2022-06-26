@@ -5,7 +5,9 @@ canvas {
     width: calc(4/3 * 100)vh; */
     /* height: calc(3/4 * 100)vh;
     width: 100vh; */
-    position: absolute;
+    height: 600;
+    width: 800;
+   
     margin: auto;
     display: block;
     top: 0;
@@ -94,8 +96,6 @@ a{
     font-size: 20px;
 }
 
-
-
 .footer-content{
     display: flex;
     flex-direction: column;
@@ -129,3 +129,4 @@ img:hover {
     }
 
 }
+
