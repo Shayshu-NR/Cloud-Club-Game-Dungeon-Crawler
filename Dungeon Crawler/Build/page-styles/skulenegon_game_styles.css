@@ -1,12 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
 
 canvas {
-    /* height: 100vh;
-    width: calc(4/3 * 100)vh; */
-    /* height: calc(3/4 * 100)vh;
-    width: 100vh; */
-    height: 600;
-    width: 800;
+    height: 600px;
+    width: 800px;
    
     margin: auto;
     display: block;
