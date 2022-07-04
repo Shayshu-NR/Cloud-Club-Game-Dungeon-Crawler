@@ -1,1 +1,1 @@
-web http-server "./Dungeon Crawler/Build/"
+web npm start
