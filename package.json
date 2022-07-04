@@ -1,0 +1,23 @@
+{
+  "name": "cloud-club-game-dungeon-crawler",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server \"./Dungeon Crawler/\" ",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Shayshu-NR/Cloud-Club-Game-Dungeon-Crawler.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Shayshu-NR/Cloud-Club-Game-Dungeon-Crawler/issues"
+  },
+  "homepage": "https://github.com/Shayshu-NR/Cloud-Club-Game-Dungeon-Crawler#readme",
+  "dependencies": {
+    "http-server": "^14.1.1"
+  }
+}
