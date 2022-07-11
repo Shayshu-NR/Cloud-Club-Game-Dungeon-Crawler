@@ -9,6 +9,11 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 
+    <link rel="apple-touch-icon" sizes="180x180" href="./images/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="./images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="./images/favicon-16x16.png">
+    <link rel="manifest" href="./images/site.webmanifest">
+
     <!-- Game -->
     <script type="text/javascript" src="../Specifications/player_init.js"></script>
     <script type="text/javascript" src="../Specifications/enemy_init.js"></script>
@@ -31,16 +36,60 @@
 
     <script type="text/javascript" src="./src/Items/test_items.json"></script>
     <script id="merchant_items" type="application/json" src="./src/Items/merchant_items.json"></script>
+    <link rel = "stylesheet" href = "./page-styles/skulenegon_game_styles.css">
 </head>
 
 <body>
-    <div align="center">
+        <div class = "header">
+            <ul>
+                <li> <div class = "title">CloudClub</div></li>
+                <li><a class = "hov-nav-bar" href = "https://cloudclub.ca/" rel = "CloudClub Mainpage">Home Page</a></li>
+                <li><a class = "hov-nav-bar" href = "https://cloudclub.ca/projects" rel = "Main Game Page">More Games</a></li>
+            </ul>
+        </div>
+
+        
         <script type="text/javascript" src="./src/main.js"></script>
-    </div>
+        
+
+
+        <script>
+            window.addEventListener('DOMContentLoaded', (event) => {
+                
+                let body = document.querySelector("body");
+
+                let footerContainer = document.createElement("div");
+                let footerContent = document.createElement("ul");
+                let imageContainer = document.createElement("li");
+                let formContainer = document.createElement("li");
+
+                let ccLogo = document.createElement("img");
+                let bugForm = document.createElement("a");
+
+                footerContainer.classList.add("footer-container");
+                footerContent.classList.add("footer-content");
+                bugForm.classList.add("black-font");
+
+                ccLogo.src = "./images/CCicon.png";
+                ccLogo.alt = "CloudClub Logo";
+
+                bugForm.href =
+                "https://docs.google.com/forms/d/e/1FAIpQLSdMuwLJIXY-ShAayJ4EwoCMjZ9NWF1Wu1nxET0WNP1j40nrbA/viewform";
+                bugForm.rel = "Page to report bugs";
+                bugForm.textContent = "Report a Bug";
+
+                imageContainer.appendChild(ccLogo);
+                formContainer.appendChild(bugForm);
+
+                footerContent.appendChild(imageContainer);
+                footerContent.appendChild(formContainer);
+
+                footerContainer.appendChild(footerContent);
+
+                body.appendChild(footerContainer);
+            });
+        </script>
+
 </body>
-
-<script>
-
-</script>
 
 </html>
